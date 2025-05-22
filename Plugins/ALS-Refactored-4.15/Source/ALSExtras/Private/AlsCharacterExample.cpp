@@ -116,7 +116,7 @@ void AAlsCharacterExample::Input_OnMove(const FInputActionValue& ActionValue)
 
 void AAlsCharacterExample::Input_OnSprint(const FInputActionValue& ActionValue)
 {
-	SetDesiredGait(ActionValue.Get<bool>() ? AlsGaitTags::Sprinting : AlsGaitTags::Running);
+	SetDesiredGait(ActionValue.Get<bool>() ? AlsGaitTags::Sprinting : AlsGaitTags::Walking);
 }
 
 void AAlsCharacterExample::Input_OnWalk()
