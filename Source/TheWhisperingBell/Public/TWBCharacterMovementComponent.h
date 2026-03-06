@@ -36,9 +36,11 @@ class THEWHISPERINGBELL_API UTWBCharacterMovementComponent : public UCharacterMo
 		virtual FSavedMovePtr AllocateNewMove() override;
 	};
 
+	//Parameters
 	UPROPERTY(EditDefaultsOnly) float Sprint_MaxWalkSpeed;
 	UPROPERTY(EditDefaultsOnly) float Walk_MaxWalkSpeed;
-
+	
+	//Transient
 	bool Safe_bWantsToSprint;
 
 public:
@@ -50,10 +52,13 @@ protected:
 	virtual void UpdateFromCompressedFlags(uint8 Flags) override;
 
 	virtual void OnMovementUpdated(float DeltaTime, const FVector& OldLocation, const FVector& OldVelocity) override;
-
+	
 public:
 	UFUNCTION(BlueprintCallable) void SprintPressed();
 	UFUNCTION(BlueprintCallable) void SprintReleased();
 
+// Parameters
+	UPROPERTY(EditDefaultsOnly) float MaxSprintSpeed=750.f;
+	
 };
 
