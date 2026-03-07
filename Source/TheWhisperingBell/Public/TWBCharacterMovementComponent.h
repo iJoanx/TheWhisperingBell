@@ -6,9 +6,6 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "TWBCharacterMovementComponent.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class THEWHISPERINGBELL_API UTWBCharacterMovementComponent : public UCharacterMovementComponent
 {
@@ -16,9 +13,17 @@ class THEWHISPERINGBELL_API UTWBCharacterMovementComponent : public UCharacterMo
 
 	class FSavedMove_TWB : public FSavedMove_Character
 	{
-		typedef FSavedMove_Character Super;
+	public:
+		enum CompressedFlags
+		{
+			FLAG_Sprint			= 0x10,
+		};
+		
+		// Flags
+		uint8 Saved_bWantsToSprint:1;
 
-		uint8 Saved_bWantsToSprint : 1;
+
+		FSavedMove_TWB();
 
 		virtual bool CanCombineWith(const FSavedMovePtr& NewMove, ACharacter* InCharacter, float MaxDelta) const override;
 		virtual void Clear() override;
@@ -36,29 +41,25 @@ class THEWHISPERINGBELL_API UTWBCharacterMovementComponent : public UCharacterMo
 		virtual FSavedMovePtr AllocateNewMove() override;
 	};
 
-	//Parameters
-	UPROPERTY(EditDefaultsOnly) float Sprint_MaxWalkSpeed;
-	UPROPERTY(EditDefaultsOnly) float Walk_MaxWalkSpeed;
-	
-	//Transient
+// Parameters
+	UPROPERTY(EditDefaultsOnly) float MaxSprintSpeed = 750.f;
+
+	// Flags
 	bool Safe_bWantsToSprint;
 
 public:
 	UTWBCharacterMovementComponent();
-
+	
+	// Character Movement Component
 public:
-	virtual class FNetworkPredictionData_Client* GetPredictionData_Client() const override;
+	virtual FNetworkPredictionData_Client* GetPredictionData_Client() const override;
+	virtual float GetMaxSpeed() const override;
+
 protected:
 	virtual void UpdateFromCompressedFlags(uint8 Flags) override;
-
-	virtual void OnMovementUpdated(float DeltaTime, const FVector& OldLocation, const FVector& OldVelocity) override;
 	
+	// Interface
 public:
 	UFUNCTION(BlueprintCallable) void SprintPressed();
 	UFUNCTION(BlueprintCallable) void SprintReleased();
-
-// Parameters
-	UPROPERTY(EditDefaultsOnly) float MaxSprintSpeed=750.f;
-	
 };
-
