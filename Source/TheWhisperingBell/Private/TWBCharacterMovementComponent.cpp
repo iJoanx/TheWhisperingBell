@@ -27,7 +27,6 @@ float MacroDuration = 2.f;
 UTWBCharacterMovementComponent::FSavedMove_TWB::FSavedMove_TWB()
 {
 	Saved_bWantsToSprint=0;
-	Saved_bWantsToProne=0;
 	Saved_bPrevWantsToCrouch=0;
 }
 
@@ -36,16 +35,6 @@ bool UTWBCharacterMovementComponent::FSavedMove_TWB::CanCombineWith(const FSaved
 	const FSavedMove_TWB* NewTWBMove = static_cast<FSavedMove_TWB*>(NewMove.Get());
 
 	if (Saved_bWantsToSprint != NewTWBMove->Saved_bWantsToSprint)
-	{
-		return false;
-	}
-
-	if (Saved_bWantsToDash != NewTWBMove->Saved_bWantsToDash)
-	{
-		return false;
-	}
-
-	if (Saved_bWallRunIsRight != NewTWBMove->Saved_bWallRunIsRight)
 	{
 		return false;
 	}
@@ -58,16 +47,13 @@ void UTWBCharacterMovementComponent::FSavedMove_TWB::Clear()
 	FSavedMove_Character::Clear();
 
 	Saved_bWantsToSprint = 0;
-	Saved_bWantsToDash = 0;
 	Saved_bPressedTWBJump = 0;
 
 	Saved_bHadAnimRootMotion = 0;
 	Saved_bTransitionFinished = 0;
 	
-	Saved_bWantsToProne = 0;
 	Saved_bPrevWantsToCrouch = 0;
 
-	Saved_bWallRunIsRight = 0;
 }
 
 uint8 UTWBCharacterMovementComponent::FSavedMove_TWB::GetCompressedFlags() const
@@ -93,10 +79,6 @@ void UTWBCharacterMovementComponent::FSavedMove_TWB::SetMoveFor(ACharacter* C, f
 	Saved_bHadAnimRootMotion = CharacterMovement->Safe_bHadAnimRootMotion;
 	Saved_bTransitionFinished = CharacterMovement->Safe_bTransitionFinished;
 
-	Saved_bWantsToProne = CharacterMovement->Safe_bWantsToProne;
-	Saved_bWantsToDash = CharacterMovement->Safe_bWantsToDash;
-
-	Saved_bWallRunIsRight = CharacterMovement->Safe_bWallRunIsRight;
 }
 
 void UTWBCharacterMovementComponent::FSavedMove_TWB::PrepMoveFor(ACharacter* C)
@@ -112,10 +94,6 @@ void UTWBCharacterMovementComponent::FSavedMove_TWB::PrepMoveFor(ACharacter* C)
 	CharacterMovement->Safe_bHadAnimRootMotion = Saved_bHadAnimRootMotion;
 	CharacterMovement->Safe_bTransitionFinished = Saved_bTransitionFinished;
 
-	CharacterMovement->Safe_bWantsToProne = Saved_bWantsToProne;
-	CharacterMovement->Safe_bWantsToDash = Saved_bWantsToDash;
-
-	CharacterMovement->Safe_bWallRunIsRight = Saved_bWallRunIsRight;
 }
 
 #pragma endregion
@@ -253,20 +231,6 @@ void UTWBCharacterMovementComponent::UpdateCharacterStateBeforeMovement(float De
 		SLOG("Transition Finished")
 		UE_LOG(LogTemp, Warning, TEXT("FINISHED RM"))
 
-		if (TransitionName == "Mantle")
-		{
-			if (IsValid(TransitionQueuedMontage))
-			{
-				SetMovementMode(MOVE_Flying);
-				CharacterOwner->PlayAnimMontage(TransitionQueuedMontage, TransitionQueuedMontageSpeed);
-				TransitionQueuedMontageSpeed = 0.f;
-				TransitionQueuedMontage = nullptr;
-			}
-			else
-			{
-				SetMovementMode(MOVE_Walking);
-			}
-		}
 
 		TransitionName = "";
 		Safe_bTransitionFinished = false;

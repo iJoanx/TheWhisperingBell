@@ -34,14 +34,11 @@ class THEWHISPERINGBELL_API UTWBCharacterMovementComponent : public UCharacterMo
 		// Flags
 		uint8 Saved_bPressedTWBJump:1;
 		uint8 Saved_bWantsToSprint:1;
-		uint8 Saved_bWantsToDash:1;
 
 		// Other Variables
 		uint8 Saved_bHadAnimRootMotion:1;
 		uint8 Saved_bTransitionFinished:1;
 		uint8 Saved_bPrevWantsToCrouch:1;
-		uint8 Saved_bWantsToProne:1;
-		uint8 Saved_bWallRunIsRight:1;
 
 
 		FSavedMove_TWB();
@@ -80,15 +77,9 @@ class THEWHISPERINGBELL_API UTWBCharacterMovementComponent : public UCharacterMo
 
 		// Flags
 		bool Safe_bWantsToSprint;
-		bool Safe_bWantsToProne;
-		bool Safe_bWantsToDash;
 
 		bool Safe_bHadAnimRootMotion;
 		bool Safe_bPrevWantsToCrouch;
-
-		float DashStartTime;
-		FTimerHandle TimerHandle_EnterProne;
-		FTimerHandle TimerHandle_DashCooldown;
 
 		bool Safe_bTransitionFinished;
 		TSharedPtr<FRootMotionSource_MoveToForce> TransitionRMS;
@@ -96,8 +87,7 @@ class THEWHISPERINGBELL_API UTWBCharacterMovementComponent : public UCharacterMo
 		UPROPERTY(Transient) UAnimMontage* TransitionQueuedMontage;
 		float TransitionQueuedMontageSpeed;
 		int TransitionRMS_ID;
-
-		bool Safe_bWallRunIsRight;
+	
 
 	float AccumulatedClientLocationError=0.f;
 
