@@ -21,16 +21,18 @@ class THEWHISPERINGBELL_API UTWBCharacterMovementComponent : public UCharacterMo
 
 #pragma region NetworkPrediction
 
-	// Client prediction payload for sprint state.
+	// Client prediction payload for run state.
 	class FSavedMove_TWB : public FSavedMove_Character
 	{
 	public:
 		enum CompressedFlags
 		{
-			FLAG_Sprint			= 0x10,
+			FLAG_Run			= 0x10,
+			FLAG_Sprint			= 0x20,
 		};
 		
 		// Flags
+		uint8 Saved_bWantsToRun:1;
 		uint8 Saved_bWantsToSprint:1;
 
 
@@ -58,21 +60,26 @@ private:
 #pragma region Tuning
 
 	// Movement tuning
-	UPROPERTY(EditDefaultsOnly) float MaxSprintSpeed = 750.f;
+	UPROPERTY(EditDefaultsOnly) float MaxRunSpeed = 750.f;
+	UPROPERTY(EditDefaultsOnly) float MaxSprintSpeed = 900.f;
 
 	// Slide tuning
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Slide", meta = (AllowPrivateAccess = "true"))
+	bool bCanSlide = true;
 	UPROPERTY(EditDefaultsOnly) float MinSlideSpeed = 400.f;
 	UPROPERTY(EditDefaultsOnly) float MaxSlideSpeed = 400.f;
 	UPROPERTY(EditDefaultsOnly) float SlideEnterImpulse = 400.f;
 	UPROPERTY(EditDefaultsOnly) float SlideGravityForce = 4000.f;
 	UPROPERTY(EditDefaultsOnly) float SlideFrictionFactor = 0.06f;
 	UPROPERTY(EditDefaultsOnly) float BrakingDecelerationSliding = 1000.f;
+	UPROPERTY(EditDefaultsOnly) float SlideViewYawLimitDegrees = 80.f;
 
 #pragma endregion
 
 #pragma region RuntimeState
 
 	// Runtime state
+	bool Safe_bWantsToRun = false;
 	bool Safe_bWantsToSprint = false;
 	bool bSavedOrientRotationToMovement = true;
 	bool bSavedUseControllerDesiredRotation = false;
@@ -110,6 +117,8 @@ private:
 	void ExitSlide();
 	bool CanSlide() const;
 	void PhysSlide(float DeltaTime, int32 Iterations);
+	void ApplySlideViewYawLimit() const;
+	bool IsWithinSprintForwardCone() const;
 
 #pragma endregion
 
@@ -117,6 +126,8 @@ private:
 
 	// Input/API surface
 public:
+	UFUNCTION(BlueprintCallable) void RunPressed();
+	UFUNCTION(BlueprintCallable) void RunReleased();
 	UFUNCTION(BlueprintCallable) void SprintPressed();
 	UFUNCTION(BlueprintCallable) void SprintReleased();
 

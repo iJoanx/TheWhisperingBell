@@ -4,12 +4,14 @@
 #include "TWBCharacterMovementComponent.h"
 
 #include "GameFramework/Character.h"
+#include "GameFramework/Controller.h"
 #include "Components/CapsuleComponent.h"
 
 #pragma region SavedMove
 
 UTWBCharacterMovementComponent::FSavedMove_TWB::FSavedMove_TWB()
 {
+	Saved_bWantsToRun = 0;
 	Saved_bWantsToSprint = 0;
 }
 
@@ -17,6 +19,10 @@ bool UTWBCharacterMovementComponent::FSavedMove_TWB::CanCombineWith(const FSaved
 {
 	FSavedMove_TWB* NewTWBMove = static_cast<FSavedMove_TWB*>(NewMove.Get());
 
+	if (Saved_bWantsToRun != NewTWBMove->Saved_bWantsToRun)
+	{
+		return false;
+	}
 	if (Saved_bWantsToSprint != NewTWBMove->Saved_bWantsToSprint)
 	{
 		return false;
@@ -29,6 +35,7 @@ void UTWBCharacterMovementComponent::FSavedMove_TWB::Clear()
 {
 	FSavedMove_Character::Clear();
 
+	Saved_bWantsToRun = 0;
 	Saved_bWantsToSprint = 0;
 }
 
@@ -36,6 +43,7 @@ uint8 UTWBCharacterMovementComponent::FSavedMove_TWB::GetCompressedFlags() const
 {
 	uint8 Result = FSavedMove_Character::GetCompressedFlags();
 
+	if (Saved_bWantsToRun) Result |= FLAG_Run;
 	if (Saved_bWantsToSprint) Result |= FLAG_Sprint;
 	return Result;
 }
@@ -44,6 +52,7 @@ void UTWBCharacterMovementComponent::FSavedMove_TWB::SetMoveFor(ACharacter* C, f
 {
 	FSavedMove_Character::SetMoveFor(C, InDeltaTime, NewAccel, ClientData);
 	UTWBCharacterMovementComponent* CharacterMovement = Cast<UTWBCharacterMovementComponent>(C->GetCharacterMovement());
+	Saved_bWantsToRun = CharacterMovement->Safe_bWantsToRun;
 	Saved_bWantsToSprint = CharacterMovement->Safe_bWantsToSprint;
 }
 
@@ -51,6 +60,7 @@ void UTWBCharacterMovementComponent::FSavedMove_TWB::PrepMoveFor(ACharacter* C)
 {
 	FSavedMove_Character::PrepMoveFor(C);
 	UTWBCharacterMovementComponent* CharacterMovement = Cast<UTWBCharacterMovementComponent>(C->GetCharacterMovement());
+	CharacterMovement->Safe_bWantsToRun = Saved_bWantsToRun;
 	CharacterMovement->Safe_bWantsToSprint = Saved_bWantsToSprint;
 }
 
@@ -82,6 +92,7 @@ void UTWBCharacterMovementComponent::UpdateFromCompressedFlags(uint8 Flags)
 {
 	Super::UpdateFromCompressedFlags(Flags);
 
+	Safe_bWantsToRun = (Flags & FSavedMove_TWB::FLAG_Run) != 0;
 	Safe_bWantsToSprint = (Flags & FSavedMove_TWB::FLAG_Sprint) != 0;
 }
 
@@ -112,7 +123,18 @@ bool UTWBCharacterMovementComponent::CanCrouchInCurrentState() const
 
 float UTWBCharacterMovementComponent::GetMaxSpeed() const
 {
-	if (MovementMode == MOVE_Walking && Safe_bWantsToSprint && !IsCrouching()) return MaxSprintSpeed;
+	if (MovementMode == MOVE_Walking && !IsCrouching())
+	{
+		if (Safe_bWantsToSprint && IsWithinSprintForwardCone())
+		{
+			return MaxSprintSpeed;
+		}
+
+		if (Safe_bWantsToRun || Safe_bWantsToSprint)
+		{
+			return MaxRunSpeed;
+		}
+	}
 
 	if (MovementMode == MOVE_Custom && CustomMovementMode == CMOVE_Slide)
 	{
@@ -134,8 +156,8 @@ float UTWBCharacterMovementComponent::GetMaxBrakingDeceleration() const
 
 void UTWBCharacterMovementComponent::UpdateCharacterStateBeforeMovement(float DeltaSeconds)
 {
-	// While sprinting, crouch input should branch into slide instead of standard crouch.
-	if (MovementMode == MOVE_Walking && bWantsToCrouch && Safe_bWantsToSprint && CanSlide())
+	// While running or sprinting, crouch input should branch into slide instead of standard crouch.
+	if (MovementMode == MOVE_Walking && bWantsToCrouch && (Safe_bWantsToRun || Safe_bWantsToSprint) && CanSlide())
 	{
 		SetMovementMode(MOVE_Custom, CMOVE_Slide);
 	}
@@ -150,6 +172,11 @@ void UTWBCharacterMovementComponent::UpdateCharacterStateBeforeMovement(float De
 void UTWBCharacterMovementComponent::OnMovementUpdated(float DeltaSeconds, const FVector& OldLocation, const FVector& OldVelocity)
 {
 	Super::OnMovementUpdated(DeltaSeconds, OldLocation, OldVelocity);
+
+	if (IsCustomMovementMode(CMOVE_Slide))
+	{
+		ApplySlideViewYawLimit();
+	}
 }
 
 void UTWBCharacterMovementComponent::PhysCustom(float DeltaTime, int32 Iterations)
@@ -234,7 +261,7 @@ void UTWBCharacterMovementComponent::ExitSlide()
 
 bool UTWBCharacterMovementComponent::CanSlide() const
 {
-	if (!CharacterOwner || !UpdatedComponent)
+	if (!bCanSlide || !CharacterOwner || !UpdatedComponent)
 	{
 		return false;
 	}
@@ -291,7 +318,7 @@ void UTWBCharacterMovementComponent::PhysSlide(float DeltaTime, int32 Iterations
 		SlopeForce.Z = 0.f;
 		Velocity += SlopeForce * SlideGravityForce * TimeTick;
 
-		Acceleration = Acceleration.ProjectOnTo(UpdatedComponent->GetRightVector().GetSafeNormal2D());
+		Acceleration = Acceleration.ProjectOnTo(UpdatedComponent->GetRightVector().GetSafeNormal2D()) * 0.2f;
 		CalcVelocity(TimeTick, GroundFriction * SlideFrictionFactor, false, GetMaxBrakingDeceleration());
 
 		const FVector MoveVelocity = Velocity;
@@ -441,9 +468,35 @@ void UTWBCharacterMovementComponent::PhysSlide(float DeltaTime, int32 Iterations
 	SafeMoveUpdatedComponent(FVector::ZeroVector, NewRotation, false, Hit);
 }
 
+void UTWBCharacterMovementComponent::ApplySlideViewYawLimit() const
+{
+	if (!CharacterOwner || !CharacterOwner->Controller || !UpdatedComponent || !CharacterOwner->IsLocallyControlled())
+	{
+		return;
+	}
+
+	FRotator ControlRotation = CharacterOwner->Controller->GetControlRotation();
+	const float SlideFacingYaw = UpdatedComponent->GetComponentRotation().Yaw;
+	const float RawYawOffset = FMath::FindDeltaAngleDegrees(SlideFacingYaw, ControlRotation.Yaw);
+	const float LimitedYawOffset = FMath::Clamp(RawYawOffset, -SlideViewYawLimitDegrees, SlideViewYawLimitDegrees);
+
+	ControlRotation.Yaw = FRotator::NormalizeAxis(SlideFacingYaw + LimitedYawOffset);
+	CharacterOwner->Controller->SetControlRotation(ControlRotation);
+}
+
 #pragma endregion
 
 #pragma region Input
+
+void UTWBCharacterMovementComponent::RunPressed()
+{
+	Safe_bWantsToRun = true;
+}
+
+void UTWBCharacterMovementComponent::RunReleased()
+{
+	Safe_bWantsToRun = false;
+}
 
 void UTWBCharacterMovementComponent::SprintPressed()
 {
@@ -457,8 +510,8 @@ void UTWBCharacterMovementComponent::SprintReleased()
 
 void UTWBCharacterMovementComponent::CrouchPressed()
 {
-	// Priority rule: crouch while sprinting => slide.
-	const bool bWantsSlideFromRun = IsMovementMode(MOVE_Walking) && Safe_bWantsToSprint && CanSlide();
+	// Priority rule: crouch while running/sprinting => slide.
+	const bool bWantsSlideFromRun = IsMovementMode(MOVE_Walking) && (Safe_bWantsToRun || Safe_bWantsToSprint) && CanSlide();
 	bWantsToCrouch = true;
 
 	if (bWantsSlideFromRun)
@@ -489,6 +542,26 @@ bool UTWBCharacterMovementComponent::IsCustomMovementMode(ETWBCustomMovementMode
 bool UTWBCharacterMovementComponent::IsMovementMode(EMovementMode InMovementMode) const
 {
 	return MovementMode == InMovementMode;
+}
+
+bool UTWBCharacterMovementComponent::IsWithinSprintForwardCone() const
+{
+	const FVector Input2D = Acceleration.GetSafeNormal2D();
+	if (Input2D.IsNearlyZero())
+	{
+		return false;
+	}
+
+	FVector Forward2D = UpdatedComponent ? UpdatedComponent->GetForwardVector() : FVector::ForwardVector;
+	Forward2D.Z = 0.f;
+	Forward2D = Forward2D.GetSafeNormal();
+	if (Forward2D.IsNearlyZero())
+	{
+		return false;
+	}
+
+	constexpr float SprintMinDot = 0.5f; // cos(60 deg)
+	return FVector::DotProduct(Input2D, Forward2D) >= SprintMinDot;
 }
 
 #pragma endregion
