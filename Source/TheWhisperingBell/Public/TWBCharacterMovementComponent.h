@@ -73,7 +73,10 @@ private:
 #pragma region RuntimeState
 
 	// Runtime state
-	bool Safe_bWantsToSprint;
+	bool Safe_bWantsToSprint = false;
+	bool bSavedOrientRotationToMovement = true;
+	bool bSavedUseControllerDesiredRotation = false;
+	bool bHasSavedRotationPolicy = false;
 
 #pragma endregion
 

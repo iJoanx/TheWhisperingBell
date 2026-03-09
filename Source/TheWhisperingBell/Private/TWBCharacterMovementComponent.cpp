@@ -185,6 +185,14 @@ void UTWBCharacterMovementComponent::OnMovementModeChanged(EMovementMode Previou
 void UTWBCharacterMovementComponent::EnterSlide()
 {
 	bWantsToCrouch = true;
+	if (!bHasSavedRotationPolicy)
+	{
+		bSavedOrientRotationToMovement = bOrientRotationToMovement;
+		bSavedUseControllerDesiredRotation = bUseControllerDesiredRotation;
+		bHasSavedRotationPolicy = true;
+	}
+
+	bUseControllerDesiredRotation = false;
 	bOrientRotationToMovement = false;
 	Velocity += Velocity.GetSafeNormal2D() * SlideEnterImpulse;
 	FindFloor(UpdatedComponent->GetComponentLocation(), CurrentFloor, true, nullptr);
@@ -193,11 +201,33 @@ void UTWBCharacterMovementComponent::EnterSlide()
 void UTWBCharacterMovementComponent::ExitSlide()
 {
 	bWantsToCrouch = false;
-	bOrientRotationToMovement = true;
+	if (bHasSavedRotationPolicy)
+	{
+		bOrientRotationToMovement = bSavedOrientRotationToMovement;
+		bUseControllerDesiredRotation = bSavedUseControllerDesiredRotation;
+		bHasSavedRotationPolicy = false;
+	}
+	else
+	{
+		bOrientRotationToMovement = true;
+		bUseControllerDesiredRotation = false;
+	}
 
-	// Restore upright capsule orientation when leaving slide.
-	const FRotator CurrentRotation = UpdatedComponent->GetComponentRotation();
-	const FRotator UprightRotation(0.f, CurrentRotation.Yaw, 0.f);
+	// Restore upright capsule orientation with a stable planar heading.
+	FVector Forward2D = UpdatedComponent->GetForwardVector();
+	Forward2D.Z = 0.f;
+	if (Forward2D.IsNearlyZero())
+	{
+		Forward2D = CharacterOwner ? CharacterOwner->GetActorForwardVector() : FVector::ForwardVector;
+		Forward2D.Z = 0.f;
+	}
+	if (Forward2D.IsNearlyZero())
+	{
+		Forward2D = FVector::ForwardVector;
+	}
+
+	const float UprightYaw = Forward2D.GetSafeNormal2D().Rotation().Yaw;
+	const FRotator UprightRotation(0.f, UprightYaw, 0.f);
 	FHitResult Hit;
 	SafeMoveUpdatedComponent(FVector::ZeroVector, UprightRotation.Quaternion(), false, Hit);
 }
