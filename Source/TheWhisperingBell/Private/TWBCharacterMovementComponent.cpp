@@ -227,7 +227,8 @@ void UTWBCharacterMovementComponent::EnterSlide()
 
 void UTWBCharacterMovementComponent::ExitSlide()
 {
-	bWantsToCrouch = false;
+	// Do not clear crouch intent here; let input release decide.
+	// This avoids stand-up/slide flicker when slide ends due to MinSlideSpeed.
 	if (bHasSavedRotationPolicy)
 	{
 		bOrientRotationToMovement = bSavedOrientRotationToMovement;
@@ -318,7 +319,9 @@ void UTWBCharacterMovementComponent::PhysSlide(float DeltaTime, int32 Iterations
 		SlopeForce.Z = 0.f;
 		Velocity += SlopeForce * SlideGravityForce * TimeTick;
 
-		Acceleration = Acceleration.ProjectOnTo(UpdatedComponent->GetRightVector().GetSafeNormal2D()) * 0.2f;
+		// Strafe
+		const FVector SlideRight = UpdatedComponent->GetRightVector().GetSafeNormal2D();
+		Acceleration = Acceleration.ProjectOnTo(SlideRight) * GetSlideStrafeControlMultiplier();
 		CalcVelocity(TimeTick, GroundFriction * SlideFrictionFactor, false, GetMaxBrakingDeceleration());
 
 		const FVector MoveVelocity = Velocity;
@@ -482,6 +485,26 @@ void UTWBCharacterMovementComponent::ApplySlideViewYawLimit() const
 
 	ControlRotation.Yaw = FRotator::NormalizeAxis(SlideFacingYaw + LimitedYawOffset);
 	CharacterOwner->Controller->SetControlRotation(ControlRotation);
+}
+
+float UTWBCharacterMovementComponent::GetSlideStrafeControlMultiplier() const
+{
+	const float SlideSpeed = Velocity.Size2D();
+	const float FullControlSpeed = FMath::Max(SlideStrafeFullControlSpeed, MinSlideSpeed);
+	if (FMath::IsNearlyEqual(FullControlSpeed, MinSlideSpeed))
+	{
+		const float ImmediateStrength = SlideSpeed > MinSlideSpeed ? SlideStrafeStrength : 0.f;
+		return FMath::Min(ImmediateStrength, MaxSlideStrafeControl);
+	}
+
+	const float SpeedAlpha = FMath::GetMappedRangeValueClamped(
+		FVector2D(MinSlideSpeed, FullControlSpeed),
+		FVector2D(0.f, 1.f),
+		SlideSpeed);
+	const float ShapedAlpha = FMath::Pow(SpeedAlpha, FMath::Max(0.01f, SlideStrafeResponseExponent));
+	const float StrafeControl = SlideStrafeStrength * ShapedAlpha;
+
+	return FMath::Min(StrafeControl, MaxSlideStrafeControl);
 }
 
 #pragma endregion
