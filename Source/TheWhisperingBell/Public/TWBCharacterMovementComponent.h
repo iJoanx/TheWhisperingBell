@@ -73,10 +73,6 @@ private:
 	UPROPERTY(EditDefaultsOnly) float SlideFrictionFactor = 0.06f;
 	UPROPERTY(EditDefaultsOnly) float BrakingDecelerationSliding = 1000.f;
 	UPROPERTY(EditDefaultsOnly) float SlideViewYawLimitDegrees = 80.f;
-	UPROPERTY(EditDefaultsOnly) float SlideStrafeStrength = 0.2f;
-	UPROPERTY(EditDefaultsOnly) float SlideStrafeFullControlSpeed = 700.f;
-	UPROPERTY(EditDefaultsOnly) float SlideStrafeResponseExponent = 2.f;
-	UPROPERTY(EditDefaultsOnly) float MaxSlideStrafeControl = 0.5f;
 
 #pragma endregion
 
@@ -122,7 +118,6 @@ private:
 	bool CanSlide() const;
 	void PhysSlide(float DeltaTime, int32 Iterations);
 	void ApplySlideViewYawLimit() const;
-	float GetSlideStrafeControlMultiplier() const;
 	bool IsWithinSprintForwardCone() const;
 
 #pragma endregion
