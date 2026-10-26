@@ -307,8 +307,11 @@ void UTWBCharacterMovementComponent::PhysSlide(float DeltaTime, int32 Iterations
 		const float TimeTick = GetSimulationTimeStep(RemainingTime, Iterations);
 		RemainingTime -= TimeTick;
 
-		UPrimitiveComponent* const OldBase = GetMovementBase();
-		const FVector PreviousBaseLocation = (OldBase != nullptr) ? OldBase->GetComponentLocation() : FVector::ZeroVector;
+		FMovementBaseInterfaceData* const OldMovementBaseInterfaceData = GetMovementBaseInterfaceData_Mutable();
+		const bool bOldMovementBaseValid = OldMovementBaseInterfaceData && OldMovementBaseInterfaceData->IsValid();
+		const FVector PreviousBaseLocation = bOldMovementBaseValid
+			? OldMovementBaseInterfaceData->GetBodyInstanceOwner()->GetPhysicsOwnerTransform().GetLocation()
+			: FVector::ZeroVector;
 		const FVector OldLocation = UpdatedComponent->GetComponentLocation();
 		const FFindFloorResult OldFloor = CurrentFloor;
 
@@ -371,21 +374,23 @@ void UTWBCharacterMovementComponent::PhysSlide(float DeltaTime, int32 Iterations
 			const FVector NewDelta = bTriedLedgeMove ? FVector::ZeroVector : GetLedgeMove(OldLocation, Delta, OldFloor);
 			if (!NewDelta.IsZero())
 			{
-				RevertMove(OldLocation, OldBase, PreviousBaseLocation, OldFloor, false);
+				RevertMove(OldLocation, OldMovementBaseInterfaceData, PreviousBaseLocation, OldFloor, false);
 				bTriedLedgeMove = true;
 				Velocity = NewDelta / TimeTick;
 				RemainingTime += TimeTick;
 				continue;
 			}
 
-			const bool bMustJump = bZeroDelta || (OldBase == nullptr || (!OldBase->IsQueryCollisionEnabled() && MovementBaseUtility::IsDynamicBase(OldBase)));
+			const bool bMustJump = bZeroDelta || (!bOldMovementBaseValid ||
+				(!CollisionEnabledHasQuery(OldMovementBaseInterfaceData->GetBodyInstanceOwner()->GetCollisionEnabled()) &&
+					MovementBaseUtility::IsDynamicBase(OldMovementBaseInterfaceData)));
 			if ((bMustJump || !bCheckedFall) && CheckFall(OldFloor, CurrentFloor.HitResult, Delta, OldLocation, RemainingTime, TimeTick, Iterations, bMustJump))
 			{
 				return;
 			}
 
 			bCheckedFall = true;
-			RevertMove(OldLocation, OldBase, PreviousBaseLocation, OldFloor, true);
+			RevertMove(OldLocation, OldMovementBaseInterfaceData, PreviousBaseLocation, OldFloor, true);
 			RemainingTime = 0.f;
 			break;
 		}
@@ -404,7 +409,7 @@ void UTWBCharacterMovementComponent::PhysSlide(float DeltaTime, int32 Iterations
 				}
 
 				AdjustFloorHeight();
-				SetBase(CurrentFloor.HitResult.Component.Get(), CurrentFloor.HitResult.BoneName);
+				SetBaseFromFloor(CurrentFloor);
 			}
 			else if (CurrentFloor.HitResult.bStartPenetrating && RemainingTime <= 0.f)
 			{
@@ -423,7 +428,9 @@ void UTWBCharacterMovementComponent::PhysSlide(float DeltaTime, int32 Iterations
 
 			if (!CurrentFloor.IsWalkableFloor() && !CurrentFloor.HitResult.bStartPenetrating)
 			{
-				const bool bMustJump = bJustTeleported || bZeroDelta || (OldBase == nullptr || (!OldBase->IsQueryCollisionEnabled() && MovementBaseUtility::IsDynamicBase(OldBase)));
+				const bool bMustJump = bJustTeleported || bZeroDelta || (!bOldMovementBaseValid ||
+					(!CollisionEnabledHasQuery(OldMovementBaseInterfaceData->GetBodyInstanceOwner()->GetCollisionEnabled()) &&
+						MovementBaseUtility::IsDynamicBase(OldMovementBaseInterfaceData)));
 				if ((bMustJump || !bCheckedFall) && CheckFall(OldFloor, CurrentFloor.HitResult, Delta, OldLocation, RemainingTime, TimeTick, Iterations, bMustJump))
 				{
 					return;
