@@ -111,6 +111,16 @@ FNetworkPredictionData_Client* UTWBCharacterMovementComponent::GetPredictionData
 	return ClientPredictionData;
 }
 
+bool UTWBCharacterMovementComponent::CanAttemptJump() const
+{
+	if (IsCustomMovementMode(CMOVE_Slide))
+	{
+		return IsJumpAllowed();
+	}
+
+	return Super::CanAttemptJump();
+}
+
 bool UTWBCharacterMovementComponent::IsMovingOnGround() const
 {
 	return Super::IsMovingOnGround() || IsCustomMovementMode(CMOVE_Slide);
@@ -197,6 +207,13 @@ void UTWBCharacterMovementComponent::OnMovementModeChanged(EMovementMode Previou
 	if (PreviousMovementMode == MOVE_Custom && PreviousCustomMode == CMOVE_Slide)
 	{
 		ExitSlide();
+
+		// A jump or walking off a ramp ends the slide. Clear the held crouch
+		// request too, so landing cannot immediately start another slide.
+		if (MovementMode == MOVE_Falling)
+		{
+			bWantsToCrouch = false;
+		}
 	}
 
 	if (IsCustomMovementMode(CMOVE_Slide))

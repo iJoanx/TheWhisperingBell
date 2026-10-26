@@ -95,6 +95,7 @@ public:
 	// UCharacterMovementComponent overrides
 public:
 	virtual FNetworkPredictionData_Client* GetPredictionData_Client() const override;
+	virtual bool CanAttemptJump() const override;
 	virtual bool IsMovingOnGround() const override;
 	virtual bool CanCrouchInCurrentState() const override;
 	virtual float GetMaxSpeed() const override;

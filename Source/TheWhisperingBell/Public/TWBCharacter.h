@@ -23,6 +23,8 @@ public:
 	ATWBCharacter(const FObjectInitializer& ObjectInitializer);
 
 protected:
+	virtual bool CanJumpInternal_Implementation() const override;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 

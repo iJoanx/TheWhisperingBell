@@ -14,6 +14,16 @@ ATWBCharacter::ATWBCharacter(const FObjectInitializer& ObjectInitializer)
 
 }
 
+bool ATWBCharacter::CanJumpInternal_Implementation() const
+{
+	if (TWBCharacterMovementComponent && TWBCharacterMovementComponent->IsCustomMovementMode(CMOVE_Slide))
+	{
+		return JumpIsAllowedInternal();
+	}
+
+	return Super::CanJumpInternal_Implementation();
+}
+
 // Called when the game starts or when spawned
 void ATWBCharacter::BeginPlay()
 {
