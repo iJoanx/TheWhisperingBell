@@ -1,0 +1,10 @@
+after load: None
+DynamicMesh vertex methods: ['add_vertex_to_mesh', 'apply_displace_from_per_vertex_vectors', 'apply_editor_simplify_to_vertex_count', 'apply_simplify_to_vertex_count', 'blur_mesh_vertex_colors', 'compute_vertex_weighted_point_sampling', 'convert_mesh_vertex_colors_linear_to_srgb', 'convert_mesh_vertex_colors_srgb_to_linear', 'delete_vertex_from_mesh', 'get_all_split_u_vs_at_vertex', 'get_all_vertex_i_ds', 'get_all_vertex_positions', 'get_all_vertex_positions_at_edges', 'get_has_vertex_colors', 'get_has_vertex_id_gaps', 'get_interpolated_triangle_vertex_color', 'get_largest_vertex_bone_weight', 'get_mesh_per_vertex_colors', 'get_mesh_per_vertex_normals', 'get_mesh_per_vertex_tangents']
+libs: ['DataflowMeshBooleanInputMeshEnum', 'GeometryScriptMeshBooleanOptions', 'GeometryScript_MeshBooleans', 'MeshBooleanOperationEnum']
+append_box -> <built-in method append_box of type object at 0x0000018331B60E48>
+apply_mesh_boolean -> <built-in method apply_mesh_boolean of type object at 0x000001832B6F57C8>
+add_vertex_to_mesh -> <built-in method add_vertex_to_mesh of type object at 0x00000181DAF5F8C8>
+add_triangle_to_mesh -> <built-in method add_triangle_to_mesh of type object at 0x00000181DAF5F8C8>
+copy_mesh_to_static_mesh -> <built-in method copy_mesh_to_static_mesh of type object at 0x000001833384DCC8>
+
+[ok in 0.1 s]

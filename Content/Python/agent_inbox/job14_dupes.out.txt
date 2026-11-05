@@ -1,0 +1,25 @@
+level: /Game/Maps/PersistentLevel.PersistentLevel
+actors: 4463
+network actors: 1
+duplicate labels: 0 []
+classes: [('StaticMeshActor', 3466), ('BP_SewerNode_C', 434), ('DynamicMeshActor', 247), ('Actor', 90), ('SkeletalMeshActor', 42), ('BP_WB_Window_C', 34), ('BP_WB_Sconce_C', 32), ('BP_WB_Shutter1_C', 29), ('BP_WB_Candle_C', 15), ('BP_WB_Insidedoor_C', 12), ('DecalActor', 9), ('BP_WB_Outsidedoor_C', 6), ('BP_WB_Sewer_Entry_C', 5), ('BP_WB_Insidedoor_Less_C', 4), ('BP_WB_Keg_C', 4)]
+actors stacked on the same spot (same class): 17
+   (3261, -811, 0, 'StaticMeshActor') ['mesh_df_1_m', 'mesh_df_0_m']
+   (0, 0, 0, 'Actor') ['RootNode', 'root', 'center_of_mass', 'ik_foot_root']
+   (15, 0, 8, 'Actor') ['ik_foot_l', 'foot_l']
+   (-15, 0, 8, 'Actor') ['ik_foot_r', 'foot_r']
+   (-46, 14, 106, 'Actor') ['ik_hand_gun', 'ik_hand_r']
+   (5575, -145, 0, 'StaticMeshActor') ['Sewer_Base_01', 'Sewer_Base_02', 'Sewer_Base_03', 'Sewer_Base_04']
+   (1800, 500, 0, 'StaticMeshActor') ['4S_NW_0001', '4S_NW_0002', '4S_NW_0003', '4S_NW_0004']
+   (15754, 38644, -101, 'StaticMeshActor') ['WS_ShieldMaiden', 'WS_ShieldMaidenShield']
+   (1800, 499, 0, 'StaticMeshActor') ['Cube_052', 'Cube_64', 'TA_P_6', 'TA_P_7']
+   (1800, 500, 274, 'StaticMeshActor') ['TA_P_03', 'TA_P_04', 'TA_P_06']
+   (2653, 216, 671, 'StaticMeshActor') ['WB_P_HopeTable', 'WB_P_HopeTable_Base']
+   (1955, 1390, 152, 'StaticMeshActor') ['WB_P_Sando', 'WB_P_Plate']
+   (2002, 14, 61, 'SkeletalMeshActor') ['A_WS_SitGirlTop_M', 'A_WS_SitManLap_F']
+   (2193, 1215, 366, 'StaticMeshActor') ['WB_P_HopeTable_Base2', 'WB_P_HopeTable2']
+   (1517, -162, 434, 'StaticMeshActor') ['WB_P_Plate4', 'WB_P_PieSlice3']
+network StaticMeshActor_4 ism comps: 5938 instances: 22598
+   comp kinds: [('HISM_P12_-1_62', 2), ('HISM_P12_-27_13', 2), ('HISM_P12_-27_16', 2), ('HISM_P12_-29_-22', 2), ('HISM_P12_-53_58', 2), ('HISM_P12_-53_60', 2), ('HISM_P12_-67_7', 2), ('HISM_P12_-69_20', 2), ('HISM_P12_10_124', 2), ('HISM_P12_12_80', 2), ('HISM_P12_13_127', 2), ('HISM_P12_19_132', 2)]
+
+[ok in 0.1 s]

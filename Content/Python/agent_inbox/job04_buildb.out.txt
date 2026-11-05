@@ -1,0 +1,27 @@
+unsaved maps: []
+nodes: 434
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\164147_job04_buildb.py", line 28, in <module>
+    sb.build()
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\sewer_builder.py", line 3494, in build
+    segs = _rebuild_network(edges, nodes, per_node)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\sewer_builder.py", line 3363, in _rebuild_network
+    comp = _add_hism(net, "HISM_HubWater_" + _safe(n.get_actor_label()), _hub_water_asset(n, conns))
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\sewer_builder.py", line 2208, in _hub_water_asset
+    return _hub_water_v2(node, verts, tris, arms)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\sewer_builder.py", line 2984, in _hub_water_v2
+    return _hub_v2_write(node, pts, ftris, tvals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\sewer_builder.py", line 2992, in _hub_v2_write
+    r = gs("add_vertex_to_mesh")(m, p, False)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\sewer_builder.py", line 239, in gs
+    raise RuntimeError("Geometry Script function '%s' not found - is the Geometry Script plugin enabled?" % name)
+RuntimeError: Geometry Script function 'add_vertex_to_mesh' not found - is the Geometry Script plugin enabled?
+
+[failed after 316.8 s]

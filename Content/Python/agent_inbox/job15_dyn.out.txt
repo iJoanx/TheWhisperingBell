@@ -1,0 +1,18 @@
+dynamic mesh actors: 247
+their levels: Counter({'/Game/Sewers/Maps/Sewers': 247})
+labels: ['BirdsEye_TEMP_SL_001_Crossing', 'BirdsEye_TEMP_SL_004_Shaft', 'BirdsEye_TEMP_SL_006_Crossing', 'BirdsEye_TEMP_SL_007_Crossing', 'BirdsEye_TEMP_SL_009_Crossing', 'BirdsEye_TEMP_SL_011_Crossing', 'BirdsEye_TEMP_SL_013_Crossing', 'BirdsEye_TEMP_SL_016_Crossing', 'BirdsEye_TEMP_SL_017_Shaft', 'BirdsEye_TEMP_SL_018_Crossing']
+folders: [('None', 247)]
+node levels: Counter({'/Game/Sewers/Maps/Sewers': 434})
+network level: ['/Game/Sewers/Maps/Sewers']
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\232742_job15_dyn.py", line 19, in <module>
+    print("streaming:", [(str(s.get_editor_property("world_asset").get_asset_name()) if hasattr(s, "get_editor_property") else s) for s in unreal.EditorLevelUtils.get_levels(w)][:20] if hasattr(unreal.EditorLevelUtils, "get_levels") else "n/a")
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\232742_job15_dyn.py", line 19, in <listcomp>
+    print("streaming:", [(str(s.get_editor_property("world_asset").get_asset_name()) if hasattr(s, "get_editor_property") else s) for s in unreal.EditorLevelUtils.get_levels(w)][:20] if hasattr(unreal.EditorLevelUtils, "get_levels") else "n/a")
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Exception: Level: Failed to find property 'world_asset' for attribute 'world_asset' on 'Level'
+
+[failed after 0.0 s]

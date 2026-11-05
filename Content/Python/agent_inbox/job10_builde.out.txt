@@ -1,0 +1,61 @@
+open level: /Game/Sewers/Maps/Sewers.Sewers
+nodes: 434
+DIALOG: Nodes baked: 434
+Connections: 447
+Passage segments: 11020
+
+Warnings:
+- SL_021_Junction: openings 36 deg apart, need about 44 deg for a 50 cm pillar
+- SL_023_Shaft: openings 57 deg apart, need about 58 deg for a 50 cm pillar
+- SL_034_Junction: openings 32 deg apart, need about 44 deg for a 50 cm pillar
+- SL_040_Shaft: openings 70 deg apart, need about 97 deg for a 50 cm pillar
+- SL_127_Shaft: openings 33 deg apart, need about 77 deg for a 50 cm pillar
+- SL_133_Shaft: openings 44 deg apart, need about 58 deg for a 50 cm pillar
+- SL_283_Shaft: openings 58 deg apart, need about 58 deg for a 50 cm pillar
+- SL_285_Shaft: openings 43 deg apart, need about 58 deg for a 50 cm pillar
+- SL_285_Shaft: openings 46 deg apart, need about 77 deg for a 50 cm pillar
+- SL_285_Shaft: openings 64 deg apart, need about 77 deg for a 50 cm pillar
+- SL_288_Shaft: openings 52 deg apart, need about 77 deg for a 50 cm pillar
+- SL_289_Shaft: openings 42 deg apart, need about 77 deg for a 50 cm pillar
+- SL_289_Shaft: openings 72 deg apart, need about 77 deg for a 50 cm pillar
+- SL_290_Junction: openings 29 deg apart, need about 36 deg for a 50 cm pillar
+- SL_293_Shaft: openings 69 deg apart, need about 77 deg for a 50 cm pillar
+- SL_294_Shaft: openings 60 deg apart, need about 77 deg for a 50 cm pillar
+- SL_362_Shaft: openings 54 deg apart, need about 77 deg for a 50 cm pillar
+- SL_370_Shaft: openings 53 deg apart, need about 77 deg for a 50 cm pillar
+- SL_370_Shaft: openings 51 deg apart, need about 77 deg for a 50 cm pillar
+- SL_375_Shaft: openings 22 deg apart, need about 77 deg for a 50 cm pillar
+- SL_375_Shaft: openings 54 deg apart, need about 77 deg for a 50 cm pillar
+- SL_423_Shaft: openings 39 deg apart, need about 58 deg for a 50 cm pillar
+- SL_428_Shaft: openings 44 deg apart, need about 58 deg for a 50 cm pillar
+built in 684 s
+Nodes baked: 434
+Connections: 447
+Passage segments: 11020
+
+Warnings (23):
+SL_021_Junction: openings 36 deg apart, need about 44 deg for a 50 cm pillar
+SL_023_Shaft: openings 57 deg apart, need about 58 deg for a 50 cm pillar
+SL_034_Junction: openings 32 deg apart, need about 44 deg for a 50 cm pillar
+SL_040_Shaft: openings 70 deg apart, need about 97 deg for a 50 cm pillar
+SL_127_Shaft: openings 33 deg apart, need about 77 deg for a 50 cm pillar
+SL_133_Shaft: openings 44 deg apart, need about 58 deg for a 50 cm pillar
+SL_283_Shaft: openings 58 deg apart, need about 58 deg for a 50 cm pillar
+SL_285_Shaft: openings 43 deg apart, need about 58 deg for a 50 cm pillar
+SL_285_Shaft: openings 46 deg apart, need about 77 deg for a 50 cm pillar
+SL_285_Shaft: openings 64 deg apart, need about 77 deg for a 50 cm pillar
+SL_288_Shaft: openings 52 deg apart, need about 77 deg for a 50 cm pillar
+SL_289_Shaft: openings 42 deg apart, need about 77 deg for a 50 cm pillar
+SL_289_Shaft: openings 72 deg apart, need about 77 deg for a 50 cm pillar
+SL_290_Junction: openings 29 deg apart, need about 36 deg for a 50 cm pillar
+SL_293_Shaft: openings 69 deg apart, need about 77 deg for a 50 cm pillar
+SL_294_Shaft: openings 60 deg apart, need about 77 deg for a 50 cm pillar
+SL_362_Shaft: openings 54 deg apart, need about 77 deg for a 50 cm pillar
+SL_370_Shaft: openings 53 deg apart, need about 77 deg for a 50 cm pillar
+SL_370_Shaft: openings 51 deg apart, need about 77 deg for a 50 cm pillar
+SL_375_Shaft: openings 22 deg apart, need about 77 deg for a 50 cm pillar
+SL_375_Shaft: openings 54 deg apart, need about 77 deg for a 50 cm pillar
+SL_423_Shaft: openings 39 deg apart, need about 58 deg for a 50 cm pillar
+SL_428_Shaft: openings 44 deg apart, need about 58 deg for a 50 cm pillar
+
+[ok in 2508.5 s]

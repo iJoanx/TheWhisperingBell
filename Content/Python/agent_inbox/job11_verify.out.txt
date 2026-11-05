@@ -1,0 +1,5 @@
+node meshes: 247 without mesh: 0 without collision: 0 []
+dirty maps: []
+dirty content: 0
+
+[ok in 0.0 s]

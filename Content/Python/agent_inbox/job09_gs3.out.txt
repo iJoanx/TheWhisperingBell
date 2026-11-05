@@ -1,0 +1,8 @@
+libraries with add_vertex_to_mesh: ['GeometryScript_MeshEdits']
+add_vertex_to_mesh -> <built-in method add_vertex_to_mesh of type object at 0x00000181DAF5F8C8>
+add_triangle_to_mesh -> <built-in method add_triangle_to_mesh of type object at 0x00000181DAF5F8C8>
+append_box -> <built-in method append_box of type object at 0x0000018331B60E48>
+copy_mesh_to_static_mesh -> <built-in method copy_mesh_to_static_mesh of type object at 0x000001833384DCC8>
+call ok: (<Object '/Engine/Transient.DynamicMesh_496' (0x0000018768F9B440) Class 'DynamicMesh'>, 0)
+
+[ok in 0.1 s]

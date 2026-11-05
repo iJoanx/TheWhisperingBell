@@ -1,0 +1,6 @@
+leftover picture copies: 247
+unsaved maps before: ['/Game/Maps/Streets']
+left: 0
+saved /Game/Sewers/Maps/Sewers True
+
+[ok in 6.9 s]

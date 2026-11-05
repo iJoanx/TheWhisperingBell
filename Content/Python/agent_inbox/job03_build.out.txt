@@ -1,0 +1,12 @@
+unsaved maps: []
+load: True
+nodes: 434
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\164125_job03_build.py", line 16, in <module>
+    unreal.EditorDialog.show_message = staticmethod(lambda *a, **k: unreal.AppReturnType.OK)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: cannot set 'show_message' attribute of immutable type 'EditorDialog'
+
+[failed after 2.2 s]

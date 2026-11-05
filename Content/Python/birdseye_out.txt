@@ -1,0 +1,7 @@
+birdseye started
+4 nodes, 11207 tunnel pieces, 247 node meshes, 2971 water components -> C:/Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Saved/NodeShots\Sewers_birdseye
+first picture: 2491 of 6081 sampled pixels not black
+saved 247 pictures (0 failed) in 259 s, copies removed
+cut-away copies made in 260 s; taking the pictures in a moment
+first picture: 3152 of 6081 sampled pixels not black
+saved 4 pictures (0 failed) in 4 s, copies removed
