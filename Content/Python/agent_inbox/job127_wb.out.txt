@@ -1,0 +1,9 @@
+actors in EDL_TheWhisperingBell: 641 [('StaticMeshActor', 425), ('SkeletalMeshActor', 48), ('BP_WB_Window_C', 34), ('BP_WB_Sconce_C', 32), ('BP_WB_Shutter1_C', 29), ('BP_WB_Candle_C', 16), ('BP_WB_Insidedoor_C', 12), ('BP_WB_Outsidedoor_C', 6), ('DecalActor', 4), ('BP_WB_Keg_C', 4), ('BP_WB_Insidedoor_Less_C', 4), ('BP_WB_Window_Veranda_C', 3)]
+of those, were at 0,0 before tonight (now -1800,-500): 0 []
+whole level at -1800,-500: 1 outside WB layer: [(('EDL_Walls',), 1)]
+zero-pivot meshes also used by other actors: 0 []
+zero-pivot actors with rotation/scale (not identity): 0 []
+sample labels: []
+other layer names: [('EDL_TheWhisperingBell', 641), ('EDL_Sewers', 600), ('RDL_Sewers', 600), ('EDL_Streets', 112), ('EDL_TrollskullAlley', 60), ('EDL_Walls', 31), ('EDL_WalkingStatues', 8), ('EDL_Mountain', 6), ('EDL_Sea', 5), ('EDL_Sky', 2), ('RDL_Sky', 2)]
+
+[ok in 0.3 s]

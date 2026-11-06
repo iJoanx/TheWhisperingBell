@@ -1,0 +1,12 @@
+/Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed3.ABP_Unarmed3:AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_4.Fly
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_4.Fly.AnimGraphNode_StateResult_0 [Misc.|OutputAnimationPose] Result->AnimGraphNode_BlendSpacePlayer_0
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_4.Fly.AnimGraphNode_BlendSpacePlayer_0 [Animation|BlendSpaces|BlendspacePlayer'BS_Bolita_Flight'] X->K2Node_VariableGet_1 ; Y->K2Node_VariableGet_0 ; Pose->AnimGraphNode_StateResult_0
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_4.Fly.K2Node_VariableGet_0 [|GetGroundSpeed] GroundSpeed->AnimGraphNode_BlendSpacePlayer_0
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_4.Fly.K2Node_VariableGet_1 [|GetDirection] Direction->AnimGraphNode_BlendSpacePlayer_0
+bs at /Game/Characters/Bolita/Meshes/BS_Bolita_Flight
+axis 0 None
+axis 1 None
+blend params [{}, {}, {}]
+users of ABP_Unarmed3: ['/Game/ThirdPerson/Blueprints/CBP_Familiar_Bolita']
+
+[ok in 0.5 s]

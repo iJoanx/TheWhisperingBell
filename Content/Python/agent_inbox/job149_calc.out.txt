@@ -1,0 +1,9 @@
+(fn CalcFlySpeed ()
+  (bind _output_get (Variables|Default|SetFlySpeed (Math|Vector|VectorLength (Math|Vector|MakeVector (Math|Vector|DotProduct (Variables|Default|GetVelocity) (Transformation|GetActorForwardVector (Variables|Default|GetCharacter))) (Math|Vector|DotProduct (Variables|Default|GetVelocity) (Transformation|GetActorRightVector (Variables|Default|GetCharacter)))))))
+  (if (Variables|Default|GetIsFlying)
+    (Variables|Default|SetGroundSpeed _output_get)))
+
+sequence K2Node_ExecutionSequence_0 [('then_0', ['|RerouteNode']), ('then_1', ['|RerouteNode']), ('then_2', ['|RerouteNode']), ('then_3', ['|RerouteNode']), ('then_4', ['|CalcFlySpeed'])]
+compile OK
+
+[ok in 7.6 s]

@@ -1,0 +1,7 @@
+Rag3 parent=A_WS_CleanBar_M_01 now at <Struct 'Vector' (0x00000118AE76D320) {x: 1251.609183, y: -1271.740916, z: 162.455568}>
+BPI_Interactable: Interface: Failed to find property 'replicate_movement' for attribute 'replicate_movement' on 'BPI_I
+BPI_SolarTime: Interface: Failed to find property 'replicate_movement' for attribute 'replicate_movement' on 'BPI_S
+Replicate Movement turned off on 30 blueprints: ['BP_WB_Keg', 'BP_WB_Bed', 'BP_WB_HopeCharm', 'BP_WB_Cellardoor', 'BP_WB_Gardendoor', 'BP_WB_Secretdoor', 'BP_WB_Window', 'BP_WB_Window_Veranda', 'BP_WB_Window_Veranda_D', 'BP_WB_Window_Veranda_DR', 'BP_WB_Maindoor', 'BP_WB_Window_GK', 'BP_WB_Candle', 'BP_WB_Insidedoor', 'BP_WB_Insidedoor_Less', 'BP_WB_OutsidedoorLess', 'BP_WB_Outsidedoor', 'BP_WB_Outsidedoor1', 'BP_WB_Shutter1', 'BP_WB_Trapdoor', 'BP_WB_Sconce', 'BP_WB_HearthHook', 'BP_WB_Hope_Shutter', 'BP_WB_InsideDouble', 'BP_WB_Sewer_Entry', 'BP_WB_Shutter_3', 'BP_WB_Shutter2', 'BP_WB_Sewer_Exit', 'BP_WB_Ratdoor', 'BP_WB_Gardendoor1']
+placed instances that still overrode it: 168 (fixed)
+
+[ok in 6.8 s]

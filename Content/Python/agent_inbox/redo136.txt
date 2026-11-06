@@ -1,0 +1,11 @@
+WB 641: pivots at 0,0 235, others 406; extra shift <Struct 'Vector' (0x00000117E78ABD00) {x: 2284.680216, y: -2284.680216, z: 0.000000}>
+re-baked 235, failed []
+moved 406
+bounds shifted by the extra offset: 640 of 641; off: [('Rag3', 4569.4, -4569.4)]
+pivots still at 0,0: 235 of 235
+  Rag2 loc <Struct 'Vector' (0x00000118AE79A720) {x: 1219.649098, y: -1330.004897, z: 157.000000}> mesh WB_P_Rag
+  Rag3 loc <Struct 'Vector' (0x00000118AE79A0E0) {x: 2025.452187, y: -2782.578128, z: 162.455568}> mesh WB_P_Rag
+  WB_P_Rag loc <Struct 'Vector' (0x000001182A2520E0) {x: 1337.454216, y: -2047.993004, z: 1100.883235}> mesh WB_P_Rag
+  WB_P_Rug loc <Struct 'Vector' (0x00000118AE79A0E0) {x: 0.000000, y: 0.000000, z: 0.000000}> mesh WB_P_Rug_Origin
+  WB_P_Rug2 loc <Struct 'Vector' (0x000001182A2520E0) {x: 1048.421578, y: -1659.557965, z: 0.000000}> mesh WB_P_Rug
+dirty content 236, maps 641

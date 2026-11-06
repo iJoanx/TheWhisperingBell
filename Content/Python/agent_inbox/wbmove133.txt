@@ -1,0 +1,17 @@
+WB 641: bake 235, move 406
+rug: WB_P_Rug now uses WB_P_Rug_Origin
+baked 25 (2s)
+baked 50 (4s)
+baked 75 (6s)
+baked 100 (8s)
+baked 125 (10s)
+baked 150 (12s)
+baked 175 (13s)
+baked 200 (15s)
+baked 225 (16s)
+baked 235, failed 0 []
+moved 406 actors
+bounds check: 640 of 641 shifted by exactly the offset; off: [('Rag3', -3021.7, 1547.7, -0.0)]
+zero-pivot actors still at 0,0: 235
+trace at WB_F3_Floor centre hits: WB_F4_Floor_01
+dirty maps 641, dirty content 236, 17s

@@ -1,0 +1,110 @@
+anim class: /Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed3.ABP_Unarmed3_C
+######## /Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed3.ABP_Unarmed3
+--- AnimGraph
+
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion
+
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_1.Idle
+
+   ANIMNODE AnimGraphNode_SequencePlayer_1 Animation|Sequences|SequencePlayer'AS_Idle' inputs=[]
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_2.Walk / Run
+
+   ANIMNODE AnimGraphNode_BlendSpacePlayer_1 Animation|BlendSpaces|BlendspacePlayer'BS_BolitaGround' inputs=[('X', ['K2Node_VariableGet_2'], None), ('Y', ['K2Node_VariableGet_1'], None)]
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_0.Transition
+
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_2.Transition
+
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States
+
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_0.Locomotion
+
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_1.Jump
+
+   ANIMNODE AnimGraphNode_SequencePlayer_0 Animation|Sequences|SequencePlayer'AS_Jump' inputs=[]
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_0.Transition
+
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_2.Fall Loop
+
+   ANIMNODE AnimGraphNode_SequencePlayer_1 Animation|Sequences|SequencePlayer'AS_Fall' inputs=[]
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_1.Transition
+
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_3.Transition
+
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_3.Land
+
+   ANIMNODE AnimGraphNode_SequencePlayer_4 Animation|Sequences|SequencePlayer'MM_Land' inputs=[]
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_5.Transition
+
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_6.Transition
+
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_7.Transition
+
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_4.Fly
+
+   ANIMNODE AnimGraphNode_BlendSpacePlayer_0 Animation|BlendSpaces|BlendspacePlayer'BS_Bolita_Flight' inputs=[('X', ['K2Node_VariableGet_1'], None), ('Y', ['K2Node_VariableGet_0'], None)]
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_2.Transition
+
+   ANIMNODE K2Node_VariableGet_0 |GetIsFlying inputs=[]
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_4.Transition
+
+   ANIMNODE K2Node_VariableGet_0 |GetIsFlying inputs=[]
+--- AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_8.Transition
+
+   ANIMNODE K2Node_VariableGet_0 |GetIsFlying inputs=[]
+--- EventGraph
+(event EventBlueprintInitializeAnimation
+  (bind _ascharacter (Utilities|Casting|CastToCharacter (Animation|GetOwningActor)))
+  (bind _output_get (Variables|Default|SetCharacter _ascharacter))
+  (Variables|Default|SetMovementComponent (Class|Character|GetCharacterMovement _output_get)))
+
+(event EventBlueprintUpdateAnimation (DeltaTimeX)
+  (ToolMenus|Get)
+  (bind _output_get (Variables|Default|SetVelocity (Variables|Default|GetVelocity (Variables|Default|GetMovementComponent))))
+  (Variables|Default|SetGroundSpeed (Math|Vector|VectorLengthXY _output_get))
+  (Variables|Default|SetDirection (Animation|CalculateDirection (Variables|Default|GetVelocity) (Transformation|GetActorRotation (Variables|Default|GetCharacter))))
+  (Variables|Default|SetShouldMove (and (> (Variables|Default|GetGroundSpeed) 0.010000) (Math|Vector|NotEqual(Vector) (Pawn|Components|CharacterMovement|GetCurrentAcceleration (Variables|Default|GetMovementComponent)) 0 0)))
+  (Variables|Default|SetIsFalling (AI|Components|NavMovement|IsFalling (Variables|Default|GetMovementComponent)))
+  (Variables|Default|SetIsFlying (AI|Components|NavMovement|IsFlying (Variables|Default|GetMovementComponent))))
+
+######## /Game/Characters/Bolita/Blueprints/ABP_Bolita.ABP_Bolita
+--- AnimGraph
+
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion
+
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_0.IDLE/WALK/RUN
+
+   ANIMNODE AnimGraphNode_BlendSpacePlayer_0 Animation|BlendSpaces|BlendspacePlayer'Bolita_Ground_BS' inputs=[('X', ['K2Node_VariableGet_0'], None)]
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_1.JUMP
+
+   ANIMNODE AnimGraphNode_SequencePlayer_0 Animation|Sequences|SequencePlayer'Bolita_JumpFly' inputs=[]
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_3.FLY
+
+   ANIMNODE AnimGraphNode_BlendSpacePlayer_0 Animation|BlendSpaces|BlendspacePlayer'Bolita_Fly_BS' inputs=[('X', ['K2Node_VariableGet_1'], None), ('Y', ['K2Node_VariableGet_0'], None)]
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_5.FALL
+
+   ANIMNODE AnimGraphNode_SequencePlayer_2 Animation|Sequences|SequencePlayer'Bolita_Fall' inputs=[]
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_12.Transition
+
+   ANIMNODE K2Node_VariableGet_0 |GetIsFlying inputs=[]
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_14.Transition
+
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_20.Transition
+
+   ANIMNODE K2Node_VariableGet_1 |GetIsFlying inputs=[]
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_21.Transition
+
+   ANIMNODE K2Node_VariableGet_0 |GetIsFlying inputs=[]
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_22.Transition
+
+--- AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_23.Transition
+
+--- EventGraph
+(event EventBlueprintUpdateAnimation (DeltaTimeX)
+  (bind _returnvalue (Animation|TryGetPawnOwner))
+  (bind _returnvalue_1 (Pawn|GetMovementComponent _returnvalue))
+  (bind _velocity (Transformation|GetVelocity _returnvalue_1))
+  (bind _output_get (Variables|Default|SetIsFalling (AI|Components|NavMovement|IsFalling _returnvalue_1)))
+  (Variables|Default|SetIsJumping (and _output_get (> (ToolMenus|Get _returnvalue_1) 100.000000)))
+  (Variables|Default|SetIsFlying (AI|Components|NavMovement|IsFlying _returnvalue_1))
+  (Variables|Default|SetForward (Math|Vector|DotProduct _velocity (Transformation|GetActorForwardVector _returnvalue)))
+  (Variables|Default|SetSide (Math|Vector|DotProduct _velocity (Transformation|GetActorRightVector _returnvalue))))

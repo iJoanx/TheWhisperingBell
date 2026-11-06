@@ -1,0 +1,10 @@
+before {'min': (-457.2, -853.44, 648.79), 'max': (1021.08, 914.4, 670.56), 'tris': 415, 'mats': 7, 'uvs': 1, 'lmuv': 1} collision shapes 13
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\230325_job130_baketest.py", line 23, in <module>
+    print("convex0 before:", ag.get_editor_property('convex_elems')[0].get_editor_property('elem_box') if ag.get_editor_property('convex_elems') else None)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Exception: KConvexElem: Failed to find property 'elem_box' for attribute 'elem_box' on 'KConvexElem'
+
+[failed after 0.8 s]

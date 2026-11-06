@@ -1,0 +1,6 @@
+E Pressed -> |SetbFlyUp [None]
+E Released -> |SetbFlyUp [None]
+Q Pressed -> |SetbFlyDown [None]
+Q Released -> |SetbFlyDown [None]
+
+[ok in 0.0 s]

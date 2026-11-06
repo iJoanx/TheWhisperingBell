@@ -1,0 +1,9 @@
+WB actors at 0,0 now: 235 [('StaticMeshActor', 235)]
+their Z values: [0.0]
+of those, meshes shared with other actors: 1 [('WB_P_Rug', 'WB_P_Rug', 2)]
+rotated/scaled: ['WB_F3_Floor_Veranda']
+sample: [('Whispering_Bell_Parts_WB_Parts_133', 'StaticMeshActor'), ('WB_F3_Roof_Detail_01', 'StaticMeshActor'), ('WB_F2_Rail_02', 'StaticMeshActor'), ('BackentrancePole_Fence_004', 'StaticMeshActor'), ('GardenWall_03', 'StaticMeshActor'), ('WB_F3_Floor', 'StaticMeshActor'), ('WB_F4_Floor_04', 'StaticMeshActor'), ('Whispering_Bell_Parts_WB_Parts_135', 'StaticMeshActor'), ('Whispering_Bell_Parts_WB_Parts_110', 'StaticMeshActor'), ('WB_F3_Roof_06', 'StaticMeshActor'), ('MainStreetStairs_WB_Parts_301', 'StaticMeshActor'), ('Whispering_Bell_Parts_WB_Parts_171', 'StaticMeshActor'), ('SquareGlass_WB_Parts_193', 'StaticMeshActor'), ('Whispering_Bell_Parts_WB_Parts_160', 'StaticMeshActor'), ('WB_F1_Wall_09', 'StaticMeshActor')]
+WB not at 0,0: 406 [('StaticMeshActor', 190), ('SkeletalMeshActor', 48), ('BP_WB_Window_C', 34), ('BP_WB_Sconce_C', 32), ('BP_WB_Shutter1_C', 29), ('BP_WB_Candle_C', 16), ('BP_WB_Insidedoor_C', 12), ('BP_WB_Outsidedoor_C', 6)]
+other (non-WB) actors at 0,0: 158 [(('EDL_Streets',), 105), (('EDL_TrollskullAlley',), 44), (('EDL_Mountain',), 6), ((), 2), (('EDL_Sea',), 1)]
+
+[ok in 0.1 s]

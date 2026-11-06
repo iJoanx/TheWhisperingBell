@@ -1,0 +1,14 @@
+CalcFlySpeed calls in EventGraph: [('K2Node_CallFunction_15', True)]
+no Variables|Default|GetFlySpeed Blueprint: Cannot cast type 'AnimStateNode' to 'Blueprint'
+no |GetFlySpeed Blueprint: Cannot cast type 'AnimStateNode' to 'Blueprint'
+no Variables|GetFlySpeed Blueprint: Cannot cast type 'AnimStateNode' to 'Blueprint'
+compile OK
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_4.Fly.AnimGraphNode_StateResult_0 [Misc.|OutputAnimationPose] Result->AnimGraphNode_BlendSpacePlayer_0
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_4.Fly.AnimGraphNode_BlendSpacePlayer_0 [Animation|BlendSpaces|BlendspacePlayer'BS_Bolita_Flight'] X->K2Node_VariableGet_1 ; Y->K2Node_VariableGet_0 ; Pose->AnimGraphNode_StateResult_0
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_4.Fly.K2Node_VariableGet_0 [|GetGroundSpeed] GroundSpeed->AnimGraphNode_BlendSpacePlayer_0
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_4.Fly.K2Node_VariableGet_1 [|GetDirection] Direction->AnimGraphNode_BlendSpacePlayer_0
+(fn CalcFlySpeed ()
+  (Variables|Default|SetFlySpeed (Math|Vector|VectorLength (Math|Vector|MakeVector (Math|Vector|DotProduct (Variables|Default|GetVelocity) (Transformation|GetActorForwardVector (Variables|Default|GetCharacter))) (Math|Vector|DotProduct (Variables|Default|GetVelocity) (Transformation|GetActorRightVector (Variables|Default|GetCharacter)))))))
+
+
+[ok in 2.3 s]

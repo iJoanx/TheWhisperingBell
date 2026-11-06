@@ -1,0 +1,5 @@
+Rag3 mesh WB_P_Rag used by ['Rag2', 'WB_P_Rag', 'Rag3'] rot <Struct 'Rotator' (0x00000118AEBEF080) {pitch: -3.116838, yaw: 116.155875, roll: 0.122576}> scale <Struct 'Vector' (0x00000118AEBEF580) {x: 1.027778, y: 1.027778, z: 1.027778}>
+Rag3 location now <Struct 'Vector' (0x00000118AEBEF080) {x: -1033.071033, y: 1012.939300, z: 162.455568}>
+component traces through the middle of baked meshes: 30 of 40 hit (misses can be open shapes like railings): ['Whispering_Bell_Parts_WB_Parts_133', 'WB_F2_Rail_02', 'WB_F4_Floor_04', 'Whispering_Bell_Parts_WB_Parts_135', 'Whispering_Bell_Parts_WB_Parts_110', 'SquareGlass_WB_Parts_193', 'Whispering_Bell_Parts_WB_Parts_160', 'Whispering_Bell_Parts_WB_Parts_118', 'Whispering_Bell_Parts_WB_Parts_139', 'Whispering_Bell_Parts_WB_Parts_152']
+
+[ok in 0.0 s]

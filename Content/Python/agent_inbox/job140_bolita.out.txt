@@ -1,0 +1,29 @@
+var nodes: ['Variables|Default|GetFlyUp', 'Variables|Default|SetFlyUp', 'Variables|Default|GetFlyDown', 'Variables|Default|SetFlyDown']
+(fn FlyVertical ()
+  (if (Movement|IsFlying (Variables|Character|GetCharacterMovement))
+    (Pawn|Input|AddMovementInput "0, 0, 1" (- (Math|Conversions|ToFloat(Boolean) (|GetbFlyUp)) (Math|Conversions|ToFloat(Boolean) (|GetbFlyDown))))))
+
+compile OK
+(event EventTick (DeltaSeconds)
+  (CallFunction|FlyVertical))
+
+(event Custom|MC_Fly
+  (bind _charactermovement (Variables|Character|GetCharacterMovement))
+  (if (AI|Components|NavMovement|IsFalling _charactermovement)
+    (Pawn|Components|CharacterMovement|SetMovementMode _charactermovement "MOVE_Fl
+(event E (Key))
+
+(event EnhancedInputActionIA_Fly (ActionValue ElapsedSeconds TriggeredSeconds InputAction))
+
+(event Q (Key))
+
+(event Custom|S_Fly
+  (|MC_Fly))
+
+(event Q (Key))
+
+(event Custom|S_Fly
+  (|MC_Fly))
+
+
+[ok in 9.3 s]

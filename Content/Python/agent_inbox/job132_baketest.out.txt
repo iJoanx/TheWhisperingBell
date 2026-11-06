@@ -1,0 +1,12 @@
+before {'min': (-457.2, -853.44, 648.79), 'max': (1021.08, 914.4, 670.56), 'tris': 415, 'mats': 7, 'uvs': 1, 'lmuv': 1} collision shapes 13
+build before: {'recompute_normals': False, 'recompute_tangents': True, 'use_mikk_t_space': True, 'generate_lightmap_u_vs': True, 'src_lightmap_index': 0, 'dst_lightmap_index': 1, 'remove_degenerates': True}
+collision sample before: [('convex count', 13), ('convex props', ['assign', 'cast', 'copy', 'export_text', 'get_editor_property', 'import_text', 'set_editor_properties', 'set_editor_property', 'static_struct', 'to_dict', 'to_tuple'])]
+copy from: <GeometryScriptOutcomePins.SUCCESS: 1>
+copy to: <GeometryScriptOutcomePins.SUCCESS: 1>
+set collision: None
+after  {'min': (-1968.04, -79.6, 648.79), 'max': (-489.76, 1688.24, 670.56), 'tris': 415, 'mats': 7, 'uvs': 1, 'lmuv': 1} collision shapes 13
+build after: {'recompute_normals': False, 'recompute_tangents': False, 'use_mikk_t_space': True, 'generate_lightmap_u_vs': True, 'src_lightmap_index': 0, 'dst_lightmap_index': 1, 'remove_degenerates': False}
+collision sample after: [('convex count', 13), ('convex props', ['assign', 'cast', 'copy', 'export_text', 'get_editor_property', 'import_text', 'set_editor_properties', 'set_editor_property', 'static_struct', 'to_dict', 'to_tuple'])]
+expected shift: <Struct 'Vector' (0x00000118AEBEDFA0) {x: -1510.837212, y: 773.843004, z: 0.000000}>
+
+[ok in 2.7 s]

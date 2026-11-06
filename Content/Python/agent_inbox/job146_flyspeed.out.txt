@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\232612_job146_flyspeed.py", line 29, in <module>
+    connect(pin(cur, 'then', 'out'), pin(cf, 'execute', 'in'))
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_lib\h.py", line 16, in pin
+    raise RuntimeError('no pin %s on %s: %s' % (name, ref, [p['name'] for p in (i['input_pins'] if d == 'in' else i['output_pins'])]))
+RuntimeError: no pin then on /Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed3.ABP_Unarmed3:EventGraph.K2Node_ExecutionSequence_0: ['then_0', 'then_1', 'then_2', 'then_3']
+
+[failed after 5.5 s]

@@ -1,0 +1,7 @@
+E Pressed |SetbFlyUp bFlyUp = true
+E Released |SetbFlyUp bFlyUp = false
+Q Pressed |SetbFlyDown bFlyDown = true
+Q Released |SetbFlyDown bFlyDown = false
+compile OK
+
+[ok in 0.2 s]

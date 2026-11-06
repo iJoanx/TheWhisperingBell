@@ -1,0 +1,6 @@
+baked meshes with other users: {}
+Rag3 -> <Struct 'Vector' (0x00000118EA3049C0) {x: -2543.908245, y: 1786.782304, z: 162.455568}>
+simple collision present where the visible mesh is: 29 of 30; missing: ['WB_F3_Wall_04']
+dirty content: 236
+
+[ok in 0.0 s]

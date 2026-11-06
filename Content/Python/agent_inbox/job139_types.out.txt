@@ -1,0 +1,26 @@
+KeyboardEvents|E ['Input|KeyboardEvents|Enter', 'Input|KeyboardEvents|Escape', 'Input|KeyboardEvents|End', 'Input|KeyboardEvents|E', 'Input|KeyboardEvents|Equals', 'Input|KeyboardEvents|Exclamation']
+KeyboardEvents|Q ['Input|KeyboardEvents|Q', 'Input|KeyboardEvents|Quote']
+IsFlying ['Class|ABPBolita|GetIsFlying', 'Class|ABPBolita|SetIsFlying', 'Movement|IsFlying', 'Movement|IsFlying(Message)', 'AI|Components|NavMovement|IsFlying', 'Class|ABPUnarmed3|GetIsFlying', 'Class|ABPUnarmed3|SetIsFlying']
+AddMovementInput ['Pawn|Input|AddMovementInput']
+ToFloat(Boolean) ['Math|Conversions|ToFloat(Boolean)']
+  EventGraph.K2Node_Event_0 [AddEvent|EventBeginPlay] OutputDelegate ; then->K2Node_CallParentFunction_0
+  EventGraph.K2Node_CallParentFunction_0 [|Parent:BeginPlay] execute->K2Node_Event_0 ; then
+  EventGraph.K2Node_Event_1 [AddEvent|Collision|EventActorBeginOverlap] OutputDelegate ; then ; OtherActor
+  EventGraph.K2Node_Event_2 [AddEvent|EventTick] OutputDelegate ; then ; DeltaSeconds
+  EventGraph.K2Node_EnhancedInputAction_0 [Input|EnhancedActionEvents|EnhancedInputActionIA_Fly] Triggered ; Started->K2Node_CallFunction_13 ; Ongoing ; Canceled ; Completed ; ActionValue ; ElapsedSeconds ; TriggeredSeconds ; InputAction
+  EventGraph.K2Node_CallFunction_2 [Pawn|Components|CharacterMovement|SetMovementMode] execute->K2Node_IfThenElse_0 ; self->K2Node_Knot_1 ; NewMovementMode ; NewCustomMode ; then->K2Node_VariableSet_1
+  EventGraph.K2Node_VariableGet_5 [|GetCharacterMovement] CharacterMovement->K2Node_CallFunction_4,K2Node_Knot_1
+  EventGraph.K2Node_IfThenElse_0 [Utilities|FlowControl|Branch] execute->K2Node_CustomEvent_0 ; Condition->K2Node_CallFunction_4 ; then->K2Node_CallFunction_2 ; else->K2Node_CallFunction_0
+  EventGraph.K2Node_CallFunction_0 [Pawn|Components|CharacterMovement|SetMovementMode] execute->K2Node_IfThenElse_0 ; self->K2Node_Knot_1 ; NewMovementMode ; NewCustomMode ; then->K2Node_VariableSet_0
+  EventGraph.K2Node_CallFunction_4 [AI|Components|NavMovement|IsFalling] self->K2Node_VariableGet_5 ; ReturnValue->K2Node_IfThenElse_0
+  EventGraph.K2Node_VariableSet_1 [|SetbUseControllerRotationPitch] execute->K2Node_CallFunction_2 ; bUseControllerRotationPitch ; then ; Output_Get
+  EventGraph.K2Node_VariableSet_0 [|SetbUseControllerRotationPitch] execute->K2Node_CallFunction_0 ; bUseControllerRotationPitch ; then->K2Node_CallFunction_9 ; Output_Get
+  EventGraph.K2Node_CallFunction_9 [Transformation|SetActorRotation] execute->K2Node_VariableSet_0 ; self ; NewRotation_Roll ; NewRotation_Pitch ; NewRotation_Yaw->K2Node_CallFunction_10 ; bTeleportPhysics ; then ; ReturnValue
+  EventGraph.K2Node_CallFunction_10 [Pawn|GetControlRotation] self ; ReturnValue_Roll ; ReturnValue_Pitch ; ReturnValue_Yaw->K2Node_CallFunction_9
+  EventGraph.K2Node_CustomEvent_1 [AddEvent|Custom|S_Fly] OutputDelegate ; then->K2Node_CallFunction_8
+  EventGraph.K2Node_CustomEvent_0 [AddEvent|Custom|MC_Fly] OutputDelegate ; then->K2Node_IfThenElse_0
+  EventGraph.K2Node_CallFunction_13 [|S_Fly] execute->K2Node_EnhancedInputAction_0 ; self ; then
+  EventGraph.K2Node_CallFunction_8 [|MC_Fly] execute->K2Node_CustomEvent_1 ; self ; then
+  EventGraph.K2Node_Knot_1 [|RerouteNode] InputPin->K2Node_VariableGet_5 ; OutputPin->K2Node_CallFunction_0,K2Node_CallFunction_2
+
+[ok in 0.1 s]

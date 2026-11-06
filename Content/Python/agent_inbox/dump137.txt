@@ -1,0 +1,187 @@
+######## /Game/Characters/BP_Master/CBP_Familiar_Bolita.CBP_Familiar_Bolita
+
+cmc CharacterMovementComponent default_land_mode=<MovementMode.MOVE_WALKING: 1> max_fly=600.0
+--- UserConstructionScript
+(fn ConstructionScript ()
+  (|Parent:ConstructionScript))
+
+--- EventGraph
+(event EventBeginPlay
+  (|Parent:BeginPlay))
+
+(event Collision|EventActorBeginOverlap (OtherActor))
+
+(event EventTick (DeltaSeconds))
+
+(event EnhancedInputActionIA_Fly (ActionValue ElapsedSeconds TriggeredSeconds InputAction))
+
+(event Custom|ClientFly
+  (bind _charactermovement (Variables|Character|GetCharacterMovement))
+  (if (AI|Components|NavMovement|IsFalling _charactermovement)
+    (Pawn|Components|CharacterMovement|SetMovementMode (Variables|Character|GetCharacterMovement) "MOVE_Flying")
+    (|SetbUseControllerRotationPitch true)
+    (else
+      (Pawn|Components|CharacterMovement|SetMovementMode _charactermovement "MOVE_Falling")
+      (|SetbUseControllerRotationPitch false)
+      (Transformation|SetActorRotation 0.0 0.0 (Pawn|GetControlRotation)))))
+
+(event Custom|ServerFly
+  (CallFunction|ClientFly))
+
+######## /Game/ThirdPerson/Blueprints/CBP_Familiar_Bolita.CBP_Familiar_Bolita
+
+cmc TWBCharacterMovementComponent default_land_mode=<MovementMode.MOVE_WALKING: 1> max_fly=600.0
+--- UserConstructionScript
+(fn ConstructionScript ()
+  (|Parent:ConstructionScript))
+
+--- EventGraph
+(event EventBeginPlay
+  (|Parent:BeginPlay))
+
+(event Collision|EventActorBeginOverlap (OtherActor))
+
+(event EventTick (DeltaSeconds))
+
+(event Custom|MC_Fly
+  (bind _charactermovement (Variables|Character|GetCharacterMovement))
+  (if (AI|Components|NavMovement|IsFalling _charactermovement)
+    (Pawn|Components|CharacterMovement|SetMovementMode _charactermovement "MOVE_Flying")
+    (|SetbUseControllerRotationPitch true)
+    (else
+      (Pawn|Components|CharacterMovement|SetMovementMode _charactermovement "MOVE_Falling")
+      (|SetbUseControllerRotationPitch false)
+      (Transformation|SetActorRotation 0.0 0.0 (Pawn|GetControlRotation)))))
+
+(event EnhancedInputActionIA_Fly (ActionValue ElapsedSeconds TriggeredSeconds InputAction))
+
+(event Custom|S_Fly
+  (|MC_Fly))
+
+######## /Game/ThirdPerson/Blueprints/BP_Master_Familiar.BP_Master_Familiar
+
+cmc TWBCharacterMovementComponent default_land_mode=<MovementMode.MOVE_WALKING: 1> max_fly=600.0
+--- UserConstructionScript
+(fn ConstructionScript ())
+
+--- Move
+(fn Move (X Axis Y Axis)
+  (Pawn|Input|AddMovementInput (Math|Vector|GetRightVector (Pawn|GetControlRotation) 0.0 (Pawn|GetControlRotation)) X Axis)
+  (Pawn|Input|AddMovementInput (Math|Vector|GetForwardVector 0.0 0.0 (Pawn|GetControlRotation)) Y Axis))
+
+--- Aim
+(fn Aim (X Axis Y Axis)
+  (Pawn|Input|AddControllerYawInput X Axis)
+  (Pawn|Input|AddControllerPitchInput Y Axis))
+
+--- Start Running
+(fn StartRunning ()
+  (Variables|Movement|Running|SetRun true)
+  (bind _output_get (Variables|Movement|Running|SetRunSpeed (+ (Class|CharacterMovementComponent|GetMaxWalkSpeed (Variables|Character|GetCharacterMovement)) (Variables|Movement|Running|GetRunSpeedDelta))))
+  (Class|CharacterMovementComponent|SetMaxWalkSpeed _output_get (Variables|Character|GetCharacterMovement)))
+
+--- Stop Running
+(fn StopRunning ()
+  (Variables|Movement|Running|SetRun false)
+  (bind _output_get (Variables|Movement|Running|SetRunSpeed (- (Class|CharacterMovementComponent|GetMaxWalkSpeed (Variables|Character|GetCharacterMovement)) (Variables|Movement|Running|GetRunSpeedDelta))))
+  (Class|CharacterMovementComponent|SetMaxWalkSpeed _output_get (Variables|Character|GetCharacterMovement)))
+
+--- Interact
+(fn Interact ()
+  (bind (_outhit _returnvalue) (Collision|LineTraceByChannel (Actor|GetActorEyesViewPoint) (Math|Vector|vector+vector (Actor|GetActorEyesViewPoint) (Math|Vector|vector*vector (Math|Vector|GetForwardVector (Actor|GetActorEyesViewPoint)) 300.000000)) "TraceTypeQuery2"))
+  (if _returnvalue
+    _)
+  (return (Collision|BreakHitResult _outhit)))
+
+--- EventGraph
+(event EventBeginPlay
+  (if (Pawn|IsLocallyControlled self)
+    (|SetbShouldBeVisible false (Game|GetStreamingLevel "Sewers"))))
+
+(event EnhancedInputActionIA_SwitchCam (ActionValue ElapsedSeconds TriggeredSeconds InputAction)
+  (bind _firstpersoncamera (Variables|Camera|GetFirstPersonCamera))
+  (bind _mesh (Variables|Character|GetMesh))
+  (bind _followcamera (Variables|Camera|GetFollowCamera))
+  (bind _meshownersee (Variables|Default|GetMeshOwnerSee)))
+
+(event EnhancedInputActionIA_Look (ActionValue_X ActionValue_Y ElapsedSeconds TriggeredSeconds InputAction))
+
+(event Touch|EventSecondaryThumbstick (Axis_X Axis_Y)
+  (Class|BPMasterPC|Aim Axis_X Axis_Y))
+
+(event EnhancedInputActionIA_MouseLook (ActionValue_X ActionValue_Y ElapsedSeconds TriggeredSeconds InputAction))
+
+(event EnhancedInputActionIA_Jump (ActionValue ElapsedSeconds TriggeredSeconds InputAction))
+
+(event EnhancedInputActionIA_Move (ActionValue_X ActionValue_Y ElapsedSeconds TriggeredSeconds InputAction))
+
+(event CapsLock (Key))
+
+(event EnhancedInputActionIA_Run (ActionValue ElapsedSeconds TriggeredSeconds InputAction)
+  (bind _isrunning (Variables|Default|GetIsRunning))
+  (bind _twbcharactermovementcomponent (Variables|Movement|GetTWBCharacterMovementComponent)))
+
+(event Touch|EventTouchJumpStart
+  (Character|Jump))
+
+(event Touch|EventPrimaryThumbstick (Axis_X Axis_Y)
+  (Class|BPMasterPC|Move Axis_X Axis_Y))
+
+(event Touch|EventTouchJumpEnd
+  (Character|StopJumping))
+
+(event Custom|MC_Roll
+  (if (not (Variables|Movement|GetRoll))
+    (Variables|Movement|SetRoll true)
+    (Animation|Montage|PlayMontage (Variables|Character|GetMesh) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")
+    (Animation|Montage|PlayMontage (Variables|Default|GetMeshOwnerSee) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")
+    (Utilities|FlowControl|Delay 0.100000)
+    (Variables|Movement|SetRoll false)))
+
+(event EnhancedInputActionIA_Roll (ActionValue ElapsedSeconds TriggeredSeconds InputAction))
+
+(event EnhancedInputActionIA_Crouch (ActionValue ElapsedSeconds TriggeredSeconds InputAction))
+
+(event Custom|S_Roll
+  (|MC_Roll))
+
+(event EnhancedInputActionIA_ToggleRes (ActionValue ElapsedSeconds TriggeredSeconds InputAction)
+  (bind _output (Utilities|Array|Get(acopy) (Actor|GetAllActorsOfClassWithTag "/Script/Engine.PostProcessVolume" "Pixel")))
+  (bind _settings (Settings|GetSettings _output))
+  (bind _weightedblendables (Utilities|Struct|BreakPostProcessSettings _settings))
+  (bind _array (Utilities|Struct|BreakWeightedBlendables _weightedblendables)))
+
+(event EnhancedInputActionIA_Interact (ActionValue ElapsedSeconds TriggeredSeconds InputAction))
+
+(event Custom|S_Interact
+  (|MC_Interact))
+
+(event Custom|MC_Interact
+  (bind _hitactor (Default|Interact))
+  (Class|BPWBWindowGK|OnInteract _hitactor self))
+
+(event EnhancedInputActionIA_Pause (ActionValue ElapsedSeconds TriggeredSeconds InputAction)
+  (bind _returnvalue (Game|GetPlayerController 0))
+  (bind _returnvalue_1 (Game|GetPlayerController 0))
+  (bind _pausereference (Variables|Menus|GetPauseReference)))
+
+(event T (Key)
+  (bind _returnvalue (Game|GetPlayerController 0))
+  (bind _timereference (Variables|Menus|GetTimeReference)))
+
+IMC /Game/Input/IMC_Default SpaceBar -> IA_Jump
+IMC /Game/Input/IMC_Default E -> IA_Interact
+IMC /Game/Input/IMC_Default C -> IA_SwitchCam
+IMC /Game/Input/IMC_Default LeftControl -> IA_Crouch
+IMC /Game/ThirdPerson/Input/IMC_Default SpaceBar -> IA_Jump
+IMC /Game/ThirdPerson/Input/IMC_Default E -> IA_Interact
+IMC /Game/ThirdPerson/Input/IMC_Default C -> IA_SwitchCam
+IMC /Game/ThirdPerson/Input/IMC_Default LeftControl -> IA_Crouch
+BP_WB_Window replicates=True replicate_movement=True root=None mobility=None
+   quantization: {}
+BP_WB_Shutter1 replicates=True replicate_movement=True root=None mobility=None
+   quantization: {}
+BP_WB_Insidedoor replicates=True replicate_movement=True root=None mobility=None
+   quantization: {}
+BP_WB_Sconce replicates=True replicate_movement=True root=None mobility=None
+   quantization: {}
