@@ -1,0 +1,22 @@
+info DirectionalLight_GEN_VARIABLE DirectionalLightComponent
+info Moon_GEN_VARIABLE DirectionalLightComponent
+info DirectionalLight_GEN_VARIABLE DirectionalLightComponent
+info Moon_GEN_VARIABLE DirectionalLightComponent
+info SkyLight_GEN_VARIABLE SkyLightComponent
+info SkyLight_GEN_VARIABLE SkyLightComponent
+CompassMesh_GEN_VARIABLE SM_Compass                     shadow/DF/GI (False, True, True) -> False
+CompassMesh_GEN_VARIABLE SM_Compass                     shadow/DF/GI (False, False, False) -> False
+SM_Skysphere_GEN_VARIABLE SM_SkySphere                   shadow/DF/GI (True, True, True) -> False
+Cone1_GEN_VARIABLE Cone                           shadow/DF/GI (True, True, True) -> False
+Cone_GEN_VARIABLE Cone                           shadow/DF/GI (True, True, True) -> False
+SM_Skysphere_GEN_VARIABLE SM_SkySphere                   shadow/DF/GI (False, False, False) -> False
+Cone_GEN_VARIABLE Cone                           shadow/DF/GI (False, False, False) -> False
+Cone1_GEN_VARIABLE Cone                           shadow/DF/GI (False, False, False) -> False
+info ExponentialHeightFog_GEN_VARIABLE ExponentialHeightFogComponent
+info ExponentialHeightFog_GEN_VARIABLE ExponentialHeightFogComponent
+instance CompassMesh False False False
+instance Cone1 False False False
+instance Cone False False False
+instance SM_Skysphere False False False
+
+[ok in 0.6 s]

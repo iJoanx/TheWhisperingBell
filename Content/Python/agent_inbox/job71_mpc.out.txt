@@ -1,0 +1,9 @@
+referencers: ['/Game/Level/Utility/BP_PlaneOperator']
+== /Game/Level/Utility/BP_PlaneOperator Blueprint
+  no exprs 'Blueprint' object has no attribute 'get_editor_only_data' Blueprint: Failed to find property 'expressions' for attribute 'expressions' on 'Blueprint'
+copy: C:\Users\Admin\Documents\Unreal Projects\NewProjectTemplate-old-main\Content\Level\Utility\PC_Adv_Data.uasset 1115 1793905148.1553593
+copy: C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Level\Utility\PC_Adv_Data.uasset 1115 1793905148.1553593
+bp copy: C:\Users\Admin\Documents\Unreal Projects\NewProjectTemplate-old-main\Content\Level\Utility\BP_PlaneOperator.uasset 70837 1793905148.152354
+bp copy: C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Level\Utility\BP_PlaneOperator.uasset 70837 1793905148.152354
+
+[ok in 5.5 s]

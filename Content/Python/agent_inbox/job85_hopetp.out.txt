@@ -1,0 +1,73 @@
+existing DoTeleport calls: 1
+(fn DoTeleport (Dest)
+  (Transformation|SetActorLocation Dest false true)
+  (if (AI|Components|NavMovement|IsFalling (Variables|Character|GetCharacterMovement))
+    (Character|LaunchCharacter (Math|Vector|MakeVector (.x (Transformation|GetVelocity)) (.y (Transformation|GetVelocity))) true true)))
+
+compile OK
+(event EnhancedInputActionIA_Aim (ActionValue ElapsedSeconds TriggeredSeconds InputAction)
+  (bind _capsulecomponent (Variables|Character|GetCapsuleComponent))
+  (bind _returnvalue (Components|Capsule|GetUnscaledCapsuleHalfHeight _capsulecomponent))
+  (bind _teleportdisplay (Variables|Teleport|GetTeleportDisplay))
+  (bind _returnvalue_1 (Math|Vector|vector+vector _teleportdisplay 0.0 0.0 _returnvalue))
+  (bind _cancast (Variables|Cast|GetCanCast)))
+
+(event Custom|S_TeleportCompleted (TrueDestination)
+  (if (not (Pawn|IsLocallyControlled))
+    (CallFunction|DoTeleport TrueDestination)))
+
+(event Custom|S_PlayMontage
+  (|MC_PlayMontage))
+
+(event Custom|MC_PlayMontage
+  (if (not (Pawn|IsLocallyControlled))
+    (Animation|Montage|PlayMontage (Variables|Character|GetMesh) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")
+    (Animation|Montage|PlayMontage (Variables|Default|Ge
+(event Custom|S_TeleportCompleted (TrueDestination)
+  (if (not (Pawn|IsLocallyControlled))
+    (CallFunction|DoTeleport TrueDestination)))
+
+(event Custom|S_PlayMontage
+  (|MC_PlayMontage))
+
+(event Custom|MC_PlayMontage
+  (if (not (Pawn|IsLocallyControlled))
+    (Animation|Montage|PlayMontage (Variables|Character|GetMesh) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")
+    (Animation|Montage|PlayMontage (Variables|Default|GetMeshOwnerSee) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")))
+
+(event 1 (Key))
+
+(event Custom|S_Swap
+  (bind _returnvalue (Game|SpawnActorCBPPCGolKosh "/Game/ThirdPerson/Blueprints/CBP_PC_GolKosh.CBP_PC_GolKosh_C" (Transformation|GetActorTransform) "AlwaysSpawn" "MultiplyWithRoot" 0 0))
+  (Pawn|Possess (Pawn|GetController) _returnvalue)
+  (Actor|DestroyActor))
+
+(event Custom|C_PlayMontage
+  (Animation|Montage|PlayMontage (Variables|Character|GetMesh) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")
+  (Animation|Montage|PlayMontage (Variables|Default|GetMeshOwnerSee) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")
+  (|S_PlayMontage))
+
+(event EnhancedInputActionIA_Aim (ActionValue ElapsedSeconds TriggeredSeconds InputAction)
+  (bind _capsulecomponent (Variables|Character|GetCapsuleComponent))
+  (bind _returnvalue (Components|Capsule|GetUnscaledCapsuleHalfHeight _capsulecomponent))
+  (bind _teleportdisplay (Variables|Teleport|GetTeleportDisplay))
+  (bind _returnvalue_1 (Math|Vector|vector+vector _teleportdisplay 0.0 0.0 _returnvalue))
+  (bind _cancast (Variables|Cast|GetCanCast)))
+
+(event Custom|S_TeleportCompleted (TrueDestination)
+  (if (not (Pawn|IsLocallyControlled))
+    (CallFunction|DoTeleport TrueDestina
+(event Custom|MC_PlayMontage
+  (if (not (Pawn|IsLocallyControlled))
+    (Animation|Montage|PlayMontage (Variables|Character|GetMesh) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")
+    (Animation|Montage|PlayMontage (Variables|Default|GetMeshOwnerSee) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")))
+
+(event 1 (Key))
+
+(event Custom|S_Swap
+  (bind _returnvalue (Game|SpawnActorCBPPCGolKosh "/Game/ThirdPerson/Blueprints/CBP_PC_GolKosh.CBP_PC_GolKosh_C" (Transformation|GetActorTransform) "AlwaysSpawn" "MultiplyWithRoot" 0 0))
+  (Pawn|Possess (Pawn|GetController) _returnvalue)
+  (Actor|DestroyActor))
+
+
+[ok in 7.2 s]

@@ -1,0 +1,40 @@
+CR node /Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed2.ABP_Unarmed2:AnimGraph.AnimGraphNode_ControlRig_0
+   control_rig_class ?
+   b_reset_input_pose_to_initial ?
+   b_transfer_input_pose ?
+   b_transfer_input_curves ?
+   alpha = 1.0
+   lod_threshold = -1
+   b_set_ref_pose_from_skeleton ?
+   input_mapping ?
+   output_mapping ?
+   pin Source = None conn=['AnimGraphNode_Slot_0']
+   pin Alpha = None conn=[]
+   pin ShouldDoIKTrace = None conn=['K2Node_CallFunction_0']
+   pin IKAlpha = None conn=['K2Node_VariableGet_2']
+== ABP_Unarmed2 EventGraph DSL
+(event EventBlueprintInitializeAnimation
+  (bind _returnvalue (Animation|GetOwningActor))
+  (bind _ascharacter (Utilities|Casting|CastToCharacter _returnvalue))
+  (bind _output_get (Variables|Default|SetCharacter _ascharacter))
+  (bind _astwbcharacter (Utilities|Casting|CastToTWBCharacter _returnvalue))
+  (bind _output_get_1 (Variables|Default|SetAsTWBCharacter _astwbcharacter))
+  (Variables|Default|SetMovementComponent (Class|Character|GetCharacterMovement _output_get))
+  (Variables|Default|SetTWBCharacterMovementComponent (Variables|Default|GetTWBCharacterMovementComponent _output_get_1)))
+
+(event EventBlueprintUpdateAnimation (DeltaTimeX)
+  (bind _character (Variables|Default|GetCharacter))
+  (ToolMenus|Get)
+  (bind _output_get (Variables|Default|SetVelocity (Variables|Default|GetVelocity (Variables|Default|GetMovementComponent))))
+  (Variables|Default|SetGroundSpeed (Math|Vector|VectorLengthXY _output_get))
+  (Variables|Default|SetDirection (Animation|CalculateDirection (Variables|Default|GetVelocity) (Transformation|GetActorRotation _character)))
+  (Variables|Default|SetPitch (Math|Rotator|NormalizeAxis (Pawn|GetBaseAimRotation _character)))
+  (if (Variables|Default|GetIsClimbing)
+    (Variables|Default|SetIKAlpha 0.200000)
+    (else
+      (Variables|Default|SetIKAlpha 1.000000)))
+  (Variables|Default|SetShouldMove (and (> (Variables|Default|GetGroundSpeed) 0.010000) (Math|Vector|NotEqual(Vector) (Pawn|Components|CharacterMovement|GetCurrentAcceleration (Variables|Default|GetMovementComponent)) 0 0)))
+  (Variables|Default|SetIsFalling (AI|Components|NavMovement|IsFalling (Variables|Default|GetMovementComponent)))
+  (Variables|Default|SetIsCrouching (Movement|IsCrouching (Variables|Default|GetMovementComponent)))
+  (Variables|Default|SetIsClimbing (and (> (Math|Vector|VectorLengthXY (Variables|Default|GetVelocity)) 0) (and (Pawn|Components|CharacterMovement|IsWalking (Variables|Default|GetMovementComponent)) (> (Math|Trig|Acos(Degrees) (Math|Vector|DotProduct (Collision|BreakHitResult (Utilities|Struct|BreakFindFloorResult (Class|CharacterMovementComponent|GetCurrentFloor (Variables|Default|GetMovementComponent)))) "0.000000,0.000000,1.000000")) 40.000000))))
+  (Variables|Default|SetIsSliding (Class|TWBCharacterMovementComponent|IsCustomMovementMode (Variables|Default|GetTWBCharacterMovementComponent) "CMOVE_Slide")))

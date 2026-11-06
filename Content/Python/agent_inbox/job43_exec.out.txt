@@ -1,0 +1,30 @@
+class ToolsetRegistry execute_tool
+mod toolset_registry._registry_interface execute_tool
+mod editor_toolset.toolsets.programmatic execute_tool
+<class 'editor_toolset.toolsets.blueprint.BlueprintTools'> <class 'type'> (<class 'editor_toolset.toolsets.blueprint.BlueprintTools'>, <class 'ToolsetDefinition'>, <class 'Object'>, <class '_ObjectBase'>, <class '_WrapperBase'>, <class 'object'>)
+Reads a Blueprint graph and returns a DSL script.
+
+        The returned code uses the same syntax that write_graph_dsl accepts and can
+        be edited and passed back to write_graph_dsl to modify the graph.
+        Call get_graph_dsl_docs() for the full syntax reference.
+
+        Args:
+            graph: The graph to read.
+
+        Returns:
+            An S-expression DSL script representing the graph's logic.
+        
+Populates a Blueprint graph with nodes from a DSL script and compiles the Blueprint.
+
+        Call get_graph_dsl_docs() for the full syntax reference and examples.
+
+        Args:
+            graph: The graph to populate with nodes.
+            code: The S-expression DSL script to convert into Blueprint nodes.
+        
+Returns the full syntax reference for write_graph_dsl.
+
+        Call this before using write_graph_dsl for the first time.
+        
+
+[ok in 0.2 s]

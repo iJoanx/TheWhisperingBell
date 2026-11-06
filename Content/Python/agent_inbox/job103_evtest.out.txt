@@ -1,0 +1,8 @@
+T1 err Undefined variable "Hour". Available: []
+  in: (Development|PrintString (Utilities|String|ToString(Float) Hour))
+  in: (event Custom|T1)
+T2 types: ['Default|BindEventtoOnSetTimeSig', 'Default|AssignOnSetTimeSig', 'Default|CallOnSetTimeSig', 'Default|UnbindEventfromOnSetTimeSig', 'Default|UnbindallEventsfromOnSetTimeSig', 'Default|EventDispatcherOnSetTimeSig']
+T2 created /Game/__AgentTemp/BP_EvTest.BP_EvTest:EventGraph.K2Node_AssignDelegate_0
+T2 nodes: [('K2Node_Event_0', 'AddEvent|EventBeginPlay', ['OutputDelegate', 'then']), ('K2Node_Event_1', 'AddEvent|Collision|EventActorBeginOverlap', ['OutputDelegate', 'then', 'OtherActor']), ('K2Node_Event_2', 'AddEvent|EventTick', ['OutputDelegate', 'then', 'DeltaSeconds']), ('K2Node_CustomEvent_1', 'AddEvent|Custom|OnSetTimeSig_Event', ['OutputDelegate', 'then', 'Hour', 'Day', 'Year']), ('K2Node_AssignDelegate_0', 'Default|AssignOnSetTimeSig', ['then'])]
+
+[ok in 1.9 s]

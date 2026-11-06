@@ -1,0 +1,7 @@
+AS_TP_Dash root motion: False force root lock: True
+BP_Master_PC after compile: True True
+CBP_PC_Hope after compile: True True
+CBP_PC_GolKosh after compile: True True
+dirty content: ['/Game/ThirdPerson/Blueprints/CBP_PC_Hope', '/Game/ThirdPerson/Blueprints/BP_Master_PC', '/Game/ThirdPerson/Blueprints/CBP_PC_GolKosh', '/Game/Characters/Hope/Animations/Teleport/AS_TP_Dash', '/Game/NightSky/BP_DayNightCycle', '/Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed2', '/Game/ThirdPerson/Blueprints/CBP_Familiar_Bolita']
+
+[ok in 0.7 s]

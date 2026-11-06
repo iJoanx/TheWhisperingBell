@@ -1,0 +1,69 @@
+LAYER <none> 4 [('WorldDataLayers', 1), ('WorldPartitionMiniMap', 1), ('PlayerStart', 1), ('GroupActor', 1)]
+LAYER DL_TheWhisperingBell 641 [('StaticMeshActor', 425), ('SkeletalMeshActor', 48), ('BP_WB_Window_C', 34), ('BP_WB_Sconce_C', 32), ('BP_WB_Shutter1_C', 29), ('BP_WB_Candle_C', 16), ('BP_WB_Insidedoor_C', 12), ('BP_WB_Outsidedoor_C', 6), ('BP_WB_Keg_C', 4), ('BP_WB_Insidedoor_Less_C', 4)]
+LAYER DL_TrollskullAlley 60 [('StaticMeshActor', 55), ('DecalActor', 5)]
+LAYER DL_Mountain 6 [('StaticMeshActor', 6)]
+LAYER DL_Sky 3 [('PostProcessVolume', 1), ('BP_DayNightCycle_C', 1), ('StaticMeshActor', 1)]
+LAYER DL_Streets 112 [('StaticMeshActor', 106), ('BP_WB_Sewer_Entry_C', 5), ('RuntimeVirtualTextureVolume', 1)]
+LAYER DL_Walls 31 [('BP_WallSpline_C', 30), ('StaticMeshActor', 1)]
+LAYER DL_Sewers 600 [('BP_SewerNode_C', 434), ('StaticMeshActor', 166)]
+LAYER DL_WalkingStatues 8 [('StaticMeshActor', 8)]
+
+INST BP_WB_SW9 BP_WB_Sewer_Entry_C <Struct 'Vector' (0x0000025BAAE02D60) {x: -12243.986493, y: -27531.768856, z: 0.000000}> ['DL_Streets']
+    Level None
+    Destination 
+    COMP DefaultSceneRoot SceneComponent <Struct 'Vector' (0x0000025BAAE02C70) {x: -12243.986493, y: -27531.768856, z: 0.000000}> 
+    COMP BillboardComponent_1 BillboardComponent <Struct 'Vector' (0x0000025BAAE03300) {x: -12243.986493, y: -27531.768856, z: 0.000000}> 
+    COMP Decal DecalComponent <Struct 'Vector' (0x0000025BAAE03300) {x: -12243.986493, y: -27531.768856, z: 0.000000}> 
+    COMP Arrow ArrowComponent <Struct 'Vector' (0x0000025BAAE03300) {x: -12243.986493, y: -27531.768856, z: 0.000000}> 
+    COMP Billboard BillboardComponent <Struct 'Vector' (0x0000025BAAE039E0) {x: -12243.986493, y: -27531.768856, z: 0.000000}> 
+    COMP Box BoxComponent <Struct 'Vector' (0x0000025BAAE039E0) {x: -12243.986493, y: -27531.768856, z: 0.000000}> coll=Custom
+    COMP Capsule CapsuleComponent <Struct 'Vector' (0x0000025BAAE02FE0) {x: -12417.627464, y: -27561.148103, z: -1306.384022}> coll=NoCollision
+
+INST BP_WB_SW15 BP_WB_Sewer_Entry_C <Struct 'Vector' (0x0000025BAAE030D0) {x: 6175.557392, y: -8741.976996, z: -0.077147}> ['DL_Streets']
+    Level None
+    Destination 
+    COMP DefaultSceneRoot SceneComponent <Struct 'Vector' (0x0000025BAAE03260) {x: 6175.557392, y: -8741.976996, z: -0.077147}> 
+    COMP BillboardComponent_1 BillboardComponent <Struct 'Vector' (0x0000025BAAE03030) {x: 6175.557392, y: -8741.976996, z: -0.077147}> 
+    COMP Decal DecalComponent <Struct 'Vector' (0x0000025BAAE03030) {x: 6175.557392, y: -8741.976996, z: -0.077147}> 
+    COMP Arrow ArrowComponent <Struct 'Vector' (0x0000025BAAE03030) {x: 6175.557392, y: -8741.976996, z: -0.077147}> 
+    COMP Billboard BillboardComponent <Struct 'Vector' (0x0000025BAAE03F30) {x: 6175.557392, y: -8741.976996, z: -0.077147}> 
+    COMP Box BoxComponent <Struct 'Vector' (0x0000025BAAE03F30) {x: 6175.557392, y: -8741.976996, z: -0.077147}> coll=Custom
+    COMP Capsule CapsuleComponent <Struct 'Vector' (0x0000025BAAE03210) {x: 5818.097552, y: -8620.169182, z: -1311.823048}> coll=NoCollision
+
+INST BP_WB_SW13 BP_WB_Sewer_Entry_C <Struct 'Vector' (0x0000025BAAE03120) {x: -25901.744379, y: 1211.334062, z: -268.882158}> ['DL_Streets']
+    Level None
+    Destination 
+    COMP DefaultSceneRoot SceneComponent <Struct 'Vector' (0x0000025BAAE02C20) {x: -25901.744379, y: 1211.334062, z: -268.882158}> 
+    COMP BillboardComponent_1 BillboardComponent <Struct 'Vector' (0x0000025BAAE02E50) {x: -25901.744379, y: 1211.334062, z: -268.882158}> 
+    COMP Decal DecalComponent <Struct 'Vector' (0x0000025BAAE02E50) {x: -25901.744379, y: 1211.334062, z: -268.882158}> 
+    COMP Arrow ArrowComponent <Struct 'Vector' (0x0000025BAAE02E50) {x: -25901.744379, y: 1211.334062, z: -268.882158}> 
+    COMP Billboard BillboardComponent <Struct 'Vector' (0x0000025BAAE03DA0) {x: -25901.744379, y: 1211.334062, z: -268.882158}> 
+    COMP Box BoxComponent <Struct 'Vector' (0x0000025BAAE03DA0) {x: -25901.744379, y: 1211.334062, z: -268.882158}> coll=Custom
+    COMP Capsule CapsuleComponent <Struct 'Vector' (0x0000025BAAE031C0) {x: -25953.021414, y: 922.016598, z: -1585.773546}> coll=NoCollision
+
+INST BP_WB_SW16 BP_WB_Sewer_Entry_C <Struct 'Vector' (0x0000025BAAE03710) {x: -9819.018065, y: 16474.961148, z: -29.259289}> ['DL_Streets']
+    Level None
+    Destination 
+    COMP DefaultSceneRoot SceneComponent <Struct 'Vector' (0x0000025BAAE02D10) {x: -9819.018065, y: 16474.961148, z: -29.259289}> 
+    COMP BillboardComponent_1 BillboardComponent <Struct 'Vector' (0x0000025BAAE03580) {x: -9819.018065, y: 16474.961148, z: -29.259289}> 
+    COMP Decal DecalComponent <Struct 'Vector' (0x0000025BAAE03580) {x: -9819.018065, y: 16474.961148, z: -29.259289}> 
+    COMP Arrow ArrowComponent <Struct 'Vector' (0x0000025BAAE03580) {x: -9819.018065, y: 16474.961148, z: -29.259289}> 
+    COMP Billboard BillboardComponent <Struct 'Vector' (0x0000025BAAE03BC0) {x: -9819.018065, y: 16474.961148, z: -29.259289}> 
+    COMP Box BoxComponent <Struct 'Vector' (0x0000025BAAE03BC0) {x: -9819.018065, y: 16474.961148, z: -29.259289}> coll=Custom
+    COMP Capsule CapsuleComponent <Struct 'Vector' (0x0000025BAAE03800) {x: -10185.136847, y: 17740.162059, z: -1351.784177}> coll=NoCollision
+
+INST BP_WB_SW14 BP_WB_Sewer_Entry_C <Struct 'Vector' (0x0000025BAAE03E90) {x: 4655.858863, y: 4823.894275, z: 60.960012}> ['DL_Streets']
+    Level None
+    Destination SF14
+    COMP DefaultSceneRoot SceneComponent <Struct 'Vector' (0x0000025BAAE03A30) {x: 4655.858863, y: 4823.894275, z: 60.960012}> 
+    COMP BillboardComponent_1 BillboardComponent <Struct 'Vector' (0x0000025BAAE03A80) {x: 4655.858863, y: 4823.894275, z: 60.960012}> 
+    COMP Decal DecalComponent <Struct 'Vector' (0x0000025BAAE03A80) {x: 4655.858863, y: 4823.894275, z: 60.960012}> 
+    COMP Arrow ArrowComponent <Struct 'Vector' (0x0000025BAAE03A80) {x: 4655.858863, y: 4823.894275, z: 60.960012}> 
+    COMP Billboard BillboardComponent <Struct 'Vector' (0x0000025BAAE03EE0) {x: 4655.858863, y: 4823.894275, z: 60.960012}> 
+    COMP Box BoxComponent <Struct 'Vector' (0x0000025BAAE03EE0) {x: 4655.858863, y: 4823.894275, z: 60.960012}> coll=Custom
+    COMP Capsule CapsuleComponent <Struct 'Vector' (0x0000025BAAE03DF0) {x: 4645.565764, y: 4791.758602, z: -1307.626660}> coll=NoCollision
+bps scanned 44
+POSSESS /Game/ThirdPerson/Blueprints/CBP_PC_GolKosh.CBP_PC_GolKosh 2
+POSSESS /Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope 2
+
+[ok in 1.0 s]

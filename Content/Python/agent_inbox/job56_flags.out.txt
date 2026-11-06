@@ -1,0 +1,42 @@
+['get_properties', 'list_properties', 'reset_properties', 'search_subclasses', 'set_properties']
+== get_properties Returns the values of one or more properties on an object.
+
+        Args:
+            instance: The the object to query.
+            properties: The names of the properties to query.
+
+        Returns:
+            A JSON formatted string of the properties and their values.
+        
+== set_properties Sets the values of properties on an object.
+
+        Args:
+            instance: The object with the property.
+            values: A JSON formatted string of the properties to set and their values.
+                For instanced sub-object properties, pass a class path as the instance member.
+
+        Returns:
+            True if the property was set. False otherwise.
+        
+== list_properties Returns a list of properties that are on the specified object.
+
+        Args:
+            instance: The object to query.
+
+        Returns:
+            A list of properties on the object.
+        
+err Function "get_properties", input param "properties" is required by the function input schema Json, but is missing from the incoming function input params Json.
+Function schema Json -
+{"type":"object","properties":{"instance":{"type":"object","title":"/Script/CoreUObject.Object","description":"Represents a reference to a UObject or UClass.","properties":{"refPath":{"type":"string","description":"Th
+err Function "get_properties", input param "properties" is required by the function input schema Json, but is missing from the incoming function input params Json.
+Function schema Json -
+{"type":"object","properties":{"instance":{"type":"object","title":"/Script/CoreUObject.Object","description":"Represents a reference to a UObject or UClass.","properties":{"refPath":{"type":"string","description":"Th
+err Function "get_properties", input param "properties" is required by the function input schema Json, but is missing from the incoming function input params Json.
+Function schema Json -
+{"type":"object","properties":{"instance":{"type":"object","title":"/Script/CoreUObject.Object","description":"Represents a reference to a UObject or UClass.","properties":{"refPath":{"type":"string","description":"Th
+err Function "get_properties", input param "properties" is required by the function input schema Json, but is missing from the incoming function input params Json.
+Function schema Json -
+{"type":"object","properties":{"instance":{"type":"object","title":"/Script/CoreUObject.Object","description":"Represents a reference to a UObject or UClass.","properties":{"refPath":{"type":"string","description":"Th
+
+[ok in 0.0 s]

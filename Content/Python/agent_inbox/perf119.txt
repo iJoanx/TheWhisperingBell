@@ -1,0 +1,8 @@
+enums: []
+net mode err Object: Failed to find property 'play_net_mode' for attribute 'play_net_mode' on 'LevelEditorPlaySettings'
+clients err Object: Failed to find property 'play_number_of_clients' for attribute 'play_number_of_clients' on 'LevelEditorPlaySettings'
+throttle err DeveloperSettings: Failed to find property 'throttle_cpu_when_not_foreground' for attribute 'throttle_cpu_when_not_foreground' on 'EditorPerformanceSettings'
+PIE up /Game/Levels/UEDPIE_0_PersistentLevel_WP.PersistentLevel_WP
+warmup                                           frames=  64 avg= 42.21 ms ( 23.7 fps) p95=125.00 ms
+A running (CPU dump)                             frames= 358 avg= 16.67 ms ( 60.0 fps) p95= 17.82 ms
+finished: done; settings restored

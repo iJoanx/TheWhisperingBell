@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\211956_job81_hopetp.py", line 12, in <module>
+    call('write_graph_dsl', {'graph': {'refPath': g}, 'code': '''(fn DoTeleport (Dest)
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_lib\h.py", line 7, in call
+    if inspect.iscoroutine(r): r = asyncio.new_event_loop().run_until_complete(r)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\Python3\Win64\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Program Files/Epic Games/UE_5.8/Engine/Plugins/Experimental/ToolsetRegistry/Content/Python\toolset_registry\_registry_interface.py", line 195, in execute_tool
+    raise ToolsetToolInvocationError(error)
+toolset_registry._registry_interface.ToolsetToolInvocationError: RuntimeError: Could not connect pin Dest to self. The pins may be incompatible types.
+  in: (Transformation|SetActorLocation Dest false true)
+  in: (fn DoTeleport)
+
+[failed after 0.7 s]

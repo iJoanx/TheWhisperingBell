@@ -1,0 +1,13 @@
+compiled OK BP_WB_Sewer_Entry
+compiled OK BP_DayNightCycle
+compiled OK CBP_PC_GolKosh
+compiled OK CBP_PC_Hope
+compiled OK BP_Master_PC
+after sun SetWorldRotation -> ['|UpdateShadowCaster']
+BP_WB_SW14 drop=[4646, 4792, -1308] nearest=SL_023_Shaft (107 cm away, dz=-102) floor_below=-1409 on SL_023_Shaft
+BP_WB_SW9 drop=[-12418, -27561, -1306] nearest=SL_386_End (1159 cm away, dz=-103) floor_below=None on None
+BP_WB_SW15 drop=[5818, -8620, -1312] nearest=SL_400_Crossing (1359 cm away, dz=-98) floor_below=None on None
+BP_WB_SW13 drop=[-25953, 922, -1586] nearest=SL_076_Crossing (3970 cm away, dz=-173) floor_below=None on None
+BP_WB_SW16 drop=[-10185, 17740, -1352] nearest=SL_420_Shaft (3643 cm away, dz=-90) floor_below=None on None
+
+[ok in 1.2 s]

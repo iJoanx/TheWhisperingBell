@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\221620_job104_dnnet.py", line 19, in <module>
+    call('set_variable_replication', {'blueprint': {'refPath': DN}, 'variable_name': 'NetTime', 'replication': 'REP_NOTIFY'})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_lib\h.py", line 7, in call
+    if inspect.iscoroutine(r): r = asyncio.new_event_loop().run_until_complete(r)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\Python3\Win64\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Program Files/Epic Games/UE_5.8/Engine/Plugins/Experimental/ToolsetRegistry/Content/Python\toolset_registry\_registry_interface.py", line 195, in execute_tool
+    raise ToolsetToolInvocationError(error)
+toolset_registry._registry_interface.ToolsetToolInvocationError: Function "set_variable_replication", could not convert incoming function input params Json to a UStruct. Incoming function input params Json may be incorrect or contain unsupported types.
+Function input params Json -
+{"blueprint":{"refPath":"/Game/NightSky/BP_DayNightCycle.BP_DayNightCycle"},"variable_name":"NetTime","replication":"REP_NOTIFY"}
+
+[failed after 0.1 s]

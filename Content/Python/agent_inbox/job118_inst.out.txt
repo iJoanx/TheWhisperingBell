@@ -1,0 +1,7 @@
+instance CompassMesh NoCollision <CollisionEnabled.NO_COLLISION: 0> overlaps False parent Scene
+instance Cone1 NoCollision <CollisionEnabled.NO_COLLISION: 0> overlaps False parent Scene
+instance Cone NoCollision <CollisionEnabled.NO_COLLISION: 0> overlaps False parent Cone1
+instance SM_Skysphere NoCollision <CollisionEnabled.NO_COLLISION: 0> overlaps False parent Cone
+package dirty-marked for BP_DayNightCycle
+
+[ok in 0.0 s]

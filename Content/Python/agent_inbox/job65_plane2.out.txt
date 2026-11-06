@@ -1,0 +1,27 @@
+===  /Game/Level/Utility/BP_PlaneOperator.BP_PlaneOperator:UserConstructionScript
+  UserConstructionScript.K2Node_FunctionEntry_0 [|ConstructionScript] then->K2Node_CallMaterialParameterCollectionFunction_1
+  UserConstructionScript.K2Node_VariableGet_0 [|GetPlane] Plane->K2Node_CallFunction_0,K2Node_CallFunction_1
+  UserConstructionScript.K2Node_CallFunction_0 [Transformation|GetWorldLocation] self->K2Node_VariableGet_0 ; ReturnValue->K2Node_CallFunction_29
+  UserConstructionScript.K2Node_CallFunction_1 [Transformation|GetUpVector] self->K2Node_VariableGet_0 ; ReturnValue->K2Node_CallFunction_30
+  UserConstructionScript.K2Node_CallMaterialParameterCollectionFunction_1 [Rendering|Material|SetVectorParameterValue] execute->K2Node_FunctionEntry_0 ; Collection ; ParameterName ; ParameterValue->K2Node_CallFunction_29 ; then->K2Node_CallMaterialParameterCollectionFunction_0
+  UserConstructionScript.K2Node_CallFunction_29 [Math|Conversions|ToLinearColor(Vector)] InVec->K2Node_CallFunction_0 ; ReturnValue->K2Node_CallMaterialParameterCollectionFunction_1
+  UserConstructionScript.K2Node_CallMaterialParameterCollectionFunction_0 [Rendering|Material|SetVectorParameterValue] execute->K2Node_CallMaterialParameterCollectionFunction_1 ; Collection ; ParameterName ; ParameterValue->K2Node_Knot_0 ; then
+  UserConstructionScript.K2Node_CallFunction_30 [Math|Conversions|ToLinearColor(Vector)] InVec->K2Node_CallFunction_1 ; ReturnValue->K2Node_Knot_0
+  UserConstructionScript.K2Node_Knot_0 [|RerouteNode] InputPin->K2Node_CallFunction_30 ; OutputPin->K2Node_CallMaterialParameterCollectionFunction_0
+===  /Game/Level/Utility/BP_PlaneOperator.BP_PlaneOperator:EventGraph
+  EventGraph.K2Node_Event_0 [AddEvent|EventBeginPlay] OutputDelegate ; then->K2Node_CallMaterialParameterCollectionFunction_1
+  EventGraph.K2Node_Event_1 [AddEvent|Collision|EventActorBeginOverlap] OutputDelegate ; then ; OtherActor
+  EventGraph.K2Node_Event_2 [AddEvent|EventTick] OutputDelegate ; then->K2Node_CallMaterialParameterCollectionFunction_1 ; DeltaSeconds
+  EventGraph.K2Node_VariableGet_0 [|GetPlane] Plane->K2Node_CallFunction_0,K2Node_CallFunction_1
+  EventGraph.K2Node_CallFunction_0 [Transformation|GetWorldLocation] self->K2Node_VariableGet_0 ; ReturnValue->K2Node_CallFunction_29
+  EventGraph.K2Node_CallFunction_1 [Transformation|GetUpVector] self->K2Node_VariableGet_0 ; ReturnValue->K2Node_CallFunction_30
+  EventGraph.K2Node_CallMaterialParameterCollectionFunction_1 [Rendering|Material|SetVectorParameterValue] execute->K2Node_Event_0,K2Node_Event_2 ; Collection ; ParameterName ; ParameterValue->K2Node_CallFunction_29 ; then->K2Node_CallMaterialParameterCollectionFunction_0
+  EventGraph.K2Node_CallFunction_29 [Math|Conversions|ToLinearColor(Vector)] InVec->K2Node_CallFunction_0 ; ReturnValue->K2Node_CallMaterialParameterCollectionFunction_1
+  EventGraph.K2Node_CallMaterialParameterCollectionFunction_0 [Rendering|Material|SetVectorParameterValue] execute->K2Node_CallMaterialParameterCollectionFunction_1 ; Collection ; ParameterName ; ParameterValue->K2Node_Knot_0 ; then
+  EventGraph.K2Node_CallFunction_30 [Math|Conversions|ToLinearColor(Vector)] InVec->K2Node_CallFunction_1 ; ReturnValue->K2Node_Knot_0
+  EventGraph.K2Node_Knot_0 [|RerouteNode] InputPin->K2Node_CallFunction_30 ; OutputPin->K2Node_CallMaterialParameterCollectionFunction_0
+MPC vectors: []
+MPC scalars: []
+mpc file mtime 1793905148.1553593 1793905148.152354
+
+[ok in 0.0 s]

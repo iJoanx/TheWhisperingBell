@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\180112_job50_cbp.py", line 11, in <module>
+    out.append("######## %s parent=%s" % (bp, b.get_editor_property("parent_class").get_path_name()))
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Exception: Blueprint: Failed to find property 'parent_class' for attribute 'parent_class' on 'Blueprint'
+
+[failed after 0.0 s]

@@ -1,0 +1,607 @@
+=== DSL DOCS ===
+GRAMMAR OVERVIEW
+
+    (event EventName
+      stmt ...)
+    (event EventName (Param1 Param2 ...)
+      stmt ...)
+
+    (fn FunctionName (Param1 Param2 ...)
+      stmt ...)
+
+STATEMENTS
+
+    bind          (bind var expr)
+                  (bind (a b) (NodeType|Id args...))
+    exec          (NodeType|Id args...)
+    return        (return)  (return expr)  (return e1 e2)
+    if            (if cond
+                    stmt ...
+                    [(elif cond stmt ...) | (else stmt ...)])
+    elif          Must be the LAST form inside an (if) or (elif) body — it IS
+                  the else branch, not a statement after it.
+    for           (for i (range stop) stmt ...)
+                  (for i (range start stop) stmt ...)
+                  (for elem array-expr stmt ...)
+    while         (while cond stmt ...)
+    switch        (switch TypeId value (:Case stmt...) ...)
+                  Short aliases: int  string  name  (see SWITCH ALIASES below)
+    break         (break)
+
+MULTI-EXEC (latent/task nodes with named exec outputs)
+
+    (NodeType|Id args...
+      (:ExecOut1
+        stmt ...)
+      (:ExecOut2
+        stmt ...))
+
+    Named exec continuations are sub-lists whose head starts with ":".
+    They must appear after all data args and keyword args.
+    The call terminates the enclosing exec flow (like if/branch).
+    Pin names with spaces use the quoted form: (:"Pin Name" stmts...).
+
+    DATA OUTPUTS inside continuations — a multi-exec node's data output pins are
+    automatically available inside its continuation bodies as underscore-prefixed
+    variables derived from the pin name (spaces → underscores, lowercased):
+
+        "As Static Mesh Actor" → _as_static_mesh_actor
+        "Return Value"         → _return_value
+
+    Use get_node_type_pins() to discover the exact output pin names (and therefore
+    the variable name) for any multi-exec node.
+
+    EXPLICIT NAMING — to avoid relying on the auto-generated underscore name, wrap
+    the node call in (bind var ...).  The name you choose is then directly available
+    inside every continuation body.  It is not accessible outside the bind form.
+
+    Preferred form for casts:
+      (bind meshActor (Utilities|Casting|CastToStaticMeshActor :Object spawnedActor)
+        (:then
+          (bind comp (Class|StaticMeshActor|GetStaticMeshComponent :self meshActor))
+          (Components|StaticMesh|SetStaticMesh :self comp :NewMesh "/Engine/BasicShapes/Cube.Cube"))
+        (:CastFailed))
+
+    DISAMBIGUATION — two uses of the ":" prefix:
+      :PinName val       keyword DATA argument  (bare symbol followed by a value)
+      (:PinName stmts…)  exec CONTINUATION      (sub-list whose head starts with ":")
+
+    Example — Gameplay Ability Task:
+      (Ability|Tasks|WaitDelay 2.0
+        (:OnWait
+          (Development|PrintString "waiting"))
+        (:OnComplete
+          (Development|PrintString "done")))
+
+    Example — IsValid (pin names contain spaces):
+      (Utilities|IsValid obj
+        (:"Is Valid"
+          (Development|PrintString "ok"))
+        (:"Is Not Valid"
+          (Development|PrintString "nil")))
+
+EXPRESSIONS
+
+    literal       1  3.14  "hello"  true  false
+    variable      MyVar
+
+    Any unquoted word that is not a number or boolean is treated as a
+    variable reference.  Values that look like identifiers but are NOT
+    variables — class paths, enum names, asset references — MUST be
+    quoted or you will get an "Undefined variable" error:
+
+        class path   "/Script/Engine.StaticMeshActor"   ← needs quotes
+        enum value   "AlwaysSpawn"                       ← needs quotes
+        asset ref    "/Game/Meshes/SM_Cube.SM_Cube"      ← needs quotes
+    arithmetic    (+ a b)  (- a b)  (* a b)  (/ a b)  (% a b)
+    comparison    (== a b)  (!= a b)  (< a b)  (<= a b)  (> a b)  (>= a b)
+    boolean       (and a b)  (or a b)  (xor a b)  (not expr)  (neg expr)
+    ternary       (select cond a b)    ; if cond then a else b
+    vector        (.x v)  (.y v)  (.z v)
+    rotator       (.pitch r)  (.yaw r)  (.roll r)
+    transform     (.location t)  (.rotation t)  (.scale t)
+    node call     (NodeType|Id pos-args... :PinName val ...)
+
+NODE CALLS
+
+    Type IDs are used verbatim:
+        (Math|Float|sin(degrees) angle)
+        (Development|PrintString "hello")
+        (Development|PrintString :InString "hello" :Duration 5.0)
+
+    Variables (Blueprint member variables):
+        (Variables|Default|GetMyVar)
+        (Variables|Default|SetMyVar value)
+
+OPERATORS
+    arithmetic:   +  -  *  /  %
+    comparison:   ==  !=  <  <=  >  >=
+    boolean:      and  or  xor  not
+    unary minus:  (- expr)          negate a value; (neg expr) is a deprecated alias
+
+COMPONENT ACCESS maps to Break* nodes:
+    .x .y .z             → Math|Vector|BreakVector
+    .pitch .yaw .roll    → Math|Rotator|BreakRotator
+    .location .rotation .scale → Math|Transform|BreakTransform
+
+SWITCH ALIASES
+    Short names expand to the full Blueprint node type ID:
+        int    → Utilities|FlowControl|SwitchOnInt
+        string → Utilities|FlowControl|SwitchOnString
+        name   → Utilities|FlowControl|SwitchOnName
+
+    Example:
+        (switch int (Variables|Default|GetDamageType)
+          (:0 (Development|PrintString "fire"))
+          (:1 (Development|PrintString "ice"))
+          (:Default (Development|PrintString "other")))
+
+    For enum switches use the full type ID: Utilities|FlowControl|SwitchOn<EnumName>
+
+SELF REFERENCE
+    Inside any event or fn body, the variable `self` is automatically bound
+    to a Self Reference node (the owning Blueprint object).  Use it anywhere
+    a node expects an Object pin:
+
+        (Utilities|Time|SetTimerbyFunctionName
+          :Object self
+          :FunctionName "SpawnCube"
+          :Time 3.0
+          :bLooping true)
+
+    If the event already exposes a parameter named `self` (rare), no extra
+    Self Reference node is created and that parameter is used instead.
+
+COMMENTS
+    ; everything after a semicolon on a line is ignored
+
+IMPORTANT — REUSE VALUES WITH BIND, NEVER REPEAT CALLS
+
+    Every (NodeType|Id ...) call creates a new node in the graph and runs
+    it again.  Repeating the same call to use its output in two places
+    creates two nodes — doubling execution, and producing different values
+    for impure functions (random, physics queries, GetActorLocation, etc.).
+
+    WRONG — creates two GetActorLocation nodes, each executing separately:
+        (if (> (.z (Transformation|GetActorLocation)) 0)
+          (Development|PrintString (Math|Float|ToString
+            (.z (Transformation|GetActorLocation)))))
+
+    RIGHT — one node bound once, reused freely:
+        (bind loc (Transformation|GetActorLocation))
+        (if (> (.z loc) 0)
+          (Development|PrintString (Math|Float|ToString (.z loc))))
+
+    Rule: if a node's output is needed in more than one place, always bind it
+    first and reference the variable.  Inline calls are only safe when the
+    result is consumed exactly once.
+
+EXAMPLES
+
+    (event EventBeginPlay
+      (bind loc (Transformation|GetActorLocation))
+      (if (> (.z loc) 0)
+        (for _ (range 5)
+          (Development|PrintString "tick"))))
+
+    (event OnHit
+      (switch int (Variables|Default|GetDamageType)
+        (:0
+          (Development|PrintString "fire"))
+        (:1
+          (Development|PrintString "ice"))
+        (:Default
+          (Development|PrintString "other"))))
+
+    (fn Clamp (Value Min Max)
+      (if (< Value Min)
+        (return Min)
+        (elif (> Value Max)
+          (return Max)
+          (else
+            (return Value)))))
+
+    (fn DoubleIt (Value)
+      (return (* Value 2)))
+
+    (fn ClampedScale (Value Multiplier)
+      (return (* (select (< Value 0.0) 0.0
+                   (select (> Value 100.0) 100.0 Value))
+                 Multiplier)))
+
+    (fn OffsetTransform (T Offset)
+      (return (Math|Transform|MakeTransform
+                (+ (.location T) Offset)
+                (.rotation T)
+                (.scale T))))
+
+    ; Class paths and enum values must be quoted strings (unquoted words are
+    ; treated as variable references and will raise "Undefined variable").
+    (fn SpawnCubeAbove ()
+      (bind loc (Transformation|GetActorLocation))
+      (bind spawnLoc (+ loc (Math|Vector|MakeVector :X 0.0 :Y 0.0 :Z 200.0)))
+      (Game|SpawnActorfromClass
+        :Class "/Script/Engine.StaticMeshActor"
+        :SpawnTransform (Math|Transform|MakeTransform :Location spawnLoc)
+        :CollisionHandlingOverride "AlwaysSpawn"))
+
+Before writing a graph:
+ * Use find_node_types() to discover the relevant node type_ids.
+ * Use get_node_type_pins() to discover the exact pin names for a node type_id.
+
+
+######## /Game/Level/WhisperingBell/Blueprints/BP_WB_Sewer_Entry.BP_WB_Sewer_Entry
+graphs: <Array object at 0x0000025E40D295B0>
+vars: <Array object at 0x0000025E40D2A1F0>
+
+--- /Game/Level/WhisperingBell/Blueprints/BP_WB_Sewer_Entry.BP_WB_Sewer_Entry:UserConstructionScript
+(fn ConstructionScript ())
+
+
+--- /Game/Level/WhisperingBell/Blueprints/BP_WB_Sewer_Entry.BP_WB_Sewer_Entry:EventGraph
+(event EventBeginPlay)
+
+(event Collision|EventActorBeginOverlap (OtherActor))
+
+(event EventTick (DeltaSeconds))
+
+(event EventOnInteract (Player)
+  (Transformation|SetActorLocation Player (Transformation|GetWorldLocation (Variables|Default|GetCapsule)) false true))
+
+
+
+######## /Game/Level/WhisperingBell/Blueprints/BP_WB_Sewer_Exit.BP_WB_Sewer_Exit
+graphs: <Array object at 0x0000025E30F2D5B0>
+vars: <Array object at 0x0000025DF427E0B0>
+
+--- /Game/Level/WhisperingBell/Blueprints/BP_WB_Sewer_Exit.BP_WB_Sewer_Exit:UserConstructionScript
+(fn ConstructionScript ())
+
+
+--- /Game/Level/WhisperingBell/Blueprints/BP_WB_Sewer_Exit.BP_WB_Sewer_Exit:EventGraph
+(event EventBeginPlay)
+
+(event Collision|EventActorBeginOverlap (OtherActor))
+
+(event EventTick (DeltaSeconds))
+
+(event EventOnInteract (Player)
+  (Transformation|SetActorLocation Player (Transformation|GetWorldLocation (Variables|Default|GetCapsule)) false true)
+  (if (Pawn|IsLocallyControlled (Variables|Actor|GetInstigator Player))
+    (|SetbShouldBeVisible false (Game|GetStreamingLevel "Sewers"))
+    (|SetbShouldBeVisible true (Game|GetStreamingLevel "Sky"))))
+
+
+
+######## /Game/ThirdPerson/Blueprints/BP_Master_PC.BP_Master_PC
+graphs: <Array object at 0x0000025E3D8C0170>
+vars: <Array object at 0x0000025DF0871F30>
+
+--- /Game/ThirdPerson/Blueprints/BP_Master_PC.BP_Master_PC:UserConstructionScript
+(fn ConstructionScript ())
+
+
+--- /Game/ThirdPerson/Blueprints/BP_Master_PC.BP_Master_PC:Move
+(fn Move (X Axis Y Axis)
+  (Pawn|Input|AddMovementInput (Math|Vector|GetRightVector (Pawn|GetControlRotation) 0.0 (Pawn|GetControlRotation)) X Axis)
+  (if (AI|Components|NavMovement|IsFlying (Variables|Character|GetCharacterMovement))
+    (Pawn|Input|AddMovementInput (Transformation|GetForwardVector (Variables|Camera|GetFirstPersonCamera)) Y Axis)
+    (else
+      (Pawn|Input|AddMovementInput (Math|Vector|GetForwardVector 0.0 0.0 (Pawn|GetControlRotation)) Y Axis))))
+
+
+--- /Game/ThirdPerson/Blueprints/BP_Master_PC.BP_Master_PC:Aim
+(fn Aim (X Axis Y Axis)
+  (Pawn|Input|AddControllerYawInput X Axis)
+  (Pawn|Input|AddControllerPitchInput Y Axis))
+
+
+--- /Game/ThirdPerson/Blueprints/BP_Master_PC.BP_Master_PC:Start Running
+(fn StartRunning ()
+  (Variables|Movement|Running|SetIsRunning true))
+
+
+--- /Game/ThirdPerson/Blueprints/BP_Master_PC.BP_Master_PC:Stop Running
+(fn StopRunning ()
+  (Variables|Movement|Running|SetIsRunning false))
+
+
+--- /Game/ThirdPerson/Blueprints/BP_Master_PC.BP_Master_PC:Interact
+(fn Interact ()
+  (bind (_outhit _returnvalue) (Collision|LineTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) 300.000000)) "TraceTypeQuery2"))
+  (if _returnvalue
+    (return (Collision|BreakHitResult _outhit))))
+
+
+--- /Game/ThirdPerson/Blueprints/BP_Master_PC.BP_Master_PC:EventGraph
+(event EventBeginPlay)
+
+(event EnhancedInputActionIA_SwitchCam (ActionValue ElapsedSeconds TriggeredSeconds InputAction)
+  (bind _firstpersoncamera (Variables|Camera|GetFirstPersonCamera))
+  (bind _mesh (Variables|Character|GetMesh))
+  (bind _followcamera (Variables|Camera|GetFollowCamera))
+  (bind _meshownersee (Variables|Default|GetMeshOwnerSee)))
+
+(event EnhancedInputActionIA_Look (ActionValue_X ActionValue_Y ElapsedSeconds TriggeredSeconds InputAction))
+
+(event Touch|EventSecondaryThumbstick (Axis_X Axis_Y)
+  (CallFunction|Aim Axis_X Axis_Y))
+
+(event EnhancedInputActionIA_MouseLook (ActionValue_X ActionValue_Y ElapsedSeconds TriggeredSeconds InputAction))
+
+(event EnhancedInputActionIA_Jump (ActionValue ElapsedSeconds TriggeredSeconds InputAction))
+
+(event EnhancedInputActionIA_Move (ActionValue_X ActionValue_Y ElapsedSeconds TriggeredSeconds InputAction))
+
+(event CapsLock (Key))
+
+(event EnhancedInputActionIA_Run (ActionValue ElapsedSeconds TriggeredSeconds InputAction)
+  (bind _isrunning (Variables|Movement|Running|GetIsRunning))
+  (bind _twbcharactermovementcomponent (Variables|Movement|GetTWBCharacterMovementComponent)))
+
+(event Touch|EventTouchJumpStart
+  (Character|Jump))
+
+(event Touch|EventPrimaryThumbstick (Axis_X Axis_Y)
+  (CallFunction|Move Axis_X Axis_Y))
+
+(event Touch|EventTouchJumpEnd
+  (Character|StopJumping))
+
+(event Custom|MC_Roll
+  (if (not (Pawn|IsLocallyControlled))
+    (Animation|Montage|PlayMontage (Variables|Character|GetMesh) (Variables|Default|GetMontageToPlay) 0.800000)
+    (Animation|Montage|PlayMontage (Variables|Default|GetMeshOwnerSee) (Variables|Default|GetMontageToPlay) 0.800000)))
+
+(event EnhancedInputActionIA_Roll (ActionValue ElapsedSeconds TriggeredSeconds InputAction))
+
+(event EnhancedInputActionIA_Crouch (ActionValue ElapsedSeconds TriggeredSeconds InputAction))
+
+(event Custom|S_Roll
+  (|MC_Roll))
+
+(event EnhancedInputActionIA_ToggleRes (ActionValue ElapsedSeconds TriggeredSeconds InputAction)
+  (bind _output (Utilities|Array|Get(acopy) (Actor|GetAllActorsOfClassWithTag "/Script/Engine.PostProcessVolume" "Pixel")))
+  (bind _settings (Settings|GetSettings _output))
+  (bind _weightedblendables (Utilities|Struct|BreakPostProcessSettings _settings))
+  (bind _array (Utilities|Struct|BreakWeightedBlendables _weightedblendables)))
+
+(event EnhancedInputActionIA_Interact (ActionValue ElapsedSeconds TriggeredSeconds InputAction))
+
+(event Custom|MC_Interact (Hit Actor)
+  (Class|BPWBWindowGK|OnInteract Hit Actor self))
+
+(event Custom|S_Interact (Hit Actor)
+  (bind _output_get (Variables|Default|SetHitActor Hit Actor))
+  (|MC_Interact _output_get))
+
+(event EnhancedInputActionIA_Pause (ActionValue ElapsedSeconds TriggeredSeconds InputAction)
+  (bind _returnvalue (Game|GetPlayerController 0))
+  (bind _returnvalue_1 (Game|GetPlayerController 0))
+  (bind _pausereference (Variables|Menus|GetPauseReference)))
+
+(event T (Key)
+  (bind _returnvalue (Game|GetPlayerController 0))
+  (bind _timereference (Variables|Menus|GetTimeReference)))
+
+
+
+######## /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle
+graphs: <Array object at 0x0000025D7CC541B0>
+vars: <Array object at 0x0000025E40D2A570>
+
+--- /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:UserConstructionScript
+(fn ConstructionScript ()
+  (Components|Timeline|SetPlaybackPosition (Variables|BP_DayNightCycle|GetDayNightCycleTimeline) (Variables|Time|GetSolarTime)))
+
+
+--- /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:UpdateSun
+(fn UpdateSun ()
+  (bind _compassmesh (Variables|Default|GetCompassMesh))
+  (Utilities|IsValid (Variables|Default|GetDirectionalLight)
+    (:"Is Valid"
+      (bind _sunpositiondata (SunPosition|GetSunPosition (Variables|Location|GetLatitude) (Variables|Location|GetLongitude) (Variables|Location|GetTimeZone) (Class|SunSky|IsDST (Variables|Date|GetUseDaylightSavingTime) (Variables|Date|GetDSTStartMonth) (Variables|Date|GetDSTStartDay) (Variables|Date|GetDSTEndMonth) (Variables|Date|GetDSTEndDay) (Variables|Date|GetDSTSwitchHour)) (Variables|Date|GetYear) (Variables|Date|GetMonth) (Variables|Date|GetDay) (Math|Timespan|FromHours (Variables|Time|GetSolarTime)) (Math|Timespan|FromHours (Variables|Time|GetSolarTime)) (Math|Timespan|FromHours (Variables|Time|GetSolarTime))))
+      (Variables|Location|SetElevation (Utilities|Struct|BreakSunPositionData _sunpositiondata))
+      (Variables|Elevation|SetLocalElevationAlpha (|LocalElevationCalculation_2))
+      (bind _output_get (Variables|Location|SetCorrectedElevation (Utilities|Struct|BreakSunPositionData _sunpositiondata)))
+      (bind _output_get_1 (Variables|Location|SetAzimuth (Utilities|Struct|BreakSunPositionData _sunpositiondata)))
+      (Transformation|SetWorldRotation (Variables|Default|GetDirectionalLight) (Math|Rotator|MakeRotator 0.0 _output_get (+ _output_get_1 (Variables|Location|GetNorthOffset))))
+      (Utilities|IsValid _compassmesh
+        (:"Is Valid"
+          (Transformation|SetWorldRotation _compassmesh 0.0 0.0 (+ (Variables|Location|GetNorthOffset) 90.000000)))))))
+
+
+--- /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:UpdateSun.K2Node_Composite_1.LocalElevationCalculation_2
+
+
+--- /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:GetHMSFromSolarTime
+(fn GetHMSFromSolarTime (SolarTime)
+  (return (Math|Integer|%(Integer) (Math|Float|Truncate SolarTime) 24) (Math|Integer|%(Integer) (Math|Float|Truncate (Math|Float|int*float 60 (- SolarTime (Math|Conversions|ToFloat(Integer) (Math|Integer|%(Integer) (Math|Float|Truncate SolarTime) 24))))) 60) (Math|Integer|%(Integer) (Math|Float|Truncate (+ (Math|Float|int*float 3600 (- (- SolarTime (Math|Conversions|ToFloat(Integer) (Math|Integer|%(Integer) (Math|Float|Truncate SolarTime) 24))) (/ (Math|Conversions|ToFloat(Integer) (Math|Integer|%(Integer) (Math|Float|Truncate (Math|Float|int*float 60 (- SolarTime (Math|Conversions|ToFloat(Integer) (Math|Integer|%(Integer) (Math|Float|Truncate SolarTime) 24))))) 60)) 60.000000))) 0.500000)) 60)))
+
+
+--- /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:IsDST
+(fn IsDST (DSTEnable DSTStartMonth DSTStartDay DSTEndMonth DSTEndDay DSTSwitchHour)
+  (bind (_hour _minute _second) (Class|SunSky|GetHMSFromSolarTime (Variables|Time|GetSolarTime)))
+  (return (and DSTEnable (and (Math|DateTime|DateTime>=DateTime (Math|DateTime|MakeDateTime (Variables|Date|GetYear) (Variables|Date|GetMonth) (Variables|Date|GetDay) _hour _minute _second) (Math|DateTime|MakeDateTime (Variables|Date|GetYear) DSTStartMonth DSTStartDay DSTSwitchHour)) (Math|DateTime|DateTime<=DateTime (Math|DateTime|MakeDateTime (Variables|Date|GetYear) (Variables|Date|GetMonth) (Variables|Date|GetDay) _hour _minute _second) (Math|DateTime|MakeDateTime (Variables|Date|GetYear) DSTEndMonth DSTEndDay DSTSwitchHour))))))
+
+
+--- /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:UpdateDate
+(fn UpdateDate ()
+  (bind _month (Variables|Date|GetMonth))
+  (bind _returnvalue (+ _month 1))
+  (bind _day (Variables|Date|GetDay))
+  (bind _returnvalue_1 (+ _day 1))
+  (if (> _returnvalue_1 (Math|DateTime|DaysInMonth (Variables|Date|GetYear) (Variables|Date|GetMonth)))
+    (Variables|Date|SetDay 1)
+    (if (> _returnvalue 12)
+      (Variables|Date|SetMonth 1)
+      (Variables|Date|SetYear (+ (Variables|Date|GetYear) 1))
+      (CallFunction|UpdateDayOfYear)
+      (CallFunction|MoonIndex)
+      (else
+        (Variables|Date|SetMonth _returnvalue)
+        (CallFunction|UpdateDayOfYear)
+        (CallFunction|MoonIndex)))
+    (else
+      (Variables|Date|SetDay _returnvalue_1)
+      (CallFunction|UpdateDayOfYear)
+      (CallFunction|MoonIndex))))
+
+
+--- /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:UpdateDayNight
+(fn UpdateDayNight ()
+  (if (and (> (Variables|Location|GetElevation) 170.000000) (< (Variables|Location|GetElevation) 190.000000))
+    (Rendering|Components|SkyLight|SetLightColor (Variables|Default|GetSkyLight) (Math|Color|Lerp(LinearColor) (Variables|Elevation|GetNightColor) (Variables|Elevation|GetDayColor) (Variables|Elevation|GetLocalElevationAlpha)))
+    (elif (> (Variables|Location|GetElevation) 190.000000)
+      (Rendering|Components|SkyLight|SetLightColor (Variables|Default|GetSkyLight) (Variables|Elevation|GetDayColor))
+      (else
+        (Rendering|Components|SkyLight|SetLightColor (Variables|Default|GetSkyLight) (Variables|Elevation|GetNightColor))))))
+
+
+--- /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:UpdateDayOfYear
+(fn UpdateDayOfYear ()
+  (bind _daysinmonths (Variables|Date|GetDaysinMonths))
+  (Variables|Date|SetTotalDays 0)
+  (if (Math|DateTime|IsLeapYear (Variables|Date|GetYear))
+    (Utilities|Array|SetArrayElem _daysinmonths 1 29)
+    (else
+      (Utilities|Array|SetArrayElem _daysinmonths 1 28)))
+  (for _index (range (+ (- (Variables|Date|GetMonth) 2) 1))
+    (bind _output_get (Variables|Date|SetTotalDays (+ (Utilities|Array|Get(aref) (Variables|Date|GetDaysinMonths) _index) (Variables|Date|GetTotalDays)))))
+  (Variables|Date|SetDaysOfYear (+ (Variables|Date|SetTotalDays (+ (Utilities|Array|Get(aref) (Variables|Date|GetDaysinMonths) _index) (Variables|Date|GetTotalDays))) (Variables|Date|GetDay))))
+
+
+--- /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:SetDate
+(fn SetDate (DaysOfYear)
+  (bind _daysinmonths (Variables|Date|GetDaysinMonths))
+  (bind _output (Utilities|Array|Get(aref) _daysinmonths (Utilities|FlowControl|ForLoopwithBreak 0 11)))
+  (bind _remainingdays (Variables|Date|GetRemainingDays))
+  (bind _daysinmonths_1 (Variables|Date|GetDaysinMonths))
+  (Variables|Date|SetDaysOfYear DaysOfYear)
+  (Variables|Date|SetMonth 1)
+  (Variables|Date|SetRemainingDays (Variables|GetDaysOfYear))
+  (if (Math|DateTime|IsLeapYear (Variables|Date|GetYear))
+    (Utilities|Array|SetArrayElem _daysinmonths_1 1 29)
+    (else
+      (Utilities|Array|SetArrayElem _daysinmonths_1 1 28)))
+  (bind _index (Utilities|FlowControl|ForLoopwithBreak 0 11)
+    (:LoopBody
+      (if (> _remainingdays _output)
+        _
+        (else
+          _))
+      (Variables|Date|SetRemainingDays (- _remainingdays _output))
+      (Variables|Date|SetMonth (+ (Variables|Date|GetMonth) 1)))
+    (:Completed
+      (Variables|Date|SetDay (Variables|Date|GetRemainingDays)))))
+
+
+--- /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:MoonIndex
+(fn MoonIndex ()
+  (bind _mooncycledays (Variables|Date|GetMoonCycleDays))
+  (bind _output (Utilities|Array|Get(aref) _mooncycledays (Utilities|FlowControl|ForLoopwithBreak 0 11)))
+  (bind _moonday (Variables|Date|GetMoonDay))
+  (bind _mooncycledays_1 (Variables|Date|GetMoonCycleDays))
+  (bind _adjustedmoonday (Variables|Date|GetAdjustedMoonDay))
+  (bind _adjustedmoonday_1 (Variables|Date|GetAdjustedMoonDay))
+  (bind _adjustedmoonday_2 (Variables|Date|GetAdjustedMoonDay))
+  (Variables|Date|SetMoonDay (Variables|Date|GetDaysOfYear))
+  (Variables|Date|SetMoonMonth 1)
+  (if (Math|DateTime|IsLeapYear (Variables|Date|GetYear))
+    (Utilities|Array|SetArrayElem _mooncycledays_1 7 32)
+    (else
+      (Utilities|Array|SetArrayElem _mooncycledays_1 7 31)))
+  (bind _index (Utilities|FlowControl|ForLoopwithBreak 0 11)
+    (:LoopBody
+      (if (> _moonday _output)
+        _
+        (else
+          _))
+      (Variables|Date|SetMoonDay (- _moonday _output))
+      (Variables|Date|SetMoonMonth (+ (Variables|Date|GetMoonMonth) 1)))
+    (:Completed
+      (if (== (Utilities|Array|Get(aref) (Variables|Date|GetMoonCycleDays) (- (Variables|Date|GetMoonMonth) 1)) 31)
+        (if (> (Variables|Date|GetMoonDay) 1)
+          (bind _output_get (Variables|Date|SetAdjustedMoonDay (- (Variables|Date|GetMoonDay) 1)))
+          (if (<= _output_get 15)
+            (Variables|Date|SetHalfIndex _adjustedmoonday)
+            (Variables|Date|SetHalfFlag 0)
+            (else
+              (Variables|Date|SetHalfIndex (- _adjustedmoonday 15))
+              (Variables|Date|SetHalfFlag 1)))
+          (else
+            (Variables|Date|SetHalfIndex 1)
+            (Variables|Date|SetHalfFlag 0)))
+        (elif (== (Utilities|Array|Get(aref) (Variables|Date|GetMoonCycleDays) (- (Variables|Date|GetMoonMonth) 1)) 32)
+          (if (> (Variables|Date|GetMoonDay) 2)
+            (bind _output_get (Variables|Date|SetAdjustedMoonDay (- (Variables|Date|GetMoonDay) 1)))
+            (if (<= _output_get 15)
+              (Variables|Date|SetHalfIndex _adjustedmoonday_2)
+              (Variables|Date|SetHalfFlag 0)
+              (else
+                (Variables|Date|SetHalfIndex (- _adjustedmoonday_2 15))
+                (Variables|Date|SetHalfFlag 1)))
+            (else
+              (Variables|Date|SetHalfIndex 1)
+              (Variables|Date|SetHalfFlag 0)))
+          (else
+            (bind _output_get (Variables|Date|SetAdjustedMoonDay (Variables|Date|GetMoonDay)))
+            (if (<= _output_get 15)
+              (Variables|Date|SetHalfIndex _adjustedmoonday_1)
+              (Variables|Date|SetHalfFlag 0)
+              (else
+                (Variables|Date|SetHalfIndex (- _adjustedmoonday_1 15))
+                (Variables|Date|SetHalfFlag 1)))))))))
+
+
+--- /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:EventGraph
+(event EventOnActivate)
+
+(event EventBeginPlay
+  (Input|EnableInput (Game|GetPlayerController 0))
+  (Components|Timeline|SetPlayRate (Variables|BP_DayNightCycle|GetDayNightCycleTimeline) (* (/ 1.000000 (* (Variables|Time|GetTotalDayTime) 60.000000)) 24.000000))
+  (CallFunction|UpdateDayOfYear)
+  (CallFunction|MoonIndex)
+  (bind (_time _starstime) (|DayNightCycleTimeline (Variables|Time|GetSolarTime))
+    (:Update
+      (Variables|Time|SetSolarTime _time)
+      (switch Utilities|FlowControl|Switch|SwitchonEComponentMobility (Class|SceneComponent|GetMobility (Variables|Default|GetDirectionalLight))
+        (:Movable
+          (Class|SunSky|UpdateSun)
+          (Transformation|SetRelativeLocationAndRotation (Variables|Default|GetCone) "0, 0, 0" 0.0 0.0 _starstime)
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "HalfIndex" (Math|Conversions|ToFloat(Integer) (Variables|Date|GetHalfIndex)))
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "HalfFlag" (Math|Conversions|ToFloat(Integer) (Variables|Date|GetHalfFlag)))
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "Time" (Variables|Time|GetSolarTime))
+          (CallFunction|UpdateDayNight)
+          (Variables|Elevation|SetElevationAlpha (|ElevationCalculation))
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "Elevation" (Variables|Elevation|GetElevationAlpha)))))
+    (:DayEnded
+      (CallFunction|UpdateDate))))
+
+(event EventGetTime (Hour Day Year)
+  (Variables|Date|SetYear Year)
+  (CallFunction|SetDate Day)
+  (CallFunction|MoonIndex)
+  (Variables|Time|SetSolarTime Hour)
+  (bind (_time _starstime) (|DayNightCycleTimeline (Variables|Time|GetSolarTime))
+    (:Update
+      (Variables|Time|SetSolarTime _time)
+      (switch Utilities|FlowControl|Switch|SwitchonEComponentMobility (Class|SceneComponent|GetMobility (Variables|Default|GetDirectionalLight))
+        (:Movable
+          (Class|SunSky|UpdateSun)
+          (Transformation|SetRelativeLocationAndRotation (Variables|Default|GetCone) "0, 0, 0" 0.0 0.0 _starstime)
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "HalfIndex" (Math|Conversions|ToFloat(Integer) (Variables|Date|GetHalfIndex)))
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "HalfFlag" (Math|Conversions|ToFloat(Integer) (Variables|Date|GetHalfFlag)))
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "Time" (Variables|Time|GetSolarTime))
+          (CallFunction|UpdateDayNight)
+          (Variables|Elevation|SetElevationAlpha (|ElevationCalculation))
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "Elevation" (Variables|Elevation|GetElevationAlpha)))))
+    (:DayEnded
+      (CallFunction|UpdateDate))))
+
+
+--- /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:EventGraph.K2Node_Composite_0.ElevationCalculation
+
+
+--- /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:Date
+(fn Date (Day Hour Year))

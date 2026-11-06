@@ -1,0 +1,9 @@
+asset /Game/Level/Utility/BP_PlaneOperator.BP_PlaneOperator
+compile err Blueprint <Object '/Game/Level/Utility/BP_PlaneOperator.BP_PlaneOperator' (0x0000025E0FA37200) Class 'Blueprint'> failed to compile. Compile Errors: ['SetVectorParameterValue  is invalid,  Parameter Name  needs to be set to a parameter.\nSetVectorParameterValue  is invalid,  Parameter Name  needs to be set to a parameter.', 'SetVectorParameterValue  is invalid,  Parameter Name  needs to be set to a parameter.\nSetVectorParameterValue  is invalid,  Parameter Name  needs to be set to a parameter.', 'SetVectorParameterValue  is invalid,  Parameter Name  needs to be set to a parameter.\nSetVectorParameterValue  is invalid,  Parameter Name  needs to be set to a parameter.', 'SetVectorParameterValue  is invalid,  Parameter Name  needs to be set to a parameter.\nSetVectorParameterValue  is invalid,  Parameter Name  needs to be set to a parameter.']
+deps: ['/Engine/BasicShapes/Plane', '/Engine/BasicShapes/BasicShapeMaterial', '/Game/Level/Utility/PC_Adv_Data']
+graph /Game/Level/Utility/BP_PlaneOperator.BP_PlaneOperator:UserConstructionScript
+graph /Game/Level/Utility/BP_PlaneOperator.BP_PlaneOperator:EventGraph
+log lines: 0
+
+
+[ok in 2.1 s]

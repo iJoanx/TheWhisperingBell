@@ -1,0 +1,19 @@
+add_node_pin: Adds a pin to a node that supports dynamic pin addition.
+
+        Works for Switch nodes (adds one case pin), Sequence nodes (adds one Then output),
+        commutative binary operators like Add/Multiply (adds one input), Make Array nodes, etc.
+
+        Args:
+            node: The node to add a pin to. Must support dynamic pin addition.
+
+        Returns:
+            The PinID of the newly added pin.
+        
+GetTime ['AddEvent|EventGetTime', 'Math|DateTime|GetTimeOfDay', 'Utilities|TimeManagement|GetTimecodeFrameRate', 'Utilities|TimeManagement|GetTimecode', 'Math|Curves|GetTimeRange', 'Utilities|Time|GetTimerRemainingTimebyHandle', 'Utilities|Time|GetTimerRemainingTimebyFunctionName', 'Utilities|Time|GetTimerElapsedTimebyHandle', 'Utilities|Time|GetTimerElapsedTimebyFunctionName', 'Utilities|Time|GetTimeSeconds', 'Animation|Synchronization|GetTimetoClosestMarker', 'Provider|GetTimecode', 'Class|MediaTimeStampInfo|GetTime', 'Media|MediaPlayer|GetTimeStamp', 'Media|MediaPlayer|GetTimeDelay', 'Media|MediaPlayer|GetTime', 'Class|MediaPlayer|GetTimeDelay', 'Class|TimeSynchronizableMediaSource|GetTimeSynchronization', 'Class|AnimSeqExportOption|GetTimecodeRateOverride', 'Components|Timeline|GetTimelineLength']
+SetTimer ['Utilities|Time|SetTimerforNextTickbyEvent', 'Utilities|Time|SetTimerforNextTickbyFunctionName', 'Utilities|Time|SetTimerbyEvent', 'Utilities|Time|SetTimerbyFunctionName', 'Class|BPMasterPC|SetTimeReference', 'Class|BPMasterFamiliar|SetTimeReference']
+HasAuthority ['Networking|HasAuthority', 'Networking|SwitchHasAuthority', 'Ability|HasAuthority']
+GetOwningPlayerPawn ['Player|GetOwningPlayerPawn']
+widget GetTime nodes: [('K2Node_Message_2', ['execute', 'self', 'Hour', 'Day', 'Year'])]
+widget pawn: ['Player|GetOwningPlayerPawn']
+
+[ok in 0.9 s]

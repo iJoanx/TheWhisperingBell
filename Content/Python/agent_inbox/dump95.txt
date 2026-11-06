@@ -1,0 +1,10 @@
+BP_Master_PC trust=True/True
+CBP_PC_Hope trust=True/True
+CBP_PC_GolKosh trust=True/True
+DN referencers: ['/Game/BP_DayNightCycle', '/Game/Maps/Sky', '/Game/Menus/WB_SetTime', '/Game/Characters/BP_Master/BP_PC_Master_Depecrated', '/Game/Maps/Menus/MainMenu', '/Game/ThirdPerson/Blueprints/BP_Master_Familiar', '/Game/ThirdPerson/Blueprints/BP_Master_PC', '/Game/__ExternalActors__/ThirdPersonMap_Test/2/RP/L7XUQ14SMJIGWHCQ88TVRD', '/Game/__ExternalActors__/Levels/PersistentLevel_WP/6/4X/KLO3T4TEEIJ5LP5VWF6WLN']
+DN deps: ['/Game/Menus/BPI_SetTime', '/Game/NightSky/MPC_Date', '/Game/NightSky/M_SkySphere_Inst', '/Game/NightSky/SM_SkySphere', '/Game/Level/WhisperingBell/Blueprints/BPI_SolarTime']
+iface err Blueprint: Failed to find property 'implemented_interfaces' for attribute 'implemented_interfaces' on 'Blueprint'
+event node K2Node_Event_1 AddEvent|EventBeginPlay
+event node K2Node_Event_0 AddEvent|EventOnActivate
+event node K2Node_Event_2 AddEvent|EventGetTime
+DN CDO replicates=False always_relevant=False

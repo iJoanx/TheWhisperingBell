@@ -1,0 +1,81 @@
+== BP_Master_PC
+  SKM MeshOwnerSee_GEN_VARIABLE mesh=Hope_Manny_Rig_Body anim=/Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed1.ABP_Unarmed1_C physAsset=None tickOpt=<VisibilityBasedAnimTickOption.ALWAYS_TICK_POSE: 1> URO=False simPhys=False onlyOwnerSee=True ownerNoSee=False
+  SKM CharacterMesh0 mesh=Hope_Manny_Rig_Full anim=/Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed1.ABP_Unarmed1_C physAsset=None tickOpt=<VisibilityBasedAnimTickOption.ALWAYS_TICK_POSE: 1> URO=False simPhys=False onlyOwnerSee=False ownerNoSee=True
+== CBP_PC_GolKosh
+  SKM MeshOwnerSee_GEN_VARIABLE mesh=Hope_Manny_Rig_Body anim=/Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed1.ABP_Unarmed1_C physAsset=None tickOpt=<VisibilityBasedAnimTickOption.ALWAYS_TICK_POSE: 1> URO=False simPhys=False onlyOwnerSee=True ownerNoSee=False
+  SKM CharacterMesh0 mesh=Golkosh_Manny_Rig_Full anim=/Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed2.ABP_Unarmed2_C physAsset=None tickOpt=<VisibilityBasedAnimTickOption.ALWAYS_TICK_POSE: 1> URO=False simPhys=False onlyOwnerSee=False ownerNoSee=True
+== CBP_PC_Hope
+  SKM MeshOwnerSee_GEN_VARIABLE mesh=Hope_Manny_Rig_Body anim=/Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed1.ABP_Unarmed1_C physAsset=None tickOpt=<VisibilityBasedAnimTickOption.ALWAYS_TICK_POSE: 1> URO=False simPhys=False onlyOwnerSee=True ownerNoSee=False
+  SKM CharacterMesh0 mesh=Hope_Manny_Rig_Full anim=/Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed1.ABP_Unarmed1_C physAsset=None tickOpt=<VisibilityBasedAnimTickOption.ALWAYS_TICK_POSE: 1> URO=False simPhys=False onlyOwnerSee=False ownerNoSee=True
+   BPNODE Get Teleport Destination |GetTeleportDestination
+   BPNODE Get Teleport Destination |SetTeleportDestination
+   BPNODE Get Teleport Destination |SetTeleportDestination
+   BPNODE Get Teleport Destination |SetTeleportDestination
+   BPNODE Get Teleport Destination |SetTeleportDestination
+   BPNODE Get Teleport Destination |GetTeleportRange
+   BPNODE Get Display Destination |GetTeleportDestination
+   BPNODE Get Display Destination |SetTeleportDisplay
+   BPNODE Get Display Destination |SetTeleportDisplay
+   BPNODE Get Display Destination |GetTeleportDestination
+   BPNODE EventGraph |GetTeleportDisplay
+   BPNODE EventGraph Default|GetTeleportDestination
+   BPNODE EventGraph AddEvent|Custom|S_TeleportCompleted
+   BPNODE EventGraph AddEvent|Custom|MC_Teleportcompleted
+   BPNODE EventGraph |MC_Teleportcompleted
+   BPNODE EventGraph |S_TeleportCompleted
+== ANIMBP /Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed1
+  AnimGraph (11 nodes): ['Misc.|OutputPose', "Animation|CachedPoses|Savecachedpose'Locomotion'", "Animation|Montage|Slot'DefaultSlot'", 'Misc.|ControlRig', '|GetIKAlpha']
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion (0 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_1.Idle (2 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_2.Walk / Run (4 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_0.Transition (2 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_2.Transition (3 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_3.CrouchWalk (4 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_4.Crouch (2 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_1.AnimationTransitionGraph_1 (3 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_3.AnimationTransitionGraph_1 (2 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_4.AnimationTransitionGraph_1 (5 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_5.Transition (3 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_0.Slide (2 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_6.Transition (2 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_9.Transition (3 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States (0 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_0.Locomotion (2 nodes): ['Misc.|OutputAnimationPose', "Animation|CachedPoses|Usecachedpose'Locomotion'"]
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_1.Jump (2 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_0.Transition (5 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_2.Fall Loop (2 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_1.Transition (2 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_3.Transition (1 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_3.Land (2 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_5.Transition (3 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_6.Transition (1 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_7.Transition (2 nodes): []
+  EventGraph (66 nodes): ['|SetIKAlpha', '|SetIKAlpha']
+== ANIMBP /Game/Characters/Mannequins/Anims/Unarmed/ABP_Unarmed2
+  AnimGraph (11 nodes): ['Misc.|OutputPose', "Animation|CachedPoses|Savecachedpose'Locomotion'", "Animation|Montage|Slot'DefaultSlot'", '|GetIKAlpha', 'Misc.|ControlRig']
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion (0 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_1.Idle (2 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_2.Walk / Run (4 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_0.Transition (2 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_2.Transition (3 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_3.CrouchWalk (4 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_4.Crouch (2 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_7.AnimationTransitionGraph_1 (3 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_3.AnimationTransitionGraph_1 (2 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_4.AnimationTransitionGraph_1 (5 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_5.Transition (3 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateNode_0.Slide (2 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_6.AnimationTransitionGraph_0 (2 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_0.Locomotion.AnimStateTransitionNode_8.Transition (3 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States (0 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_0.Locomotion (2 nodes): ['Misc.|OutputAnimationPose', "Animation|CachedPoses|Usecachedpose'Locomotion'"]
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_1.Jump (2 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_0.Transition (5 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_2.Fall Loop (2 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_1.Transition (2 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_3.Transition (1 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateNode_3.Land (2 nodes): ['Misc.|OutputAnimationPose']
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_5.Transition (3 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_6.Transition (1 nodes): []
+  AnimGraph.AnimGraphNode_StateMachine_1.Main States.AnimStateTransitionNode_7.Transition (2 nodes): []
+  EventGraph (66 nodes): ['|SetIKAlpha', '|SetIKAlpha']

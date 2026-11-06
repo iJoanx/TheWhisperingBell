@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\180309_job55_flags.py", line 8, in <module>
+    s = json.loads(reg.get_toolset_json_schema('editor_toolset.toolsets.object.ObjectTools'))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ToolsetRegistry: Failed to convert parameter 'toolset_class' when calling function 'ToolsetRegistry.GetToolsetJsonSchema' on 'Default__ToolsetRegistry'
+  TypeError: NativizeProperty: Cannot nativize 'str' as 'InToolsetClass' (ClassProperty)
+    TypeError: NativizeClass: Cannot nativize 'str' as 'Class' (allowed Class type: 'ToolsetDefinition')
+      TypeError: NativizeObject: Cannot nativize 'str' as 'Object' (allowed Class type: 'Class')
+
+[failed after 0.0 s]

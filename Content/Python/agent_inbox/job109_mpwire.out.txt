@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\221929_job109_mpwire.py", line 89, in <module>
+    cl = node(WEG, callT[0], p0['x'] + 150, p0['y'] - 250)
+                   ~~~~~^^^
+IndexError: list index out of range
+
+[failed after 10.3 s]

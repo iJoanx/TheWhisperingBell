@@ -1,0 +1,19 @@
+enums: []
+net mode err Object: Failed to find property 'play_net_mode' for attribute 'play_net_mode' on 'LevelEditorPlaySettings'
+clients err Object: Failed to find property 'play_number_of_clients' for attribute 'play_number_of_clients' on 'LevelEditorPlaySettings'
+throttle err DeveloperSettings: Failed to find property 'throttle_cpu_when_not_foreground' for attribute 'throttle_cpu_when_not_foreground' on 'EditorPerformanceSettings'
+PIE up /Game/Levels/UEDPIE_0_PersistentLevel_WP.PersistentLevel_WP
+warmup (sets a 2-minute day)                     frames=  22 avg=120.08 ms (  8.3 fps) p95=125.00 ms
+A sun moving (2-min day), sewers hidden          frames=  14 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+adil 'StaticMeshComponent' object has no attribute 'mark_render_state_dirty'
+adil 'StaticMeshComponent' object has no attribute 'mark_render_state_dirty'
+adil 'StaticMeshComponent' object has no attribute 'mark_render_state_dirty'
+adil 'StaticMeshComponent' object has no attribute 'mark_render_state_dirty'
+B sun moving, sky meshes: no shadow / no DF / no GI frames=  16 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+C B + sun & moon fog scattering off              frames=  16 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+adil 'StaticMeshComponent' object has no attribute 'mark_render_state_dirty'
+adil 'StaticMeshComponent' object has no attribute 'mark_render_state_dirty'
+adil 'StaticMeshComponent' object has no attribute 'mark_render_state_dirty'
+adil 'StaticMeshComponent' object has no attribute 'mark_render_state_dirty'
+D everything back, day/night paused              frames=  16 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+finished: done; settings restored

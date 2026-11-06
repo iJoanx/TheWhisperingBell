@@ -1,0 +1,93 @@
+err GetObjectProperties on '/Game/ThirdPerson/Blueprints/CBP_PC_GolKosh.CBP_PC_GolKosh:EventGraph.K2Node_CustomEvent_4' (K2Node_CustomEvent): the following properties could not be read: FunctionFlags, CustomFunctionName
+err GetObjectProperties on '/Game/ThirdPerson/Blueprints/CBP_PC_GolKosh.CBP_PC_GolKosh:EventGraph.K2Node_CustomEvent_5' (K2Node_CustomEvent): the following properties could not be read: FunctionFlags, CustomFunctionName
+err GetObjectProperties on '/Game/ThirdPerson/Blueprints/BP_Master_PC.BP_Master_PC:EventGraph.K2Node_CustomEvent_7' (K2Node_CustomEvent): the following properties could not be read: FunctionFlags
+err GetObjectProperties on '/Game/ThirdPerson/Blueprints/BP_Master_PC.BP_Master_PC:EventGraph.K2Node_CustomEvent_10' (K2Node_CustomEvent): the following properties could not be read: FunctionFlags
+err GetObjectProperties on '/Game/ThirdPerson/Blueprints/BP_Master_PC.BP_Master_PC:EventGraph.K2Node_CustomEvent_0' (K2Node_CustomEvent): the following properties could not be read: FunctionFlags
+err GetObjectProperties on '/Game/ThirdPerson/Blueprints/BP_Master_PC.BP_Master_PC:EventGraph.K2Node_CustomEvent_1' (K2Node_CustomEvent): the following properties could not be read: FunctionFlags
+DN CDO repl {"bReplicates":false}
+=== UpdateSun
+  UpdateSun.K2Node_FunctionEntry_0 [|UpdateSun] then->K2Node_MacroInstance_0
+  UpdateSun.K2Node_BreakStruct_1 [Utilities|Struct|BreakSunPositionData] SunPositionData->K2Node_CallFunction_7 ; Elevation->K2Node_VariableSet_3 ; CorrectedElevation->K2Node_VariableSet_4 ; Azimuth->K2Node_VariableSet_5 ; SunriseTime ; SunsetTime ; SolarNoon
+  UpdateSun.K2Node_VariableGet_3 [|GetLatitude] Latitude->K2Node_CallFunction_7
+  UpdateSun.K2Node_VariableGet_4 [|GetLongitude] Longitude->K2Node_CallFunction_7
+  UpdateSun.K2Node_VariableGet_5 [|GetYear] Year->K2Node_CallFunction_7
+  UpdateSun.K2Node_VariableGet_7 [|GetMonth] Month->K2Node_CallFunction_7
+  UpdateSun.K2Node_VariableGet_13 [|GetDay] Day->K2Node_CallFunction_7
+  UpdateSun.K2Node_VariableGet_11 [|GetTimeZone] TimeZone->K2Node_CallFunction_7
+  UpdateSun.K2Node_VariableGet_12 [|GetUseDaylightSavingTime] UseDaylightSavingTime->K2Node_CallFunction_2
+  UpdateSun.K2Node_CallFunction_7 [SunPosition|GetSunPosition] execute->K2Node_ExecutionSequence_0 ; Latitude->K2Node_VariableGet_3 ; Longitude->K2Node_VariableGet_4 ; TimeZone->K2Node_VariableGet_11 ; bIsDaylightSavingTime->K2Node_CallFunction_2 ; Year->K2Node_VariableGet_5 ; Month->K2Node_VariableGet_7 ; Day->K2Node_VariableGet_13 ; Hours->K2Node_CallFunction_1 ; Minutes->K2Node_CallFunction_1 ; Seconds->K2Node_CallFunction_1 ; then->K2Node_VariableSet_3 ; SunPositionData->K2Node_BreakStruct_1
+  UpdateSun.K2Node_CommutativeAssociativeBinaryOperator_3 [Math|Float|float+float] A->K2Node_Knot_3 ; B->K2Node_VariableGet_19 ; ReturnValue->K2Node_CallFunction_12
+  UpdateSun.K2Node_VariableGet_19 [|GetNorthOffset] NorthOffset->K2Node_CommutativeAssociativeBinaryOperator_3
+  UpdateSun.K2Node_VariableGet_22 [|GetCompassMesh] CompassMesh->K2Node_CallFunction_10,K2Node_MacroInstance_2
+  UpdateSun.K2Node_CallFunction_10 [Transformation|SetWorldRotation] execute->K2Node_MacroInstance_2 ; self->K2Node_VariableGet_22 ; NewRotation_Roll ; NewRotation_Pitch ; NewRotation_Yaw->K2Node_CommutativeAssociativeBinaryOperator_4 ; bSweep ; bTeleport ; then ; SweepHitResult
+  UpdateSun.K2Node_CommutativeAssociativeBinaryOperator_4 [Math|Float|float+float] A->K2Node_VariableGet_23 ; B ; ReturnValue->K2Node_CallFunction_10
+  UpdateSun.K2Node_VariableSet_3 [|SetElevation] execute->K2Node_CallFunction_7 ; Elevation->K2Node_BreakStruct_1 ; then->K2Node_VariableSet_2 ; Output_Get
+  UpdateSun.K2Node_VariableSet_4 [|SetCorrectedElevation] execute->K2Node_VariableSet_2 ; CorrectedElevation->K2Node_BreakStruct_1 ; then->K2Node_VariableSet_5 ; Output_Get->K2Node_Knot_2
+  UpdateSun.K2Node_VariableSet_5 [|SetAzimuth] execute->K2Node_VariableSet_4 ; Azimuth->K2Node_BreakStruct_1 ; then->K2Node_CallFunction_11 ; Output_Get->K2Node_Knot_3
+  UpdateSun.K2Node_Knot_2 [|RerouteNode] InputPin->K2Node_VariableSet_4 ; OutputPin->K2Node_CallFunction_12
+  UpdateSun.K2Node_VariableGet_23 [|GetNorthOffset] NorthOffset->K2Node_CommutativeAssociativeBinaryOperator_4
+  UpdateSun.K2Node_Knot_3 [|RerouteNode] InputPin->K2Node_VariableSet_5 ; OutputPin->K2Node_CommutativeAssociativeBinaryOperator_3
+  UpdateSun.K2Node_VariableGet_24 [|GetDirectionalLight] DirectionalLight->K2Node_CallFunction_11
+  UpdateSun.K2Node_CallFunction_11 [Transformation|SetWorldRotation] execute->K2Node_VariableSet_5 ; self->K2Node_VariableGet_24 ; NewRotation->K2Node_CallFunction_12 ; bSweep ; bTeleport ; then->K2Node_MacroInstance_2 ; SweepHitResult
+  UpdateSun.K2Node_MacroInstance_0 [Utilities|IsValid] exec->K2Node_FunctionEntry_0 ; InputObject->K2Node_VariableGet_0 ; Is Valid->K2Node_ExecutionSequence_0 ; Is Not Valid
+  UpdateSun.K2Node_VariableGet_0 [|GetDirectionalLight] DirectionalLight->K2Node_MacroInstance_0
+  UpdateSun.K2Node_CallFunction_12 [Math|Rotator|MakeRotator] Roll ; Pitch->K2Node_Knot_2 ; Yaw->K2Node_CommutativeAssociativeBinaryOperator_3 ; ReturnValue->K2Node_CallFunction_11
+  UpdateSun.K2Node_CallFunction_2 [|IsDST] DSTEnable->K2Node_VariableGet_12 ; DSTStartMonth->K2Node_VariableGet_20 ; DSTStartDay->K2Node_VariableGet_16 ; DSTEndMonth->K2Node_VariableGet_17 ; DSTEndDay->K2Node_VariableGet_18 ; DSTSwitchHour->K2Node_VariableGet_2 ; IsDST->K2Node_CallFunction_7
+  UpdateSun.K2Node_VariableGet_16 [|GetDSTStartDay] DSTStartDay->K2Node_CallFunction_2
+  UpdateSun.K2Node_VariableGet_2 [|GetDSTSwitchHour] DSTSwitchHour->K2Node_CallFunction_2
+  UpdateSun.K2Node_VariableGet_17 [|GetDSTEndMonth] DSTEndMonth->K2Node_CallFunction_2
+  UpdateSun.K2Node_VariableGet_18 [|GetDSTEndDay] DSTEndDay->K2Node_CallFunction_2
+  UpdateSun.K2Node_VariableGet_20 [|GetDSTStartMonth] DSTStartMonth->K2Node_CallFunction_2
+  UpdateSun.K2Node_VariableGet_21 [|GetSolarTime] SolarTime->K2Node_CallFunction_1
+  UpdateSun.K2Node_ExecutionSequence_0 [Utilities|FlowControl|Sequence] execute->K2Node_MacroInstance_0 ; then_0 ; then_1->K2Node_CallFunction_7
+  UpdateSun.K2Node_MacroInstance_2 [Utilities|IsValid] exec->K2Node_CallFunction_11 ; InputObject->K2Node_VariableGet_22 ; Is Valid->K2Node_CallFunction_10 ; Is Not Valid
+  UpdateSun.K2Node_CallFunction_1 [Math|Timespan|FromHours] Hours->K2Node_VariableGet_21 ; ReturnValue_Days ; ReturnValue_Hours->K2Node_CallFunction_7 ; ReturnValue_Minutes->K2Node_CallFunction_7 ; ReturnValue_Seconds->K2Node_CallFunction_7 ; ReturnValue_Milliseconds
+  UpdateSun.K2Node_BreakStruct_0 [Utilities|Struct|BreakSunPositionData] SunPositionData ; Elevation->K2Node_VariableSet_0 ; CorrectedElevation->K2Node_VariableSet_1 ; Azimuth->K2Node_VariableSet_6 ; SunriseTime ; SunsetTime ; SolarNoon
+  UpdateSun.K2Node_CommutativeAssociativeBinaryOperator_0 [Math|Float|float+float] A->K2Node_Knot_1 ; B->K2Node_VariableGet_8 ; ReturnValue->K2Node_CallFunction_9
+  UpdateSun.K2Node_VariableGet_8 [|GetNorthOffset] NorthOffset->K2Node_CommutativeAssociativeBinaryOperator_0
+  UpdateSun.K2Node_VariableGet_14 [|GetCompassMesh] CompassMesh->K2Node_CallFunction_8,K2Node_MacroInstance_1
+  UpdateSun.K2Node_CallFunction_8 [Transformation|SetWorldRotation] execute->K2Node_MacroInstance_1 ; self->K2Node_VariableGet_14 ; NewRotation_Roll ; NewRotation_Pitch ; NewRotation_Yaw->K2Node_CommutativeAssociativeBinaryOperator_1 ; bSweep ; bTeleport ; then ; SweepHitResult
+  UpdateSun.K2Node_CommutativeAssociativeBinaryOperator_1 [Math|Float|float+float] A->K2Node_VariableGet_1 ; B ; ReturnValue->K2Node_CallFunction_8
+  UpdateSun.K2Node_VariableSet_0 [|SetElevation] execute ; Elevation->K2Node_BreakStruct_0 ; then->K2Node_VariableSet_1 ; Output_Get
+  UpdateSun.K2Node_VariableSet_1 [|SetCorrectedElevation] execute->K2Node_VariableSet_0 ; CorrectedElevation->K2Node_BreakStruct_0 ; then->K2Node_VariableSet_6 ; Output_Get->K2Node_Knot_0
+  UpdateSun.K2Node_VariableSet_6 [|SetAzimuth] execute->K2Node_VariableSet_1 ; Azimuth->K2Node_BreakStruct_0 ; then->K2Node_CallFunction_6 ; Output_Get->K2Node_Knot_1
+  UpdateSun.K2Node_Knot_0 [|RerouteNode] InputPin->K2Node_VariableSet_1 ; OutputPin->K2Node_CallFunction_9
+  UpdateSun.K2Node_VariableGet_1 [|GetNorthOffset] NorthOffset->K2Node_CommutativeAssociativeBinaryOperator_1
+  UpdateSun.K2Node_Knot_1 [|RerouteNode] InputPin->K2Node_VariableSet_6 ; OutputPin->K2Node_CommutativeAssociativeBinaryOperator_0
+  UpdateSun.K2Node_VariableGet_15 [|GetDirectionalLight] DirectionalLight->K2Node_CallFunction_6
+  UpdateSun.K2Node_CallFunction_6 [Transformation|SetWorldRotation] execute->K2Node_VariableSet_6 ; self->K2Node_VariableGet_15 ; NewRotation->K2Node_CallFunction_9 ; bSweep ; bTeleport ; then->K2Node_MacroInstance_1 ; SweepHitResult
+  UpdateSun.K2Node_CallFunction_9 [Math|Rotator|MakeRotator] Roll ; Pitch->K2Node_Knot_0 ; Yaw->K2Node_CommutativeAssociativeBinaryOperator_0 ; ReturnValue->K2Node_CallFunction_6
+  UpdateSun.K2Node_MacroInstance_1 [Utilities|IsValid] exec->K2Node_CallFunction_6 ; InputObject->K2Node_VariableGet_14 ; Is Valid->K2Node_CallFunction_8 ; Is Not Valid
+  UpdateSun.K2Node_VariableSet_2 [|SetLocalElevationAlpha] execute->K2Node_VariableSet_3 ; LocalElevationAlpha->K2Node_Composite_1 ; then->K2Node_VariableSet_4 ; Output_Get
+  UpdateSun.K2Node_Composite_1 [|LocalElevationCalculation_2] ReturnValue->K2Node_VariableSet_2
+=== Entry EventGraph
+  EventGraph.K2Node_Event_0 [AddEvent|EventBeginPlay] OutputDelegate ; then
+  EventGraph.K2Node_Event_1 [AddEvent|Collision|EventActorBeginOverlap] OutputDelegate ; then ; OtherActor
+  EventGraph.K2Node_Event_2 [AddEvent|EventTick] OutputDelegate ; then ; DeltaSeconds
+  EventGraph.K2Node_VariableGet_0 [|GetCapsule] Capsule->K2Node_CallFunction_7
+  EventGraph.K2Node_CallFunction_6 [Transformation|SetActorLocation] execute->K2Node_Event_3 ; self->K2Node_Knot_0 ; NewLocation->K2Node_CallFunction_7 ; bSweep ; bTeleport ; then ; SweepHitResult ; ReturnValue
+  EventGraph.K2Node_CallFunction_7 [Transformation|GetWorldLocation] self->K2Node_VariableGet_0 ; ReturnValue->K2Node_CallFunction_6
+  EventGraph.K2Node_Knot_0 [|RerouteNode] InputPin->K2Node_Knot_1 ; OutputPin->K2Node_CallFunction_6,K2Node_VariableGet_1
+  EventGraph.K2Node_Knot_1 [|RerouteNode] InputPin->K2Node_Event_3 ; OutputPin->K2Node_Knot_0
+  EventGraph.K2Node_Event_3 [AddEvent|EventOnInteract] OutputDelegate ; then->K2Node_CallFunction_6 ; Player->K2Node_Knot_1
+  EventGraph.K2Node_CallFunction_1 [Game|GetStreamingLevel] PackageName ; ReturnValue->K2Node_VariableSet_1
+  EventGraph.K2Node_VariableSet_1 [|SetbShouldBeVisible] execute->K2Node_IfThenElse_0 ; bShouldBeVisible ; self->K2Node_CallFunction_1 ; then->K2Node_Knot_2 ; Output_Get
+  EventGraph.K2Node_CallFunction_3 [Game|GetStreamingLevel] PackageName ; ReturnValue->K2Node_VariableSet_0
+  EventGraph.K2Node_VariableSet_0 [|SetbShouldBeVisible] execute->K2Node_Knot_2 ; bShouldBeVisible ; self->K2Node_CallFunction_3 ; then ; Output_Get
+  EventGraph.K2Node_IfThenElse_0 [Utilities|FlowControl|Branch] execute ; Condition->K2Node_CallFunction_0 ; then->K2Node_VariableSet_1 ; else
+  EventGraph.K2Node_CallFunction_0 [Pawn|IsLocallyControlled] self->K2Node_VariableGet_1 ; ReturnValue->K2Node_IfThenElse_0
+  EventGraph.K2Node_VariableGet_1 [|GetInstigator] self->K2Node_Knot_0 ; Instigator->K2Node_CallFunction_0
+  EventGraph.K2Node_Knot_2 [|RerouteNode] InputPin->K2Node_VariableSet_1 ; OutputPin->K2Node_VariableSet_0
+Entry CDO {"bReplicates":true}
+COMP None BP_WB_Sewer_Entry_C
+COMP Decal DecalComponent
+COMP Arrow ArrowComponent profile=NoCollision rel=<Struct 'Vector' (0x0000025CC8F0E180) {x: 0.000000, y: 0.000000, z: 0.000000}> ext=
+COMP Arrow ArrowComponent profile=NoCollision rel=<Struct 'Vector' (0x0000025CC8F0E180) {x: 0.000000, y: 0.000000, z: 0.000000}> ext=
+COMP Billboard BillboardComponent profile=NoCollision rel=<Struct 'Vector' (0x0000025CC8F0E880) {x: 0.000000, y: 0.000000, z: 0.000000}> ext=
+COMP Billboard BillboardComponent profile=NoCollision rel=<Struct 'Vector' (0x0000025CC8F0E880) {x: 0.000000, y: 0.000000, z: 0.000000}> ext=
+COMP Decal DecalComponent
+COMP Box BoxComponent profile=Custom rel=<Struct 'Vector' (0x0000025CC8F0EF80) {x: 0.000000, y: 0.000000, z: 0.000000}> ext=<Struct 'Vector' (0x0000025CC8F0F478) {x: 32.000000, y: 32.000000, z: 32.000000}> resp=ECR_IGNORE: 0>,ECR_IGNORE: 0>,ECR_IGNORE: 0>,ECR_IGNORE: 0>,ECR_BLOCK: 2>,ECR_IGNORE: 0>,ECR_IGNORE: 0>,ECR_IGNORE: 0> enabled=<CollisionEnabled.QUERY_ONLY: 1>
+COMP Box BoxComponent profile=Custom rel=<Struct 'Vector' (0x0000025CC8F0EF80) {x: 0.000000, y: 0.000000, z: 0.000000}> ext=<Struct 'Vector' (0x0000025CC8F0F478) {x: 32.000000, y: 32.000000, z: 32.000000}> resp=ECR_IGNORE: 0>,ECR_IGNORE: 0>,ECR_IGNORE: 0>,ECR_IGNORE: 0>,ECR_BLOCK: 2>,ECR_IGNORE: 0>,ECR_IGNORE: 0>,ECR_IGNORE: 0> enabled=<CollisionEnabled.QUERY_ONLY: 1>
+COMP Capsule CapsuleComponent profile=NoCollision rel=<Struct 'Vector' (0x0000025CC8F0F680) {x: 0.000000, y: 0.000000, z: 90.000000}> ext=
+COMP Capsule CapsuleComponent profile=NoCollision rel=<Struct 'Vector' (0x0000025CC8F0F680) {x: 0.000000, y: 0.000000, z: 90.000000}> ext=
+COMP DefaultSceneRoot SceneComponent

@@ -1,0 +1,44 @@
+removed NetTime_0
+removed NetTime_1
+DN vars: ['NetTime']
+widget rewired: 1 exec sources
+compiled OK BP_DayNightCycle
+compiled OK BP_Master_PC
+compiled OK WB_SetTime
+ (bind _asbp_master_pc (Utilities|Casting|CastToBP_Master_PC (Player|GetOwningPlayerPawn))
+    (:then
+      (|SetTimeSignature_Event _asbp_master_pc _hour _daysofyear _year)
+      (CallFunction|DayOfYear)
+      (CallFunction|SetHolidays (AddEvent|Custom|OnClicked) (AddEvent|Custom|OnClicked)))
+    (:CastFailed
+      (Class|MediaTimeStampInfo|GetTime (|GetBP_DN) _hour _daysofyear _year))))
+
+(event OnClicked(YearBackward)
+  (bind _year (Variables|Default|GetYear))
+  (bind _hour (Variables|Default|GetHour))
+  (bind _daysofyear (Variables|Default|GetDaysOfYear))
+  (bind _output_get (Variables|Default|SetYear (+ (Variables|Default|GetYear) -1)))
+  (Class|Factory|SetText (Utilities|Text|ToText(String) (Utilities|String|ToString(Integer) _output_get)) (Variables|WB_SetTime|GetYearTextBox))
+  (bind _asbp_master_pc (Utilities|Casting|CastToBP_Master_PC (Player|GetOwningPlayerPawn))
+    (:then
+      (|SetTimeSignature_Event _asbp_master_pc _hour _daysofyear _year)
+      (CallFunction|DayOfYear)
+      (CallFunction|SetHolidays (AddEvent|Custom|OnClicked) (AddEvent|Custom|OnClicked)))
+    (:CastFailed
+      (Class|MediaTimeStampInfo|GetTime (|GetBP_DN) _hour _daysofyear _year))))
+
+(event OnValueChanged(HourSlider) (Value)
+  (bind _year (Variables|Default|GetYear))
+  (bind _hour (Variables|Default|GetHour))
+  (bind _daysofyear (Variables|Default|GetDaysOfYear))
+  (Variables|Default|SetHour Value)
+  (bind _asbp_master_pc (Utilities|Casting|CastToBP_Master_PC (Player|GetOwningPlayerPawn))
+    (:then
+      (|SetTimeSignature_Event _asbp_master_pc _hour _daysofyear _year)
+      (CallFunction|DayOfYear)
+      (CallFunction|SetHolidays (AddEvent|Custom|OnClicked) (AddEvent|Custom|OnClicked)))
+    (:CastFailed
+      (Class|MediaTimeStampInfo|GetTime (|GetBP_DN) _hour _daysofyear _year))))
+
+
+[ok in 18.7 s]

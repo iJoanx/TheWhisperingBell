@@ -1,0 +1,51 @@
+add_object_function_param doc: Adds an object reference input or output to a function or event dispatcher.
+
+        Note: output params are not supported on event dispatchers.
+
+        Args:
+            graph: The function or event dispatcher graph to add the param to.
+            param_name: The name of the new param.
+            object_class: The class of object this param will reference.
+            input_param: True to add an input param, false to add an output.
+            container_type: Container type for the param. MAP uses string as the key type.
+        Returns:
+            The PinID of the newly created param.
+        
+add_object_variable doc: Adds a member or local variable that holds an object reference to a Blueprint.
+
+        Args:
+            blueprint: The Blueprint to add the variable to.
+            name: The variable name.
+            object_class: The class of object this variable will reference.
+            graph: If provided, adds a local variable to this function graph instead of a
+                member variable.
+            container_type: Container type for the variable. MAP uses string as the key type.
+        
+after two writes:
+(event EventBeginPlay)
+
+(event Custom|TestA
+  (Development|PrintString "a"))
+
+(event Custom|TestB
+  (Development|PrintString "b"))
+
+(event Collision|EventActorBeginOverlap (OtherActor))
+
+(event EventTick (DeltaSeconds))
+
+fn graph {"refPath": "/Game/__AgentTemp/BP_DslTest.BP_DslTest:Fn1"}
+objparam {"direction": "EGPD_Output", "index_id": 1, "node": {"refPath": "/Game/__AgentTemp/BP_DslTest.BP_DslTest:Fn1.K2Node_FunctionEntry_0"}}
+fn err AssertionError: The node could not be created / Utilities|String|GetDisplayName does not exist
+  in: (Development|PrintString (Utilities|String|GetDisplayName Who))
+  in: (fn Fn1)
+PINS Actor|GetAllActorsOfClasswithTag in=[('execute', 'Exec'), ('ActorClass', 'Actor Class Reference'), ('Tag', 'Name')] out=[('then', 'Exec'), ('OutActors', 'Array of Actor Object References')]
+PINS Rendering|SetVisibility in=[('execute', 'Exec'), ('self', 'Scene Component Object Reference'), ('bNewVisibility', 'Boolean'), ('bPropagateToChildren', 'Boolean')] out=[('then', 'Exec')]
+PINS Rendering|Components|Light|SetCastShadows in=[('execute', 'Exec'), ('self', 'Light Component Base Object Reference'), ('bNewValue', 'Boolean')] out=[('then', 'Exec')]
+PINS Transformation|SetActorLocation in=[('execute', 'Exec'), ('self', 'Actor Object Reference'), ('NewLocation', 'Vector'), ('bSweep', 'Boolean'), ('bTeleport', 'Boolean')] out=[('then', 'Exec'), ('SweepHitResult', 'Hit Result Structure'), ('ReturnValue', 'Boolean')]
+PINS Math|Vector|Distance(Vector) in=[('V1', 'Vector'), ('V2', 'Vector')] out=[('ReturnValue', 'Float (double-precision)')]
+PINS Utilities|Casting|CastToPawn in=[('execute', 'Exec'), ('Object', 'Object Wildcard')] out=[('then', 'Exec'), ('CastFailed', 'Exec'), ('AsPawn', 'Pawn Object Reference')]
+PINS Pawn|GetController in=[('self', 'Pawn Object Reference')] out=[('ReturnValue', 'Controller Object Reference')]
+PINS Pawn|Possess in=[('execute', 'Exec'), ('self', 'Controller Object Reference'), ('InPawn', 'Pawn Object Reference')] out=[('then', 'Exec')]
+PINS Transformation|GetActorTransform in=[('self', 'Actor Object Reference')] out=[('ReturnValue', 'Transform (by ref)')]
+PINS Variables|Transformation|GetRootComponent in=[] out=[('RootComponent', 'Scene Component Object Reference')]

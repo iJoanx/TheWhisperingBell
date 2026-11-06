@@ -1,0 +1,100 @@
+['add_component_bound_event', 'add_event', 'add_event_dispatcher', 'add_function_graph', 'add_function_param', 'add_node_pin', 'add_object_function_param', 'add_object_variable', 'add_struct_function_param', 'add_struct_variable', 'add_variable', 'arrange_nodes', 'break_pins', 'compile_blueprint', 'connect_pins', 'create', 'create_node', 'delete_node', 'find_node_categories', 'find_node_types', 'find_nodes', 'get_connected_subgraph', 'get_create_event_function', 'get_graph', 'get_graph_dsl_docs', 'get_node_infos', 'get_node_type_pins', 'get_parent', 'get_pin_value', 'get_variable_category', 'get_variable_replication', 'list_compatible_event_functions', 'list_component_events', 'list_event_dispatchers', 'list_events', 'list_functions', 'list_graphs', 'list_variables', 'read_graph_dsl', 'remove_function_graph', 'remove_function_param', 'remove_node_pin', 'remove_variable', 'retarget_node_class', 'set_create_event_function', 'set_node_position', 'set_parent', 'set_pin_value', 'set_variable_category', 'set_variable_instance_editable', 'set_variable_replication', 'write_graph_dsl']
+== add_component_bound_event Creates a component bound event node in the event graph.
+
+        Args:
+            component: The component to bind the event to. Must be a component on a Blueprint actor.
+            event_name: The name of the delegate event to bind, e.g. 'OnComponentBeginOverlap'.
+            graph: The event graph to add the node to.
+
+        Returns:
+            The created or pre-existing component bound event node.
+        
+== add_event Adds an event node to the Blueprint's event graph.
+
+        If event_name matches an inherited overridable event, the new node is an
+        override of that event. Otherwise a new custom event with the given name is
+        created. Idempotent — if an event node with that name already exists,
+        that node is returned.
+
+        Args:
+            blueprint: The Blueprint asset to add the event to.
+            event_name: The name of an inherited event to override (e.g.
+                'ReceiveAnyDamage') or a name for a new custom event.
+            position: Position of the new node in th
+== add_event_dispatcher Adds an event dispatcher to a Blueprint.
+
+        Args:
+            blueprint: The Blueprint to add the dispatcher to.
+            name: The name of the new event dispatcher.
+
+        Returns:
+            The event dispatcher graph.
+        
+== get_create_event_function Returns the function currently bound to a Create Event node.
+
+        Args:
+            node: The Create Event node.
+
+        Returns:
+            The bound function name, or empty string if none is set.
+        
+== get_variable_replication Gets the replication mode of a Blueprint member variable.
+
+        Args:
+            blueprint: The Blueprint containing the variable.
+            variable_name: The name of the member variable to query.
+
+        Returns:
+            The replication mode (NONE, REPLICATED, or REP_NOTIFY).
+        
+== list_compatible_event_functions Lists functions that can be bound to a Create Event node.
+
+        Args:
+            node: The Create Event node.
+
+        Returns:
+            A list of function names valid for binding.
+        
+== list_component_events Lists the bindable delegate events available on a component.
+
+        Args:
+            component: The component to query. Must be a component on a Blueprint actor.
+
+        Returns:
+            The names of all bindable events on the component, e.g. OnComponentBeginOverlap.
+        
+== list_event_dispatchers Lists all event dispatchers defined on a Blueprint.
+
+        Args:
+            blueprint: The Blueprint to list event dispatchers for.
+
+        Returns:
+            A list of event dispatcher graphs, one per dispatcher.
+        
+== list_events Lists all events visible on the Blueprint — locally defined custom events
+        plus inheritable events from the parent class chain and implemented interfaces.
+
+        Args:
+            blueprint: The Blueprint asset to query.
+        
+== set_create_event_function Binds a function to a Create Event node.
+
+        Use list_compatible_event_functions to find valid function names.
+
+        Args:
+            node: The Create Event node.
+            function_name: The name of the function to bind.
+        
+== set_variable_replication Sets the replication mode on a Blueprint member variable.
+
+        RepNotify will automatically create an OnRep_ function on the Blueprint if one does not
+        already exist.
+
+        Args:
+            blueprint: The Blueprint containing the variable.
+            variable_name: The name of the member variable to modify.
+            replication: Replication mode (NONE, REPLICATED, or REP_NOTIFY).
+        
+OT: ['get_properties', 'list_properties', 'reset_properties', 'search_subclasses', 'set_properties']
+
+[ok in 0.0 s]

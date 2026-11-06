@@ -1,0 +1,14 @@
+CompassMesh_GEN_VARIABLE     collision/overlaps ('NoCollision', True) -> NoCollision/False
+CompassMesh_GEN_VARIABLE     collision/overlaps ('NoCollision', False) -> NoCollision/False
+SM_Skysphere_GEN_VARIABLE    collision/overlaps ('BlockAllDynamic', True) -> NoCollision/False
+Cone1_GEN_VARIABLE           collision/overlaps ('NoCollision', True) -> NoCollision/False
+Cone_GEN_VARIABLE            collision/overlaps ('NoCollision', True) -> NoCollision/False
+SM_Skysphere_GEN_VARIABLE    collision/overlaps ('NoCollision', False) -> NoCollision/False
+Cone_GEN_VARIABLE            collision/overlaps ('NoCollision', False) -> NoCollision/False
+Cone1_GEN_VARIABLE           collision/overlaps ('NoCollision', False) -> NoCollision/False
+instance CompassMesh NoCollision False <CollisionEnabled.NO_COLLISION: 0>
+instance Cone1 NoCollision False <CollisionEnabled.NO_COLLISION: 0>
+instance Cone NoCollision False <CollisionEnabled.NO_COLLISION: 0>
+instance SM_Skysphere BlockAllDynamic False <CollisionEnabled.QUERY_AND_PHYSICS: 3>
+
+[ok in 0.7 s]

@@ -1,0 +1,13 @@
+montage enable_root_motion_translation ?
+montage enable_root_motion_rotation ?
+montage root_motion_root_lock ?
+seq /Game/Characters/Hope/Animations/Teleport/AS_TP_Dash.AS_TP_Dash
+    enable_root_motion True
+    root_motion_root_lock <RootMotionRootLock.REF_POSE: 0>
+    force_root_lock False
+    referencers: ['/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash']
+BP_Master_PC TWBCharacterMovementComponent {'ignore_client_movement_error_checks_and_correction': False, 'server_accept_client_authoritative_position': False, 'network_smoothing_mode': <NetworkSmoothingMode.EXPONENTIAL: 2>}
+CBP_PC_Hope TWBCharacterMovementComponent {'ignore_client_movement_error_checks_and_correction': False, 'server_accept_client_authoritative_position': False, 'network_smoothing_mode': <NetworkSmoothingMode.EXPONENTIAL: 2>}
+CBP_PC_GolKosh TWBCharacterMovementComponent {'ignore_client_movement_error_checks_and_correction': False, 'server_accept_client_authoritative_position': False, 'network_smoothing_mode': <NetworkSmoothingMode.EXPONENTIAL: 2>}
+
+[ok in 0.0 s]

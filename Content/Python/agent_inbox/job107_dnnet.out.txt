@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\221749_job107_dnnet.py", line 52, in <module>
+    a.modify(); a.set_replicates(True); a.set_editor_property('always_relevant', True)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Exception: Actor: Property 'bAlwaysRelevant' for attribute 'always_relevant' on 'BP_DayNightCycle_C' cannot be edited on instances
+
+[failed after 10.6 s]

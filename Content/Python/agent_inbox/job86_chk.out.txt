@@ -1,0 +1,5 @@
+Rendering|SetActorHiddenInGame -> |DoTeleport -> |C_PlayMontage -> |S_TeleportCompleted
+Dest from ['K2Node_PromotableOperator_3']
+MC_Teleportcompleted left: []
+
+[ok in 0.3 s]

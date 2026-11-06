@@ -1,0 +1,8 @@
+shafts 55
+BP_WB_SW14 ['SL_023_Shaft 0m', 'SL_423_Shaft 98m', 'SL_420_Shaft 161m']
+BP_WB_SW9 ['SL_405_Shaft 88m', 'SL_423_Shaft 279m', 'SL_428_Shaft 307m']
+BP_WB_SW15 ['SL_423_Shaft 44m', 'SL_023_Shaft 137m', 'SL_405_Shaft 189m']
+BP_WB_SW13 ['SL_428_Shaft 62m', 'SL_037_Shaft 214m', 'SL_420_Shaft 225m']
+BP_WB_SW16 ['SL_420_Shaft 25m', 'SL_428_Shaft 174m', 'SL_017_Shaft 181m']
+
+[ok in 0.0 s]

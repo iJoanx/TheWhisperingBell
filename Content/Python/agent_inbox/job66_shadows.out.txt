@@ -1,0 +1,17 @@
+(fn UpdateShadowCaster ()
+  (bind _directionallight (Variables|Default|GetDirectionalLight))
+  (bind _returnvalue (Transformation|GetForwardVector _directionallight))
+  (bind _z (.z _returnvalue))
+  (bind _returnvalue_1 0.0)
+  (bind _returnvalue_2 (< _z _returnvalue_1))
+  (Rendering|Components|Light|SetCastShadows (Variables|Default|GetDirectionalLight) _returnvalue_2)
+  (Rendering|Components|Light|SetCastShadows (Variables|Default|GetMoon) (not _returnvalue_2)))
+
+compile: None
+ ; Output_Get->K2Node_Knot_3
+  UpdateSun.K2Node_Knot_2 [|RerouteNode] InputPin->K2Node_VariableSet_4 ; OutputPin->K2Node_CallFunction_12
+  UpdateSun.K2Node_VariableGet_23 [|GetNorthOffset] NorthOffset->K2Node_CommutativeAssociativeBinaryOperator_4
+  UpdateSun.K2Node_Knot_3 [|RerouteNode] InputPin->K2Node_VariableSet_5 ; OutputPin->K2Node_CommutativeAssociativeBinaryOperator_3
+  UpdateSun.K2Node_Va
+
+[ok in 5.5 s]

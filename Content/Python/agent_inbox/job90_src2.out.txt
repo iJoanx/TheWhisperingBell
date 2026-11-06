@@ -1,0 +1,44 @@
+2421 	Output.JumpCurrentCount = JumpCurrentCount;
+2422 	Output.JumpForceTimeRemaining = JumpForceTimeRemaining;
+2423 	Output.bWasJumping = bWasJumping;
+2424 	Output.bPressedJump = bPressedJump;
+2425 	Output.JumpKeyHoldTime = JumpKeyHoldTime;
+2426 	Output.bClearJumpInput = false;
+2427 }
+2428 
+2429 void ACharacter::ApplyAsyncOutput(const FCharacterAsyncOutput& Output)
+2430 {
+2431 	JumpCurrentCountPreJump = Output.JumpCurrentCountPreJump;
+2432 	JumpCurrentCount = Output.JumpCurrentCount;
+2433 	JumpForceTimeRemaining = Output.JumpForceTimeRemaining;
+2434 	bWasJumping = Output.bWasJumping;
+2435 	JumpKeyHoldTime = Output.JumpKeyHoldTime;
+2436 
+2437 	if (Output.bClearJumpInput)
+2438 	{
+2439 		bPressedJump = false;
+2440 	}
+2441 }
+2442 
+2443 void ACharacter::UpdateMeshAllowAutonomousTickPose()
+2444 {
+2445 	if (Mesh)
+2446 	{
+2447 		// If we are controlled remotely and CharacterMovement is active, set animation timing to be driven by client's network updates. So timing and events remain in sync.
+2448 		const bool bCharacterMovementWillTickPose = IsReplicatingMovement() && (CharacterMovement && CharacterMovement->IsActive());
+2449 		const bool bRemotelyControlled = (GetRemoteRole() == ROLE_AutonomousProxy && GetNetConnection() != nullptr);
+2450 
+2451 		Mesh->bOnlyAllowAutonomousTickPose = bCharacterMovementWillTickPose && bRemotelyControlled;
+2452 	}
+2453 }
+2454 
+2455 UAnimMontage* FRepRootMotionMontage::GetAnimMontage() const
+2456 {
+CMC 966: { | CharacterOwner->UpdateMeshAllowAutonomousTickPose(); | }
+CMC 981: CharacterOwner->ResetJumpState(); | CharacterOwner->UpdateMeshAllowAutonomousTickPose(); | }
+CMC 1682: USkeletalMeshComponent* CharacterMesh = CharacterOwner->GetMesh(); | if (CharacterMesh->ShouldTickPose()) | {
+CMC 12117:  | CharacterMesh->bIsAutonomousTickPose = false; | }
+CH.h 1219: ENGINE_API void InitializeAsyncOutput(FCharacterAsyncOutput& Output) const; | ENGINE_API void ApplyAsyncOutput(const FCharacterAsyncOutput& Output); |  | /** Sets bOnlyAllowAutonomousTickPose based on the character's current state */ | ENGINE_API void UpdateMeshAllowAutonomousTickPose();
+CH.h 1220: ENGINE_API void ApplyAsyncOutput(const FCharacterAsyncOutput& Output); |  | /** Sets bOnlyAllowAutonomousTickPose based on the character's current state */ | ENGINE_API void UpdateMeshAllowAutonomousTickPose(); | };
+
+[ok in 0.1 s]

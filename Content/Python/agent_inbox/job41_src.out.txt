@@ -1,0 +1,84 @@
+\Private\WorldPartition\WorldPartitionLevelStreamingDynamic.cpp 193 RuntimeLevel->bClientOnlyVisible = bClientOnlyVisible;
+\Private\WorldPartition\WorldPartitionLevelStreamingDynamic.cpp 770 bSkipClientUseMakingInvisibleTransactionRequest = bSkipClientUseMakingVisibleTransactionRequest && Cell->GetClientOnlyVisible();
+\Private\WorldPartition\WorldPartitionRuntimeHash.cpp 607 bool UWorldPartitionRuntimeHash::IsCellRelevantFor(bool bClientOnlyVisible) const
+\Private\WorldPartition\WorldPartitionRuntimeHash.cpp 609 if (bClientOnlyVisible)
+\Private\WorldPartition\WorldPartitionRuntimeLevelStreamingCell.cpp 151 LevelStreaming->bClientOnlyVisible = GetClientOnlyVisible();
+\Private\WorldPartition\WorldPartitionRuntimeLevelStreamingCell.cpp 227 NewLevelStreaming->bClientOnlyVisible = GetClientOnlyVisible();
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 105 , bClientOnlyVisible(false)
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 216 Ar.Printf(TEXT(" ClientOnlyVisible: %s"), bClientOnlyVisible ? TEXT("Yes") : TEXT("No"));
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 1193 bClientOnlyVisible == Other.bClientOnlyVisible &&
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 1516 Grid.bClientOnlyVisible = RuntimePartitionDesc.MainLayer->bClientOnlyVisible;
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 1649 CurrentStreamingGrid.bClientOnlyVisible = RuntimeGrid.bClientOnlyVisible;
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 1689 const bool bIsClientOnlyFromDataLayers = FDataLayerUtils::IsClientOnlyFromDataLayers(DataLayers);
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 1696 StreamingCell->SetClientOnlyVisible(CurrentStreamingGrid.bClientOnlyVisible || bIsClientOnlyFromDataLayers);
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 1829 if (IsCellRelevantFor(StreamingGrid.bClientOnlyVisible))
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 1840 if (IsCellRelevantFor(StreamingGrid.bClientOnlyVisible))
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 1889 if (IsCellRelevantFor(StreamingGrid.bClientOnlyVisible))
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 1900 if (IsCellRelevantFor(StreamingGrid.bClientOnlyVisible))
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 2169 CurrentGrid.bClientOnlyVisible = SourceGrid->bClientOnlyVisible;
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 2249 StreamingCell->SetClientOnlyVisible(CurrentGrid.bClientOnlyVisible);
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 2435 if (StreamingGrid->bClientOnlyVisible)
+\Private\WorldPartition\WorldPartitionRuntimeSpatialHash.cpp 2508 if (IsCellRelevantFor(StreamingGrid.bClientOnlyVisible))
+\Private\WorldPartition\WorldPartitionStreamingGeneration.cpp 1540 EDataLayerLoadFilter LoadFilter = DataLayerInstance->IsClientOnly() ? EDataLayerLoadFilter::ClientOnly : DataLayerInstance->IsServerOnly() ? EDataLayerLoadFilter::ServerOnly : EDataLayerLoadFilter::No
+\Private\WorldPartition\DataLayer\DataLayerInstance.cpp 473 if (IsClientOnly() || IsServerOnly())
+\Private\WorldPartition\DataLayer\DataLayerInstance.cpp 477 *OutReason = IsClientOnly() ? IStreamingGenerationErrorHandler::EDataLayerHierarchyInvalidReason::ClientOnlyDataLayerCantBeChild : IStreamingGenerationErrorHandler::EDataLayerHierarchyInvalidReason::S
+\Private\WorldPartition\DataLayer\DataLayerInstance.cpp 481 *OutReasonText = FText::Format(LOCTEXT("ClientOrServerOnlyCantHaveParent", "{0} Data Layer cannot be a child Data Layer"), IsClientOnly() ? FText::FromString(TEXT("Client-Only")) : FText::FromString(T
+\Private\WorldPartition\DataLayer\DataLayerUtils.cpp 257 bool FDataLayerUtils::IsClientOnlyFromDataLayers(const TArray<const UDataLayerInstance*>& InCellDataLayerInstances)
+\Private\WorldPartition\DataLayer\DataLayerUtils.cpp 266 // When an EDL is mixed with other data layers, skip its IsClientOnly() check
+\Private\WorldPartition\DataLayer\DataLayerUtils.cpp 267 // as long as it is not server-only (i.e. its load filter is None or ClientOnly).
+\Private\WorldPartition\DataLayer\DataLayerUtils.cpp 272 return DataLayerInstance->IsClientOnly();
+\Private\WorldPartition\DataLayer\WorldDataLayers.cpp 97 if (InDataLayerInstance->IsClientOnly())
+\Private\WorldPartition\DataLayer\WorldDataLayers.cpp 103 *OutReason = ESetDataLayerRuntimeStateError::ClientOnlyFromServer;
+\Private\WorldPartition\DataLayer\WorldDataLayers.cpp 149 const bool bDataLayerClientOnly = DataLayerInstance->IsClientOnly();
+\Private\WorldPartition\DataLayer\WorldDataLayers.cpp 151 const bool bIsLocalDataLayer = bDataLayerClientOnly || bDataLayerServerOnly;
+\Private\WorldPartition\DataLayer\WorldDataLayers.cpp 226 case ESetDataLayerRuntimeStateError::ClientOnlyFromServer:
+\Private\WorldPartition\DataLayer\WorldDataLayers.cpp 251 const bool bDataLayerClientOnly = InDataLayerInstance->IsClientOnly();
+\Private\WorldPartition\DataLayer\WorldDataLayers.cpp 253 const bool bIsLocalDataLayer = bDataLayerClientOnly || bDataLayerServerOnly;
+\Private\WorldPartition\DataLayer\WorldDataLayers.cpp 390 const bool bDataLayerClientOnly = InDataLayerInstance->IsClientOnly();
+\Private\WorldPartition\DataLayer\WorldDataLayers.cpp 392 const bool bIsLocalDataLayer = (bDataLayerClientOnly || bDataLayerServerOnly);
+\Private\WorldPartition\ErrorHandling\WorldPartitionStreamingGenerationLogErrorHandler.cpp 85 case EDataLayerHierarchyInvalidReason::ClientOnlyDataLayerCantBeChild:
+\Private\WorldPartition\ErrorHandling\WorldPartitionStreamingGenerationTokenizedMessageErrorHandler.cpp 166 case EDataLayerHierarchyInvalidReason::ClientOnlyDataLayerCantBeChild:
+\Private\WorldPartition\ErrorHandling\WorldPartitionStreamingGenerationTokenizedMessageErrorHandler.cpp 168 Message->AddToken(FTextToken::Create((Reason == EDataLayerHierarchyInvalidReason::ClientOnlyDataLayerCantBeChild) ? LOCTEXT("TokenMessage_DataLayers_ClientOnlyDataLayer", "Client-Only Data Layer") : L
+\Private\WorldPartition\RuntimeHashSet\RuntimePartition.cpp 24 bClientOnlyVisible = false;
+\Private\WorldPartition\RuntimeHashSet\RuntimePartition.cpp 70 CellDesc.bClientOnlyVisible = bClientOnlyVisible;
+\Private\WorldPartition\RuntimeHashSet\RuntimePartition.cpp 89 bClientOnlyVisible = InCellDesc.bClientOnlyVisible || FDataLayerUtils::IsClientOnlyFromDataLayers(DataLayerInstances);
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSet.cpp 295 HLODSetup.PartitionLayer->bClientOnlyVisible = true;
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSet.cpp 565 if (IsCellRelevantFor(Cell->GetClientOnlyVisible()))
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSet.cpp 675 if (!IsCellRelevantFor(Cell->GetClientOnlyVisible()))
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSet.cpp 680 check(IsCellRelevantFor(Cell->GetClientOnlyVisible()));
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSet.cpp 730 if (!IsCellRelevantFor(Cell->GetClientOnlyVisible()))
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSet.cpp 735 check(IsCellRelevantFor(Cell->GetClientOnlyVisible()));
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSet.cpp 844 bool bClientOnlyVisible = TargetPartition->bClientOnlyVisible;
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSet.cpp 874 RuntimeCell->SetClientOnlyVisible(bClientOnlyVisible);
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSet.cpp 1231 HLODSetup.PartitionLayer->bClientOnlyVisible = !HLODPartitionMustBeLoadedOnServer(HLODSetup);
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSet.cpp 1247 PersistentHLODSetup.PartitionLayer->bClientOnlyVisible = !HLODPartitionMustBeLoadedOnServer(PersistentHLODSetup);
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSet.cpp 1431 StreamingData.SpatiallyLoadedCells.SetNum(Algo::RemoveIf(StreamingData.SpatiallyLoadedCells, [this](UWorldPartitionRuntimeCell* Cell) { return !IsCellRelevantFor(Cell->GetClientOnlyVisible()); }));
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSet.cpp 1432 StreamingData.NonSpatiallyLoadedCells.SetNum(Algo::RemoveIf(StreamingData.NonSpatiallyLoadedCells, [this](UWorldPartitionRuntimeCell* Cell) { return !IsCellRelevantFor(Cell->GetClientOnlyVisible()); }
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSetConversions.cpp 84 LHGrid->bClientOnlyVisible = Grid.bClientOnlyVisible;
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSetConversions.cpp 112 HLODSetup.PartitionLayer->bClientOnlyVisible = true;
+\Private\WorldPartition\RuntimeHashSet\WorldPartitionRuntimeHashSetStreamingGeneration.cpp 155 RuntimeCell->SetClientOnlyVisible(CellDescInstance.bClientOnlyVisible);
+\Private\WorldPartition\RuntimeSpatialHash\RuntimeSpatialHashHLOD.cpp 357 HLODGrid.bClientOnlyVisible = true;
+\Private\WorldPartition\RuntimeSpatialHash\RuntimeSpatialHashHLOD.cpp 372 HLODGrid.bClientOnlyVisible &= HLODLayer->GetHLODModifierClass() == nullptr;
+\Public\WorldPartition\WorldPartitionRuntimeCell.h 268 void SetClientOnlyVisible(bool bInClientOnlyVisible) { bClientOnlyVisible = bInClientOnlyVisible; }
+\Public\WorldPartition\WorldPartitionRuntimeCell.h 269 bool GetClientOnlyVisible() const { return bClientOnlyVisible; }
+\Public\WorldPartition\WorldPartitionRuntimeCell.h 357 //@todo_ow: Implement ServerOnlyVisible and refactor ClientOnlyVisible.
+\Public\WorldPartition\WorldPartitionRuntimeCell.h 384 bool bClientOnlyVisible;
+\Public\WorldPartition\WorldPartitionRuntimeHash.h 274 ENGINE_API bool IsCellRelevantFor(bool bClientOnlyVisible) const;
+\Public\WorldPartition\WorldPartitionRuntimeSpatialHash.h 171 bool bClientOnlyVisible;
+\Public\WorldPartition\WorldPartitionRuntimeSpatialHash.h 237 , bClientOnlyVisible(false)
+\Public\WorldPartition\WorldPartitionRuntimeSpatialHash.h 266 bool bClientOnlyVisible;
+\Public\WorldPartition\DataLayer\DataLayerAsset.h 23 ClientOnly,
+\Public\WorldPartition\DataLayer\DataLayerAsset.h 70 bool IsClientOnly() const { return IsRuntime() && LoadFilter == EDataLayerLoadFilter::ClientOnly; }
+\Public\WorldPartition\DataLayer\DataLayerInstance.h 157 virtual bool IsClientOnly() const { return false; }
+\Public\WorldPartition\DataLayer\DataLayerInstanceWithAsset.h 46 virtual bool IsClientOnly() const override { return DataLayerAsset && DataLayerAsset->IsClientOnly(); }
+\Public\WorldPartition\DataLayer\DataLayerUtils.h 78 * the EDL is skipped as long as it is not server-only (i.e. its load filter is None or ClientOnly).
+\Public\WorldPartition\DataLayer\DataLayerUtils.h 79 * Only the regular data layers are tested via IsClientOnly().
+\Public\WorldPartition\DataLayer\DataLayerUtils.h 80 * When the list contains a single entry (EDL or regular), its IsClientOnly() value is used directly.
+\Public\WorldPartition\DataLayer\DataLayerUtils.h 83 static ENGINE_API bool IsClientOnlyFromDataLayers(const TArray<const UDataLayerInstance*>& InCellDataLayerInstances);
+\Public\WorldPartition\DataLayer\WorldDataLayers.h 194 ClientOnlyFromServer,
+\Public\WorldPartition\ErrorHandling\WorldPartitionStreamingGenerationErrorHandler.h 80 ClientOnlyDataLayerCantBeChild,
+\Public\WorldPartition\RuntimeHashSet\RuntimePartition.h 41 bool bClientOnlyVisible = false;
+\Public\WorldPartition\RuntimeHashSet\RuntimePartition.h 95 bool bClientOnlyVisible;
+hits 81
+
+[ok in 2.9 s]

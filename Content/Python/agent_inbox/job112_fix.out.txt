@@ -1,0 +1,10 @@
+DN class calls: ['Class|BPDayNightCycle|SetNetTime', 'Class|BPDayNightCycle|ResyncTime', 'Class|BPDayNightCycle|GetNetTime', 'Class|BPDayNightCycle|SetNetTime', 'Class|BPDayNightCycle|GetNetTime0', 'Class|BPDayNightCycle|SetNetTime0', 'Class|BPDayNightCycle|GetNetTime1', 'Class|BPDayNightCycle|SetNetTime1']
+(fn ServerApplyTime (Hour Day Year)
+  (bind _returnvalue (Actor|GetActorOfClass "/Game/NightSky/BP_DayNightCycle.BP_DayNightCycle_C"))
+  (Utilities|IsValid _returnvalue
+    (:"Is Valid"
+      (Class|BPDayNightCycle|SetNetTime _returnvalue Hour Day Year))))
+
+widget sees: ['Class|BPMasterPC|SetTimeReference']
+
+[ok in 1.8 s]

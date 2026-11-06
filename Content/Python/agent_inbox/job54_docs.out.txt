@@ -1,0 +1,185 @@
+===== find_node_types 
+ Finds node types that can be created in a particular graph meeting the search criteria.
+
+        Note: there can be thousands of valid node types in a graph, so type_id_filter should be
+        reasonably specific even if that requires multiple searches.
+
+        To list all nodes within a category, use a trailing pipe: e.g. 'Utilities|FlowControl|'
+        returns every node under that category. Without the trailing pipe, 'Utilities|FlowControl'
+        also matches any node whose type_id contains that substring (such as a node with category
+        'Utilities' and title 'FlowControl').
+
+        Args:
+            graph: the graph to make the search for
+            type_id_filter: Substring to match against the node type_id (case-insensitive)
+            context_pins: If set, only returns nodes whose pin types match those specified in this list
+
+        Returns:
+            Returns nodes that match the input criteria
+===== get_node_type_pins 
+ Returns the pin names and types for a node type.
+
+        Args:
+            graph: The graph context used to resolve the node type.
+            type_id: A node type_id as returned by find_node_types.
+
+        Returns:
+            NodeInfo with input_pins and output_pins listing each pin's name and type.
+===== create_node 
+ Adds a new node to the graph.
+
+        Args:
+            graph: The graph to add a node to
+            type_id: The type of the node to add. Eg 'Development|PrintString',
+                'Utilities|Operators|Add', a macro like 'Utilities|FlowControl|ForLoop', a
+                dispatcher event handler like 'Default|EventDispatcherOnDamaged', an event
+                like 'AddEvent|EventBeginPlay', or a named custom event with
+                'AddEvent|Custom|MyEventName'.
+            pos: The x, y position of the created node
+            declaring_class: The class that should own the created node. Only set this when you need
+                to disambiguate nodes that share the same type_id to ensure the correct one is used.
+
+        Returns:
+            Returns the new node
+===== add_event 
+ Adds an event node to the Blueprint's event graph.
+
+        If event_name matches an inherited overridable event, the new node is an
+        override of that event. Otherwise a new custom event with the given name is
+        created. Idempotent — if an event node with that name already exists,
+        that node is returned.
+
+        Args:
+            blueprint: The Blueprint asset to add the event to.
+            event_name: The name of an inherited event to override (e.g.
+                'ReceiveAnyDamage') or a name for a new custom event.
+            position: Position of the new node in the event graph.
+
+        Returns:
+            The event node.
+===== list_events 
+ Lists all events visible on the Blueprint — locally defined custom events
+        plus inheritable events from the parent class chain and implemented interfaces.
+
+        Args:
+            blueprint: The Blueprint asset to query.
+===== set_pin_value 
+ Sets the value of a Blueprint graph pin.
+
+        Args:
+            pin: The PinID of the pin to modify. Must be an input pin that supports default values.
+            value: The value to assign as a string. Format depends on the pin's data type:
+                - Numeric pins (int/float): "42" or "3.14"
+                - Boolean pins: "true" or "false"
+                - String/Name/Text pins: "Hello World"
+                - Object reference pins: "/Game/Path/To/Asset.Asset"
+===== get_pin_value 
+ Gets the value of a Blueprint graph pin.
+
+        Args:
+            pin: The PinID of the pin to read. Must be an input pin that supports default values.
+
+        Returns:
+            The value of the pin as a string.
+===== add_variable 
+ Adds a member or local variable to a Blueprint.
+
+        Supported type names:
+          Primitives: 'bool', 'int', 'float', 'byte', 'string', 'name', 'text'
+          Structs:    'Vector', 'Rotator', 'Transform', 'Vector2D', 'LinearColor'
+
+        Args:
+            blueprint: The Blueprint to add the variable to.
+            name: The variable name.
+            type_name: The variable type as a string (see above).
+            graph: If provided, adds a local variable to this function graph instead of a
+                member variable.
+            container_type: Container type for the variable. MAP uses string as the key type.
+===== set_variable_replication 
+ Sets the replication mode on a Blueprint member variable.
+
+        RepNotify will automatically create an OnRep_ function on the Blueprint if one does not
+        already exist.
+
+        Args:
+            blueprint: The Blueprint containing the variable.
+            variable_name: The name of the member variable to modify.
+            replication: Replication mode (NONE, REPLICATED, or REP_NOTIFY).
+===== call_method 
+ call_method(self, name: str, *args: Tuple[object, ...], **kwargs: Mapping[str, object]) -> Any -- call a method on this object via Unreal reflection using the given ordered (a tuple passed as args) or named (a dict passed as kwargs) argument data - allows calling methods that don't have Python glue
+===== find_node_categories 
+ Retrieves a list of available node categories in a Blueprint graph, optionally filtered by compatible input and/or output pin types
+
+        Note: Categories are everything before the last | character in a node type id (eg 'Utilities|Operators' in the 'Utilities|Operators|Add' type id)
+
+        Args:
+            graph: the graph to make the search for
+            category_filter: Substring to match against the node categories (case-insensitive). Pass an empty string to return all categories.
+            context_pins: If set, only returns categories with nodes whose pin types match those specified in this list
+
+        Returns:
+            Returns node categories that match the input criteria
+===== add_function_graph 
+ Adds a function graph to the Blueprint.
+
+        If graph_name matches an inherited overridable function, the new graph is a
+        function-graph override of that function. Idempotent — if a graph with that
+        name already exists, that graph is returned.
+
+        Args:
+            blueprint: The Blueprint asset to add the function to.
+            graph_name: The name of the new function graph.
+===== add_function_param 
+ Adds an input or output to a function or event dispatcher
+
+        Note: output params are not supported on event dispatchers.
+
+        Supported parameter types:
+          Primitives: 'bool', 'int', 'float', 'byte', 'string', 'name', 'text'
+          Structs:    'Vector', 'Rotator', 'Transform', 'Vector2D', 'LinearColor'
+
+        Args:
+            graph: The function or event dispatcher graph to add the parameter to.
+            param_name: The name of the new parameter.
+            param_type: The parameter type as a string (see above).
+            input_param: True to add an input param, false to add an output.
+            container_type: Container type for the parameter. MAP uses string as the key type.
+
+        Returns:
+            The PinID of the newly created parameter.
+===== list_functions 
+ Lists all functions visible on the Blueprint — locally defined plus
+        inheritable ones from the parent class chain and implemented interfaces.
+
+        Args:
+            blueprint: The Blueprint asset to query.
+===== delete_node 
+ Deletes the node from its graph.
+
+        Args:
+            node: The node to be deleted
+===== break_pins 
+ Breaks the connection between two pins.
+
+            Args:
+                output_pin: The PinID of the output pin to disconnect from.
+                input_pin: The PinID of the input pin to disconnect from.
+===== get_create_event_function 
+ Returns the function currently bound to a Create Event node.
+
+        Args:
+            node: The Create Event node.
+
+        Returns:
+            The bound function name, or empty string if none is set.
+===== list_compatible_event_functions 
+ Lists functions that can be bound to a Create Event node.
+
+        Args:
+            node: The Create Event node.
+
+        Returns:
+            A list of function names valid for binding.
+REG <class 'type'> ['acquire_editor_element_handle', 'call_method', 'cast', 'execute_tool', 'get_all_toolset_json_schemas', 'get_class', 'get_default_object', 'get_editor_property', 'get_fname', 'get_full_name', 'get_name', 'get_outer', 'get_outermost', 'get_package', 'get_path_name', 'get_toolset_json_schema', 'get_typed_outer', 'get_world', 'is_available', 'is_editor_property_overridden', 'is_package_external', 'is_toolset_class_registered', 'is_toolset_registered', 'modify', 'register_toolset_class', 'rename', 'reset_editor_property', 'set_editor_properties', 'set_editor_property', 'static_class', 'unregister_toolset_class']
+
+[ok in 0.0 s]

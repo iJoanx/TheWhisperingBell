@@ -1,0 +1,14 @@
+CBP_PC_GolKosh: ok (GetActorLocation now on self: 1) compile=None
+
+  (bind _returnvalue (Game|SpawnActorCBPPCHope "/Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope_C" (Math|Conversions|ToTransform(Vector) (Transformation|GetActorLocation)) "Undefined" "MultiplyWithRoot" 0 0))
+  (Pawn|Possess (Pawn|GetController) _returnvalue)
+  (Actor|DestroyActor))
+
+CBP_PC_Hope: ok (GetActorLocation now on self: 1) compile=None
+
+  (bind _returnvalue (Game|SpawnActorCBPPCGolKosh "/Game/ThirdPerson/Blueprints/CBP_PC_GolKosh.CBP_PC_GolKosh_C" (Math|Conversions|ToTransform(Vector) (Transformation|GetActorLocation)) "Undefined" "MultiplyWithRoot" 0 0))
+  (Pawn|Possess (Pawn|GetController) _returnvalue)
+  (Actor|DestroyActor))
+
+
+[ok in 7.9 s]

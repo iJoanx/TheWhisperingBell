@@ -1,0 +1,21 @@
+members sewers=600 sky=3
+rename ok=True
+  DL_TheWhisperingBell exists=True  EDL exists=True
+  DL_TrollskullAlley exists=True  EDL exists=True
+  DL_Mountain exists=True  EDL exists=True
+  DL_Sea exists=True  EDL exists=True
+  DL_Sewers exists=True  EDL exists=True
+  DL_Sky exists=True  EDL exists=True
+  DL_Streets exists=True  EDL exists=True
+  DL_Walls exists=True  EDL exists=True
+  DL_WalkingStatues exists=True  EDL exists=True
+  DL_ReferenceMap exists=True  EDL exists=True
+RDL_Sewers instance=DataLayer_DEB6549345C55C638302B887D1F03267 runtime=True initial=<DataLayerRuntimeState.ACTIVATED: 2> clientonly=False
+RDL_Sky instance=DataLayer_627E897E4AA5484D684659B9FF6C968F runtime=True initial=<DataLayerRuntimeState.ACTIVATED: 2> clientonly=False
+RDL_Sewers added=True n=600
+   verified in layer: 600, tagged: 600, spatial: 0
+RDL_Sky added=True n=3
+   verified in layer: 3, tagged: 3, spatial: 0
+dirty map pkgs: 1469  content: 9
+
+[ok in 95.8 s]

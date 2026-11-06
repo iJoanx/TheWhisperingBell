@@ -1,0 +1,12 @@
+enums: []
+net mode err Object: Failed to find property 'play_net_mode' for attribute 'play_net_mode' on 'LevelEditorPlaySettings'
+clients err Object: Failed to find property 'play_number_of_clients' for attribute 'play_number_of_clients' on 'LevelEditorPlaySettings'
+throttle err DeveloperSettings: Failed to find property 'throttle_cpu_when_not_foreground' for attribute 'throttle_cpu_when_not_foreground' on 'EditorPerformanceSettings'
+PIE up /Game/Levels/UEDPIE_0_PersistentLevel_WP.PersistentLevel_WP
+warmup                                           frames=  23 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+A normal (day/night running, sewers hidden)      frames=  16 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+B day/night paused                               frames=  15 avg=118.27 ms (  8.5 fps) p95=125.00 ms
+C day/night running, sky actors hidden           frames=  13 avg=117.37 ms (  8.5 fps) p95=125.00 ms
+D sky back, sewers VISIBLE                       frames=  16 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+E sewers visible, day/night paused               frames=  16 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+finished: done; settings restored

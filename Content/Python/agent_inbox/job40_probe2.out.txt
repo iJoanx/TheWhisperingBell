@@ -1,0 +1,13 @@
+toolset_registry: ['Any', 'Callable', 'Generator', 'ModuleType', '_asyncio', '_registry_interface', '_unreal', 'agent_skill', 'contextmanager', 'helpers', 'registration', 'reload_module', 'tests', 'tool_call', 'tool_call_impl', 'tool_raising_exceptions']
+tool_call_impl: ['Any', 'Callable', 'ContextVar', 'Generator', 'NoneType', 'Sequence', 'ToolCallMissingAnnotation', 'UnionType', '_get_default_value_for_type', '_get_signature', '_python_to_unreal_type', '_tool_raise_exceptions', 'contextmanager', 'get_args', 'get_origin', 'get_unreal_module', 'inspect', 'tool_call', 'tool_raising_exceptions', 'wraps']
+bp mod: ['BlueprintTools', 'ContainerType', 'GraphFormatter', 'NodeInfo', 'PinID', 'PinInfo', 'blueprint_dsl', 'collections', 'compile_blueprint', 'create_asset', 'dataclasses', 'toolset_registry', 'unreal']
+DLA props: []
+  data_layer_type <DataLayerType.EDITOR: 1>
+  debug_color <Struct 'Color' (0x0000025C3F5ECD34) {b: 214, g: 247, r: 215, a: 255}>
+  load_filter <DataLayerLoadFilter.NONE: 0>
+  b_supports_actor_filters ?
+DLI attrs: ['__getstate__', 'get_initial_runtime_state', 'get_type', 'get_typed_outer', 'is_client_only', 'is_runtime']
+unreal names with ClientOnly: ['ActorDataLayer', 'DNADataLayer', 'DNADataLayerUIProxy', 'DataLayer', 'DataLayerAsset', 'DataLayerCreationParameters', 'DataLayerEditorSubsystem', 'DataLayerFactory', 'DataLayerInstance', 'DataLayerInstancePrivate', 'DataLayerInstanceWithAsset', 'DataLayerLoadFilter', 'DataLayerManager', 'DataLayerRuntimeState', 'DataLayerState', 'DataLayerSubsystem', 'DataLayerType', 'DeprecatedDataLayerInstance', 'ExternalDataLayerAsset', 'ExternalDataLayerFactory', 'ExternalDataLayerInstance', 'ExternalDataLayerUID', 'MovieSceneDataLayerSection', 'MovieSceneDataLayerTrack', 'OnDataLayerInstanceRuntimeStateChanged', 'OnDataLayerRuntimeStateChanged', 'PCGDataLayerReferenceSelector', 'PCGDataLayerSettings', 'PCGDataLayerSource', 'PCGGetActorDataLayersSettings', 'PCGPartitionByActorDataLayersSettings', 'WorldDataLayers', 'WorldPartitionDataLayersLogicOperator']
+LAYER <none> 1465 [('StaticMeshActor', 768), ('BP_SewerNode_C', 434), ('SkeletalMeshActor', 48), ('BP_WB_Window_C', 34), ('BP_WB_Sconce_C', 32), ('BP_WallSpline_C', 30), ('BP_WB_Shutter1_C', 29), ('BP_WB_Candle_C', 16)]
+
+[ok in 0.0 s]

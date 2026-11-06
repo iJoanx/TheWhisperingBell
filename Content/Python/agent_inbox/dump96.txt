@@ -1,0 +1,165 @@
+--- SetMonthName
+(fn SetMonthName ()
+  (bind _month (Variables|Default|GetMonth))
+  (bind _returnvalue (- _month 1))
+  (Widget|SetText(Text) (Variables|WB_SetTime|GetMonthText) (Utilities|Array|Get(aref) (Variables|Default|GetMonthName) _returnvalue))
+  (Widget|SetText(Text) (Variables|WB_SetTime|GetMonthSupertypeText) (Utilities|Array|Get(aref) (Variables|Default|GetMonthSupertype) _returnvalue)))
+
+--- SetYearName
+(fn SetYearName (Year)
+  (bind _output_get (Variables|Default|SetYear Year))
+  (Class|Factory|SetText (Utilities|Text|ToText(String) (Utilities|String|ToString(Integer) _output_get)) (Variables|WB_SetTime|GetYearTextBox)))
+
+--- DayToMonth
+(fn DayToMonth (DaysOfYear)
+  (bind _monthdays (Variables|Default|GetMonthDays))
+  (bind _output (Utilities|Array|Get(aref) _monthdays (Utilities|FlowControl|ForLoopwithBreak 0 11)))
+  (bind _remainingdays (Variables|Default|GetRemainingDays))
+  (bind _monthdays_1 (Variables|Default|GetMonthDays))
+  (Variables|Default|SetDaysOfYear DaysOfYear)
+  (Variables|Default|SetMonth 1)
+  (Variables|Default|SetRemainingDays (Variables|GetDaysOfYear))
+  (if (Math|DateTime|IsLeapYear (Variables|Default|GetYear))
+    (Utilities|Array|SetArrayElem _monthdays_1 6 32)
+    (else
+      (Utilities|Array|SetArrayElem _monthdays_1 6 31)))
+  (bind _index (Utilities|FlowControl|ForLoopwithBreak 0 11)
+    (:LoopBody
+      (if (> _remainingdays _output)
+        _
+        (else
+          _))
+      (Variables|Default|SetRemainingDays (- _remainingdays _output))
+      (bind _output_get (Variables|Default|SetMonth (+ (Variables|Default|GetMonth) 1)))
+      (Behavior|SetValue (Variables|WB_SetTime|GetMonthSlider) (Math|Conversions|ToFloat(Integer) _output_get))
+      (Variables|Default|SetDay (Variables|Default|GetRemainingDays)))
+    (:Completed
+      (Variables|Default|SetDay (Variables|Default|GetRemainingDays)))))
+
+--- SetHolidays
+(fn SetHolidays (Delegate Delegate2)
+  (bind _month (Variables|Default|GetMonth))
+  (bind _returnvalue (- _month 1))
+  (bind _hholidaybox (Variables|WB_SetTime|GetHHolidayBox))
+  (bind _hshieldmeetbox (Variables|WB_SetTime|GetHShieldmeetBox))
+  (if (== (Utilities|Array|Get(aref) (Variables|Default|GetMonthDays) _returnvalue) 30)
+    (Widget|SetText(Text) (|HolidayTexts_2))
+    (Widget|Panel|ClearChildren (Variables|WB_SetTime|GetHHolidayBox))
+    (else
+      (Widget|SetText(Text) (Variables|WB_SetTime|GetHolidayText) (Utilities|Array|Get(aref) (Variables|Default|GetHolidayName) _returnvalue))
+      (Widget|SetText(Text) (Variables|WB_SetTime|GetHolidaySupertypeText) "NSLOCTEXT(\"[BCFEC069EA6EC730B1A5E81BFD068A04]\", \"6E99EBB249D9925A9A81639F5F9A694B\", \"Annual\")")
+      (Widget|Panel|ClearChildren _hholidaybox)
+      (bind _returnvalue_1 (Game|ConstructObjectfromClass "/Game/Menus/DayButton.DayButton_C"))
+      (Class|DayButton|SetButtonNumber 31 _returnvalue_1)
+      (Input|MouseInput|BindEventtoOnClicked _returnvalue_1 Delegate2)
+      (Widget|AddChildToHorizontalBox _hholidaybox _returnvalue_1)
+      (if (and (Math|DateTime|IsLeapYear (Variables|Default|GetYear)) (== (Utilities|Array|Get(aref) (Variables|Default|GetMonthDays) (- (Variables|Default|GetMonth) 1)) 32))
+        (Widget|SetText(Text) (Variables|WB_SetTime|GetShieldmeetText) "NSLOCTEXT(\"[BCFEC069EA6EC730B1A5E81BFD068A04]\", \"2099371246BF88C7216F058F39721D07\", \"Shieldmeet\")")
+        (Widget|SetText(Text) (Variables|WB_SetTime|GetShieldmeetSupertypeText) "NSLOCTEXT(\"[BCFEC069EA6EC730B1A5E81BFD068A04]\", \"20C74C914D1BABA2953AED81E5003963\", \"Quadrennial\")")
+        (Widget|Panel|ClearChildren _hshieldmeetbox)
+        (bind _returnvalue_2 (Game|ConstructObjectfromClass "/Game/Menus/DayButton.DayButton_C"))
+        (Class|DayButton|SetButtonNumber 32 _returnvalue_2)
+        (Input|MouseInput|BindEventtoOnClicked _returnvalue_2 Delegate)
+        (Widget|AddChildToHorizontalBox _hshieldmeetbox _returnvalue_2)
+        (else
+          (Widget|SetText(Text) (Variables|WB_SetTime|GetShieldmeetText))
+          (Widget|SetText(Text) (Variables|WB_SetTime|GetShieldmeetSupertypeText))
+          (Widget|Panel|ClearChildren (Variables|WB_SetTime|GetHShieldmeetBox)))))))
+
+--- EventGraph
+(event UserInterface|EventPreConstruct (IsDesignTime)
+  (bind _uniformdaygrid (Variables|WB_SetTime|GetUniformDayGrid))
+  (Widget|Panel|ClearChildren _uniformdaygrid)
+  (for _ (Variables|Default|GetDayArray)
+    (bind _returnvalue (Game|ConstructObjectfromClass "/Game/Menus/DayButton.DayButton_C"))
+    (Input|MouseInput|BindEventtoOnClicked _returnvalue (AddEvent|Custom|OnClicked))
+    (Class|DayButton|SetButtonNumber (Utilities|String|StringToInteger (Utilities|String|ToString(Text) (Utilities|Text|ToText(Integer) (+ (Utilities|Array|ForEachLoop (Variables|Default|GetDayArray)) 1)))) _returnvalue)
+    (bind _returnvalue_1 (Widget|AddChildToUniformGrid _uniformdaygrid _returnvalue (/ (Utilities|Array|ForEachLoop (Variables|Default|GetDayArray)) 10) (Math|Integer|%(Integer) (Utilities|Array|ForEachLoop (Variables|Default|GetDayArray)) 10)))
+    (Layout|UniformGridSlot|SetHorizontalAlignment _returnvalue_1)
+    (Layout|UniformGridSlot|SetVerticalAlignment _returnvalue_1))
+  (bind _returnvalue (Actor|GetActorOfClass "/Game/NightSky/BP_DayNightCycle.BP_DayNightCycle_C"))
+  (|SetBP_DN _returnvalue)
+  (CallFunction|DaytoMonth (Variables|Default|GetDaysOfYear _returnvalue))
+  (Variables|Default|SetMonthName)
+  (CallFunction|SetYearName (Variables|Default|GetYear _returnvalue))
+  (Behavior|SetValue (Variables|WB_SetTime|GetHourSlider) (Class|SunSky|GetSolarTime _returnvalue))
+  (CallFunction|SetHolidays (AddEvent|Custom|OnClicked) (AddEvent|Custom|OnClicked)))
+--- EventGraph
+(event Custom|OnClicked (ButtonNumber)
+  (Variables|Default|SetDay ButtonNumber)
+  (CallFunction|DayOfYear)
+  (Class|MediaTimeStampInfo|GetTime (|GetBP_DN) (Variables|Default|GetHour) (Variables|Default|GetDaysOfYear) (Variables|Default|GetYear))
+  (CallFunction|DayOfYear)
+  (CallFunction|SetHolidays (AddEvent|Custom|OnClicked) (AddEvent|Custom|OnClicked)))
+--- EventGraph
+(event OnClicked(MonthForward)
+  (if (== (Variables|Default|GetMonth) 12)
+    (Variables|Default|SetMonth 1)
+    (else
+      (Variables|Default|SetMonth (+ (Variables|Default|GetMonth) 1))))
+  (Behavior|SetValue (Variables|WB_SetTime|GetMonthSlider) (Math|Conversions|ToFloat(Integer) (Variables|Default|GetMonth)))
+  (Variables|Default|SetMonthName)
+  (if (or (== (Variables|Default|GetDay) 31) (== (Variables|Default|GetDay) 32))
+    (Variables|Default|SetDay 30))
+  (CallFunction|DayOfYear)
+  (CallFunction|SetHolidays (AddEvent|Custom|OnClicked) (AddEvent|Custom|OnClicked)))
+--- EventGraph
+(event OnClicked(MonthBackward)
+  (if (== (Variables|Default|GetMonth) 1)
+    (Variables|Default|SetMonth 12)
+    (else
+      (Variables|Default|SetMonth (- (Variables|Default|GetMonth) 1))))
+  (Behavior|SetValue (Variables|WB_SetTime|GetMonthSlider) (Math|Conversions|ToFloat(Integer) (Variables|Default|GetMonth)))
+  (Variables|Default|SetMonthName)
+  (if (or (== (Variables|Default|GetDay) 31) (== (Variables|Default|GetDay) 32))
+    (Variables|Default|SetDay 30))
+  (CallFunction|DayOfYear)
+  (CallFunction|SetHolidays (AddEvent|Custom|OnClicked) (AddEvent|Custom|OnClicked)))
+--- EventGraph
+(event OnValueChanged(MonthSlider) (Value)
+  (if (Variables|Default|GetIsUserAdjusting)
+    (Variables|Default|SetMonth (Math|Float|Truncate Value))
+    (Variables|Default|SetMonthName)
+    (if (or (== (Variables|Default|GetDay) 31) (== (Variables|Default|GetDay) 32))
+      (Variables|Default|SetDay 30))
+    (CallFunction|DayOfYear)
+    (CallFunction|SetHolidays (AddEvent|Custom|OnClicked) (AddEvent|Custom|OnClicked))))
+--- EventGraph
+(event OnTextCommitted(YearTextBox) (Text CommitMethod)
+  (Variables|Default|SetYear (Utilities|String|StringToInteger (Utilities|String|ToString(Text) Text)))
+  (Class|MediaTimeStampInfo|GetTime (|GetBP_DN) (Variables|Default|GetHour) (Variables|Default|GetDaysOfYear) (Variables|Default|GetYear))
+  (CallFunction|DayOfYear)
+  (CallFunction|SetHolidays (AddEvent|Custom|OnClicked) (AddEvent|Custom|OnClicked)))
+--- EventGraph
+(event OnClicked(YearForward)
+  (bind _output_get (Variables|Default|SetYear (+ (Variables|Default|GetYear) 1)))
+  (Class|Factory|SetText (Utilities|Text|ToText(String) (Utilities|String|ToString(Integer) _output_get)) (Variables|WB_SetTime|GetYearTextBox))
+  (Class|MediaTimeStampInfo|GetTime (|GetBP_DN) (Variables|Default|GetHour) (Variables|Default|GetDaysOfYear) (Variables|Default|GetYear))
+  (CallFunction|DayOfYear)
+  (CallFunction|SetHolidays (AddEvent|Custom|OnClicked) (AddEvent|Custom|OnClicked)))
+--- EventGraph
+(event OnClicked(YearBackward)
+  (bind _output_get (Variables|Default|SetYear (+ (Variables|Default|GetYear) -1)))
+  (Class|Factory|SetText (Utilities|Text|ToText(String) (Utilities|String|ToString(Integer) _output_get)) (Variables|WB_SetTime|GetYearTextBox))
+  (Class|MediaTimeStampInfo|GetTime (|GetBP_DN) (Variables|Default|GetHour) (Variables|Default|GetDaysOfYear) (Variables|Default|GetYear))
+  (CallFunction|DayOfYear)
+  (CallFunction|SetHolidays (AddEvent|Custom|OnClicked) (AddEvent|Custom|OnClicked)))
+--- EventGraph
+(event OnValueChanged(HourSlider) (Value)
+  (Variables|Default|SetHour Value)
+  (Class|MediaTimeStampInfo|GetTime (|GetBP_DN) (Variables|Default|GetHour) (Variables|Default|GetDaysOfYear) (Variables|Default|GetYear))
+  (CallFunction|DayOfYear)
+  (CallFunction|SetHolidays (AddEvent|Custom|OnClicked) (AddEvent|Custom|OnClicked)))
+
+--- EventGraph
+(event T (Key)
+  (bind _returnvalue (Game|GetPlayerController 0))
+  (bind _timereference (Variables|Menus|GetTimeReference)))
+
+--- EventGraph
+(event T (Key)
+  (bind _returnvalue (Game|GetPlayerController 0))
+  (bind _timereference (Variables|Menus|GetTimeReference)))
+
+BPI /Game/Menus/BPI_SetTime.BPI_SetTime graphs ['GetTime', 'SetTime']
+BPI /Game/Level/WhisperingBell/Blueprints/BPI_SolarTime.BPI_SolarTime graphs ['OnActivate']

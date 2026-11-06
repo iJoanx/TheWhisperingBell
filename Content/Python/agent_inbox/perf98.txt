@@ -1,0 +1,12 @@
+could not force standalone: module 'unreal' has no attribute 'PlayNetMode'
+requested PIE (standalone, 1 player); saved play settings {}
+PIE world up: /Game/Levels/UEDPIE_0_PersistentLevel_WP.PersistentLevel_WP
+warmup                                                                      frames=  10 avg=125.00 ms (  8.0 fps) p95=125.00 ms worst=125.00 ms
+A baseline (as you play: day/night running, sewers hidden by the entries)   frames= 104 avg= 37.98 ms ( 26.3 fps) p95= 54.73 ms worst=125.00 ms
+B day/night paused (no sun movement)                                        frames=  14 avg=125.00 ms (  8.0 fps) p95=125.00 ms worst=125.00 ms
+C day/night running, sky actors hidden                                      frames=  13 avg=125.00 ms (  8.0 fps) p95=125.00 ms worst=125.00 ms
+D sky back, sewers VISIBLE too                                              frames=  14 avg=125.00 ms (  8.0 fps) p95=125.00 ms worst=125.00 ms
+E sewers visible, day/night paused                                          frames=  14 avg=125.00 ms (  8.0 fps) p95=125.00 ms worst=125.00 ms
+F back to normal + GPU profile                                              frames=   8 avg=125.00 ms (  8.0 fps) p95=125.00 ms worst=125.00 ms
+G CPU stat dump                                                             frames=   5 avg=125.00 ms (  8.0 fps) p95=125.00 ms worst=125.00 ms
+finished: done; play settings restored

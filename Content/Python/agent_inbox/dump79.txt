@@ -1,0 +1,79 @@
+  EventGraph.K2Node_Event_1 [AddEvent|Collision|EventActorBeginOverlap] OutputDelegate ; then ; OtherActor
+  EventGraph.K2Node_Event_2 [AddEvent|EventTick] OutputDelegate ; then ; DeltaSeconds
+  EventGraph.K2Node_CallFunction_22 [Transformation|SetActorLocation] execute->K2Node_CustomEvent_1 ; self ; NewLocation->K2Node_CustomEvent_1 ; bSweep ; bTeleport ; then->K2Node_CallFunction_15 ; SweepHitResult ; ReturnValue
+  EventGraph.K2Node_CallFunction_4 [Animation|PlayAnimMontage] execute ; self ; AnimMontage ; InPlayRate ; StartSectionName ; then ; ReturnValue
+  EventGraph.K2Node_VariableGet_4 [|GetTeleportDisplay] TeleportDisplay->K2Node_Knot_1,K2Node_PromotableOperator_3
+  EventGraph.K2Node_Knot_0 [|RerouteNode] InputPin->K2Node_IfThenElse_0 ; OutputPin->K2Node_CallFunction_18
+  EventGraph.K2Node_CallFunction_14 [Transformation|SetActorLocation] execute->K2Node_CallFunction_19 ; self->K2Node_VariableGet_1 ; NewLocation->K2Node_Knot_1 ; bSweep ; bTeleport ; then->K2Node_CallFunction_20 ; SweepHitResult ; ReturnValue
+  EventGraph.K2Node_VariableGet_1 [|GetPetals] Petals->K2Node_CallFunction_14
+  EventGraph.K2Node_CallFunction_11 [Rendering|SetActorHiddenInGame] execute->K2Node_IfThenElse_6 ; self->K2Node_VariableGet_3 ; bNewHidden ; then->K2Node_CallFunction_2
+  EventGraph.K2Node_CallFunction_12 [Rendering|SetActorHiddenInGame] execute->K2Node_Knot_3 ; self->K2Node_VariableGet_6 ; bNewHidden ; then->K2Node_IfThenElse_2
+  EventGraph.K2Node_VariableGet_6 [|GetPetals] Petals->K2Node_CallFunction_12
+  EventGraph.K2Node_VariableGet_3 [|GetPetals] Petals->K2Node_CallFunction_11
+  EventGraph.K2Node_PromotableOperator_3 [Math|Vector|vector+vector] A->K2Node_VariableGet_4 ; B_X ; B_Y ; B_Z->K2Node_CallFunction_9 ; ReturnValue->K2Node_CallFunction_2
+  EventGraph.K2Node_CallFunction_8 [Utilities|FlowControl|Delay] execute->K2Node_VariableSet_3 ; Duration ; then->K2Node_VariableSet_1
+  EventGraph.K2Node_VariableSet_3 [|SetCast1] execute->K2Node_IfThenElse_2 ; Cast1 ; then->K2Node_CallFunction_8 ; Output_Get
+  EventGraph.K2Node_CallFunction_7 [Utilities|FlowControl|Delay] execute->K2Node_VariableSet_4 ; Duration ; then->K2Node_VariableSet_2
+  EventGraph.K2Node_VariableSet_4 [|SetCast2] execute->K2Node_IfThenElse_2 ; Cast2 ; then->K2Node_CallFunction_7 ; Output_Get
+  EventGraph.K2Node_VariableSet_1 [|SetCast1] execute->K2Node_CallFunction_8 ; Cast1 ; then ; Output_Get
+  EventGraph.K2Node_VariableSet_2 [|SetCast2] execute->K2Node_CallFunction_7 ; Cast2 ; then ; Output_Get
+  EventGraph.K2Node_VariableGet_8 [|GetCast1] Cast1->K2Node_CommutativeAssociativeBinaryOperator_1
+  EventGraph.K2Node_VariableGet_7 [|GetCast2] Cast2->K2Node_CommutativeAssociativeBinaryOperator_1
+  EventGraph.K2Node_VariableGet_5 [|GetCast1] Cast1->K2Node_IfThenElse_2
+  EventGraph.K2Node_IfThenElse_2 [Utilities|FlowControl|Branch] execute->K2Node_CallFunction_12 ; Condition->K2Node_VariableGet_5 ; then->K2Node_VariableSet_3 ; else->K2Node_VariableSet_4
+  EventGraph.K2Node_VariableSet_9 [|SetCanCast] execute->K2Node_EnhancedInputAction_0 ; CanCast->K2Node_CommutativeAssociativeBinaryOperator_1 ; then->K2Node_IfThenElse_3 ; Output_Get->K2Node_IfThenElse_3
+  EventGraph.K2Node_IfThenElse_3 [Utilities|FlowControl|Branch] execute->K2Node_VariableSet_9 ; Condition->K2Node_VariableSet_9 ; then->K2Node_Knot_2 ; else
+  EventGraph.K2Node_CommutativeAssociativeBinaryOperator_1 [Math|Boolean|ORBoolean] A->K2Node_VariableGet_8 ; B->K2Node_VariableGet_7 ; ReturnValue->K2Node_VariableSet_9
+  EventGraph.K2Node_IfThenElse_0 [Utilities|FlowControl|Branch] execute->K2Node_EnhancedInputAction_0 ; Condition->K2Node_VariableGet_9 ; then->K2Node_Knot_0 ; else
+  EventGraph.K2Node_VariableGet_9 [|GetCanCast] CanCast->K2Node_IfThenElse_0,K2Node_IfThenElse_6
+  EventGraph.K2Node_IfThenElse_6 [Utilities|FlowControl|Branch] execute->K2Node_EnhancedInputAction_0 ; Condition->K2Node_VariableGet_9 ; then->K2Node_CallFunction_11 ; else
+  EventGraph.K2Node_Knot_1 [|RerouteNode] InputPin->K2Node_VariableGet_4 ; OutputPin->K2Node_CallFunction_14
+  EventGraph.K2Node_CallFunction_9 [Components|Capsule|GetUnscaledCapsuleHalfHeight] self->K2Node_VariableGet_0 ; ReturnValue->K2Node_PromotableOperator_3
+  EventGraph.K2Node_VariableGet_0 [|GetCapsuleComponent] CapsuleComponent->K2Node_CallFunction_9
+  EventGraph.K2Node_CallFunction_18 [Default|GetTeleportDestination] execute->K2Node_Knot_0 ; self ; then->K2Node_CallFunction_19
+  EventGraph.K2Node_CallFunction_19 [Default|GetDisplayDestination] execute->K2Node_CallFunction_18 ; self ; then->K2Node_CallFunction_14
+  EventGraph.K2Node_CallFunction_20 [Default|SetDisplayRotation] execute->K2Node_CallFunction_14 ; self ; then
+  EventGraph.K2Node_CustomEvent_7 [AddEvent|Custom|S_TeleportCompleted] OutputDelegate ; then->K2Node_CallFunction_3 ; TrueDestination->K2Node_CallFunction_3
+  EventGraph.K2Node_CustomEvent_1 [AddEvent|Custom|MC_Teleportcompleted] OutputDelegate ; then->K2Node_CallFunction_22 ; TrueDestination->K2Node_CallFunction_22
+  EventGraph.K2Node_EnhancedInputAction_0 [Input|EnhancedActionEvents|EnhancedInputActionIA_Aim] Triggered ; Started->K2Node_VariableSet_9 ; Ongoing->K2Node_IfThenElse_0 ; Canceled ; Completed->K2Node_IfThenElse_6 ; ActionValue ; ElapsedSeconds ; TriggeredSeconds ; InputAction
+  EventGraph.K2Node_Knot_2 [|RerouteNode] InputPin->K2Node_IfThenElse_3 ; OutputPin->K2Node_Knot_3
+  EventGraph.K2Node_Knot_3 [|RerouteNode] InputPin->K2Node_Knot_2 ; OutputPin->K2Node_CallFunction_12
+  EventGraph.K2Node_PlayMontage_2 [Animation|Montage|PlayMontage] execute->K2Node_PlayMontage_3 ; InSkeletalMeshComponent->K2Node_VariableGet_11 ; MontageToPlay ; PlayRate ; StartingPosition ; StartingSection ; bShouldStopAllMontages ; then->K2Node_CallFunction_16 ; OnCompleted ; OnBlendOut ; OnInterrupted ; OnNotifyBegin ; OnNotifyEnd ; NotifyName
+  EventGraph.K2Node_PlayMontage_3 [Animation|Montage|PlayMontage] execute->K2Node_CustomEvent_0 ; InSkeletalMeshComponent->K2Node_VariableGet_10 ; MontageToPlay ; PlayRate ; StartingPosition ; StartingSection ; bShouldStopAllMontages ; then->K2Node_PlayMontage_2 ; OnCompleted ; OnBlendOut ; OnInterrupted ; OnNotifyBegin ; OnNotifyEnd ; NotifyName
+  EventGraph.K2Node_VariableGet_10 [|GetMesh] Mesh->K2Node_PlayMontage_3
+  EventGraph.K2Node_CallFunction_3 [|MC_Teleportcompleted] execute->K2Node_CustomEvent_7 ; self ; TrueDestination->K2Node_CustomEvent_7 ; then
+  EventGraph.K2Node_CallFunction_2 [|S_TeleportCompleted] execute->K2Node_CallFunction_11 ; self ; TrueDestination->K2Node_PromotableOperator_3 ; then
+  EventGraph.K2Node_VariableGet_11 [|GetMeshOwnerSee] MeshOwnerSee->K2Node_PlayMontage_2
+  EventGraph.K2Node_Event_0 [AddEvent|EventBeginPlay] OutputDelegate ; then->K2Node_CallParentFunction_0
+  EventGraph.K2Node_CallParentFunction_0 [|Parent:BeginPlay] execute->K2Node_Event_0 ; then->K2Node_SpawnActorFromClass_0
+  EventGraph.K2Node_SpawnActorFromClass_0 [Game|SpawnActorPetals] execute->K2Node_CallParentFunction_0 ; Class ; SpawnTransform->K2Node_CallFunction_36 ; CollisionHandlingOverride ; TransformScaleMethod ; Owner ; Instigator ; then->K2Node_VariableSet_0 ; ReturnValue->K2Node_VariableSet_0
+  EventGraph.K2Node_VariableSet_0 [|SetPetals] execute->K2Node_SpawnActorFromClass_0 ; Petals->K2Node_SpawnActorFromClass_0 ; then->K2Node_CallFunction_5 ; Output_Get->K2Node_CallFunction_5
+  EventGraph.K2Node_CallFunction_5 [Rendering|SetActorHiddenInGame] execute->K2Node_VariableSet_0 ; self->K2Node_VariableSet_0 ; bNewHidden ; then
+  EventGraph.K2Node_CallFunction_1 [Transformation|GetActorLocation] self ; ReturnValue->K2Node_CallFunction_36
+  EventGraph.K2Node_CallFunction_36 [Math|Conversions|ToTransform(Vector)] InLocation->K2Node_CallFunction_1 ; ReturnValue->K2Node_SpawnActorFromClass_0
+  EventGraph.K2Node_InputKey_1 [Input|KeyboardEvents|1] Pressed->K2Node_CallFunction_6 ; Released ; Key
+  EventGraph.K2Node_SpawnActorFromClass_4 [Game|SpawnActorCBPPCGolKosh] execute->K2Node_CustomEvent_4 ; Class ; SpawnTransform->K2Node_CallFunction_46 ; CollisionHandlingOverride ; TransformScaleMethod ; Owner ; Instigator ; then->K2Node_CallFunction_70 ; ReturnValue->K2Node_CallFunction_70
+  EventGraph.K2Node_CallFunction_67 [Actor|DestroyActor] execute->K2Node_CallFunction_70 ; self ; then
+  EventGraph.K2Node_CallFunction_70 [Pawn|Possess] execute->K2Node_SpawnActorFromClass_4 ; self->K2Node_CallFunction_34 ; InPawn->K2Node_SpawnActorFromClass_4 ; then->K2Node_CallFunction_67
+  EventGraph.K2Node_CustomEvent_4 [AddEvent|Custom|S_Swap] OutputDelegate ; then->K2Node_SpawnActorFromClass_4
+  EventGraph.K2Node_CallFunction_6 [|S_Swap] execute->K2Node_InputKey_1 ; self ; then
+  EventGraph.K2Node_VariableGet_12 [|GetCharacterMovement] CharacterMovement->K2Node_CallFunction_15
+  EventGraph.K2Node_CallFunction_15 [Components|Movement|StopMovementImmediately] execute->K2Node_CallFunction_22 ; self->K2Node_VariableGet_12 ; then->K2Node_CallFunction_23
+  EventGraph.K2Node_CustomEvent_0 [AddEvent|Custom|C_PlayMontage] OutputDelegate ; then->K2Node_PlayMontage_3
+  EventGraph.K2Node_CallFunction_23 [|C_PlayMontage] execute->K2Node_CallFunction_15 ; self ; then
+  EventGraph.K2Node_CustomEvent_2 [AddEvent|Custom|S_PlayMontage] OutputDelegate ; then->K2Node_CallFunction_21
+  EventGraph.K2Node_CustomEvent_3 [AddEvent|Custom|MC_PlayMontage] OutputDelegate ; then->K2Node_IfThenElse_1
+  EventGraph.K2Node_CallFunction_16 [|S_PlayMontage] execute->K2Node_PlayMontage_2 ; self ; then
+  EventGraph.K2Node_CallFunction_21 [|MC_PlayMontage] execute->K2Node_CustomEvent_2 ; self ; then
+  EventGraph.K2Node_IfThenElse_1 [Utilities|FlowControl|Branch] execute->K2Node_CustomEvent_3 ; Condition->K2Node_CallFunction_13 ; then ; else->K2Node_PlayMontage_1
+  EventGraph.K2Node_CallFunction_13 [Pawn|IsLocallyControlled] self ; ReturnValue->K2Node_IfThenElse_1
+  EventGraph.K2Node_PlayMontage_0 [Animation|Montage|PlayMontage] execute->K2Node_PlayMontage_1 ; InSkeletalMeshComponent->K2Node_VariableGet_13 ; MontageToPlay ; PlayRate ; StartingPosition ; StartingSection ; bShouldStopAllMontages ; then ; OnCompleted ; OnBlendOut ; OnInterrupted ; OnNotifyBegin ; OnNotifyEnd ; NotifyName
+  EventGraph.K2Node_PlayMontage_1 [Animation|Montage|PlayMontage] execute->K2Node_IfThenElse_1 ; InSkeletalMeshComponent->K2Node_VariableGet_2 ; MontageToPlay ; PlayRate ; StartingPosition ; StartingSection ; bShouldStopAllMontages ; then->K2Node_PlayMontage_0 ; OnCompleted ; OnBlendOut ; OnInterrupted ; OnNotifyBegin ; OnNotifyEnd ; NotifyName
+  EventGraph.K2Node_VariableGet_2 [|GetMesh] Mesh->K2Node_PlayMontage_1
+  EventGraph.K2Node_VariableGet_13 [|GetMeshOwnerSee] MeshOwnerSee->K2Node_PlayMontage_0
+  EventGraph.K2Node_CallFunction_34 [Pawn|GetController] self ; ReturnValue->K2Node_CallFunction_70
+  EventGraph.K2Node_CallFunction_46 [Transformation|GetActorTransform] self ; ReturnValue->K2Node_SpawnActorFromClass_4
+CDO {"TeleportRange":914.39999999999998,"CanCast":false,"Cast1":true,"Cast2":true}
+montage err AnimMontage: Property 'Notifies' for attribute 'notifies' on 'AnimMontage' is protected and cannot be read
+notify err AnimMontage: Property 'Notifies' for attribute 'notifies' on 'AnimMontage' is protected and cannot be read
+ABP1 notify/teleport nodes: ['|IsCustomMovementMode']

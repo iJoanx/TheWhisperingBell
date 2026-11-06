@@ -1,0 +1,16 @@
+remove NetTime0 Function "remove_variable", input param "name" is required by the function input schema Json, but is missing from the incoming function input params Json.
+Function schema Json -
+{"type":"object","prop
+remove NetTime1 Function "remove_variable", input param "name" is required by the function input schema Json, but is missing from the incoming function input params Json.
+Function schema Json -
+{"type":"object","prop
+BP_DayNightCycle vars: ['NetTime', 'NetTime_0', 'NetTime_1']
+remove bGoingDown0 Function "remove_variable", input param "name" is required by the function input schema Json, but is missing from the incoming function input params Json.
+Function schema Json -
+{"type":"object","prop
+BP_WB_Sewer_Entry vars: ['bGoingDown']
+in master: ['Default|BindEventtoSetTimeSignature', 'Default|AssignSetTimeSignature', 'Default|CallSetTimeSignature', 'Default|UnbindEventfromSetTimeSignature', 'Default|UnbindallEventsfromSetTimeSignature', 'Default|EventDispatcherSetTimeSignature', 'CallFunction|SetTimeSignatureEvent']
+widget created Class|BPMasterPC|SetTimeSignatureEvent /Game/Menus/WB_SetTime.WB_SetTime:EventGraph.K2Node_CallFunction_46
+guess Class|BPMasterPC|SetTimeSignature_Event The node could not be created / Class|BPMasterPC|SetTimeSignature_Event does not exist
+
+[ok in 1.8 s]

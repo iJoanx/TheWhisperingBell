@@ -1,0 +1,15 @@
+(fn OnRep_NetTime ()
+  (Class|MediaTimeStampInfo|GetTime (.x (Variables|Default|GetNetTime)) (Math|Float|Truncate (.y (Variables|Default|GetNetTime))) (Math|Float|Truncate (.z (Variables|Default|GetNetTime)))))
+
+(fn SetNetTime (Hour Day Year)
+  (|SetwithNotifyNetTime (Math|Vector|MakeVector Hour (Math|Conversions|ToFloat(Integer) Day) (Math|Conversions|ToFloat(Integer) Year))))
+
+(fn ResyncTime ()
+  (Variables|Default|SetNetTime (Variables|Time|GetSolarTime) (Variables|Date|GetDaysOfYear) (Variables|Date|GetYear)))
+
+compile OK
+CDO {"bReplicates":true,"bAlwaysRelevant":true}
+NetTime rep: RepNotify
+instance replicates True always_relevant True
+
+[ok in 4.3 s]

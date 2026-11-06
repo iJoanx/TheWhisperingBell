@@ -1,0 +1,14 @@
+enums: []
+net mode err Object: Failed to find property 'play_net_mode' for attribute 'play_net_mode' on 'LevelEditorPlaySettings'
+clients err Object: Failed to find property 'play_number_of_clients' for attribute 'play_number_of_clients' on 'LevelEditorPlaySettings'
+throttle err DeveloperSettings: Failed to find property 'throttle_cpu_when_not_foreground' for attribute 'throttle_cpu_when_not_foreground' on 'EditorPerformanceSettings'
+PIE up /Game/Levels/UEDPIE_0_PersistentLevel_WP.PersistentLevel_WP
+warmup                                           frames=  16 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+A running (CPU dump)                             frames=  16 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+B running, star cones hidden                     frames=  13 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+C running, cones + sky sphere hidden             frames=  13 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+D running, sky meshes back, sky light hidden     frames=  12 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+E running, sky light back, sun+moon hidden       frames=  13 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+F running, lights back, fog hidden               frames=  13 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+G paused, everything visible                     frames=  13 avg=125.00 ms (  8.0 fps) p95=125.00 ms
+finished: done; settings restored

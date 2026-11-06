@@ -1,0 +1,4 @@
+(toolset_name: str, tool_name: str, tool_input: Mapping[str, Any]) -> Mapping[str, Any] (toolset_name: str, tool_name: str, tool_input: Mapping[str, Any]) -> Mapping[str, Any]
+written 650
+
+[ok in 0.0 s]

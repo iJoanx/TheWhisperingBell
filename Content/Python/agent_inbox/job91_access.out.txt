@@ -1,0 +1,5 @@
+SkeletalMeshComponent.h 880 public uint8 bOnlyAllowAutonomousTickPose : 1;
+CharacterMovementComponent.h 2471 protected ENGINE_API virtual void TickCharacterPose(float DeltaTime);
+Character.h 1182 public ENGINE_API bool IsPlayingRootMotion() const;
+
+[ok in 0.0 s]

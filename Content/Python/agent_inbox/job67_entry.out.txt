@@ -1,0 +1,45 @@
+components: ['None', 'Decal', 'Arrow', 'Billboard', 'Box', 'Capsule', 'SewerBox', 'ReturnPoint', 'DefaultSceneRoot']
+ApplySewerView:
+(fn ApplySewerView (InSewer)
+  (bind _outactors (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sewers"))
+  (for _array_element _outactors
+    (Rendering|SetActorHiddenInGame _array_element (not InSewer)))
+  (bind _outactors_1 (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sky"))
+  (for _array_element_1 _outactors_1
+    (Rendering|SetActorHiddenInGame _array_element_1 InSewer)))
+
+UseEntry:
+(fn UseEntry (Player)
+  (bind _returnvalue (Transformation|GetActorLocation Player))
+  (bind _box (Variables|Default|GetBox))
+  (bind _returnvalue_1 (Transformation|GetWorldLocation _box))
+  (bind _returnvalue_2 (Math|Vector|Distance(Vector) _returnvalue _returnvalue_1))
+  (bind _sewerbox (Variables|Default|GetSewerBox))
+  (bind _returnvalue_3 (Transformation|GetWorldLocation _sewerbox))
+  (bind _returnvalue_4 (Math|Vector|Distance(Vector) _returnvalue _returnvalue_3))
+  (bind _returnvalue_5 (< _returnvalue_2 _returnvalue_4))
+  (Transformation|SetActorLocation Player (select _returnvalue_5 (Transformation|GetWorldLocation (Variables|Default|GetCapsule)) (Transformation|GetWorldLocation (Variables|Default|GetReturnPoint))) false true)
+  (bind _aspawn (Utilities|Casting|CastToPawn Player))
+  (if (Pawn|IsLocallyControlled _aspawn)
+    (CallFunction|ApplySewerView _returnvalue_5)))
+
+removed: ['|GetCapsule', 'Transformation|SetActorLocation', 'Transformation|GetWorldLocation', '|RerouteNode', '|RerouteNode', 'Game|GetStreamingLevel', '|SetbShouldBeVisible', 'Game|GetStreamingLevel', '|SetbShouldBeVisible', 'Utilities|FlowControl|Branch', 'Pawn|IsLocallyControlled', '|GetInstigator', '|RerouteNode']
+compile: None
+EventGraph:
+(event EventBeginPlay
+  (CallFunction|ApplySewerView false))
+
+(event Collision|EventActorBeginOverlap (OtherActor))
+
+(event EventTick (DeltaSeconds))
+
+(event EventOnInteract (Player)
+  (CallFunction|UseEntry Player))
+
+BP_WB_SW9 SewerBox=<Struct 'Vector' (0x0000025D5C59E270) {x: -12417.627464, y: -27561.148103, z: -1156.384022}> ReturnPoint=<Struct 'Vector' (0x0000025D5C59DC30) {x: -12243.986493, y: -27531.768856, z: 100.000000}> Capsule=<Struct 'Vector' (0x0000025D5C59E040) {x: -12417.627464, y: -27561.148103, z: -1306.384022}>
+BP_WB_SW15 SewerBox=<Struct 'Vector' (0x0000025CC307FE40) {x: 5818.097552, y: -8620.169182, z: -1161.823048}> ReturnPoint=<Struct 'Vector' (0x0000025D5CA7DDC0) {x: 6175.557392, y: -8741.976996, z: 99.922853}> Capsule=<Struct 'Vector' (0x0000025CC307FC10) {x: 5818.097552, y: -8620.169182, z: -1311.823048}>
+BP_WB_SW13 SewerBox=<Struct 'Vector' (0x0000025D5C59D960) {x: -25953.021414, y: 922.016598, z: -1435.773546}> ReturnPoint=<Struct 'Vector' (0x0000025D5C59D5A0) {x: -25901.744379, y: 1211.334062, z: -168.882158}> Capsule=<Struct 'Vector' (0x0000025D5C59E0E0) {x: -25953.021414, y: 922.016598, z: -1585.773546}>
+BP_WB_SW16 SewerBox=<Struct 'Vector' (0x0000025D5C59DC80) {x: -10185.136847, y: 17740.162059, z: -1201.784177}> ReturnPoint=<Struct 'Vector' (0x0000025D5CA7DDC0) {x: -9819.018065, y: 16474.961148, z: 70.740711}> Capsule=<Struct 'Vector' (0x0000025D5C59DD70) {x: -10185.136847, y: 17740.162059, z: -1351.784177}>
+BP_WB_SW14 SewerBox=<Struct 'Vector' (0x0000025D5C59E270) {x: 4645.565764, y: 4791.758602, z: -1157.626660}> ReturnPoint=<Struct 'Vector' (0x0000025D5C59DC30) {x: 4655.858863, y: 4823.894275, z: 160.960012}> Capsule=<Struct 'Vector' (0x0000025D5C59E040) {x: 4645.565764, y: 4791.758602, z: -1307.626660}>
+
+[ok in 9.2 s]

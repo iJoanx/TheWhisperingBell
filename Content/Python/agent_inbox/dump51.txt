@@ -1,0 +1,275 @@
+######## /Game/ThirdPerson/Blueprints/CBP_PC_GolKosh.CBP_PC_GolKosh
+graphs [{"refPath": "/Game/ThirdPerson/Blueprints/CBP_PC_GolKosh.CBP_PC_GolKosh:UserConstructionScript"}, {"refPath": "/Game/ThirdPerson/Blueprints/CBP_PC_GolKosh.CBP_PC_GolKosh:EventGraph"}]
+vars []
+--- DSL /Game/ThirdPerson/Blueprints/CBP_PC_GolKosh.CBP_PC_GolKosh:UserConstructionScript
+(fn ConstructionScript ()
+  (|Parent:ConstructionScript))
+
+  NODE UserConstructionScript.K2Node_FunctionEntry_0 [|ConstructionScript]  | then->K2Node_CallParentFunction_0:?
+  NODE UserConstructionScript.K2Node_CallParentFunction_0 [|Parent:ConstructionScript]  | execute->K2Node_FunctionEntry_0:? ; then
+--- DSL /Game/ThirdPerson/Blueprints/CBP_PC_GolKosh.CBP_PC_GolKosh:EventGraph
+(event EventBeginPlay
+  (|Parent:BeginPlay))
+
+(event Collision|EventActorBeginOverlap (OtherActor))
+
+(event EventTick (DeltaSeconds))
+
+(event 1 (Key))
+
+(event Custom|S_Swap
+  (|M_Swap))
+
+(event Custom|M_Swap
+  (bind _returnvalue (Game|GetPlayerController 0))
+  (bind _returnvalue_1 (Game|SpawnActorCBPPCHope "/Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope_C" (Math|Conversions|ToTransform(Vector) (Transformation|GetActorLocation _returnvalue)) "Undefined" "MultiplyWithRoot" 0 0))
+  (Pawn|UnPossess _returnvalue)
+  (Pawn|Possess _returnvalue _returnvalue_1)
+  (Actor|DestroyActor))
+
+  NODE EventGraph.K2Node_Event_0 [AddEvent|EventBeginPlay]  | OutputDelegate ; then->K2Node_CallParentFunction_0:?
+  NODE EventGraph.K2Node_CallParentFunction_0 [|Parent:BeginPlay]  | execute->K2Node_Event_0:? ; then
+  NODE EventGraph.K2Node_Event_1 [AddEvent|Collision|EventActorBeginOverlap]  | OutputDelegate ; then ; OtherActor
+  NODE EventGraph.K2Node_Event_2 [AddEvent|EventTick]  | OutputDelegate ; then ; DeltaSeconds
+  NODE EventGraph.K2Node_InputKey_1 [Input|KeyboardEvents|1]  | Pressed->K2Node_CallFunction_0:? ; Released ; Key
+  NODE EventGraph.K2Node_SpawnActorFromClass_4 [Game|SpawnActorCBPPCHope]  | execute->K2Node_CustomEvent_5:? ; Class ; SpawnTransform->K2Node_CallFunction_444:? ; CollisionHandlingOverride ; TransformScaleMethod ; Owner ; Instigator ; then->K2Node_CallFunction_69:? ; ReturnValue->K2Node_CallFunction_70:?
+  NODE EventGraph.K2Node_CallFunction_67 [Actor|DestroyActor]  | execute->K2Node_CallFunction_70:? ; self ; then
+  NODE EventGraph.K2Node_CallFunction_69 [Pawn|UnPossess]  | execute->K2Node_SpawnActorFromClass_4:? ; self->K2Node_CallFunction_40:? ; then->K2Node_CallFunction_70:?
+  NODE EventGraph.K2Node_CallFunction_70 [Pawn|Possess]  | execute->K2Node_CallFunction_69:? ; self->K2Node_CallFunction_40:? ; InPawn->K2Node_SpawnActorFromClass_4:? ; then->K2Node_CallFunction_67:?
+  NODE EventGraph.K2Node_CustomEvent_4 [AddEvent|Custom|S_Swap]  | OutputDelegate ; then->K2Node_CallFunction_1:?
+  NODE EventGraph.K2Node_CustomEvent_5 [AddEvent|Custom|M_Swap]  | OutputDelegate ; then->K2Node_SpawnActorFromClass_4:?
+  NODE EventGraph.K2Node_CallFunction_40 [Game|GetPlayerController]  | PlayerIndex ; ReturnValue->K2Node_CallFunction_17:?,K2Node_CallFunction_69:?,K2Node_CallFunction_70:?
+  NODE EventGraph.K2Node_CallFunction_17 [Transformation|GetActorLocation]  | self->K2Node_CallFunction_40:? ; ReturnValue->K2Node_CallFunction_444:?
+  NODE EventGraph.K2Node_CallFunction_444 [Math|Conversions|ToTransform(Vector)]  | InLocation->K2Node_CallFunction_17:? ; ReturnValue->K2Node_SpawnActorFromClass_4:?
+  NODE EventGraph.K2Node_CallFunction_0 [|S_Swap]  | execute->K2Node_InputKey_1:? ; self ; then
+  NODE EventGraph.K2Node_CallFunction_1 [|M_Swap]  | execute->K2Node_CustomEvent_4:? ; self ; then
+######## /Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope
+graphs [{"refPath": "/Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope:UserConstructionScript"}, {"refPath": "/Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope:Get Teleport Destination"}, {"refPath": "/Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope:Get Display Destination"}, {"refPath": "/Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope:Set Display Rotation"}, {"refPath": "/Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope:EventGraph"}]
+vars ["Cast2", "Cast1", "CanCast", "TeleportDisplay", "TeleportRange", "TeleportDestination", "Petals"]
+--- DSL /Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope:UserConstructionScript
+(fn ConstructionScript ()
+  (|Parent:ConstructionScript))
+
+  NODE UserConstructionScript.K2Node_FunctionEntry_0 [|ConstructionScript]  | then->K2Node_CallParentFunction_0:?
+  NODE UserConstructionScript.K2Node_CallParentFunction_0 [|Parent:ConstructionScript]  | execute->K2Node_FunctionEntry_0:? ; then
+--- DSL /Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope:Get Teleport Destination
+(fn GetTeleportDestination ()
+  (bind _normal (Collision|BreakHitResult (Collision|SphereTraceByChannel (Math|Vector|vector+vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Components|Capsule|GetUnscaledCapsuleRadius (Variables|Character|GetCapsuleComponent)) 1.200000))) (Math|Vector|vector+vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Components|Capsule|GetUnscaledCapsuleRadius (Variables|Character|GetCapsuleComponent)) 1.200000))) 46.900000)))
+  (bind _impactpoint (Collision|BreakHitResult (Collision|SphereTraceByChannel (Math|Vector|vector+vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Components|Capsule|GetUnscaledCapsuleRadius (Variables|Character|GetCapsuleComponent)) 1.200000))) (Math|Vector|vector+vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Components|Capsule|GetUnscaledCapsuleRadius (Variables|Character|GetCapsuleComponent)) 1.200000))) 46.900000)))
+  (bind _capsulecomponent (Variables|Character|GetCapsuleComponent))
+  (bind _returnvalue (Components|Capsule|GetUnscaledCapsuleRadius _capsulecomponent))
+  (bind _normal_1 (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)))
+  (bind _location (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)))
+  (bind _returnvalue_1 (Math|Vector|vector*vector _returnvalue 1.200000))
+  (bind _returnvalue_2 (Math|Vector|vector*vector _normal_1 _returnvalue_1))
+  (bind _returnvalue_3 (Math|Vector|vector+vector _location _returnvalue_2))
+  (bind _returnvalue_4 (Math|Vector|vector*vector _normal 46.900000))
+  (bind _returnvalue_5 (Math|Vector|vector+vector _impactpoint _returnvalue_4))
+  (bind (_outhit _returnvalue_6) (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000))
+  (if _returnvalue_6
+    (bind (_outhit_1 _returnvalue_7) (Collision|SphereTraceByChannel _returnvalue_3 _returnvalue_3 46.900000))
+    (if _returnvalue_7
+      (bind (_outhit_2 _returnvalue_8) (Collision|SphereTraceByChannel _returnvalue_5 _returnvalue_5 46.800000))
+      (if _returnvalue_8
+        (Variables|Teleport|SetTeleportDestination (Math|Vector|vector+vector (Collision|BreakHitResult _outhit_2) (Math|Vector|vector*vector (Collision|BreakHitResult _outhit_2) 46.900000)))
+        (else
+          (Variables|Teleport|SetTeleportDestination _returnvalue_5)))
+      (else
+        (Variables|Teleport|SetTeleportDestination _returnvalue_3)))
+    (else
+      (Variables|Teleport|SetTeleportDestination (Collision|BreakHitResult _outhit)))))
+
+  NODE Get Teleport Destination.K2Node_FunctionEntry_0 [|GetTeleportDestination]  | then->K2Node_CallFunction_3:?
+  NODE Get Teleport Destination.K2Node_CallFunction_7 [Collision|BreakHitResult]  | Hit->K2Node_CallFunction_3:? ; bBlockingHit ; bInitialOverlap ; Time ; Distance ; Location->K2Node_PromotableOperator_4:? ; ImpactPoint ; Normal->K2Node_PromotableOperator_13:? ; ImpactNormal ; PhysMat ; HitActor ; HitComponent ; HitBoneName ; BoneName ; HitItem ; ElementIndex ; FaceIndex ; TraceStart ; TraceEnd->K2Node_VariableSet_0:?
+  NODE Get Teleport Destination.K2Node_IfThenElse_1 [Utilities|FlowControl|Branch]  | execute->K2Node_CallFunction_3:? ; Condition->K2Node_CallFunction_3:? ; then->K2Node_CallFunction_14:? ; else->K2Node_VariableSet_0:?
+  NODE Get Teleport Destination.K2Node_VariableSet_2 [|SetTeleportDestination]  | execute->K2Node_IfThenElse_5:? ; TeleportDestination->K2Node_PromotableOperator_4:? ; then ; Output_Get
+  NODE Get Teleport Destination.K2Node_VariableSet_0 [|SetTeleportDestination]  | execute->K2Node_IfThenElse_1:? ; TeleportDestination->K2Node_CallFunction_7:? ; then ; Output_Get
+  NODE Get Teleport Destination.K2Node_CallFunction_4 [Components|Capsule|GetUnscaledCapsuleRadius]  | self->K2Node_VariableGet_4:? ; ReturnValue->K2Node_PromotableOperator_5:?
+  NODE Get Teleport Destination.K2Node_VariableGet_4 [|GetCapsuleComponent]  | CapsuleComponent->K2Node_CallFunction_4:?
+  NODE Get Teleport Destination.K2Node_PromotableOperator_4 [Math|Vector|vector+vector]  | A->K2Node_CallFunction_7:? ; B->K2Node_PromotableOperator_13:? ; ReturnValue->K2Node_VariableSet_2:?,K2Node_CallFunction_14:?,K2Node_CallFunction_14:?,K2Node_CallFunction_13:?
+  NODE Get Teleport Destination.K2Node_PromotableOperator_5 [Math|Vector|vector*vector]  | A->K2Node_CallFunction_4:? ; B ; ReturnValue->K2Node_PromotableOperator_13:?
+  NODE Get Teleport Destination.K2Node_PromotableOperator_13 [Math|Vector|vector*vector]  | A->K2Node_CallFunction_7:? ; B->K2Node_PromotableOperator_5:? ; ReturnValue->K2Node_PromotableOperator_4:?
+  NODE Get Teleport Destination.K2Node_CallFunction_3 [Collision|SphereTraceByChannel]  | execute->K2Node_FunctionEntry_0:? ; Start->K2Node_Knot_2:? ; End->K2Node_PromotableOperator_2:? ; Radius ; TraceChannel ; bTraceComplex ; ActorsToIgnore ; DrawDebugType ; bIgnoreSelf ; TraceColor ; TraceHitColor ; DrawTime ; then->K2Node_IfThenElse_1:? ; OutHit->K2Node_CallFunction_7:? ; ReturnValue->K2Node_IfThenElse_1:?
+  NODE Get Teleport Destination.K2Node_CallFunction_14 [Collision|SphereTraceByChannel]  | execute->K2Node_IfThenElse_1:? ; Start->K2Node_PromotableOperator_4:? ; End->K2Node_PromotableOperator_4:? ; Radius ; TraceChannel ; bTraceComplex ; ActorsToIgnore ; DrawDebugType ; bIgnoreSelf ; TraceColor ; TraceHitColor ; DrawTime ; then->K2Node_IfThenElse_5:? ; OutHit->K2Node_CallFunction_16:? ; ReturnValue->K2Node_IfThenElse_5:?
+  NODE Get Teleport Destination.K2Node_IfThenElse_5 [Utilities|FlowControl|Branch]  | execute->K2Node_CallFunction_14:? ; Condition->K2Node_CallFunction_14:? ; then->K2Node_CallFunction_6:? ; else->K2Node_VariableSet_2:?
+  NODE Get Teleport Destination.K2Node_CallFunction_16 [Collision|BreakHitResult]  | Hit->K2Node_CallFunction_14:? ; bBlockingHit ; bInitialOverlap ; Time ; Distance ; Location ; ImpactPoint->K2Node_PromotableOperator_6:? ; Normal->K2Node_PromotableOperator_8:? ; ImpactNormal ; PhysMat ; HitActor ; HitComponent ; HitBoneName ; BoneName ; HitItem ; ElementIndex ; FaceIndex ; TraceStart ; TraceEnd
+  NODE Get Teleport Destination.K2Node_PromotableOperator_6 [Math|Vector|vector+vector]  | A->K2Node_CallFunction_16:? ; B->K2Node_PromotableOperator_8:? ; ReturnValue->K2Node_VariableSet_4:?,K2Node_CallFunction_15:?,K2Node_CallFunction_6:?,K2Node_CallFunction_6:?
+  NODE Get Teleport Destination.K2Node_PromotableOperator_8 [Math|Vector|vector*vector]  | A->K2Node_CallFunction_16:? ; B ; ReturnValue->K2Node_PromotableOperator_6:?
+  NODE Get Teleport Destination.K2Node_VariableSet_4 [|SetTeleportDestination]  | execute->K2Node_IfThenElse_2:? ; TeleportDestination->K2Node_PromotableOperator_6:? ; then ; Output_Get
+  NODE Get Teleport Destination.K2Node_CallFunction_13 [Rendering|Debug|DrawDebugSphere]  | execute ; Center->K2Node_PromotableOperator_4:? ; Radius ; Segments ; LineColor ; Duration ; Thickness ; DepthPriority ; then
+  NODE Get Teleport Destination.K2Node_CallFunction_15 [Rendering|Debug|DrawDebugSphere]  | execute ; Center->K2Node_PromotableOperator_6:? ; Radius ; Segments ; LineColor ; Duration ; Thickness ; DepthPriority ; then
+  NODE Get Teleport Destination.K2Node_CallFunction_6 [Collision|SphereTraceByChannel]  | execute->K2Node_IfThenElse_5:? ; Start->K2Node_PromotableOperator_6:? ; End->K2Node_PromotableOperator_6:? ; Radius ; TraceChannel ; bTraceComplex ; ActorsToIgnore ; DrawDebugType ; bIgnoreSelf ; TraceColor ; TraceHitColor ; DrawTime ; then->K2Node_IfThenElse_2:? ; OutHit->K2Node_CallFunction_11:? ; ReturnValue->K2Node_IfThenElse_2:?
+  NODE Get Teleport Destination.K2Node_CallFunction_12 [Rendering|Debug|DrawDebugSphere]  | execute ; Center->K2Node_PromotableOperator_3:? ; Radius ; Segments ; LineColor ; Duration ; Thickness ; DepthPriority ; then
+  NODE Get Teleport Destination.K2Node_IfThenElse_2 [Utilities|FlowControl|Branch]  | execute->K2Node_CallFunction_6:? ; Condition->K2Node_CallFunction_6:? ; then->K2Node_VariableSet_3:? ; else->K2Node_VariableSet_4:?
+  NODE Get Teleport Destination.K2Node_CallFunction_11 [Collision|BreakHitResult]  | Hit->K2Node_CallFunction_6:? ; bBlockingHit ; bInitialOverlap ; Time ; Distance ; Location ; ImpactPoint->K2Node_PromotableOperator_3:? ; Normal->K2Node_PromotableOperator_7:? ; ImpactNormal ; PhysMat ; HitActor ; HitComponent ; HitBoneName ; BoneName ; HitItem ; ElementIndex ; FaceIndex ; TraceStart ; TraceEnd
+  NODE Get Teleport Destination.K2Node_VariableSet_3 [|SetTeleportDestination]  | execute->K2Node_IfThenElse_2:? ; TeleportDestination->K2Node_PromotableOperator_3:? ; then ; Output_Get
+  NODE Get Teleport Destination.K2Node_PromotableOperator_3 [Math|Vector|vector+vector]  | A->K2Node_CallFunction_11:? ; B->K2Node_PromotableOperator_7:? ; ReturnValue->K2Node_VariableSet_3:?,K2Node_CallFunction_12:?
+  NODE Get Teleport Destination.K2Node_PromotableOperator_7 [Math|Vector|vector*vector]  | A->K2Node_CallFunction_11:? ; B ; ReturnValue->K2Node_PromotableOperator_3:?
+  NODE Get Teleport Destination.K2Node_CallFunction_0 [Game|GetPlayerCameraManager]  | PlayerIndex ; ReturnValue->K2Node_CallFunction_1:?,K2Node_CallFunction_2:?
+  NODE Get Teleport Destination.K2Node_CallFunction_1 [Transformation|GetActorLocation]  | self->K2Node_CallFunction_0:? ; ReturnValue->K2Node_Knot_2:?
+  NODE Get Teleport Destination.K2Node_CallFunction_2 [Transformation|GetActorForwardVector]  | self->K2Node_CallFunction_0:? ; ReturnValue->K2Node_PromotableOperator_1:?
+  NODE Get Teleport Destination.K2Node_PromotableOperator_1 [Math|Vector|vector*vector]  | A->K2Node_CallFunction_2:? ; B->K2Node_VariableGet_1:? ; ReturnValue->K2Node_PromotableOperator_2:?
+  NODE Get Teleport Destination.K2Node_PromotableOperator_2 [Math|Vector|vector+vector]  | A->K2Node_Knot_2:? ; B->K2Node_PromotableOperator_1:? ; ReturnValue->K2Node_CallFunction_3:?
+  NODE Get Teleport Destination.K2Node_Knot_2 [|RerouteNode]  | InputPin->K2Node_CallFunction_1:? ; OutputPin->K2Node_PromotableOperator_2:?,K2Node_CallFunction_3:?
+  NODE Get Teleport Destination.K2Node_VariableGet_1 [|GetTeleportRange]  | TeleportRange->K2Node_PromotableOperator_1:?
+--- DSL /Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope:Get Display Destination
+(fn GetDisplayDestination ()
+  (bind (_outhit _returnvalue) (Collision|LineTraceByChannel (Variables|Teleport|GetTeleportDestination) (Math|Vector|vector-vector (Variables|Teleport|GetTeleportDestination) 0.0 0.0 (* (Components|Capsule|GetScaledCapsuleHalfHeight (Variables|Character|GetCapsuleComponent)) 2.000000))))
+  (if _returnvalue
+    (Variables|Teleport|SetTeleportDisplay (Collision|BreakHitResult _outhit))
+    (else
+      (Variables|Teleport|SetTeleportDisplay (Collision|BreakHitResult _outhit)))))
+
+  NODE Get Display Destination.K2Node_FunctionEntry_0 [|GetDisplayDestination]  | then->K2Node_CallFunction_2:?
+  NODE Get Display Destination.K2Node_VariableGet_5 [|GetTeleportDestination]  | TeleportDestination->K2Node_CallFunction_2:?
+  NODE Get Display Destination.K2Node_CallFunction_2 [Collision|LineTraceByChannel]  | execute->K2Node_FunctionEntry_0:? ; Start->K2Node_VariableGet_5:? ; End->K2Node_PromotableOperator_6:? ; TraceChannel ; bTraceComplex ; ActorsToIgnore ; DrawDebugType ; bIgnoreSelf ; TraceColor ; TraceHitColor ; DrawTime ; then->K2Node_IfThenElse_1:? ; OutHit->K2Node_CallFunction_5:? ; ReturnValue->K2Node_IfThenElse_1:?
+  NODE Get Display Destination.K2Node_CallFunction_5 [Collision|BreakHitResult]  | Hit->K2Node_CallFunction_2:? ; bBlockingHit ; bInitialOverlap ; Time ; Distance ; Location->K2Node_VariableSet_4:? ; ImpactPoint ; Normal ; ImpactNormal ; PhysMat ; HitActor ; HitComponent ; HitBoneName ; BoneName ; HitItem ; ElementIndex ; FaceIndex ; TraceStart ; TraceEnd->K2Node_VariableSet_3:?
+  NODE Get Display Destination.K2Node_IfThenElse_1 [Utilities|FlowControl|Branch]  | execute->K2Node_CallFunction_2:? ; Condition->K2Node_CallFunction_2:? ; then->K2Node_VariableSet_4:? ; else->K2Node_VariableSet_3:?
+  NODE Get Display Destination.K2Node_VariableSet_4 [|SetTeleportDisplay]  | execute->K2Node_IfThenElse_1:? ; TeleportDisplay->K2Node_CallFunction_5:? ; then ; Output_Get
+  NODE Get Display Destination.K2Node_VariableSet_3 [|SetTeleportDisplay]  | execute->K2Node_IfThenElse_1:? ; TeleportDisplay->K2Node_CallFunction_5:? ; then ; Output_Get
+  NODE Get Display Destination.K2Node_VariableGet_3 [|GetTeleportDestination]  | TeleportDestination->K2Node_PromotableOperator_6:?
+  NODE Get Display Destination.K2Node_PromotableOperator_6 [Math|Vector|vector-vector]  | A->K2Node_VariableGet_3:? ; B_X ; B_Y ; B_Z->K2Node_PromotableOperator_0:? ; ReturnValue->K2Node_CallFunction_2:?
+  NODE Get Display Destination.K2Node_CallFunction_1 [Components|Capsule|GetScaledCapsuleHalfHeight]  | self->K2Node_VariableGet_1:? ; ReturnValue->K2Node_PromotableOperator_0:?
+  NODE Get Display Destination.K2Node_VariableGet_1 [|GetCapsuleComponent]  | CapsuleComponent->K2Node_CallFunction_1:?
+  NODE Get Display Destination.K2Node_PromotableOperator_0 [Math|Float|float*float]  | A->K2Node_CallFunction_1:? ; B ; ReturnValue->K2Node_PromotableOperator_6:?
+--- DSL /Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope:Set Display Rotation
+(fn SetDisplayRotation ()
+  (Transformation|SetActorRotation (Variables|Default|GetPetals) 0.0 0.0 (Math|Interpolation|RInterpTo (Transformation|GetActorRotation (Variables|Default|GetPetals)) (Math|Rotator|FindLookAtRotation (Transformation|GetActorLocation (Variables|Default|GetPetals)) (Transformation|GetActorLocation)) (Utilities|Time|GetWorldDeltaSeconds))))
+
+  NODE Set Display Rotation.K2Node_FunctionEntry_1 [|SetDisplayRotation]  | then->K2Node_CallFunction_10:?
+  NODE Set Display Rotation.K2Node_CallFunction_13 [Math|Interpolation|RInterpTo]  | Current->K2Node_CallFunction_15:? ; Target->K2Node_CallFunction_19:? ; DeltaTime->K2Node_CallFunction_24:? ; InterpSpeed ; ReturnValue_Roll ; ReturnValue_Pitch ; ReturnValue_Yaw->K2Node_CallFunction_10:?
+  NODE Set Display Rotation.K2Node_CallFunction_15 [Transformation|GetActorRotation]  | self->K2Node_VariableGet_0:? ; ReturnValue->K2Node_CallFunction_13:?
+  NODE Set Display Rotation.K2Node_CallFunction_18 [Transformation|GetActorLocation]  | self ; ReturnValue->K2Node_CallFunction_19:?
+  NODE Set Display Rotation.K2Node_CallFunction_16 [Transformation|GetActorLocation]  | self->K2Node_VariableGet_0:? ; ReturnValue->K2Node_CallFunction_19:?
+  NODE Set Display Rotation.K2Node_VariableGet_0 [|GetPetals]  | Petals->K2Node_CallFunction_15:?,K2Node_CallFunction_16:?
+  NODE Set Display Rotation.K2Node_CallFunction_19 [Math|Rotator|FindLookAtRotation]  | Start->K2Node_CallFunction_16:? ; Target->K2Node_CallFunction_18:? ; ReturnValue->K2Node_CallFunction_13:?
+  NODE Set Display Rotation.K2Node_CallFunction_24 [Utilities|Time|GetWorldDeltaSeconds]  | ReturnValue->K2Node_CallFunction_13:?
+  NODE Set Display Rotation.K2Node_CallFunction_10 [Transformation|SetActorRotation]  | execute->K2Node_FunctionEntry_1:? ; self->K2Node_VariableGet_7:? ; NewRotation_Roll ; NewRotation_Pitch ; NewRotation_Yaw->K2Node_CallFunction_13:? ; bTeleportPhysics ; then ; ReturnValue
+  NODE Set Display Rotation.K2Node_VariableGet_7 [|GetPetals]  | Petals->K2Node_CallFunction_10:?
+--- DSL /Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope:EventGraph
+(event Collision|EventActorBeginOverlap (OtherActor))
+
+(event EventTick (DeltaSeconds))
+
+(event EventBeginPlay
+  (|Parent:BeginPlay)
+  (bind _returnvalue (Game|SpawnActorPetals "/Game/Characters/Hope/Blueprints/Petals.Petals_C" (Math|Conversions|ToTransform(Vector) (Transformation|GetActorLocation)) "Undefined" "MultiplyWithRoot" 0 0))
+  (bind _output_get (Variables|Default|SetPetals _returnvalue))
+  (Rendering|SetActorHiddenInGame _output_get true))
+
+(event Custom|C_PlayMontage
+  (Animation|Montage|PlayMontage (Variables|Character|GetMesh) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")
+  (Animation|Montage|PlayMontage (Variables|Default|GetMeshOwnerSee) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")
+  (|S_PlayMontage))
+
+(event EnhancedInputActionIA_Aim (ActionValue ElapsedSeconds TriggeredSeconds InputAction)
+  (bind _teleportdisplay (Variables|Teleport|GetTeleportDisplay))
+  (bind _cancast (Variables|Cast|GetCanCast)))
+
+(event Custom|S_TeleportCompleted (TrueDestination)
+  (|MC_Teleportcompleted TrueDestination))
+
+(event Custom|S_PlayMontage
+  (|MC_PlayMontage))
+
+(event Custom|MC_PlayMontage
+  (if (not (Pawn|IsLocallyControlled))
+    (Animation|Montage|PlayMontage (Variables|Character|GetMesh) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")
+    (Animation|Montage|PlayMontage (Variables|Default|GetMeshOwnerSee) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")))
+
+(event Custom|MC_Teleportcompleted (TrueDestination)
+  (Transformation|SetActorLocation TrueDestination false true)
+  (Components|Movement|StopMovementImmediately (Variables|Character|GetCharacterMovement))
+  (|C_PlayMontage))
+
+(event 1 (Key))
+
+(event Custom|S_Swap
+  (|M_Swap))
+
+(event Custom|M_Swap
+  (bind _returnvalue (Game|GetPlayerController 0))
+  (bind _returnvalue_1 (Game|SpawnActorCBPPCGolKosh "/Game/ThirdPerson/Blueprints/CBP_PC_GolKosh.CBP_PC_GolKosh_C" (Math|Conversions|ToTransform(Vector) (Transformation|GetActorLocation _returnvalue)) "Undefined" "MultiplyWithRoot" 0 0))
+  (Pawn|UnPossess _returnvalue)
+  (Pawn|Possess _returnvalue _returnvalue_1)
+  (Actor|DestroyActor))
+
+  NODE EventGraph.K2Node_Event_1 [AddEvent|Collision|EventActorBeginOverlap]  | OutputDelegate ; then ; OtherActor
+  NODE EventGraph.K2Node_Event_2 [AddEvent|EventTick]  | OutputDelegate ; then ; DeltaSeconds
+  NODE EventGraph.K2Node_CallFunction_22 [Transformation|SetActorLocation]  | execute->K2Node_CustomEvent_1:? ; self ; NewLocation->K2Node_CustomEvent_1:? ; bSweep ; bTeleport ; then->K2Node_CallFunction_15:? ; SweepHitResult ; ReturnValue
+  NODE EventGraph.K2Node_CallFunction_4 [Animation|PlayAnimMontage]  | execute ; self ; AnimMontage ; InPlayRate ; StartSectionName ; then ; ReturnValue
+  NODE EventGraph.K2Node_VariableGet_4 [|GetTeleportDisplay]  | TeleportDisplay->K2Node_Knot_1:?,K2Node_PromotableOperator_3:?
+  NODE EventGraph.K2Node_Knot_0 [|RerouteNode]  | InputPin->K2Node_IfThenElse_0:? ; OutputPin->K2Node_CallFunction_18:?
+  NODE EventGraph.K2Node_CallFunction_14 [Transformation|SetActorLocation]  | execute->K2Node_CallFunction_19:? ; self->K2Node_VariableGet_1:? ; NewLocation->K2Node_Knot_1:? ; bSweep ; bTeleport ; then->K2Node_CallFunction_20:? ; SweepHitResult ; ReturnValue
+  NODE EventGraph.K2Node_VariableGet_1 [|GetPetals]  | Petals->K2Node_CallFunction_14:?
+  NODE EventGraph.K2Node_CallFunction_11 [Rendering|SetActorHiddenInGame]  | execute->K2Node_IfThenElse_6:? ; self->K2Node_VariableGet_3:? ; bNewHidden ; then->K2Node_CallFunction_2:?
+  NODE EventGraph.K2Node_CallFunction_12 [Rendering|SetActorHiddenInGame]  | execute->K2Node_Knot_3:? ; self->K2Node_VariableGet_6:? ; bNewHidden ; then->K2Node_IfThenElse_2:?
+  NODE EventGraph.K2Node_VariableGet_6 [|GetPetals]  | Petals->K2Node_CallFunction_12:?
+  NODE EventGraph.K2Node_VariableGet_3 [|GetPetals]  | Petals->K2Node_CallFunction_11:?
+  NODE EventGraph.K2Node_PromotableOperator_3 [Math|Vector|vector+vector]  | A->K2Node_VariableGet_4:? ; B_X ; B_Y ; B_Z->K2Node_CallFunction_9:? ; ReturnValue->K2Node_CallFunction_2:?
+  NODE EventGraph.K2Node_CallFunction_8 [Utilities|FlowControl|Delay]  | execute->K2Node_VariableSet_3:? ; Duration ; then->K2Node_VariableSet_1:?
+  NODE EventGraph.K2Node_VariableSet_3 [|SetCast1]  | execute->K2Node_IfThenElse_2:? ; Cast1 ; then->K2Node_CallFunction_8:? ; Output_Get
+  NODE EventGraph.K2Node_CallFunction_7 [Utilities|FlowControl|Delay]  | execute->K2Node_VariableSet_4:? ; Duration ; then->K2Node_VariableSet_2:?
+  NODE EventGraph.K2Node_VariableSet_4 [|SetCast2]  | execute->K2Node_IfThenElse_2:? ; Cast2 ; then->K2Node_CallFunction_7:? ; Output_Get
+  NODE EventGraph.K2Node_VariableSet_1 [|SetCast1]  | execute->K2Node_CallFunction_8:? ; Cast1 ; then ; Output_Get
+  NODE EventGraph.K2Node_VariableSet_2 [|SetCast2]  | execute->K2Node_CallFunction_7:? ; Cast2 ; then ; Output_Get
+  NODE EventGraph.K2Node_VariableGet_8 [|GetCast1]  | Cast1->K2Node_CommutativeAssociativeBinaryOperator_1:?
+  NODE EventGraph.K2Node_VariableGet_7 [|GetCast2]  | Cast2->K2Node_CommutativeAssociativeBinaryOperator_1:?
+  NODE EventGraph.K2Node_VariableGet_5 [|GetCast1]  | Cast1->K2Node_IfThenElse_2:?
+  NODE EventGraph.K2Node_IfThenElse_2 [Utilities|FlowControl|Branch]  | execute->K2Node_CallFunction_12:? ; Condition->K2Node_VariableGet_5:? ; then->K2Node_VariableSet_3:? ; else->K2Node_VariableSet_4:?
+  NODE EventGraph.K2Node_VariableSet_9 [|SetCanCast]  | execute->K2Node_EnhancedInputAction_0:? ; CanCast->K2Node_CommutativeAssociativeBinaryOperator_1:? ; then->K2Node_IfThenElse_3:? ; Output_Get->K2Node_IfThenElse_3:?
+  NODE EventGraph.K2Node_IfThenElse_3 [Utilities|FlowControl|Branch]  | execute->K2Node_VariableSet_9:? ; Condition->K2Node_VariableSet_9:? ; then->K2Node_Knot_2:? ; else
+  NODE EventGraph.K2Node_CommutativeAssociativeBinaryOperator_1 [Math|Boolean|ORBoolean]  | A->K2Node_VariableGet_8:? ; B->K2Node_VariableGet_7:? ; ReturnValue->K2Node_VariableSet_9:?
+  NODE EventGraph.K2Node_IfThenElse_0 [Utilities|FlowControl|Branch]  | execute->K2Node_EnhancedInputAction_0:? ; Condition->K2Node_VariableGet_9:? ; then->K2Node_Knot_0:? ; else
+  NODE EventGraph.K2Node_VariableGet_9 [|GetCanCast]  | CanCast->K2Node_IfThenElse_0:?,K2Node_IfThenElse_6:?
+  NODE EventGraph.K2Node_IfThenElse_6 [Utilities|FlowControl|Branch]  | execute->K2Node_EnhancedInputAction_0:? ; Condition->K2Node_VariableGet_9:? ; then->K2Node_CallFunction_11:? ; else
+  NODE EventGraph.K2Node_Knot_1 [|RerouteNode]  | InputPin->K2Node_VariableGet_4:? ; OutputPin->K2Node_CallFunction_14:?
+  NODE EventGraph.K2Node_CallFunction_9 [Components|Capsule|GetUnscaledCapsuleHalfHeight]  | self->K2Node_VariableGet_0:? ; ReturnValue->K2Node_PromotableOperator_3:?
+  NODE EventGraph.K2Node_VariableGet_0 [|GetCapsuleComponent]  | CapsuleComponent->K2Node_CallFunction_9:?
+  NODE EventGraph.K2Node_CallFunction_18 [Default|GetTeleportDestination]  | execute->K2Node_Knot_0:? ; self ; then->K2Node_CallFunction_19:?
+  NODE EventGraph.K2Node_CallFunction_19 [Default|GetDisplayDestination]  | execute->K2Node_CallFunction_18:? ; self ; then->K2Node_CallFunction_14:?
+  NODE EventGraph.K2Node_CallFunction_20 [Default|SetDisplayRotation]  | execute->K2Node_CallFunction_14:? ; self ; then
+  NODE EventGraph.K2Node_CustomEvent_7 [AddEvent|Custom|S_TeleportCompleted]  | OutputDelegate ; then->K2Node_CallFunction_3:? ; TrueDestination->K2Node_CallFunction_3:?
+  NODE EventGraph.K2Node_CustomEvent_1 [AddEvent|Custom|MC_Teleportcompleted]  | OutputDelegate ; then->K2Node_CallFunction_22:? ; TrueDestination->K2Node_CallFunction_22:?
+  NODE EventGraph.K2Node_EnhancedInputAction_0 [Input|EnhancedActionEvents|EnhancedInputActionIA_Aim]  | Triggered ; Started->K2Node_VariableSet_9:? ; Ongoing->K2Node_IfThenElse_0:? ; Canceled ; Completed->K2Node_IfThenElse_6:? ; ActionValue ; ElapsedSeconds ; TriggeredSeconds ; InputAction
+  NODE EventGraph.K2Node_Knot_2 [|RerouteNode]  | InputPin->K2Node_IfThenElse_3:? ; OutputPin->K2Node_Knot_3:?
+  NODE EventGraph.K2Node_Knot_3 [|RerouteNode]  | InputPin->K2Node_Knot_2:? ; OutputPin->K2Node_CallFunction_12:?
+  NODE EventGraph.K2Node_PlayMontage_2 [Animation|Montage|PlayMontage]  | execute->K2Node_PlayMontage_3:? ; InSkeletalMeshComponent->K2Node_VariableGet_11:? ; MontageToPlay ; PlayRate ; StartingPosition ; StartingSection ; bShouldStopAllMontages ; then->K2Node_CallFunction_16:? ; OnCompleted ; OnBlendOut ; OnInterrupted ; OnNotifyBegin ; OnNotifyEnd ; NotifyName
+  NODE EventGraph.K2Node_PlayMontage_3 [Animation|Montage|PlayMontage]  | execute->K2Node_CustomEvent_0:? ; InSkeletalMeshComponent->K2Node_VariableGet_10:? ; MontageToPlay ; PlayRate ; StartingPosition ; StartingSection ; bShouldStopAllMontages ; then->K2Node_PlayMontage_2:? ; OnCompleted ; OnBlendOut ; OnInterrupted ; OnNotifyBegin ; OnNotifyEnd ; NotifyName
+  NODE EventGraph.K2Node_VariableGet_10 [|GetMesh]  | Mesh->K2Node_PlayMontage_3:?
+  NODE EventGraph.K2Node_CallFunction_3 [|MC_Teleportcompleted]  | execute->K2Node_CustomEvent_7:? ; self ; TrueDestination->K2Node_CustomEvent_7:? ; then
+  NODE EventGraph.K2Node_CallFunction_2 [|S_TeleportCompleted]  | execute->K2Node_CallFunction_11:? ; self ; TrueDestination->K2Node_PromotableOperator_3:? ; then
+  NODE EventGraph.K2Node_VariableGet_11 [|GetMeshOwnerSee]  | MeshOwnerSee->K2Node_PlayMontage_2:?
+  NODE EventGraph.K2Node_Event_0 [AddEvent|EventBeginPlay]  | OutputDelegate ; then->K2Node_CallParentFunction_0:?
+  NODE EventGraph.K2Node_CallParentFunction_0 [|Parent:BeginPlay]  | execute->K2Node_Event_0:? ; then->K2Node_SpawnActorFromClass_0:?
+  NODE EventGraph.K2Node_SpawnActorFromClass_0 [Game|SpawnActorPetals]  | execute->K2Node_CallParentFunction_0:? ; Class ; SpawnTransform->K2Node_CallFunction_36:? ; CollisionHandlingOverride ; TransformScaleMethod ; Owner ; Instigator ; then->K2Node_VariableSet_0:? ; ReturnValue->K2Node_VariableSet_0:?
+  NODE EventGraph.K2Node_VariableSet_0 [|SetPetals]  | execute->K2Node_SpawnActorFromClass_0:? ; Petals->K2Node_SpawnActorFromClass_0:? ; then->K2Node_CallFunction_5:? ; Output_Get->K2Node_CallFunction_5:?
+  NODE EventGraph.K2Node_CallFunction_5 [Rendering|SetActorHiddenInGame]  | execute->K2Node_VariableSet_0:? ; self->K2Node_VariableSet_0:? ; bNewHidden ; then
+  NODE EventGraph.K2Node_CallFunction_1 [Transformation|GetActorLocation]  | self ; ReturnValue->K2Node_CallFunction_36:?
+  NODE EventGraph.K2Node_CallFunction_36 [Math|Conversions|ToTransform(Vector)]  | InLocation->K2Node_CallFunction_1:? ; ReturnValue->K2Node_SpawnActorFromClass_0:?
+  NODE EventGraph.K2Node_InputKey_1 [Input|KeyboardEvents|1]  | Pressed->K2Node_CallFunction_6:? ; Released ; Key
+  NODE EventGraph.K2Node_SpawnActorFromClass_4 [Game|SpawnActorCBPPCGolKosh]  | execute->K2Node_CustomEvent_5:? ; Class ; SpawnTransform->K2Node_CallFunction_444:? ; CollisionHandlingOverride ; TransformScaleMethod ; Owner ; Instigator ; then->K2Node_CallFunction_69:? ; ReturnValue->K2Node_CallFunction_70:?
+  NODE EventGraph.K2Node_CallFunction_67 [Actor|DestroyActor]  | execute->K2Node_CallFunction_70:? ; self ; then
+  NODE EventGraph.K2Node_CallFunction_69 [Pawn|UnPossess]  | execute->K2Node_SpawnActorFromClass_4:? ; self->K2Node_CallFunction_40:? ; then->K2Node_CallFunction_70:?
+  NODE EventGraph.K2Node_CallFunction_70 [Pawn|Possess]  | execute->K2Node_CallFunction_69:? ; self->K2Node_CallFunction_40:? ; InPawn->K2Node_SpawnActorFromClass_4:? ; then->K2Node_CallFunction_67:?
+  NODE EventGraph.K2Node_CustomEvent_4 [AddEvent|Custom|S_Swap]  | OutputDelegate ; then->K2Node_CallFunction_10:?
+  NODE EventGraph.K2Node_CustomEvent_5 [AddEvent|Custom|M_Swap]  | OutputDelegate ; then->K2Node_SpawnActorFromClass_4:?
+  NODE EventGraph.K2Node_CallFunction_40 [Game|GetPlayerController]  | PlayerIndex ; ReturnValue->K2Node_CallFunction_17:?,K2Node_CallFunction_69:?,K2Node_CallFunction_70:?
+  NODE EventGraph.K2Node_CallFunction_17 [Transformation|GetActorLocation]  | self->K2Node_CallFunction_40:? ; ReturnValue->K2Node_CallFunction_444:?
+  NODE EventGraph.K2Node_CallFunction_444 [Math|Conversions|ToTransform(Vector)]  | InLocation->K2Node_CallFunction_17:? ; ReturnValue->K2Node_SpawnActorFromClass_4:?
+  NODE EventGraph.K2Node_CallFunction_6 [|S_Swap]  | execute->K2Node_InputKey_1:? ; self ; then
+  NODE EventGraph.K2Node_CallFunction_10 [|M_Swap]  | execute->K2Node_CustomEvent_4:? ; self ; then
+  NODE EventGraph.K2Node_VariableGet_12 [|GetCharacterMovement]  | CharacterMovement->K2Node_CallFunction_15:?
+  NODE EventGraph.K2Node_CallFunction_15 [Components|Movement|StopMovementImmediately]  | execute->K2Node_CallFunction_22:? ; self->K2Node_VariableGet_12:? ; then->K2Node_CallFunction_23:?
+  NODE EventGraph.K2Node_CustomEvent_0 [AddEvent|Custom|C_PlayMontage]  | OutputDelegate ; then->K2Node_PlayMontage_3:?
+  NODE EventGraph.K2Node_CallFunction_23 [|C_PlayMontage]  | execute->K2Node_CallFunction_15:? ; self ; then
+  NODE EventGraph.K2Node_CustomEvent_2 [AddEvent|Custom|S_PlayMontage]  | OutputDelegate ; then->K2Node_CallFunction_21:?
+  NODE EventGraph.K2Node_CustomEvent_3 [AddEvent|Custom|MC_PlayMontage]  | OutputDelegate ; then->K2Node_IfThenElse_1:?
+  NODE EventGraph.K2Node_CallFunction_16 [|S_PlayMontage]  | execute->K2Node_PlayMontage_2:? ; self ; then
+  NODE EventGraph.K2Node_CallFunction_21 [|MC_PlayMontage]  | execute->K2Node_CustomEvent_2:? ; self ; then
+  NODE EventGraph.K2Node_IfThenElse_1 [Utilities|FlowControl|Branch]  | execute->K2Node_CustomEvent_3:? ; Condition->K2Node_CallFunction_13:? ; then ; else->K2Node_PlayMontage_1:?
+  NODE EventGraph.K2Node_CallFunction_13 [Pawn|IsLocallyControlled]  | self ; ReturnValue->K2Node_IfThenElse_1:?
+  NODE EventGraph.K2Node_PlayMontage_0 [Animation|Montage|PlayMontage]  | execute->K2Node_PlayMontage_1:? ; InSkeletalMeshComponent->K2Node_VariableGet_13:? ; MontageToPlay ; PlayRate ; StartingPosition ; StartingSection ; bShouldStopAllMontages ; then ; OnCompleted ; OnBlendOut ; OnInterrupted ; OnNotifyBegin ; OnNotifyEnd ; NotifyName
+  NODE EventGraph.K2Node_PlayMontage_1 [Animation|Montage|PlayMontage]  | execute->K2Node_IfThenElse_1:? ; InSkeletalMeshComponent->K2Node_VariableGet_2:? ; MontageToPlay ; PlayRate ; StartingPosition ; StartingSection ; bShouldStopAllMontages ; then->K2Node_PlayMontage_0:? ; OnCompleted ; OnBlendOut ; OnInterrupted ; OnNotifyBegin ; OnNotifyEnd ; NotifyName
+  NODE EventGraph.K2Node_VariableGet_2 [|GetMesh]  | Mesh->K2Node_PlayMontage_1:?
+  NODE EventGraph.K2Node_VariableGet_13 [|GetMeshOwnerSee]  | MeshOwnerSee->K2Node_PlayMontage_0:?
