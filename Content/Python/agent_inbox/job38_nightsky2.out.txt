@@ -1,0 +1,71 @@
+SkyLight SkyLightComponent
+    affects_world True
+    cast_dynamic_shadows True
+    cast_static_shadows True
+    cast_volumetric_shadow True
+    real_time_capture True
+    transmission True
+DirectionalLight DirectionalLightComponent
+    affects_world True
+    atmosphere_sun_light_index 0
+    cast_dynamic_shadows True
+    cast_static_shadows True
+    cast_volumetric_shadow True
+    contact_shadow_casting_intensity 1.0
+    contact_shadow_length 0.0
+    contact_shadow_length_in_ws False
+    contact_shadow_non_casting_intensity 0.0
+    shadow_amount 1.0
+    transmission False
+    use_ray_traced_distance_field_shadows True
+Moon DirectionalLightComponent
+    affects_world True
+    atmosphere_sun_light_index 1
+    cast_dynamic_shadows True
+    cast_static_shadows True
+    cast_volumetric_shadow True
+    contact_shadow_casting_intensity 1.0
+    contact_shadow_length 0.0
+    contact_shadow_length_in_ws False
+    contact_shadow_non_casting_intensity 0.0
+    shadow_amount 1.0
+    transmission False
+    use_ray_traced_distance_field_shadows True
+ExponentialHeightFog ExponentialHeightFogComponent
+    enable_volumetric_fog True
+    visible_in_real_time_sky_captures True
+    volumetric_fog_albedo <Struct 'Color' (0x0000025DEA724F44) {b: 255, g: 255, r: 255, a: 255}>
+    volumetric_fog_distance 6000.0
+    volumetric_fog_emissive <Struct 'LinearColor' (0x0000025DEA724F48) {r: 0.000000, g: 0.000000, b: 0.000000, a: 0.000000}>
+    volumetric_fog_extinction_scale 1.0
+    volumetric_fog_near_fade_in_distance 0.0
+    volumetric_fog_scattering_distribution 0.20000000298023224
+    volumetric_fog_start_distance 0.0
+    volumetric_fog_static_lighting_scattering_intensity 1.0
+DayNightCycleTimeline TimelineComponent
+    is_looping ?
+    get_play_rate 1.0
+    get_timeline_length 24.0
+    is_looping True
+    is_playing False
+sewer actors 600 smcomps 1350 casting 1350 dfaffect 1350 instances 16690
+DL DataLayer_59B6C9DE4F4DA9D51AE6488A06BA0E7F initial <DataLayerRuntimeState.UNLOADED: 0> type  loaded_in_editor ?
+DL DataLayer_1B1B8EE1452F3A0C48B3A888AAFD315F initial <DataLayerRuntimeState.UNLOADED: 0> type  loaded_in_editor ?
+DL DataLayer_6756218D4B7C31D079EF8FADA90C71D8 initial <DataLayerRuntimeState.UNLOADED: 0> type  loaded_in_editor ?
+DL DataLayer_531D4CBE4B092F5B0890A09A06D94BD3 initial <DataLayerRuntimeState.UNLOADED: 0> type  loaded_in_editor ?
+DL DataLayer_09FE1232413C47A47B45E4B2D510B158 initial <DataLayerRuntimeState.UNLOADED: 0> type  loaded_in_editor ?
+DL DataLayer_448481D246CF0EC988422E9038C9FB7A initial <DataLayerRuntimeState.UNLOADED: 0> type  loaded_in_editor ?
+DL DataLayer_19B87A8540C33D9C46C22EB1DF5B31DC initial <DataLayerRuntimeState.UNLOADED: 0> type  loaded_in_editor ?
+DL DataLayer_74A252BC484A91A949650BB581E537B9 initial <DataLayerRuntimeState.UNLOADED: 0> type  loaded_in_editor ?
+DL DataLayer_56EA2BE546826D775BE098B6943663CD initial <DataLayerRuntimeState.UNLOADED: 0> type  loaded_in_editor ?
+DL DataLayer_FF4183C74B3A3D47B351B39492FE1834 initial <DataLayerRuntimeState.UNLOADED: 0> type  loaded_in_editor ?
+r.Shadow.CSMCaching 0 0.0
+r.Shadow.DistanceFieldPenumbraSize 0 0.0
+r.Lumen.DiffuseIndirect.Allow 1 1.0
+r.Shadow.MaxCSMResolution 4096 4096.0
+r.Shadow.RadiusThreshold 0 0.0
+r.VolumetricFog 1 1.0
+r.ShadowQuality 5 5.0
+r.Lumen.SceneLightingForceFullUpdate 0 0.0
+
+[ok in 0.1 s]

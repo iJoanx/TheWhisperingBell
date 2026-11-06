@@ -1,0 +1,5 @@
+unsaved level/actor packages: 0
+SL_023_Shaft in editor: <Struct 'Vector' (0x0000020844E91D70) {x: 4655.858863, y: 4823.894275, z: -1409.400000}>
+its package: /Game/__ExternalActors__/Levels/PersistentLevel_WP/3/RC/0IHMXEFDXJIMLTUNI4CM90 saved
+
+[ok in 0.0 s]

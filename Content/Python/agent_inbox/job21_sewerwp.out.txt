@@ -1,0 +1,15 @@
+node data layers: Counter({("<Object '/Game/Levels/DataLayers/DL_Sewers.DL_Sewers' (0x0000017BDED65DC0) Class 'DataLayerAsset'>",): 434})
+node labels: ['SL_000_End', 'SL_001_Crossing', 'SL_002_End', 'SL_003_End', 'SL_004_Shaft']
+node folders: [('SewerTrial/End', 187), ('SewerTrial/Crossing', 178), ('SewerTrial/Shaft', 55)]
+nodes matching OLD layout: 0  matching NEW layout: 0
+sewer-ish static mesh actors: [('SewerNetwork_GENERATED', ("<Object '/Game/Levels/DataLayers/DL_Sewers.DL_Sewers' (0x0000017BDED65DC0) Class 'DataLayerAsset'>",), 5938)]
+data layers of static mesh actors: [(("<Object '/Game/Levels/DataLayers/DL_TheWhisperingBell.DL_TheWhisperingBell' (0x0000017BDED65B40) Class 'DataLayerAsset'>",), 425), (("<Object '/Game/Levels/DataLayers/DL_Streets.DL_Streets' (0x0000017BDED65A80) Class 'DataLayerAsset'>",), 106), (("<Object '/Game/Levels/DataLayers/DL_TrollskullAlley.DL_TrollskullAlley' (0x0000017BDED65B80) Class 'DataLayerAsset'>",), 55), (("<Object '/Game/Levels/DataLayers/DL_WalkingStatues.DL_WalkingStatues' (0x0000017BDED64B00) Class 'DataLayerAsset'>",), 8), (("<Object '/Game/Levels/DataLayers/DL_Mountain.DL_Mountain' (0x0000017BDDFC4C40) Class 'DataLayerAsset'>",), 6), (("<Object '/Game/Levels/DataLayers/DL_Sky.DL_Sky' (0x0000017BDED65A00) Class 'DataLayerAsset'>",), 1), (("<Object '/Game/Levels/DataLayers/DL_Walls.DL_Walls' (0x0000017BE38884C0) Class 'DataLayerAsset'>",), 1), (("<Object '/Game/Levels/DataLayers/DL_Sewers.DL_Sewers' (0x0000017BDED65DC0) Class 'DataLayerAsset'>",), 1)]
+everything in / about sewers: [(('BP_SewerNode_C', ("<Object '/Game/Levels/DataLayers/DL_Sewers.DL_Sewers' (0x0000017BDED65DC0) Class 'DataLayerAsset'>",)), 434), (('BP_WB_Sewer_Entry_C', ("<Object '/Game/Levels/DataLayers/DL_Streets.DL_Streets' (0x0000017BDED65A80) Class 'DataLayerAsset'>",)), 5), (('StaticMeshActor', ("<Object '/Game/Levels/DataLayers/DL_Sewers.DL_Sewers' (0x0000017BDED65DC0) Class 'DataLayerAsset'>",)), 1)]
+node 0 mesh: SL_220_End None
+node 0 spatially loaded: True
+editor_hash -
+runtime_hash -
+b_enable_streaming -
+enable_streaming -
+
+[ok in 0.3 s]

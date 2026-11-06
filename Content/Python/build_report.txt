@@ -1,6 +1,6 @@
 Nodes baked: 434
 Connections: 447
-Passage segments: 11020
+Passage segments: 8066
 
 Warnings (23):
 SL_021_Junction: openings 36 deg apart, need about 44 deg for a 50 cm pillar

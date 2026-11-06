@@ -1,0 +1,36 @@
+world: /Game/Levels/PersistentLevel_WP.PersistentLevel_WP
+unsaved before the build: 30 ['/Game/__ExternalActors__/Levels/PersistentLevel_WP/2/ES/QJCBAX52EBQ6QEFFQRVA0Z', '/Game/__ExternalActors__/Levels/PersistentLevel_WP/2/JY/2WEW4822R7MTK7KXMC0WDK', '/Game/__ExternalActors__/Levels/PersistentLevel_WP/2/T6/6OLOIOTEQ653K8WIULQHUU', '/Game/__ExternalActors__/Levels/PersistentLevel_WP/2/WU/DB7FDHIDTJT8TQD5FN1MWJ', '/Game/__ExternalActors__/Levels/PersistentLevel_WP/3/O3/PBT3507JM4R8432NI1TSP2', '/Game/__ExternalActors__/Levels/PersistentLevel_WP/3/TP/FN8ZXI3JNPMUS7DJ5KPHPT', '/Game/__ExternalActors__/Levels/PersistentLevel_WP/4/6E/LPDHTK7C2EEU4IJUQ7A16A', '/Game/__ExternalActors__/Levels/PersistentLevel_WP/4/6M/7GLRANJJ4IRP07EMSFGI2S', '/Game/__ExternalActors__/Levels/PersistentLevel_WP/4/NS/EA9GDNEKYAG9IKML31DHD4', '/Game/__ExternalActors__/Levels/PersistentLevel_WP/6/0Y/A3JI20DTAAA7QNA6EFY7NW']
+old network actors: 1
+spawned 434 nodes in 7 s
+DIALOG: Nodes baked: 434
+Connections: 447
+Passage segments: 8066
+
+Warnings:
+- SL_021_Junction: openings 36 deg apart, need about 44 deg for a 50 cm pillar
+- SL_023_Shaft: openings 57 deg apart, need about 58 deg for a 50 cm pillar
+- SL_034_Junction: openings 32 deg apart, need about 44 deg for a 50 cm pillar
+- SL_040_Shaft: openings 70 deg apart, need about 97 deg for a 50 cm pillar
+- SL_127_Shaft: openings 33 deg apart, need about 77 deg for a 50 cm pillar
+- SL_133_Shaft: openings 44 deg apart, need about 58 deg for a 50 cm pillar
+- SL_283_Shaft: openings 58 deg apart, need about 58 deg for a 50 cm pillar
+- SL_285_Shaft: openings 43 deg apart, need about 58 deg for a 50 cm pillar
+- SL_285_Shaft: openings 46 deg apart, need about 77 deg for a 50 cm pillar
+- SL_285_Shaft: openings 64 deg apart, need about 77 deg for a 50 cm pillar
+- SL_288_Shaft: openings 52 deg apart, need about 77 deg for a 50 cm pillar
+- SL_289_Shaft: openings 42 deg apart, need about 77 deg for a 50 cm pillar
+- SL_289_Shaft: openings 72 deg apart, need about 77 deg for a 50 cm pillar
+- SL_290_Junction: openings 29 deg apart, need about 36 deg for a 50 cm pillar
+- SL_293_Shaft: openings 69 deg apart, need about 77 deg for a 50 cm pillar
+- SL_294_Shaft: openings 60 deg apart, need about 77 deg for a 50 cm pillar
+- SL_362_Shaft: openings 54 deg apart, need about 77 deg for a 50 cm pillar
+- SL_370_Shaft: openings 53 deg apart, need about 77 deg for a 50 cm pillar
+- SL_370_Shaft: openings 51 deg apart, need about 77 deg for a 50 cm pillar
+- SL_375_Shaft: openings 22 deg apart, need about 77 deg for a 50 cm pillar
+- SL_375_Shaft: openings 54 deg apart, need about 77 deg for a 50 cm pillar
+- SL_423_Shaft: openings 39 deg apart, need about 58 deg for a 50 cm pillar
+- SL_428_Shaft: openings 44 deg apart, need about 58 deg for a 50 cm pillar
+built in 330 s
+network actors: 166
+
+[ok in 336.2 s]

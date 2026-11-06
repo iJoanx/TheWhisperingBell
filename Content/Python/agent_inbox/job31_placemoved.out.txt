@@ -1,0 +1,6 @@
+nodes placed: 434, node meshes missing: 0 []
+network: 166 actors, 8066 passage segments, 249 s
+added to DL_Sewers: True
+python caches cleared
+
+[ok in 250.8 s]

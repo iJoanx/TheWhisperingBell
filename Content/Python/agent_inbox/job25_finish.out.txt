@@ -1,0 +1,9 @@
+nodes: 434  network actors: 166
+collision applied
+DL_Sewers instance: <Object '/Game/Levels/PersistentLevel_WP.PersistentLevel_WP:PersistentLevel.WorldDataLayers.DataLayer_09FE1232413C47A47B45E4B2D510B158' (0x0000017C2C62D500) Class 'DataLayerInstanceWithAsset'>
+in DL_Sewers: Counter({True: 600})
+network components: 750 instances: 16690
+built nodes without mesh: 0  without collision: 0
+old SL_ / network actors from before left over: 0
+
+[ok in 901.8 s]

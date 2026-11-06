@@ -1,0 +1,29 @@
+world: /Game/Levels/PersistentLevel_WP.PersistentLevel_WP
+world partition: None
+world_partition <Object '/Game/Levels/PersistentLevel_WP.PersistentLevel_WP:PersistentLevel.WorldSettings.WorldPartition_0' (0x0000017C2DD23700) Class 'WorldPartition'>
+enable_world_bounds_checks True
+grid info: WorldPartition: Failed to find property 'runtime_hash' for attribute 'runtime_hash' on 'WorldPartition'
+loaded actors: 1300
+classes: [('StaticMeshActor', 603), ('BP_SewerNode_C', 434), ('SkeletalMeshActor', 48), ('BP_WB_Window_C', 34), ('BP_WB_Sconce_C', 32), ('BP_WallSpline_C', 30), ('BP_WB_Shutter1_C', 29), ('BP_WB_Candle_C', 16), ('BP_WB_Insidedoor_C', 12), ('DecalActor', 9), ('BP_WB_Outsidedoor_C', 6), ('BP_WB_Sewer_Entry_C', 5), ('BP_WB_Keg_C', 4), ('BP_WB_Insidedoor_Less_C', 4), ('BP_WB_Window_Veranda_C', 3), ('BP_WB_Window_Veranda_D_C', 3), ('BP_WB_Window_Veranda_DR_C', 3), ('BP_WB_Trapdoor_C', 2), ('BP_WB_OutsidedoorLess_C', 2), ('PostProcessVolume', 2), ('BP_WB_Window_GK_C', 2), ('BP_WB_HopeCharm_C', 2), ('WorldDataLayers', 1), ('BP_WB_Maindoor_C', 1), ('BP_WB_Outsidedoor1_C', 1)]
+sewer nodes: 434
+data layer: DL_TheWhisperingBell DataLayerInstanceWithAsset
+data layer: DL_TrollskullAlley DataLayerInstanceWithAsset
+data layer: DL_Mountain DataLayerInstanceWithAsset
+data layer: DL_Sea DataLayerInstanceWithAsset
+data layer: DL_Sewers DataLayerInstanceWithAsset
+data layer: DL_Sky DataLayerInstanceWithAsset
+data layer: DL_Streets DataLayerInstanceWithAsset
+data layer: DL_Ward_North DataLayerInstanceWithAsset
+data layer: DL_Walls DataLayerInstanceWithAsset
+data layer: DL_WalkingStatues DataLayerInstanceWithAsset
+data layer: DL_ReferenceMap DataLayerInstanceWithAsset
+landscapes: []
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\160346_job20_wpinfo.py", line 46, in <module>
+    lay = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "import", "sewersfinal_layout.json")))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\Admin\\Documents\\Unreal Projects\\TheWhisperingBell\\Content\\Python\\agent_inbox\\done\\..\\import\\sewersfinal_layout.json'
+
+[failed after 0.0 s]

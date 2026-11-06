@@ -1,0 +1,7 @@
+BP_WB_Sewer_Entry_C BP_WB_SW9 -12244 -27532 0
+BP_WB_Sewer_Entry_C BP_WB_SW15 6176 -8742 0
+BP_WB_Sewer_Entry_C BP_WB_SW13 -25902 1211 -269
+BP_WB_Sewer_Entry_C BP_WB_SW16 -9819 16475 -29
+BP_WB_Sewer_Entry_C BP_WB_SW14 4656 4824 61
+
+[ok in 0.0 s]

@@ -90,6 +90,13 @@ def run(args):
     importlib.reload(sb)
     world = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_editor_world()
     eas = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
+    # copies left by an earlier run that never got to take its pictures (e.g. two runs in a row)
+    if _STATE.get("handle") is not None:
+        unreal.unregister_slate_post_tick_callback(_STATE["handle"])
+        _STATE["handle"] = None
+    for a in eas.get_all_level_actors():
+        if a.get_actor_label().startswith("BirdsEye_TEMP_"):
+            eas.destroy_actor(a)
     actors = eas.get_all_level_actors()
     only, kinds = _wanted(args)
     folder = os.path.join(unreal.Paths.convert_relative_path_to_full(unreal.Paths.project_saved_dir()),
@@ -108,7 +115,8 @@ def run(args):
             if sm is None:
                 continue
             if isinstance(c, unreal.InstancedStaticMeshComponent):
-                if a.get_actor_label() != sb.NETWORK_LABEL:
+                lab = a.get_actor_label()
+                if lab != sb.NETWORK_LABEL and not lab.startswith(sb.NETWORK_LABEL + "_"):
                     continue
                 for i in range(c.get_instance_count()):
                     pieces.append((sm, c.get_instance_transform(i, True)))
@@ -235,7 +243,8 @@ def run(args):
     _STATE["handle"] = unreal.register_slate_post_tick_callback(shoot)
 
 
-try:
-    run(sys.argv[1:])
-except Exception:
-    _log(traceback.format_exc())
+if __name__ != "sewer_birdseye":       # run as a script (py sewer_birdseye.py ...), not on import
+    try:
+        run(sys.argv[1:])
+    except Exception:
+        _log(traceback.format_exc())

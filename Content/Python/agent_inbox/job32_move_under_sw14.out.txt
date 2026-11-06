@@ -1,0 +1,5 @@
+moving 600 actors by (1763.4, 464.7) cm
+SL_023_Shaft now at (4655.9, 4823.9, -1409.4); BP_WB_SW14 at (4655.9, 4823.9, 61.0)
+wrote import/sewersfinal_moved_layout.json
+
+[ok in 0.4 s]

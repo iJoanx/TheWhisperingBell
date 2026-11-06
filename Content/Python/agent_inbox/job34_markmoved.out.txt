@@ -1,0 +1,4 @@
+flagged 600 actors; unsaved packages now: 600
+SL_023_Shaft at <Struct 'Vector' (0x0000020844E91410) {x: 4655.858863, y: 4823.894275, z: -1409.400000}>
+
+[ok in 0.1 s]

@@ -1,0 +1,6 @@
+world: /Game/Levels/PersistentLevel_WP.PersistentLevel_WP
+nodes: 434 at NEW layout positions: 0
+network actors: 1 ['SewerNetwork_GENERATED']
+unsaved now: 0
+
+[ok in 0.1 s]

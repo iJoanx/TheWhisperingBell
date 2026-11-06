@@ -43,6 +43,12 @@ GENERATED_FOLDER = "/Game/Sewers/Generated"
 NODE_CLASS_NAME = "BP_SewerNode_C"           # Blueprint class name + "_C"
 NODE_TYPE_PROPERTY = "NodeType"              # Name variable on BP_SewerNode
 NETWORK_LABEL = "SewerNetwork_GENERATED"
+# World Partition: split the passages/water/end walls into one actor per NETWORK_CELL square so the
+# level streams them like any other actor (one big actor would always be loaded). Each actor holds
+# one instanced component per piece type. Off = the old single actor split into CULL_CELL_SIZE cells.
+NETWORK_SPLIT = False
+NETWORK_CELL = 12800.0          # cm (128 m)
+NETWORK_FOLDER = "Sewers/Network"
 
 NODE_MATERIAL = "/Game/Sewers/Meshes/v2/sewer1_003"     # material for generated caps
 PASSAGE_UV_TOL = 0.6       # cm: cut faces within this of a passage profile edge get that face's UVs/material
@@ -1951,6 +1957,38 @@ def _water_collision(comp):
         unreal.log_warning("Sewer: water collision not set (%s)" % e)
 
 
+class _NetGrid(object):
+    """One network actor per NETWORK_CELL square (created on demand), for World Partition."""
+
+    def __init__(self):
+        self.actors = {}
+
+    @staticmethod
+    def key(loc):
+        c = NETWORK_CELL
+        return int(math.floor(loc.x / c)), int(math.floor(loc.y / c))
+
+    def at(self, loc):
+        k = self.key(loc)
+        a = self.actors.get(k)
+        if a is None:
+            eas = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
+            c = NETWORK_CELL
+            a = eas.spawn_actor_from_class(unreal.StaticMeshActor, V((k[0] + 0.5) * c, (k[1] + 0.5) * c, 0.0),
+                                           unreal.Rotator(0, 0, 0))
+            a.set_actor_label("%s_%d_%d" % (NETWORK_LABEL, k[0], k[1]))
+            try:
+                a.set_folder_path(NETWORK_FOLDER)
+            except Exception:
+                pass
+            self.actors[k] = a
+        return a
+
+
+def _net_actor(net, loc):
+    return net.at(loc) if isinstance(net, _NetGrid) else net
+
+
 class _Cells(object):
     """Instanced components of one mesh, one per CULL_CELL_SIZE cell (created on demand)."""
 
@@ -1959,11 +1997,16 @@ class _Cells(object):
         self.material = material
 
     def get(self, loc):
-        c = CULL_CELL_SIZE
-        key = (int(math.floor(loc.x / c)), int(math.floor(loc.y / c)), int(math.floor(loc.z / c)))
+        if isinstance(self.actor, _NetGrid):
+            key = self.actor.key(loc)                  # one component per piece type per network actor
+            name = self.name
+        else:
+            c = CULL_CELL_SIZE
+            key = (int(math.floor(loc.x / c)), int(math.floor(loc.y / c)), int(math.floor(loc.z / c)))
+            name = "%s_%d_%d_%d" % ((self.name,) + key)
         comp = self.comps.get(key)
         if comp is None:
-            comp = _add_hism(self.actor, "%s_%d_%d_%d" % ((self.name,) + key), self.mesh)
+            comp = _add_hism(_net_actor(self.actor, loc), name, self.mesh)
             if self.custom:
                 try:
                     comp.set_editor_property("num_custom_data_floats", self.custom)
@@ -3334,13 +3377,27 @@ def _flow_instance(eid, sa, length):
     return (S0, S1, T0, T1, ed["speed"](sa), ed["speed"](sa + length), mode)
 
 
+_LAST_NET = {}
+
+
+def network_actors():
+    """The network actor(s) of the last build."""
+    net = _LAST_NET.get("net")
+    return list(net.actors.values()) if isinstance(net, _NetGrid) else ([net] if net else [])
+
+
 def _rebuild_network(edges, nodes, per_node=None):
     eas = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
     for a in _actors():
-        if a.get_actor_label() == NETWORK_LABEL:
+        lab = a.get_actor_label()
+        if lab == NETWORK_LABEL or lab.startswith(NETWORK_LABEL + "_"):
             eas.destroy_actor(a)
-    net = eas.spawn_actor_from_class(unreal.StaticMeshActor, V(0, 0, 0), unreal.Rotator(0, 0, 0))
-    net.set_actor_label(NETWORK_LABEL)
+    if NETWORK_SPLIT:
+        net = _NetGrid()
+    else:
+        net = eas.spawn_actor_from_class(unreal.StaticMeshActor, V(0, 0, 0), unreal.Rotator(0, 0, 0))
+        net.set_actor_label(NETWORK_LABEL)
+    _LAST_NET["net"] = net
 
     count = 0
     _FLOW_CACHE.clear()
@@ -3390,7 +3447,8 @@ def _rebuild_network(edges, nodes, per_node=None):
         conns = per_node.get(n.get_path_name(), [])
         if not conns:
             continue
-        comp = _add_hism(net, "HISM_HubWater_" + _safe(n.get_actor_label()), _hub_water_asset(n, conns))
+        hub_actor = _net_actor(net, n.get_actor_location())
+        comp = _add_hism(hub_actor, "HISM_HubWater_" + _safe(n.get_actor_label()), _hub_water_asset(n, conns))
         _water_collision(comp)
         try:
             comp.set_editor_property("num_custom_data_floats", FLOW_CUSTOM)
@@ -3401,7 +3459,7 @@ def _rebuild_network(edges, nodes, per_node=None):
         hub_xf = unreal.Transform(location=n.get_actor_location())
         _add_water(comp, _raised(hub_xf), (Sn, Sn, Tn, Tn, dx, dy, 0.0))
         if WATER_UNDER_MATERIAL:
-            under = _add_hism(net, "HISM_HubWaterUnder_" + _safe(n.get_actor_label()),
+            under = _add_hism(hub_actor, "HISM_HubWaterUnder_" + _safe(n.get_actor_label()),
                               comp.get_editor_property("static_mesh"))
             under.set_collision_enabled(unreal.CollisionEnabled.NO_COLLISION)
             under.set_material(0, unreal.EditorAssetLibrary.load_asset(WATER_UNDER_MATERIAL))
