@@ -1,0 +1,4 @@
+loaded: 0 desc bounds min: <Struct 'Vector' (0x0000011793E4BB80) {x: -181021.843750, y: -88955.250000, z: -9048.716797}>
+total actors: 1470
+
+[ok in 0.0 s]

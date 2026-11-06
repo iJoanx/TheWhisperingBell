@@ -1,0 +1,14 @@
+loaded actors: 1470
+classes: [('StaticMeshActor', 773), ('BP_SewerNode_C', 434), ('SkeletalMeshActor', 48), ('BP_WB_Window_C', 34), ('BP_WB_Sconce_C', 32), ('BP_WallSpline_C', 30), ('BP_WB_Shutter1_C', 29), ('BP_WB_Candle_C', 16), ('BP_WB_Insidedoor_C', 12), ('DecalActor', 9), ('BP_WB_Outsidedoor_C', 6), ('BP_WB_Sewer_Entry_C', 5), ('BP_WB_Keg_C', 4), ('BP_WB_Insidedoor_Less_C', 4), ('BP_WB_Window_Veranda_C', 3), ('BP_WB_Window_Veranda_D_C', 3), ('BP_WB_Window_Veranda_DR_C', 3), ('BP_WB_Trapdoor_C', 2), ('BP_WB_OutsidedoorLess_C', 2), ('PostProcessVolume', 2), ('BP_WB_Window_GK_C', 2), ('BP_WB_HopeCharm_C', 2), ('WorldDataLayers', 1), ('BP_WB_Maindoor_C', 1), ('BP_WB_Outsidedoor1_C', 1), ('BP_WB_Cellardoor_C', 1), ('WorldPartitionMiniMap', 1), ('BP_WB_Bed_C', 1), ('BP_WB_HearthHook_C', 1), ('BP_WB_Gardendoor_C', 1)]
+kill_z -1048575.0
+enable_world_bounds_checks True
+kill_z_damage_type <Object '/Engine/EngineDamageTypes/DmgTypeBP_Environmental.DmgTypeBP_Environmental_C' (0x00000116C951D900) Class 'BlueprintGeneratedClass'>
+world partition: None
+WP editor subsystem: None None
+external actor files on disk: 1479
+spatially loaded among loaded: 324
+landscape actors: []
+actors attached to another actor: 1
+root mobility: Counter({'<ComponentMobility.STATIC: 0>': 770, '<ComponentMobility.MOVABLE: 2>': 697, 'none': 2, '<ComponentMobility.STATIONARY: 1>': 1})
+
+[ok in 0.4 s]

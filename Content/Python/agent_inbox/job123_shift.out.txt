@@ -1,0 +1,9 @@
+loaded Waterdeep
+moved 1467 skipped 3
+SW14 -> SL_023 offset before <Struct 'Vector' (0x00000118AE782130) {x: 0.000000, y: 0.000000, z: -1470.360012}> after <Struct 'Vector' (0x00000118AE780A60) {x: 0.000000, y: 0.000000, z: -1470.360012}>
+walls_spline signatures refreshed: 30
+door_wrap signatures refreshed: 0
+world bounds checks (kill Z): False
+dirty map packages: 1468
+
+[ok in 2.4 s]
