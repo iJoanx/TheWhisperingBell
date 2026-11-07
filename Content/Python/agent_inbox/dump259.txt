@@ -1,0 +1,55 @@
+arm 0 h(-0.39,0.92) lead 182 s_start 442 mirror True
+arm 1 h(0.39,-0.92) lead 120 s_start 380 mirror None
+arm 2 h(-0.99,0.13) lead 182 s_start 442 mirror True
+mitres {(0, 2): ((-192, 145), (-96, 73)), (2, 1): ((-84, -110), (-42, -55))}
+vertical texture edges ending mid-pixel: 50 spots
+  ( -280,   96) worst 0.49 px  fracs [0.02, 0.05, 0.08, 0.14, 0.16, 0.17] | a0 s197 t221; a1 s-197 t-221; a2 s290 t-60
+  (   54,   26) worst 0.47 px  fracs [0.32, 0.47] | a0 s3 t-60; a1 s-3 t60; a2 s-50 t-33
+  ( -226,  -32) worst 0.47 px  fracs [0.25, 0.41, 0.47] | a0 s58 t221; a1 s-58 t-221; a2 s220 t60
+  (   30, -226) worst 0.45 px  fracs [0.25, 0.4, 0.45] | a0 s-220 t60; a1 s220 t-60; a2 s-58 t220
+  ( -198,  -96) worst 0.44 px  fracs [0.25, 0.35, 0.44] | a0 s-11 t220; a1 s11 t-220; a2 s184 t120
+  (  192, -146) worst 0.43 px  fracs [0.43] | a0 s-209 t-120; a1 s209 t120; a2 s-209 t121
+  (  196, -156) worst 0.40 px  fracs [0.25, 0.4] | a0 s-220 t-120; a1 s220 t120; a2 s-214 t130
+  (  140, -180) worst 0.40 px  fracs [0.25, 0.4] | a0 s-220 t-59; a1 s220 t59; a2 s-161 t161
+  (  -42,  -56) worst 0.40 px  fracs [0.03, 0.05, 0.3, 0.37, 0.4] | a0 s-35 t60; a1 s35 t-60; a2 s35 t61
+  (   84,  110) worst 0.39 px  fracs [0.39] | a0 s69 t-120; a1 s-69 t120; a2 s-70 t-120
+  (  -84, -110) worst 0.36 px  fracs [0.04, 0.07, 0.31, 0.36] | a0 s-69 t120; a1 s69 t-120; a2 s70 t120
+  (  110,   48) worst 0.35 px  fracs [0.12, 0.16, 0.2, 0.35] | a0 s1 t-120; a1 s-1 t120; a2 s-103 t-61
+  ( -306,  160) worst 0.34 px  fracs [0.01, 0.11, 0.18, 0.25, 0.3, 0.34] | a0 s266 t220; a1 s-266 t-220; a2 s324 t-120
+  ( -164,   82) worst 0.33 px  fracs [0.3, 0.33] | a0 s139 t119; a1 s-139 t-119; a2 s173 t-61
+  ( -110,  -46) worst 0.31 px  fracs [0.29, 0.31] | a0 s0 t119; a1 s-0 t-119; a2 s103 t59
+  (   42,   56) worst 0.29 px  fracs [0.29] | a0 s35 t-60; a1 s-35 t60; a2 s-35 t-61
+  (  -24, -250) worst 0.28 px  fracs [0.25, 0.26, 0.28] | a0 s-221 t119; a1 s221 t-119; a2 s-7 t251
+  ( -140,  178) worst 0.27 px  fracs [0.27] | a0 s218 t60; a1 s-218 t-60; a2 s161 t-159
+  ( -210,  190) worst 0.26 px  fracs [0.26] | a0 s257 t120; a1 s-257 t-120; a2 s232 t-162
+  (  346, -262) worst 0.25 px  fracs [0.25] | a0 s-376 t-217; a1 s376 t217; a2 s-376 t217
+  (  288, -118) worst 0.25 px  fracs [0.25] | a0 s-221 t-219; a1 s221 t219; a2 s-301 t81
+  (  256, -300) worst 0.25 px  fracs [0.0, 0.25] | a0 s-376 t-119; a1 s376 t119; a2 s-292 t266
+  (  246,  192) worst 0.25 px  fracs [0.25] | a0 s81 t-301; a1 s-81 t301; a2 s-220 t-221
+  (  226,   32) worst 0.25 px  fracs [0.25] | a0 s-58 t-221; a1 s58 t221; a2 s-220 t-60
+  (  202, -154) worst 0.25 px  fracs [0.25] | a0 s-220 t-126; a1 s220 t126; a2 s-220 t128
+  (  154,  204) worst 0.25 px  fracs [0.25] | a0 s128 t-221; a1 s-128 t221; a2 s-127 t-222
+  (  154,  202) worst 0.25 px  fracs [0.25] | a0 s126 t-220; a1 s-126 t220; a2 s-128 t-220
+  (  118,  288) worst 0.25 px  fracs [0.25] | a0 s219 t-221; a1 s-219 t221; a2 s-81 t-301
+  (   94, -374) worst 0.25 px  fracs [0.0, 0.25] | a0 s-381 t59; a1 s381 t-59; a2 s-140 t359
+  (   94, -376) worst 0.25 px  fracs [0.25] | a0 s-383 t60; a1 s383 t-60; a2 s-140 t361
+  (   38, -398) worst 0.25 px  fracs [0.25] | a0 s-381 t120; a1 s381 t-120; a2 s-88 t390
+  (   38, -400) worst 0.25 px  fracs [0.25] | a0 s-383 t121; a1 s383 t-121; a2 s-88 t392
+  (  -62,  454) worst 0.25 px  fracs [0.0, 0.25] | a0 s442 t-119; a1 s-442 t119; a2 s118 t-443
+  ( -118, -288) worst 0.25 px  fracs [0.25] | a0 s-219 t221; a1 s219 t-221; a2 s81 t301
+  ( -154, -202) worst 0.25 px  fracs [0.25] | a0 s-126 t220; a1 s126 t-220; a2 s128 t220
+  ( -154, -204) worst 0.25 px  fracs [0.25] | a0 s-128 t221; a1 s128 t-221; a2 s127 t222
+  ( -230,  390) worst 0.25 px  fracs [0.25] | a0 s449 t60; a1 s-449 t-60; a2 s277 t-358
+  ( -284,  366) worst 0.25 px  fracs [0.25] | a0 s448 t119; a1 s-448 t-119; a2 s328 t-328
+  ( -284,  364) worst 0.25 px  fracs [0.0, 0.25] | a0 s446 t120; a1 s-446 t-120; a2 s327 t-326
+  ( -286,  366) worst 0.25 px  fracs [0.25] | a0 s448 t121; a1 s-448 t-121; a2 s330 t-327
+  ( -288,  118) worst 0.25 px  fracs [0.25] | a0 s221 t219; a1 s-221 t-219; a2 s301 t-81
+  ( -288,  116) worst 0.25 px  fracs [0.25] | a0 s219 t220; a1 s-219 t-220; a2 s300 t-79
+  ( -352,  268) worst 0.25 px  fracs [0.25] | a0 s384 t220; a1 s-384 t-220; a2 s383 t-222
+  ( -352,  266) worst 0.25 px  fracs [0.25] | a0 s382 t221; a1 s-382 t-221; a2 s383 t-220
+  ( -424,  174) worst 0.25 px  fracs [0.0, 0.25] | a0 s325 t323; a1 s-325 t-323; a2 s442 t-120
+  ( -462,  -62) worst 0.25 px  fracs [0.0, 0.25] | a0 s123 t450; a1 s-123 t-450; a2 s451 t119
+  (   96,  -72) worst 0.17 px  fracs [0.17] | a0 s-104 t-60; a1 s104 t60; a2 s-104 t59
+  ( -140,  176) worst 0.15 px  fracs [0.15] | a0 s217 t61; a1 s-217 t-61; a2 s161 t-157
+  ( -192,  146) worst 0.13 px  fracs [0.03, 0.09, 0.12, 0.13] | a0 s209 t120; a1 s-209 t-120; a2 s209 t-121
+  (  -96,   72) worst 0.10 px  fracs [0.02, 0.07, 0.08, 0.1] | a0 s104 t60; a1 s-104 t-60; a2 s104 t-59

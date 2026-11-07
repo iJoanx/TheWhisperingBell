@@ -1,0 +1,2 @@
+current: walls {'walls': 8, 'faces': 630, 'heights': 622} vault {'bands': 18, 'faces': 1598} channel {'depths': [-100], 'mouths': 2, 'faces': 522, 'painted': 522, 'no_edge': 0} tris 13893
+none: walls {'walls': 8, 'faces': 793, 'heights': 788} vault {'bands': 18, 'faces': 1689} channel {'depths': [-100], 'mouths': 2, 'faces': 539, 'painted': 539, 'no_edge': 0} tris 14198

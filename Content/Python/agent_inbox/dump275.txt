@@ -1,0 +1,2 @@
+mouths {2: ((-95.76555315037638, 72.55973806070651), (-41.82310938659871, -55.19842095333935))}
+mouth of arm 2: length 139; floor tris crossing the line: 0, touching it: 31

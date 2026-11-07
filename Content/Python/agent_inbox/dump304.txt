@@ -1,0 +1,10 @@
+nodes with 305: ['SL_303_Crossing']
+arm 0 h(-0.389,0.921) ang 112.9 pitch -1.00 lead 181.7 ptype P12 mirror True
+arm 1 h(0.389,-0.921) ang -67.1 pitch 0.97 lead 120.0 ptype P12 mirror None
+arm 2 h(-0.992,0.125) ang 172.8 pitch -1.91 lead 181.8 ptype P12 mirror True
+  angle 0-1: 180.0
+  angle 0-2: 59.9
+  angle 1-2: 120.1
+levels [260.0, 260.0, 260.0]
+leaders {0: 0, 1: 0}
+rebaked 1 failed []; stats {'depths': [-100], 'mouths': 1, 'faces': 161, 'painted': 161, 'no_edge': 0} {'walls': 6, 'faces': 361, 'heights': 351} {'bands': 12, 'faces': 772}

@@ -1,0 +1,43 @@
+===== FIT False ===== {}
+interior vertical seams mid-pixel: 19
+  ( -280,   96) worst 0.49 px  px-values [0.25, 59.36, 59.49, 59.78, 59.9, 60.0] | a0 s197 t221; a1 s-197 t-221; a2 s290 t-60
+  (   54,   26) worst 0.47 px  px-values [-9.53, 22.4, 22.42, 187.68] | a0 s3 t-60; a1 s-3 t60; a2 s-50 t-33
+  (  -84, -110) worst 0.43 px  px-values [4.38, 4.43, 113.67] | a0 s-69 t120; a1 s69 t-120; a2 s70 t120
+  (  -24, -250) worst 0.42 px  px-values [0.25, 89.58, 89.6] | a0 s-221 t119; a1 s221 t-119; a2 s-7 t251
+  (  196, -156) worst 0.40 px  px-values [0.25, 89.6] | a0 s-220 t-120; a1 s220 t120; a2 s-214 t130
+  (  140, -180) worst 0.40 px  px-values [0.25, 134.4] | a0 s-220 t-59; a1 s220 t59; a2 s-161 t161
+  (   30, -226) worst 0.40 px  px-values [0.25, 134.36, 134.4] | a0 s-220 t60; a1 s220 t-60; a2 s-58 t220
+  ( -226,  -32) worst 0.38 px  px-values [0.25, 42.62, 42.74] | a0 s58 t221; a1 s-58 t-221; a2 s220 t60
+  (  110,   48) worst 0.35 px  px-values [-6.35, 12.8, 12.84, 125.12] | a0 s1 t-120; a1 s-1 t120; a2 s-103 t-61
+  ( -192,  146) worst 0.33 px  px-values [26.67, 26.73, 26.76] | a0 s209 t120; a1 s-209 t-120; a2 s209 t-121
+  (  -42,  -56) worst 0.30 px  px-values [-1.73, -1.7, 178.85] | a0 s-35 t60; a1 s35 t-60; a2 s35 t61
+  ( -306,  160) worst 0.30 px  px-values [0.25, 43.82, 44.7, 45.15] | a0 s266 t220; a1 s-266 t-220; a2 s324 t-120
+  ( -462,  -62) worst 0.25 px  px-values [0.25, 64.0] | a0 s123 t450; a1 s-123 t-450; a2 s451 t119
+  ( -424,  174) worst 0.25 px  px-values [0.25, 64.0] | a0 s325 t323; a1 s-325 t-323; a2 s442 t-120
+  ( -284,  364) worst 0.25 px  px-values [0.25, 64.0] | a0 s446 t120; a1 s-446 t-120; a2 s327 t-326
+  ( -198,  -96) worst 0.25 px  px-values [0.25, 22.83, 22.91] | a0 s-11 t220; a1 s11 t-220; a2 s184 t120
+  (  256, -300) worst 0.25 px  px-values [0.25, 64.0] | a0 s-376 t-119; a1 s376 t119; a2 s-292 t266
+  (  -62,  454) worst 0.25 px  px-values [0.25, 64.0] | a0 s442 t-119; a1 s-442 t119; a2 s118 t-443
+  (   94, -374) worst 0.25 px  px-values [0.25, 96.0] | a0 s-381 t59; a1 s381 t-59; a2 s-140 t359
+===== FIT True ===== {'walls': 12, 'faces': 295}
+interior vertical seams mid-pixel: 20
+  ( -280,   96) worst 0.50 px  px-values [0.25, 59.38, 59.5] | a0 s197 t221; a1 s-197 t-221; a2 s290 t-60
+  (  192, -146) worst 0.49 px  px-values [91.43, 91.51] | a0 s-209 t-120; a1 s209 t120; a2 s-209 t121
+  (   54,   26) worst 0.48 px  px-values [-9.52, 22.4, 22.42, 187.68] | a0 s3 t-60; a1 s-3 t60; a2 s-50 t-33
+  ( -226,  -32) worst 0.47 px  px-values [0.25, 42.47, 42.59] | a0 s58 t221; a1 s-58 t-221; a2 s220 t60
+  (   30, -226) worst 0.45 px  px-values [0.25, 134.4, 134.45] | a0 s-220 t60; a1 s220 t-60; a2 s-58 t220
+  ( -198,  -96) worst 0.44 px  px-values [0.25, 22.56, 22.65] | a0 s-11 t220; a1 s11 t-220; a2 s184 t120
+  ( -306,  160) worst 0.33 px  px-values [0.25, 43.82, 44.7, 45.33] | a0 s266 t220; a1 s-266 t-220; a2 s324 t-120
+  (  256, -300) worst 0.33 px  px-values [0.25, 64.67, 64.69] | a0 s-376 t-119; a1 s376 t119; a2 s-292 t266
+  (  110,   48) worst 0.32 px  px-values [-6.68, 12.8, 12.84, 125.12] | a0 s1 t-120; a1 s-1 t120; a2 s-103 t-61
+  (  140, -180) worst 0.32 px  px-values [0.25, 134.32] | a0 s-220 t-59; a1 s220 t59; a2 s-161 t161
+  (  196, -156) worst 0.31 px  px-values [0.25, 89.69] | a0 s-220 t-120; a1 s220 t120; a2 s-214 t130
+  (  -42,  -56) worst 0.30 px  px-values [-2.02, -1.7, 178.95, 178.97] | a0 s-35 t60; a1 s35 t-60; a2 s35 t61
+  (  -24, -250) worst 0.28 px  px-values [0.25, 89.72, 89.74] | a0 s-221 t119; a1 s221 t-119; a2 s-7 t251
+  ( -462,  -62) worst 0.25 px  px-values [0.25, 64.0] | a0 s123 t450; a1 s-123 t-450; a2 s451 t119
+  ( -424,  174) worst 0.25 px  px-values [0.25, 63.98, 64.05] | a0 s325 t323; a1 s-325 t-323; a2 s442 t-120
+  ( -284,  364) worst 0.25 px  px-values [0.25, 64.0] | a0 s446 t120; a1 s-446 t-120; a2 s327 t-326
+  (  -62,  454) worst 0.25 px  px-values [0.25, 64.0, 64.03] | a0 s442 t-119; a1 s-442 t119; a2 s118 t-443
+  (   94, -374) worst 0.25 px  px-values [0.25, 96.0] | a0 s-381 t59; a1 s381 t-59; a2 s-140 t359
+  (   96,  -72) worst 0.17 px  px-values [162.02, 162.17] | a0 s-104 t-60; a1 s104 t60; a2 s-104 t59
+  ( -192,  146) worst 0.13 px  px-values [27.07, 27.09, 27.13] | a0 s209 t120; a1 s-209 t-120; a2 s209 t-121

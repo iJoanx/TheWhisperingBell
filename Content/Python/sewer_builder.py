@@ -1557,6 +1557,166 @@ def _clip_walkways_at_mitres(voids, conns):
             _boolean(voids[keep], box, SUBTRACT)
 
 
+THROUGH_MIN_DEG = 135.0   # no straight-through pair (>= OPPOSITE_DEG)? then the most opposite pair of
+                          # arms at least this far apart is treated as the through tunnel; the others
+                          # are side arms cut at their mouths
+
+
+def _through_pairs(conns):
+    """The straight-through pairs of a crossing (as sets {k, j}): arms of the same passage type
+    at least OPPOSITE_DEG apart; failing those, the single most opposite pair if it is at least
+    THROUGH_MIN_DEG apart (a 4-way's main tunnel, even when it bends a little)."""
+    pairs = []
+    used = set()
+    for k, c in enumerate(conns):
+        for j, o in enumerate(conns):
+            if j > k and c["ptype"] == o["ptype"] and _angle_between(c, o) >= OPPOSITE_DEG \
+                    and k not in used and j not in used:
+                pairs.append((k, j))
+                used.update((k, j))
+    if not pairs and len(conns) >= 3:
+        best = None
+        for k, c in enumerate(conns):
+            for j, o in enumerate(conns):
+                if j > k and c["ptype"] == o["ptype"]:
+                    a = _angle_between(c, o)
+                    if a >= THROUGH_MIN_DEG and (best is None or a > best[0]):
+                        best = (a, k, j)
+        if best:
+            pairs.append((best[1], best[2]))
+    return pairs
+
+
+def _is_through(conns, k, j):
+    return any({k, j} == {a, b} for a, b in _through_pairs(conns))
+
+
+def _through_leaders(conns):
+    """Straight-through pairs (opposite arms of the same passage type): {arm: leader}, the leader
+    being the lower-numbered arm, whose texturing then runs on through the centre into its
+    partner as one strip."""
+    lead = {}
+    for k, j in _through_pairs(conns):
+        lead[k] = k
+        lead[j] = k
+    return lead
+
+
+TILE_FIT_MAX = 0.12   # a strip may be stretched/squeezed up to 12% to end exactly in step with the
+                      # passage it runs into (seamless); beyond that it just ends on a whole pixel
+
+
+def _tile_fit(Q, base, texels=None):
+    """Q: signed pixels a strip runs from its start joint to its end joint, unstretched; base:
+    pixels (mod one tile) the next passage's texture is offset from the strip's start. Returns
+    the stretch factor that makes the strip end in step with that passage (whole tiles), or -
+    if that needs too much stretch - one that ends it on a whole pixel."""
+    n = float(texels or TEXELS_PER_UV)
+    if abs(Q) < 1.0:
+        return 1.0
+    target = base + n * round((Q - base) / n)
+    if target != 0.0 and abs(target / Q - 1.0) <= TILE_FIT_MAX:
+        return target / Q
+    return round(Q) / Q
+
+
+def _partner_edge(conns, k, j, e):
+    """The UV-table edge of arm j that is the same physical surface as arm k's edge e (j runs
+    the other way, so its sides are swapped)."""
+    (y0, z0), (y1, z1) = e[0], e[1]
+    def phys(c, y):
+        return -y if c.get("mirror") else y
+    want = sorted([(round(-phys(conns[k], y0), 1), round(z0, 1)), (round(-phys(conns[k], y1), 1), round(z1, 1))])
+    for f in (_uv_table(conns[j]["ptype"]) or []):
+        got = sorted([(round(phys(conns[j], f[0][0]), 1), round(f[0][1], 1)),
+                      (round(phys(conns[j], f[1][0]), 1), round(f[1][1], 1))])
+        if all(abs(a[0] - b[0]) < 0.6 and abs(a[1] - b[1]) < 0.6 for a, b in zip(want, got)):
+            return f
+    return None
+
+
+def _strip_stretch(conns, hub, k, e, texels=None):
+    """For a leader arm k (UV-table edge e): factor on x so its strip, run on to its partner's
+    passage joint, ends on a whole pixel there (1.0 when k leads nothing)."""
+    lead = _through_leaders(conns)
+    partners = [j for j, l in lead.items() if l == k and j != k]
+    if not partners:
+        return 1.0
+    j = partners[0]
+    n = float(texels or TEXELS_PER_UV)
+    seg = PASSAGE_TYPES[conns[k]["ptype"]]["segment_length"]
+    rate = (e[4][0][0] - e[3][0][0]) / seg
+    ymid = 0.5 * (e[0][0] + e[1][0]) * (-1.0 if conns[k].get("mirror") else 1.0)
+    total = 2.0 * hub + conns[k]["lead"] + conns[j]["lead"] - 2.0 * _bend_corner(conns, k, j, ymid)
+    x_end = total if conns[k].get("mirror") else -total      # x at the partner's joint
+    Q = rate * x_end * n
+    pe = _partner_edge(conns, k, j, e)
+    base = ((pe[3][0][0] - e[3][0][0]) * n) if pe is not None else 0.0
+    return _tile_fit(Q, base, texels)
+
+
+def _partner_of(conns, k):
+    for j, o in enumerate(conns):
+        if j != k and _is_through(conns, k, j):
+            return j
+    return None
+
+
+def _bend_corner(conns, k, j, t):
+    """Along-distance (same in both arms' frames) of the point where a line at across-position t
+    (in arm k's frame) meets the plane bisecting the straight-through pair k/j - where a slightly
+    bent tunnel's surface turns from k's direction to j's."""
+    hk, hj = conns[k]["h"], conns[j]["h"]
+    bx, by = hk.x - hj.x, hk.y - hj.y
+    nkx, nky = -hk.y, hk.x
+    den = hk.x * bx + hk.y * by
+    return -t * (nkx * bx + nky * by) / den if abs(den) > 1e-9 else 0.0
+
+
+def _strip_axis(conns, k, px, py):
+    """(along, across) measuring function for arm k's strip at point (px, py): k's own frame, or
+    - on the far half of a straight-through pair it leads - its partner's frame, reversed and
+    offset so the distance runs on without a jump where a slightly bent tunnel turns."""
+    c = conns[k]
+    hx, hy = c["h"].x, c["h"].y
+    j = _partner_of(conns, k)
+    if j is not None:
+        o = conns[j]
+        if px * (hx - o["h"].x) + py * (hy - o["h"].y) < 0.0:
+            jx, jy = o["h"].x, o["h"].y
+
+            def far(vx, vy):
+                a_j = vx * jx + vy * jy
+                t_j = -vx * jy + vy * jx
+                return -a_j + 2.0 * _bend_corner(conns, j, k, t_j), -t_j
+            return far
+
+    def own(vx, vy):
+        return vx * hx + vy * hy, -vx * hy + vy * hx
+    return own
+
+
+def _slice_through_centres(mesh, conns):
+    """Cut each straight-through pair on the plane bisecting its two arms, so no face straddles the
+    point where one arm's direction hands over to the other's."""
+    so = unreal.GeometryScriptMeshPlaneSliceOptions()
+    so.set_editor_property("fill_holes", False)
+    try:
+        so.set_editor_property("gap_width", 0.0)
+    except Exception:
+        pass
+    done = set()
+    for k, c in enumerate(conns):
+        for j, o in enumerate(conns):
+            if j > k and _is_through(conns, k, j) and k not in done:
+                n = V(c["h"].x - o["h"].x, c["h"].y - o["h"].y, 0.0)
+                if n.length() < 1e-6:
+                    continue
+                gs("apply_mesh_plane_slice")(mesh, unreal.Transform(location=V(0.0, 0.0, 0.0),
+                                             rotation=unreal.MathLibrary.make_rot_from_z(n.normal())), so)
+                done.update((k, j))
+
+
 def _mitre_floors(mesh, conns, hub, room=False):
     """Crossing walkways meet like a picture frame: the walkway-level floor is split along each
     corner's mitre line (wall corner to channel corner) and every floor piece gets the walkway
@@ -1592,8 +1752,10 @@ def _mitre_floors(mesh, conns, hub, room=False):
         # a straight-through arm's walkway carries on behind the centre (as its partner's), so it
         # still counts there when a side arm's corner mitre is decided
         for k, c in enumerate(conns):
-            if any(j != k and _angle_between(c, o) >= OPPOSITE_DEG for j, o in enumerate(conns)):
+            if any(j != k and _is_through(conns, k, j) for j, o in enumerate(conns)):
                 backs[k] = max(backs[k], _void_half_width(c["ptype"]))
+
+    leaders = {} if room else _through_leaders(conns)
 
     def outer_owner(px, py):
         """In the corner of a turn's outside (beyond both channels, on the corner's side): the
@@ -1617,6 +1779,11 @@ def _mitre_floors(mesh, conns, hub, room=False):
         return None
 
     def owner(px, py):
+        k_ = _owner_raw(px, py)
+        # a straight-through pair's walkway is one strip: its leader paints all of it
+        return leaders.get(k_, k_) if k_ is not None else None
+
+    def _owner_raw(px, py):
         k_ = outer_owner(px, py)
         if k_ is not None:
             return k_
@@ -1667,13 +1834,18 @@ def _mitre_floors(mesh, conns, hub, room=False):
                 losers.add(b2 if sp * sr >= 0 else a)
         left = [k for k in cands if k not in losers] or cands
         ang = math.degrees(math.atan2(py, px))
-        return min(left, key=lambda k: abs((ang - math.degrees(math.atan2(conns[k]["h"].y, conns[k]["h"].x)) + 180.0) % 360.0 - 180.0))
+        best = min(left, key=lambda k: abs((ang - math.degrees(math.atan2(conns[k]["h"].y, conns[k]["h"].x)) + 180.0) % 360.0 - 180.0))
+        # the far side of a straight-through pair is one walkway: the leader paints all of it
+        # (whether or not the leader's own band reaches this far: the two arms are one line, so the
+        # leader's strip is the right texture anywhere along it - mixing the two left seams)
+        return leaders.get(best, best)
 
     # 2. repaint walkway-level, upward floor faces from their owning arm
     _ensure_uv_sets(mesh)
     for t in range(gs("get_num_triangle_i_ds")(mesh)):
         vs = _tri_positions(mesh, t)
-        if not vs or max(abs(v.z) for v in vs) > 1.0:
+        # walkway level (and, in a crossing, the slightly sloping walkway out to each passage)
+        if not vs or max(abs(v.z) for v in vs) > (1.0 if room else 15.0):
             continue
         nrm = (vs[1] - vs[0]).cross(vs[2] - vs[0])
         if nrm.length() < 1e-6 or abs(nrm.normal().z) < 0.9:
@@ -1688,14 +1860,14 @@ def _mitre_floors(mesh, conns, hub, room=False):
         walks = [e for e in (table or []) if abs(e[0][1]) < 0.5 and abs(e[1][1]) < 0.5]
         if not walks:
             continue
-        hx, hy = c["h"].x, c["h"].y
+        axis = (lambda vx, vy, _h=c["h"]: (vx * _h.x + vy * _h.y, -vx * _h.y + vy * _h.x)) if room \
+            else _strip_axis(conns, k, cx, cy)
         mirror = bool(c.get("mirror"))
         seg = PASSAGE_TYPES[c["ptype"]]["segment_length"]
         s_start = hub + c["lead"]
         loc = []
         for v in vs:
-            along = v.x * hx + v.y * hy
-            y = (-v.x * hy + v.y * hx) / (1.0 + PROFILE_JITTER * k)
+            along, y = axis(v.x, v.y)   # (walls are snapped back to true size: no jitter here)
             y = -y if mirror else y
             x = (s_start - along) if mirror else (along - s_start)
             loc.append((x * 400.0 / seg, y))
@@ -1703,7 +1875,8 @@ def _mitre_floors(mesh, conns, hub, room=False):
         e = min(walks, key=lambda ed: (0 if (ed[0][0] + ed[1][0]) * ty >= 0 else 1,
                                        min(abs(ty - ed[0][0]), abs(ty - ed[1][0]))))
         span = (e[1][0] - e[0][0]) or 1.0
-        _set_uv_triangle(mesh, 0, t, [_uv_on_edge(e, (y - e[0][0]) / span, x) for (x, y) in loc])
+        fx = 1.0 if room else _strip_stretch(conns, hub, k, e)
+        _set_uv_triangle(mesh, 0, t, [_uv_on_edge(e, (y - e[0][0]) / span, x * fx) for (x, y) in loc])
         cell = _edge_cell(e)
         if cell is not None:
             _set_uv_triangle(mesh, 1, t, [cell, cell, cell])
@@ -1750,6 +1923,7 @@ def _bend_mitre(conns):
 
 
 def _build_crossing_mesh(node, conns_world):
+    _FOLD_LINES.clear()
     conns = _local_conns(node, conns_world)
     hub = CROSSING_HUB
     voids, solids = [], []
@@ -1794,11 +1968,12 @@ def _build_crossing_mesh(node, conns_world):
         gs("append_mesh")(mesh, piece, IDENT)
     if MITRE_FLOORS:
         try:
+            _slice_through_centres(mesh, conns)
             mesh = _mitre_floors(mesh, conns, hub)
         except Exception as e:  # noqa
             unreal.log_warning("Sewer: %s floor mitres skipped (%s)" % (node.get_actor_label(), e))
     if FLATTEN_HUB_FLOOR:
-        _unjitter_hub_walls(mesh, conns, min(levels) if levels else hub)
+        _unjitter_hub_walls(mesh, conns, min(levels) if levels else hub)   # level zone; corners to the exact intersection
         _flatten_hub_floor(mesh, min(levels) if levels else hub, _channel_floor_depths(conns))
     if FOLD_AT_CORNERS and not bend:
         _fold_at_corners(mesh, conns, hub, levels)
@@ -1809,12 +1984,723 @@ def _build_crossing_mesh(node, conns_world):
             unreal.log_warning("Sewer: %s channel mitres skipped (%s)" % (node.get_actor_label(), e))
     if SNAP_UVS_TO_TEXELS:
         _snap_uvs_to_texels(mesh)
+    if FIT_WALLS_TO_PIXELS and not bend:
+        try:
+            if GENERAL_PAINT:
+                _paint_crossing_surfaces(mesh, conns, hub, levels)
+            else:
+                _fit_walls_to_pixels(mesh, conns, hub, levels)
+                _fit_vaults_through(mesh, conns, hub, levels)
+                if VAULT_CORNER_CHAINS:
+                    _fit_vault_corners(mesh, conns, hub, levels)
+                _refit_wall_heights(mesh, conns, hub, levels)
+        except Exception as e:  # noqa
+            unreal.log_warning("Sewer: %s wall pixel fit skipped (%s)" % (node.get_actor_label(), e))
     return mesh
 
 
-SNAP_UVS_TO_TEXELS = False  # every texture edge lands on a whole pixel (no half-pixel slivers at seams)
-TEXELS_PER_UV = 64.0        # Atlas_Sewers is 128 px and MF_FloorSpace maps one UV0 unit onto half of it
+def _wall_u_rate(ptype, half):
+    """U per cm along the passage on its vertical wall at |y| = half (from the mesh's UV table)."""
+    seg = PASSAGE_TYPES[ptype]["segment_length"]
+    for e in (_uv_table(ptype) or []):
+        (y0, z0), (y1, z1) = e[0], e[1]
+        if abs(abs(y0) - half) < 0.5 and abs(abs(y1) - half) < 0.5 and abs(z1 - z0) > 1.0:
+            du = abs(e[4][0][0] - e[3][0][0])
+            if du > 1e-6:
+                return du / seg
+    return None
 
+
+def _refit_wall_heights(mesh, conns, hub, levels):
+    """Every vertical wall face in the crossing (upper walls and channel walls of every arm, not
+    only the strips) gets its V - height up the wall - recomputed from its arm's floor, as the
+    passage mesh maps it. The cutters' anti-flicker scaling and the floor snapping left some
+    faces a few tenths of a pixel off their neighbours (thin diagonal lines along triangle edges)."""
+    planes = []
+    for k, c in enumerate(conns):
+        for half in (_void_half_width(c["ptype"]), PASSAGE_TYPES[c["ptype"]].get("water_half_width", 0.0)):
+            if half <= 0.0:
+                continue
+            for sg in (1.0, -1.0):
+                e = _wall_edge_for(c, sg, half)
+                if e is not None:
+                    planes.append((k, sg, half, e))
+    done = 0
+    for t in range(gs("get_num_triangle_i_ds")(mesh)):
+        vs = _tri_positions(mesh, t)
+        if not vs:
+            continue
+        nrm = (vs[1] - vs[0]).cross(vs[2] - vs[0])
+        if nrm.length() < 1e-6 or abs(nrm.normal().z) > 0.6:
+            continue
+        best = None
+        for (k, sg, half, e) in planes:
+            c = conns[k]
+            hx, hy = c["h"].x, c["h"].y
+            if abs(nrm.normal().x * -hy + nrm.normal().y * hx) < 0.6:
+                continue
+            err, ok = 0.0, True
+            for v in vs:
+                a = v.x * hx + v.y * hy
+                side = -v.x * hy + v.y * hx
+                d = abs(side - sg * half)
+                if d > 1.5 or a < -2.0:
+                    ok = False
+                    break
+                err = max(err, d)
+            if ok and (best is None or err < best[0]):
+                best = (err, k, sg, half, e)
+        if best is None:
+            continue
+        _err, k, sg, half, e = best
+        (y0, z0), (y1, z1) = e[0], e[1]
+        if abs(z1 - z0) < 1e-3:
+            continue
+        hx, hy = conns[k]["h"].x, conns[k]["h"].y
+        span_px = abs(e[3][1][1] - e[3][0][1]) * TEXELS_PER_UV
+        eps = (UV_EDGE_INSET / span_px) if span_px > 1e-3 else 0.0
+        r = gs("get_triangle_u_vs")(mesh, 0, t)
+        uvs = [u for u in r if isinstance(u, unreal.Vector2D)] if isinstance(r, tuple) else []
+        if len(uvs) != 3:
+            continue
+        new, inside = [], True
+        for u, v in zip(uvs, vs):
+            a = v.x * hx + v.y * hy
+            zr = v.z - _arm_floor_z(conns, levels, hub, k, a, sg * half)
+            pz = (zr - z0) / (z1 - z0)
+            if pz < -0.02 or pz > 1.02:
+                inside = False          # not this wall band after all (e.g. a vault face)
+                break
+            pz = max(eps, min(1.0 - eps, pz))
+            new.append((u.x, e[3][0][1] + (e[3][1][1] - e[3][0][1]) * pz))
+        if inside:
+            _set_uv_triangle(mesh, 0, t, new)
+            done += 1
+    FIT_STATS["heights"] = done
+    return done
+
+
+VAULT_CORNER_CHAINS = False   # vault strips round corners: off until the groin mapping is right
+
+
+def _fit_vault_corners(mesh, conns, hub, levels, texels=None):
+    """Where two arms that are not a straight-through pair meet at a corner, each vault band on
+    the facing sides is textured as one strip: from arm a's passage joint, round the groin (the
+    mitre plane) and on to arm b's joint - like the walls. U only; V stays as set per band."""
+    n = float(texels or TEXELS_PER_UV)
+    leaders = _through_leaders(conns)
+
+    def phys(c, y):
+        return -y if c.get("mirror") else y
+
+    def frame(k):
+        h = conns[k]["h"]
+        return h.x, h.y
+
+    def band_dist(k, e, v):
+        """distance of vertex v from arm k's band e (cross-section), and position along it."""
+        c = conns[k]
+        hx, hy = frame(k)
+        a = v.x * hx + v.y * hy
+        t = -v.x * hy + v.y * hx
+        y = phys(c, t)
+        zr = v.z - _arm_floor_z(conns, levels, hub, k, a, t)
+        (y0, z0), (y1, z1) = e[0], e[1]
+        ex, ez = y1 - y0, z1 - z0
+        el = math.hypot(ex, ez)
+        px, pz = y - y0, zr - z0
+        return abs(px * ez - pz * ex) / el, (px * ex + pz * ez) / el, el, a, t
+
+    chains = []
+    for (a, b), (C, D, ref) in _crossing_mitres(conns).items():
+        if a in leaders or b in leaders:
+            continue
+        ca, cb = conns[a], conns[b]
+        if ca["ptype"] != cb["ptype"]:
+            continue
+        ha, hb = frame(a), frame(b)
+        ga = 1.0 if (-C[0] * ha[1] + C[1] * ha[0]) > 0 else -1.0
+        gb = 1.0 if (-C[0] * hb[1] + C[1] * hb[0]) > 0 else -1.0
+        sa, sb_ = hub + ca["lead"], hub + cb["lead"]
+        dx, dy = D[0] - C[0], D[1] - C[1]
+        sref = dx * (ref[1] - C[1]) - dy * (ref[0] - C[0])
+
+        def on_line(k, t, C=C, dx=dx, dy=dy):
+            """point of the mitre line at across-position t of arm k."""
+            hx, hy = frame(k)
+            tC = -C[0] * hy + C[1] * hx
+            tD = -(C[0] + dx) * hy + (C[1] + dy) * hx
+            lam = (t - tC) / (tD - tC) if abs(tD - tC) > 1e-6 else 0.0
+            return C[0] + lam * dx, C[1] + lam * dy
+
+        seg = PASSAGE_TYPES[ca["ptype"]]["segment_length"]
+        for e in (_uv_table(ca["ptype"]) or []):
+            (y0, z0), (y1, z1) = e[0], e[1]
+            if min(z0, z1) < 1.0 or abs(y0 - y1) < 0.5:
+                continue
+            if phys(ca, 0.5 * (y0 + y1)) * ga <= 0.0:
+                continue                      # this band is on a's other side
+            eb = None
+            for f_ in (_uv_table(cb["ptype"]) or []):
+                same = sorted([(round(abs(f_[0][0]), 1), round(f_[0][1], 1)), (round(abs(f_[1][0]), 1), round(f_[1][1], 1))]) == \
+                    sorted([(round(abs(y0), 1), round(z0, 1)), (round(abs(y1), 1), round(z1, 1))])
+                if same and phys(cb, 0.5 * (f_[0][0] + f_[1][0])) * gb > 0.0:
+                    eb = f_
+                    break
+            if eb is None:
+                continue
+            u0 = e[3][0][0]
+            rate = (e[4][0][0] - u0) / seg
+            kd = rate * (1.0 if ca.get("mirror") else -1.0)
+            tm = phys(ca, 0.5 * (y0 + y1))
+            Pm = on_line(a, tm)
+            Pmb_t = -Pm[0] * hb[1] + Pm[1] * hb[0]
+            total = (sa - (Pm[0] * ha[0] + Pm[1] * ha[1])) + (sb_ - (Pm[0] * hb[0] + Pm[1] * hb[1]))
+            f = _tile_fit(kd * total * n, (eb[3][0][0] - u0) * n)
+            chains.append((a, b, e, eb, u0, kd * f, sa, C, dx, dy, sref, on_line))
+    VAULT_STATS["corner_bands"] = len(chains)
+    if not chains:
+        return 0
+    done = 0
+    for t in range(gs("get_num_triangle_i_ds")(mesh)):
+        vs = _tri_positions(mesh, t)
+        if not vs:
+            continue
+        nrm = (vs[1] - vs[0]).cross(vs[2] - vs[0])
+        if nrm.length() < 1e-6:
+            continue
+        cx = sum(v.x for v in vs) / 3.0
+        cy = sum(v.y for v in vs) / 3.0
+        for (a, b, e, eb, u0, kd, sa, C, dx, dy, sref, on_line) in chains:
+            on_a = (dx * (cy - C[1]) - dy * (cx - C[0])) * sref > 0.0
+            k, ek = (a, e) if on_a else (b, eb)
+            ds = []
+            for v in vs:
+                off, ae, el, av, tv = band_dist(k, ek, v)
+                if off > 1.5 or ae < -1.0 or ae > el + 1.0:
+                    ds = None
+                    break
+                if on_a:
+                    ds.append(sa - _eff_along(conns, levels, hub, a, av, tv, v.z))
+                else:
+                    P = on_line(b, tv)
+                    a_star_a = P[0] * conns[a]["h"].x + P[1] * conns[a]["h"].y
+                    a_star_b = P[0] * conns[b]["h"].x + P[1] * conns[b]["h"].y
+                    ds.append((sa - a_star_a) + (_eff_along(conns, levels, hub, b, av, tv, v.z) - a_star_b))
+            if ds is None:
+                continue
+            r = gs("get_triangle_u_vs")(mesh, 0, t)
+            uvs = [u for u in r if isinstance(u, unreal.Vector2D)] if isinstance(r, tuple) else []
+            if len(uvs) == 3:
+                _set_uv_triangle(mesh, 0, t, [(u0 + kd * d, u.y) for u, d in zip(uvs, ds)])
+                done += 1
+            break
+    VAULT_STATS["corner_faces"] = done
+    return done
+
+
+UV_EDGE_INSET = 0.03         # pixels: keep repainted V this far inside each texture island's edge
+
+FIT_WALLS_TO_PIXELS = True   # stretch each crossing wall's texture evenly so it ends on a whole pixel
+FIT_STATS = {}
+
+
+def _wall_edge_for(c, sg, half):
+    """The passage's UV-table edge for its vertical wall on side sg (+/-1) at |y| = half."""
+    ysg = -sg if c.get("mirror") else sg
+    for e in (_uv_table(c["ptype"]) or []):
+        (y0, z0), (y1, z1) = e[0], e[1]
+        if abs(y0 - ysg * half) < 0.5 and abs(y1 - ysg * half) < 0.5 and abs(z1 - z0) > 1.0:
+            return e
+    return None
+
+
+def _fit_vaults_through(mesh, conns, hub, levels, texels=None):
+    """Every band of the vault (each profile edge above the walls) is textured as one
+    uninterrupted strip: over a straight-through pair of arms from one passage joint to the
+    other (stretched evenly so the far end lands on a whole pixel), over any other arm straight
+    from its own passage joint. V around the arch is set exactly as the passage mesh maps it,
+    measured from the arm's own floor (so sloping arms match too)."""
+    n = float(texels or TEXELS_PER_UV)
+    VAULT_STATS.clear()
+    VAULT_STATS.update(bands=0, faces=0)
+    bands = []           # (k, j or None, A, B, u0, kd, sk, sj, v0, v1)
+    paired = set()
+    for k, c in enumerate(conns):
+        for j, o in enumerate(conns):
+            if j <= k or not _is_through(conns, k, j):
+                continue
+            paired.update((k, j))
+            sk, sj = hub + c["lead"], hub + o["lead"]
+            seg = PASSAGE_TYPES[c["ptype"]]["segment_length"]
+            for e in (_uv_table(c["ptype"]) or []):
+                (y0, z0), (y1, z1) = e[0], e[1]
+                if min(z0, z1) < 1.0 or abs(y0 - y1) < 0.5:
+                    continue
+                u0 = e[3][0][0]
+                rate = (e[4][0][0] - u0) / seg
+                kd = rate * (1.0 if c.get("mirror") else -1.0)
+                pe = _partner_edge(conns, k, j, e)
+                tmid = 0.5 * (y0 + y1) * (-1.0 if c.get("mirror") else 1.0)
+                total = sk + sj - 2.0 * _bend_corner(conns, k, j, tmid)
+                f = _tile_fit(kd * total * n, ((pe[3][0][0] - u0) * n) if pe is not None else 0.0)
+                bands.append((k, j, (y0, z0), (y1, z1), u0, kd * f, sk, sj, e[3][0][1], e[3][1][1]))
+    for k, c in enumerate(conns):
+        if k in paired:
+            continue
+        sk = hub + c["lead"]
+        seg = PASSAGE_TYPES[c["ptype"]]["segment_length"]
+        for e in (_uv_table(c["ptype"]) or []):
+            (y0, z0), (y1, z1) = e[0], e[1]
+            if min(z0, z1) < 1.0 or abs(y0 - y1) < 0.5:
+                continue
+            u0 = e[3][0][0]
+            rate = (e[4][0][0] - u0) / seg
+            kd = rate * (1.0 if c.get("mirror") else -1.0)
+            bands.append((k, None, (y0, z0), (y1, z1), u0, kd, sk, 0.0, e[3][0][1], e[3][1][1]))
+    VAULT_STATS["bands"] = len(bands)
+    if not bands:
+        return 0
+    for t in range(gs("get_num_triangle_i_ds")(mesh)):
+        vs = _tri_positions(mesh, t)
+        if not vs:
+            continue
+        nrm = (vs[1] - vs[0]).cross(vs[2] - vs[0])
+        if nrm.length() < 1e-6:
+            continue
+        cx = sum(v.x for v in vs) / 3.0
+        cy = sum(v.y for v in vs) / 3.0
+        for (k, j, A, B, u0, kd, sk, sj, v0, v1) in bands:
+            c = conns[k]
+            axis = _strip_axis(conns, k, cx, cy) if j is not None else \
+                (lambda vx, vy, _h=c["h"]: (vx * _h.x + vy * _h.y, -vx * _h.y + vy * _h.x))
+            ex, ez = B[0] - A[0], B[1] - A[1]
+            el = math.hypot(ex, ez)
+            ds, ps = [], []
+            lo = (-sj - 15.0) if j is not None else -40.0
+            for v in vs:
+                a, tt = axis(v.x, v.y)
+                if not (lo <= a <= sk + 15.0):
+                    ds = None
+                    break
+                y = -tt if c.get("mirror") else tt
+                if a >= 0.0 or j is None:
+                    fz = _arm_floor_z(conns, levels, hub, k, a, tt)
+                else:
+                    # far half of a straight-through pair: the partner's own floor, measured in
+                    # the partner's own frame (the bend-shifted distance is only for the texture)
+                    hj = conns[j]["h"]
+                    fz = _arm_floor_z(conns, levels, hub, j, v.x * hj.x + v.y * hj.y, -v.x * hj.y + v.y * hj.x)
+                zr = v.z - fz
+                px, pz = y - A[0], zr - A[1]
+                along_e = (px * ex + pz * ez) / el
+                off = abs(px * ez - pz * ex) / el
+                if off > 1.5 or along_e < -1.0 or along_e > el + 1.0:
+                    ds = None
+                    break
+                ds.append(sk - _eff_along(conns, levels, hub, k, a, tt, v.z))
+                span_px = abs(v1 - v0) * TEXELS_PER_UV
+                eps = (UV_EDGE_INSET / span_px) if span_px > 1e-3 else 0.0
+                ps.append(max(eps, min(1.0 - eps, along_e / el)))
+            if ds is None:
+                continue
+            r = gs("get_triangle_u_vs")(mesh, 0, t)
+            uvs = [u for u in r if isinstance(u, unreal.Vector2D)] if isinstance(r, tuple) else []
+            if len(uvs) == 3:
+                _set_uv_triangle(mesh, 0, t, [(u0 + kd * d, v0 + (v1 - v0) * p_) for d, p_ in zip(ds, ps)])
+                VAULT_STATS["faces"] += 1
+            break
+    return VAULT_STATS["faces"]
+
+
+VAULT_STATS = {}
+
+
+def _wall_strip_index(conns, hub, texels=None):
+    """Every wall inside a crossing is textured as ONE uninterrupted strip: from the passage joint
+    of one arm, along its wall to the corner, round the corner and along the next arm's wall to
+    that arm's passage joint (a straight-through wall: joint to joint). U runs on continuously by
+    distance walked, so there is no break anywhere inside the crossing; the whole strip is
+    stretched evenly (under half a pixel over its length) so its far end lands on a whole pixel.
+    V (height) is left as the cutters painted it. Upper walls and channel walls alike."""
+    n = float(texels or TEXELS_PER_UV)
+
+    def side_of(k, P):
+        c = conns[k]
+        return 1.0 if (P[0] * -c["h"].y + P[1] * c["h"].x) > 0 else -1.0
+
+    def along(k, P):
+        return P[0] * conns[k]["h"].x + P[1] * conns[k]["h"].y
+
+    strips = []        # [segments], each (k, sg, half, a_lo, a_hi, d0, dirn); plus start arm info
+    corners = [((a, b), C, D) for (a, b), (C, D, _r) in _crossing_mitres(conns).items()]
+    corners += [((i, j), C, D) for (i, j, C, D, _si, _sj) in _outer_mitres(conns)]
+    used = set()
+    for (a, b), C, D in corners:
+        for P, kind in ((C, "w"), (D, "q")):
+            segs = []
+            sa, sb_ = hub + conns[a]["lead"], hub + conns[b]["lead"]
+            ha = _void_half_width(conns[a]["ptype"]) if kind == "w" else PASSAGE_TYPES[conns[a]["ptype"]].get("water_half_width", 0.0)
+            hb = _void_half_width(conns[b]["ptype"]) if kind == "w" else PASSAGE_TYPES[conns[b]["ptype"]].get("water_half_width", 0.0)
+            if ha <= 0.0 or hb <= 0.0:
+                continue
+            ga, gb = side_of(a, P), side_of(b, P)
+            ca, cb = along(a, P), along(b, P)
+            la = sa - ca                                   # joint of a -> corner
+            segs.append((a, ga, ha, ca, sa, sa, -1.0))     # d = sa - along_a
+            segs.append((b, gb, hb, cb, sb_, la - cb, 1.0))  # d = la + (along_b - cb)
+            used.update(((a, ga, kind), (b, gb, kind)))
+            strips.append((segs, a, ga, ha, la + (sb_ - cb), (b, gb, hb)))
+    for k, c in enumerate(conns):
+        for j, o in enumerate(conns):
+            if j <= k or not _is_through(conns, k, j):
+                continue
+            for sg in (1.0, -1.0):
+                for kind in ("w", "q"):
+                    gj = -sg                                # the same wall line, seen from j
+                    if (k, sg, kind) in used or (j, gj, kind) in used:
+                        continue
+                    hk = _void_half_width(c["ptype"]) if kind == "w" else PASSAGE_TYPES[c["ptype"]].get("water_half_width", 0.0)
+                    hj = _void_half_width(o["ptype"]) if kind == "w" else PASSAGE_TYPES[o["ptype"]].get("water_half_width", 0.0)
+                    if hk <= 0.0 or hj <= 0.0:
+                        continue
+                    sk, sj = hub + c["lead"], hub + o["lead"]
+                    # one straight line joint to joint: the same formula covers both halves (and
+                    # faces straddling the centre)
+                    # each arm paints its own half in its own direction (follows a slightly bent
+                    # tunnel); d runs on continuously through the centre
+                    segs = [(k, sg, hk, -0.05, sk, sk, -1.0),        # d = sk - along_k
+                            (j, gj, hj, -0.05, sj, sk, 1.0, k)]      # d = sk + along_j (- bend)
+                    total = sk + sj - 2.0 * _bend_corner(conns, k, j, sg * hk)
+                    strips.append((segs, k, sg, hk, total, (j, gj, hj)))
+    # per strip: start U, U per cm walked, stretch
+    plans = []
+    for (segs, ka, ga, ha, total, (kb, gb, hb)) in strips:
+        ca = conns[ka]
+        e = _wall_edge_for(ca, ga, ha)
+        if e is None or total <= 1.0:
+            continue
+        seg = PASSAGE_TYPES[ca["ptype"]]["segment_length"]
+        u0 = e[3][0][0]
+        rate = (e[4][0][0] - u0) / seg
+        kd = rate * (1.0 if ca.get("mirror") else -1.0)   # U per cm walked away from a's joint
+        eb = _wall_edge_for(conns[kb], gb, hb)
+        f = _tile_fit(kd * total * n, ((eb[3][0][0] - u0) * n) if eb is not None else 0.0)
+        plans.append((segs, u0, kd * f))
+    out = {}
+    for (segs, u0, kdf) in plans:
+        for sgm in segs:
+            k, sg, half, a_lo, a_hi, d0, dirn = sgm[:7]
+            bend_from = sgm[7] if len(sgm) > 7 else None
+            out[(k, sg, round(half, 1))] = (d0, dirn, a_lo, a_hi, bend_from, u0, kdf)
+    return out
+
+
+GENERAL_PAINT = True   # one pass textures every wall / channel wall / vault face of a crossing
+
+
+def _paint_crossing_surfaces(mesh, conns, hub, levels, texels=None):
+    """Texture every wall, channel wall and vault face of a crossing from ONE rule.
+    Each face is matched to the arm and the part of the passage profile it actually lies on
+    (closest fit of its three corners, in that arm's own frame and measured from that arm's own
+    floor) - no filters by facing direction, so slivers and odd faces can't slip through.
+    V = the passage mesh's own mapping along that profile part. U = the strip it belongs to:
+    walls run joint-to-corner-to-joint (or joint-to-joint through a straight pair), the vault of
+    a straight-through pair runs joint to joint, any other vault band straight from its own
+    joint. Floors are left to the floor passes. Faces inside the tunnel that fit nowhere are
+    counted (PAINT_STATS) so nothing is missed silently."""
+    n = float(texels or TEXELS_PER_UV)
+    leaders = _through_leaders(conns)
+    walls = _wall_strip_index(conns, hub, texels)
+    PAINT_STATS.clear()
+    PAINT_STATS.update(walls=0, vault=0, skipped_floor=0, unmatched=0, samples=[])
+
+    arms = []
+    for k, c in enumerate(conns):
+        edges = []
+        for e in (_uv_table(c["ptype"]) or []):
+            (y0, z0), (y1, z1) = e[0], e[1]
+            ex, ez = y1 - y0, z1 - z0
+            el = math.hypot(ex, ez)
+            if el < 1e-3:
+                continue
+            kind = "floor" if abs(ez) < 0.5 else ("wall" if abs(ex) < 0.5 else "vault")
+            edges.append((e, kind, y0, z0, ex, ez, el,
+                          min(y0, y1) - 2.5, max(y0, y1) + 2.5, min(z0, z1) - 2.5, max(z0, z1) + 2.5))
+        arms.append((k, c, edges, hub + c["lead"], _void_half_width(c["ptype"])))
+
+    # per (leader, band) through-vault plans
+    vplan = {}
+    for k, j in _through_pairs(conns):
+        c = conns[k]
+        sk, sj = hub + c["lead"], hub + conns[j]["lead"]
+        seg = PASSAGE_TYPES[c["ptype"]]["segment_length"]
+        for e in (_uv_table(c["ptype"]) or []):
+            (y0, z0), (y1, z1) = e[0], e[1]
+            if abs(z1 - z0) < 0.5 or abs(y1 - y0) < 0.5:
+                continue
+            u0 = e[3][0][0]
+            rate = (e[4][0][0] - u0) / seg
+            kd = rate * (1.0 if c.get("mirror") else -1.0)
+            tmid = 0.5 * (y0 + y1) * (-1.0 if c.get("mirror") else 1.0)
+            total = sk + sj - 2.0 * _bend_corner(conns, k, j, tmid)
+            pe = _partner_edge(conns, k, j, e)
+            f = _tile_fit(kd * total * n, ((pe[3][0][0] - u0) * n) if pe is not None else 0.0)
+            vplan[(k, id(e))] = (u0, kd * f, sk)
+
+    cache = {}
+
+    def local(k, v):
+        key = (k, round(v.x, 3), round(v.y, 3), round(v.z, 3))
+        r = cache.get(key)
+        if r is None:
+            c = conns[k]
+            a = v.x * c["h"].x + v.y * c["h"].y
+            t = -v.x * c["h"].y + v.y * c["h"].x
+            zr = v.z - _arm_floor_z(conns, levels, hub, k, a, t)
+            r = (a, t, (-t if c.get("mirror") else t), zr)
+            cache[key] = r
+        return r
+
+    for tri in range(gs("get_num_triangle_i_ds")(mesh)):
+        vs = _tri_positions(mesh, tri)
+        if not vs:
+            continue
+        nrm = (vs[1] - vs[0]).cross(vs[2] - vs[0])
+        if nrm.length() < 1e-6:
+            continue
+        cx = sum(v.x for v in vs) / 3.0
+        cy = sum(v.y for v in vs) / 3.0
+        best = None
+        inside = False
+        for (k, c, edges, sk, w) in arms:
+            L = [local(k, v) for v in vs]
+            if min(p[0] for p in L) < -(w + 30.0) or max(p[0] for p in L) > sk + 20.0:
+                continue
+            if all(abs(p[1]) < w - 1.0 and -99.0 < p[3] < 365.0 for p in L):
+                inside = True
+            for (e, kind, y0, z0, ex, ez, el, ylo, yhi, zlo, zhi) in edges:
+                worst, ps = 0.0, []
+                for (_a, _t, y, zr) in L:
+                    if not (ylo <= y <= yhi and zlo <= zr <= zhi):
+                        worst = 99.0
+                        break
+                    px, pz = y - y0, zr - z0
+                    d = abs(px * ez - pz * ex) / el
+                    if d > worst:
+                        worst = d
+                    ps.append((px * ex + pz * ez) / el / el)
+                if worst > 2.0:
+                    continue
+                if best is None or worst < best[0] - 0.05 or \
+                        (abs(worst - best[0]) <= 0.05 and min(p[0] for p in L) > best[5]):
+                    best = (worst, k, e, kind, ps, min(p[0] for p in L), L)
+        if best is None:
+            if inside:
+                PAINT_STATS["unmatched"] += 1
+                if len(PAINT_STATS["samples"]) < 12:
+                    PAINT_STATS["samples"].append((round(cx), round(cy), round(sum(v.z for v in vs) / 3.0)))
+            continue
+        _worst, k, e, kind, ps, _amin, L = best
+        if kind == "floor":
+            PAINT_STATS["skipped_floor"] += 1
+            continue
+        c = conns[k]
+        span_px = abs(e[3][1][1] - e[3][0][1]) * n
+        eps = (UV_EDGE_INSET / span_px) if span_px > 1e-3 else 0.0
+        vv = [e[3][0][1] + (e[3][1][1] - e[3][0][1]) * max(eps, min(1.0 - eps, p)) for p in ps]
+        seg = PASSAGE_TYPES[c["ptype"]]["segment_length"]
+        uu = None
+        if kind == "wall":
+            y_mid = 0.5 * (e[0][0] + e[1][0])
+            sg = 1.0 if (-y_mid if c.get("mirror") else y_mid) > 0 else -1.0
+            st = walls.get((k, sg, round(abs(y_mid), 1)))
+            if st is not None:
+                d0, dirn, a_lo, a_hi, bend_from, u0, kdf = st
+                uu = []
+                for v, (a_, t_, _y, _z) in zip(vs, L):
+                    dd = d0 + dirn * _eff_along(conns, levels, hub, k, a_, t_, v.z,
+                                                ramp_from=(a_lo if a_lo > 0.0 else None))
+                    if bend_from is not None:
+                        dd -= 2.0 * _bend_corner(conns, k, bend_from, t_)
+                    uu.append(u0 + kdf * dd)
+            PAINT_STATS["walls"] += 1
+        else:
+            PAINT_STATS["vault"] += 1
+            lead = leaders.get(k)
+            if lead is not None:
+                e_l = e if lead == k else _partner_edge(conns, k, lead, e)
+                plan = vplan.get((lead, id(e_l))) if e_l is not None else None
+                if plan is not None:
+                    u0, kdf, sl = plan
+                    axis = _strip_axis(conns, lead, cx, cy)
+                    uu = []
+                    for v in vs:
+                        a_l, t_l = axis(v.x, v.y)
+                        uu.append(u0 + kdf * (sl - _eff_along(conns, levels, hub, lead, a_l, t_l, v.z)))
+        if uu is None:
+            # straight from this arm's own passage joint
+            u0 = e[3][0][0]
+            rate = (e[4][0][0] - u0) / seg
+            kd = rate * (1.0 if c.get("mirror") else -1.0)
+            sk = hub + c["lead"]
+            uu = [u0 + kd * (sk - _eff_along(conns, levels, hub, k, a_, t_, v.z)) for v, (a_, t_, _y, _z) in zip(vs, L)]
+        _set_uv_triangle(mesh, 0, tri, list(zip(uu, vv)))
+    return PAINT_STATS["walls"] + PAINT_STATS["vault"]
+
+
+PAINT_STATS = {}
+
+
+def _fit_walls_to_pixels(mesh, conns, hub, levels=None, texels=None):
+    """Every wall inside a crossing is textured as ONE uninterrupted strip: from the passage joint
+    of one arm, along its wall to the corner, round the corner and along the next arm's wall to
+    that arm's passage joint (a straight-through wall: joint to joint). U runs on continuously by
+    distance walked, so there is no break anywhere inside the crossing; the whole strip is
+    stretched evenly (under half a pixel over its length) so its far end lands on a whole pixel.
+    V (height) is left as the cutters painted it. Upper walls and channel walls alike."""
+    n = float(texels or TEXELS_PER_UV)
+
+    def side_of(k, P):
+        c = conns[k]
+        return 1.0 if (P[0] * -c["h"].y + P[1] * c["h"].x) > 0 else -1.0
+
+    def along(k, P):
+        return P[0] * conns[k]["h"].x + P[1] * conns[k]["h"].y
+
+    strips = []        # [segments], each (k, sg, half, a_lo, a_hi, d0, dirn); plus start arm info
+    corners = [((a, b), C, D) for (a, b), (C, D, _r) in _crossing_mitres(conns).items()]
+    corners += [((i, j), C, D) for (i, j, C, D, _si, _sj) in _outer_mitres(conns)]
+    used = set()
+    for (a, b), C, D in corners:
+        for P, kind in ((C, "w"), (D, "q")):
+            segs = []
+            sa, sb_ = hub + conns[a]["lead"], hub + conns[b]["lead"]
+            ha = _void_half_width(conns[a]["ptype"]) if kind == "w" else PASSAGE_TYPES[conns[a]["ptype"]].get("water_half_width", 0.0)
+            hb = _void_half_width(conns[b]["ptype"]) if kind == "w" else PASSAGE_TYPES[conns[b]["ptype"]].get("water_half_width", 0.0)
+            if ha <= 0.0 or hb <= 0.0:
+                continue
+            ga, gb = side_of(a, P), side_of(b, P)
+            ca, cb = along(a, P), along(b, P)
+            la = sa - ca                                   # joint of a -> corner
+            segs.append((a, ga, ha, ca, sa, sa, -1.0))     # d = sa - along_a
+            segs.append((b, gb, hb, cb, sb_, la - cb, 1.0))  # d = la + (along_b - cb)
+            used.update(((a, ga, kind), (b, gb, kind)))
+            strips.append((segs, a, ga, ha, la + (sb_ - cb), (b, gb, hb)))
+    for k, c in enumerate(conns):
+        for j, o in enumerate(conns):
+            if j <= k or not _is_through(conns, k, j):
+                continue
+            for sg in (1.0, -1.0):
+                for kind in ("w", "q"):
+                    gj = -sg                                # the same wall line, seen from j
+                    if (k, sg, kind) in used or (j, gj, kind) in used:
+                        continue
+                    hk = _void_half_width(c["ptype"]) if kind == "w" else PASSAGE_TYPES[c["ptype"]].get("water_half_width", 0.0)
+                    hj = _void_half_width(o["ptype"]) if kind == "w" else PASSAGE_TYPES[o["ptype"]].get("water_half_width", 0.0)
+                    if hk <= 0.0 or hj <= 0.0:
+                        continue
+                    sk, sj = hub + c["lead"], hub + o["lead"]
+                    # one straight line joint to joint: the same formula covers both halves (and
+                    # faces straddling the centre)
+                    # each arm paints its own half in its own direction (follows a slightly bent
+                    # tunnel); d runs on continuously through the centre
+                    segs = [(k, sg, hk, -0.05, sk, sk, -1.0),        # d = sk - along_k
+                            (j, gj, hj, -0.05, sj, sk, 1.0, k)]      # d = sk + along_j (- bend)
+                    total = sk + sj - 2.0 * _bend_corner(conns, k, j, sg * hk)
+                    strips.append((segs, k, sg, hk, total, (j, gj, hj)))
+    FIT_STATS.clear()
+    FIT_STATS.update(walls=len(strips), faces=0)
+    if not strips:
+        return 0
+    # per strip: start U, U per cm walked, stretch
+    plans = []
+    for (segs, ka, ga, ha, total, (kb, gb, hb)) in strips:
+        ca = conns[ka]
+        e = _wall_edge_for(ca, ga, ha)
+        if e is None or total <= 1.0:
+            continue
+        seg = PASSAGE_TYPES[ca["ptype"]]["segment_length"]
+        u0 = e[3][0][0]
+        rate = (e[4][0][0] - u0) / seg
+        kd = rate * (1.0 if ca.get("mirror") else -1.0)   # U per cm walked away from a's joint
+        eb = _wall_edge_for(conns[kb], gb, hb)
+        f = _tile_fit(kd * total * n, ((eb[3][0][0] - u0) * n) if eb is not None else 0.0)
+        plans.append((segs, u0, kd * f))
+    for t in range(gs("get_num_triangle_i_ds")(mesh)):
+        vs = _tri_positions(mesh, t)
+        if not vs:
+            continue
+        nrm = (vs[1] - vs[0]).cross(vs[2] - vs[0])
+        if nrm.length() < 1e-6:
+            continue
+        nn = nrm.normal()
+        # (a thin face lying in the wall but with one corner a hair off it can tilt its normal a
+        # lot - go by where its corners are, and only drop clearly floor-like faces)
+        if abs(nn.z) > 0.6:
+            continue
+        hit = None
+        for (segs, u0, kd) in plans:
+            for sgm in segs:
+                k, sg, half, a_lo, a_hi, d0, dirn = sgm[:7]
+                bend_from = sgm[7] if len(sgm) > 7 else None
+                c = conns[k]
+                hx, hy = c["h"].x, c["h"].y
+                if abs(nn.x * -hy + nn.y * hx) < 0.6:
+                    continue
+                ds = []
+                for v in vs:
+                    a_ = v.x * hx + v.y * hy
+                    side = -v.x * hy + v.y * hx
+                    # a_hi is always the passage joint; the crossing's arm runs a few cm past it
+                    if abs(side - sg * half) > 1.5 or not (a_lo - 1.0 <= a_ <= a_hi + 15.0):
+                        ds = None
+                        break
+                    dd = d0 + dirn * _eff_along(conns, levels, hub, k, a_, side, v.z,
+                                                ramp_from=(a_lo if a_lo > 0.0 else None))
+                    if bend_from is not None:
+                        # far half of a slightly bent straight wall: run on from where it turns
+                        dd -= 2.0 * _bend_corner(conns, k, bend_from, side)
+                    ds.append(dd)
+                if ds is not None:
+                    hit = (u0, kd, ds, k, sg, half)
+                    break
+            if hit:
+                break
+        if not hit:
+            continue
+        r = gs("get_triangle_u_vs")(mesh, 0, t)
+        uvs = [u for u in r if isinstance(u, unreal.Vector2D)] if isinstance(r, tuple) else []
+        if len(uvs) != 3:
+            continue
+        u0, kd, ds, k_, sg_, half_ = hit
+        # V exactly as the passage mesh maps height on this wall, measured from this arm's floor
+        e_ = _wall_edge_for(conns[k_], sg_, half_) if levels is not None else None
+        new = []
+        for u, d, v in zip(uvs, ds, vs):
+            vv = u.y
+            if e_ is not None:
+                (y0, z0), (y1, z1) = e_[0], e_[1]
+                hx_, hy_ = conns[k_]["h"].x, conns[k_]["h"].y
+                a_ = v.x * hx_ + v.y * hy_
+                if a_ >= 0.0:
+                    fz = _arm_floor_z(conns, levels, hub, k_, a_, sg_ * half_)
+                else:
+                    # past the centre on a straight-through wall: the partner arm's floor
+                    part = [jj for jj, oo in enumerate(conns) if jj != k_ and _is_through(conns, k_, jj)]
+                    fz = _arm_floor_z(conns, levels, hub, part[0], -a_, -sg_ * half_) if part else 0.0
+                zr = v.z - fz
+                pz = (zr - z0) / (z1 - z0) if abs(z1 - z0) > 1e-3 else 0.0
+                # stay a hair inside the texture island: a sample landing exactly on its edge
+                # flickers between this row and the next island's (hairline at the wall top)
+                span_px = abs(e_[3][1][1] - e_[3][0][1]) * TEXELS_PER_UV
+                eps = (UV_EDGE_INSET / span_px) if span_px > 1e-3 else 0.0
+                pz = max(eps, min(1.0 - eps, pz))
+                vv = e_[3][0][1] + (e_[3][1][1] - e_[3][0][1]) * pz
+            new.append((u0 + kd * d, vv))
+        _set_uv_triangle(mesh, 0, t, new)
+        FIT_STATS["faces"] += 1
+    return FIT_STATS["faces"]
 
 def _snap_uvs_to_texels(mesh, texels=None):
     """Round every UV0 corner onto the texture's pixel grid. Wherever a face's texture ends (mitres,
@@ -1858,7 +2744,7 @@ def _mitre_channel_floors(mesh, conns, hub):
     (straight across, wall corner to wall corner) and textured as that arm up to the line; the
     floor inside the crossing is textured as the channel that runs straight through it."""
     depths = _channel_floor_depths(conns)
-    mouths = _channel_mouths(conns)
+    mouths = {k: m for k, m in _channel_mouths(conns).items() if k not in _through_leaders(conns)}
     CHANNEL_STATS.clear()
     CHANNEL_STATS.update(depths=depths, mouths=len(mouths), faces=0, painted=0, no_edge=0)
     if not depths or not mouths:
@@ -1880,7 +2766,8 @@ def _mitre_channel_floors(mesh, conns, hub):
         far = (conns[k]["h"].x * 2000.0, conns[k]["h"].y * 2000.0)
         sides[k] = (D1, dx, dy, dx * (far[1] - D1[1]) - dy * (far[0] - D1[0]))
     through = [k for k, c in enumerate(conns)
-               if any(j != k and _angle_between(c, o) >= OPPOSITE_DEG for j, o in enumerate(conns))]
+               if any(j != k and _is_through(conns, k, j) for j, o in enumerate(conns))]
+    leaders = _through_leaders(conns)
 
     def owner(px, py):
         for k, (D1, dx, dy, sref) in sides.items():
@@ -1892,7 +2779,10 @@ def _mitre_channel_floors(mesh, conns, hub):
                     return k
         pool = through or list(range(len(conns)))
         ang = math.degrees(math.atan2(py, px))
-        return min(pool, key=lambda k: abs((ang - math.degrees(math.atan2(conns[k]["h"].y, conns[k]["h"].x)) + 180.0) % 360.0 - 180.0))
+        best = min(pool, key=lambda k: abs((ang - math.degrees(math.atan2(conns[k]["h"].y, conns[k]["h"].x)) + 180.0) % 360.0 - 180.0))
+        # a straight-through channel is one strip, painted by its leader end to end (no seam
+        # across the middle)
+        return leaders.get(best, best)
 
     _ensure_uv_sets(mesh)
     for t in range(gs("get_num_triangle_i_ds")(mesh)):
@@ -1925,21 +2815,21 @@ def _mitre_channel_floors(mesh, conns, hub):
             CHANNEL_STATS["edges_z"] = sorted(set(round(z_, 1) for e_ in (table or []) for z_ in (e_[0][1], e_[1][1])))
             continue
         CHANNEL_STATS["painted"] += 1
-        hx, hy = c["h"].x, c["h"].y
+        axis = _strip_axis(conns, k, cx, cy)
         mirror = bool(c.get("mirror"))
         seg = PASSAGE_TYPES[c["ptype"]]["segment_length"]
         s_start = hub + c["lead"]
         loc = []
         for v in vs:
-            along = v.x * hx + v.y * hy
-            y = (-v.x * hy + v.y * hx) / (1.0 + PROFILE_JITTER * k)
+            along, y = axis(v.x, v.y)   # (walls are snapped back to true size: no jitter here)
             y = -y if mirror else y
             x = (s_start - along) if mirror else (along - s_start)
             loc.append((x * 400.0 / seg, y))
         ty = sum(y for _, y in loc) / 3.0
         e = min(floors, key=lambda ed: min(abs(ty - ed[0][0]), abs(ty - ed[1][0])))
         span = (e[1][0] - e[0][0]) or 1.0
-        _set_uv_triangle(mesh, 0, t, [_uv_on_edge(e, (y - e[0][0]) / span, x) for (x, y) in loc])
+        fx = _strip_stretch(conns, hub, k, e)
+        _set_uv_triangle(mesh, 0, t, [_uv_on_edge(e, (y - e[0][0]) / span, x * fx) for (x, y) in loc])
         cell = _edge_cell(e)
         if cell is not None:
             _set_uv_triangle(mesh, 1, t, [cell, cell, cell])
@@ -2065,6 +2955,71 @@ def _arm_corner_line(conns, k):
     return left, right
 
 
+_FOLD_LINES = {}
+
+
+def _arm_floor_z(conns, levels, hub, k, a, t):
+    """Walkway-level floor height of arm k at (along a, across t) in the finished crossing mesh:
+    level, then sloping to the passage joint - from the folded line where _fold_at_corners moved
+    it, else from where the sweep levels off."""
+    c = conns[k]
+    if abs(c["pitch"]) < GEOM_LEVEL_EPS_DEG:
+        return 0.0
+    p = math.radians(c["pitch"])
+    J, Zj = hub + math.cos(p) * c["lead"], math.sin(p) * c["lead"]
+    if k in _FOLD_LINES:
+        left, right, J, Zj = _FOLD_LINES[k]
+        dt = right[1] - left[1]
+        s0 = left[0] + (t - left[1]) * (right[0] - left[0]) / dt if abs(dt) > 1e-3 else left[0]
+        s0 = max(1.0, min(s0, J - 20.0))
+    else:
+        s0 = max(hub, min(levels[k], J - 1.0))
+    if a <= s0:
+        return 0.0
+    return Zj * min(1.0, (a - s0) / max(1.0, J - s0))
+
+
+def _arm_slope_info(conns, levels, hub, k, t):
+    """(s0, J, Zj, pitch rad) of arm k at across-position t: where its floor starts to slope,
+    the passage joint, the joint's height and the slope."""
+    c = conns[k]
+    p = math.radians(c["pitch"])
+    J, Zj = hub + math.cos(p) * c["lead"], math.sin(p) * c["lead"]
+    if k in _FOLD_LINES:
+        left, right, J, Zj = _FOLD_LINES[k]
+        dt = right[1] - left[1]
+        s0 = left[0] + (t - left[1]) * (right[0] - left[0]) / dt if abs(dt) > 1e-3 else left[0]
+        s0 = max(1.0, min(s0, J - 20.0))
+    else:
+        s0 = max(hub, min(levels[k], J - 1.0)) if levels is not None else hub
+    return s0, J, Zj, p
+
+
+def _eff_along(conns, levels, hub, k, a, t, z, ramp_from=None):
+    """Distance along arm k measured the way the passage piece measures it: a sloping passage
+    is tilted, so its joint face leans and a point higher up the wall sits further along (or
+    less far) - blend that in over the sloping stretch so the texture meets the passage exactly
+    at the joint, at every height. Past the centre of a straight-through pair the partner arm's
+    slope applies (returned negated, in k's frame)."""
+    arm, aa, tt, sgn = k, a, t, 1.0
+    if a < 0.0:
+        part = [j for j, o in enumerate(conns) if j != k and _is_through(conns, k, j)]
+        if part:
+            arm, aa, tt, sgn = part[0], -a, -t, -1.0
+    c = conns[arm]
+    if abs(c["pitch"]) < GEOM_LEVEL_EPS_DEG or levels is None:
+        return a
+    s0, J, Zj, p = _arm_slope_info(conns, levels, hub, arm, tt)
+    # the lean is blended in from where the floor starts to slope - or, for a strip coming round
+    # a corner, from that corner (so both sides of the corner agree at every height)
+    r0 = s0 if ramp_from is None else max(s0, ramp_from)
+    if aa <= r0:
+        return a
+    h = z - _arm_floor_z(conns, levels, hub, arm, aa, tt)
+    w = min(1.0, (aa - r0) / max(1.0, J - r0))
+    return sgn * (aa + h * math.sin(p) * w)
+
+
 def _fold_at_corners(mesh, conns, hub, levels):
     """A sloping arm is swept level up to a line square across it, then sloped. Where it meets its
     neighbours at different angles that fold doesn't follow the crossing's edge, leaving a wedge
@@ -2072,6 +3027,7 @@ def _fold_at_corners(mesh, conns, hub, levels):
     sloping arm in Z so its fold runs exactly along the line between its two wall corners and
     the slope still reaches the passage at the same joint - floor, channel and walls together."""
     moved = 0
+    _FOLD_LINES.clear()
     for k, c in enumerate(conns):
         if abs(c["pitch"]) < GEOM_LEVEL_EPS_DEG:
             continue
@@ -2089,6 +3045,7 @@ def _fold_at_corners(mesh, conns, hub, levels):
         p = math.radians(c["pitch"])
         cp, sp = math.cos(p), math.sin(p)
         J, Zj = hub + cp * c["lead"], sp * c["lead"]
+        _FOLD_LINES[k] = (left, right, J, Zj)
         R = max(hub, min(levels[k], hub + cp * c["lead"] - 1.0))     # where the sweep folds now
         if J - R < 1.0:
             continue

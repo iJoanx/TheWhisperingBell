@@ -1,0 +1,14 @@
+nodes with 305: ['SL_315_Crossing']
+arm 0 h(-0.981,-0.193) ang -168.8 pitch -2.17 lead 120.1 ptype P12 mirror None
+arm 1 h(0.910,0.415) ang 24.5 pitch 2.21 lead 303.1 ptype P12 mirror True
+arm 2 h(0.313,0.950) ang 71.8 pitch 1.01 lead 302.9 ptype P12 mirror True
+arm 3 h(0.824,-0.566) ang -34.5 pitch 1.88 lead 188.9 ptype P12 mirror True
+  angle 0-1: 166.7
+  angle 0-2: 119.4
+  angle 0-3: 134.3
+  angle 1-2: 47.3
+  angle 1-3: 59.0
+  angle 2-3: 106.3
+levels [260.0, 285.14557650895705, 285.0405705935875, 260.0]
+leaders {0: 0, 1: 0}
+rebaked 1 failed []; stats {'depths': [-100], 'mouths': 2, 'faces': 515, 'painted': 515, 'no_edge': 0} {'walls': 8, 'faces': 615, 'heights': 602} {'bands': 18, 'faces': 1562}

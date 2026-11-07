@@ -1,0 +1,8 @@
+===== FIT False ===== {}
+Traceback (most recent call last):
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\213901_job260.py", line 50, in <module>
+    scan(dyn)
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\213901_job260.py", line 42, in scan
+    out.append("interior vertical seams mid-pixel: %d" % len(rows))
+    ^^^
+UnboundLocalError: cannot access local variable 'out' where it is not associated with a value

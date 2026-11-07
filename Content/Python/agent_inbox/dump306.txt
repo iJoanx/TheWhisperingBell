@@ -1,0 +1,6 @@
+nodes with 315: [('SL_315_Crossing', 'Crossing')]
+  arm 0 ang -168.8 pitch -2.17 lead 120.1 ptype P12 mirror None
+  arm 1 ang 24.5 pitch 2.21 lead 303.1 ptype P12 mirror True
+  arm 2 ang 71.8 pitch 1.01 lead 302.9 ptype P12 mirror True
+  arm 3 ang -34.5 pitch 1.88 lead 188.9 ptype P12 mirror True
+  bend False leaders {} mitres [(1, 2), (2, 0), (0, 3), (3, 1)] outer []

@@ -1,0 +1,4 @@
+Water_Sewage: 403 components, 8437 pieces, 8437 distinct, 0 spots duplicated (0 extra copies)
+Water_Underside: 403 components, 8437 pieces, 8437 distinct, 0 spots duplicated (0 extra copies)
+Water_Sea: 1 components, 1 pieces, 1 distinct, 0 spots duplicated (0 extra copies)
+sewage tops without an underside: 0; undersides without a top: 0

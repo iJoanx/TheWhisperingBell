@@ -1,0 +1,10 @@
+nodes with 305: ['SL_305_Crossing']
+arm 0 h(0.760,0.650) ang 40.5 pitch 1.38 lead 120.0 ptype P12 mirror True
+arm 1 h(-0.703,-0.711) ang -134.7 pitch -1.19 lead 120.0 ptype P12 mirror None
+arm 2 h(-0.389,0.921) ang 112.9 pitch -0.97 lead 120.0 ptype P12 mirror True
+  angle 0-1: 175.2
+  angle 0-2: 72.4
+  angle 1-2: 112.4
+levels [260.0, 260.0, 260.0]
+leaders {0: 0, 1: 0}
+rebaked 1 failed []; stats {} {} {}
