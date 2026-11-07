@@ -1,0 +1,6 @@
+camera world <Struct 'Vector' (0x0000014F4C6F4560) {x: -74250.995963, y: 26978.833200, z: -3193.247379}> rot <Struct 'Rotator' (0x0000014F4C6F44C0) {pitch: -18.600102, yaw: 2872.683877, roll: 0.000000}>
+crossing at <Struct 'Vector' (0x0000014F4C6F45B0) {x: -74116.741137, y: 26947.594275, z: -3118.600000}> yaw 0.0 ; camera in crossing-local <Struct 'Vector' (0x0000014F4C6F4510) {x: -134.254826, y: 31.238925, z: -74.647379}>
+camera forward world <Struct 'Vector' (0x0000014F4C6F45B0) {x: 0.940052, y: -0.120692, z: -0.318961}>, local <Struct 'Vector' (0x0000014F4C6F4600) {x: 0.940052, y: -0.120692, z: -0.318961}>
+actors around camera: 2
+SL_303_Crossing (BP_SewerNode_C) center <Struct 'Vector' (0x0000014F4C6F41F0) {x: -74178.259890, y: 26977.259100, z: -2983.820245}> ext <Struct 'Vector' (0x0000014F4C6F41A0) {x: 413.069809, y: 467.053925, z: 341.639313}>
+SewerNetwork_GENERATED_-6_2 (StaticMeshActor) center <Struct 'Vector' (0x0000014F4C6F4600) {x: -70348.011987, y: 31934.252625, z: -1717.009033}> ext <Struct 'Vector' (0x0000014F4C6F4150) {x: 6641.788330, y: 6532.514404, z: 1717.009033}>

@@ -6,6 +6,11 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/Controller.h"
 #include "Components/CapsuleComponent.h"
+#include "Camera/PlayerCameraManager.h"
+#include "GameFramework/PhysicsVolume.h"
+#include "GameFramework/PlayerController.h"
+#include "Materials/MaterialParameterCollection.h"
+#include "Materials/MaterialParameterCollectionInstance.h"
 
 #pragma region SavedMove
 
@@ -71,6 +76,13 @@ void UTWBCharacterMovementComponent::FSavedMove_TWB::PrepMoveFor(ACharacter* C)
 UTWBCharacterMovementComponent::UTWBCharacterMovementComponent()
 {
 	NavAgentProps.bCanCrouch = true;
+	NavAgentProps.bCanSwim = true;
+
+	// Float with the head out of the water: rest where ~1/Buoyancy of the capsule is submerged.
+	Buoyancy = 1.3f;
+	// Stop quickly when letting go of the input instead of gliding on.
+	BrakingDecelerationSwimming = 2000.f;
+	WaterParameters = TSoftObjectPtr<UMaterialParameterCollection>(FSoftObjectPath(TEXT("/Game/Water/MPC_Water.MPC_Water")));
 }
 
 
@@ -113,6 +125,12 @@ FNetworkPredictionData_Client* UTWBCharacterMovementComponent::GetPredictionData
 
 bool UTWBCharacterMovementComponent::CanAttemptJump() const
 {
+	// At the surface, jump leaps out of the water (deeper down, jump swims up instead).
+	if (IsSwimming())
+	{
+		return IsJumpAllowed() && GetWaterImmersion() <= SurfaceJumpImmersion;
+	}
+
 	if (IsCustomMovementMode(CMOVE_Slide))
 	{
 		return IsJumpAllowed();
@@ -133,6 +151,20 @@ bool UTWBCharacterMovementComponent::CanCrouchInCurrentState() const
 
 float UTWBCharacterMovementComponent::GetMaxSpeed() const
 {
+	if (MovementMode == MOVE_Swimming)
+	{
+		float SwimSpeed = MaxSwimSpeed;
+		if (Safe_bWantsToSprint)
+		{
+			SwimSpeed *= SwimSprintMultiplier;
+		}
+		if (CachedWater.Type == ETWBWaterType::Sewage)
+		{
+			SwimSpeed *= SewageSwimSpeedMultiplier;
+		}
+		return SwimSpeed;
+	}
+
 	if (MovementMode == MOVE_Walking && !IsCrouching())
 	{
 		if (Safe_bWantsToSprint && IsWithinSprintForwardCone())
@@ -166,6 +198,22 @@ float UTWBCharacterMovementComponent::GetMaxBrakingDeceleration() const
 
 void UTWBCharacterMovementComponent::UpdateCharacterStateBeforeMovement(float DeltaSeconds)
 {
+	// Water surfaces aren't physics volumes, so switch in and out of swimming here.
+	// (Flying, e.g. a familiar, is left alone.)
+	if (CanEverSwim() && UpdatedComponent)
+	{
+		const bool bInWater = IsInWater();
+		// While rising (e.g. jumping out at the surface) don't get pulled back into swimming.
+		if (bInWater && (IsMovingOnGround() || (IsFalling() && Velocity.Z <= 0.f)))
+		{
+			SetMovementMode(MOVE_Swimming);
+		}
+		else if (!bInWater && IsSwimming())
+		{
+			SetMovementMode(MOVE_Falling);
+		}
+	}
+
 	// While running or sprinting, crouch input should branch into slide instead of standard crouch.
 	if (MovementMode == MOVE_Walking && bWantsToCrouch && (Safe_bWantsToRun || Safe_bWantsToSprint) && CanSlide())
 	{
@@ -220,6 +268,180 @@ void UTWBCharacterMovementComponent::OnMovementModeChanged(EMovementMode Previou
 	{
 		EnterSlide();
 	}
+}
+
+#pragma endregion
+
+#pragma region Swimming
+
+void UTWBCharacterMovementComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (UTWBWaterSubsystem* Water = GetWaterSubsystem())
+	{
+		if (APhysicsVolume* Sea = Water->GetWaterVolume(ETWBWaterType::Sea))
+		{
+			Sea->FluidFriction = SeaFluidFriction;
+		}
+		if (APhysicsVolume* Sewage = Water->GetWaterVolume(ETWBWaterType::Sewage))
+		{
+			Sewage->FluidFriction = SewageFluidFriction;
+		}
+	}
+}
+
+void UTWBCharacterMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	UpdateUnderwaterView();
+}
+
+UTWBWaterSubsystem* UTWBCharacterMovementComponent::GetWaterSubsystem() const
+{
+	const UWorld* World = GetWorld();
+	return World ? World->GetSubsystem<UTWBWaterSubsystem>() : nullptr;
+}
+
+float UTWBCharacterMovementComponent::GetWaterImmersion() const
+{
+	if (!UpdatedComponent || !CharacterOwner)
+	{
+		return 0.f;
+	}
+
+	const FVector Location = UpdatedComponent->GetComponentLocation();
+	if (!bHasCachedWater || !Location.Equals(CachedWaterLocation, 0.1))
+	{
+		bHasCachedWater = true;
+		CachedWaterLocation = Location;
+		CachedWater = FTWBWaterQuery();
+		CachedImmersion = 0.f;
+
+		if (UTWBWaterSubsystem* Water = GetWaterSubsystem())
+		{
+			const float HalfHeight = CharacterOwner->GetSimpleCollisionHalfHeight();
+			CachedWater = Water->FindWater(Location, HalfHeight, SeaMaxDepth, SewageMaxDepth);
+			if (CachedWater.IsValid() && HalfHeight > 0.f)
+			{
+				const float CapsuleBottom = Location.Z - HalfHeight;
+				CachedImmersion = FMath::Clamp((CachedWater.SurfaceZ - CapsuleBottom) / (2.f * HalfHeight), 0.f, 1.f);
+			}
+		}
+	}
+	return CachedImmersion;
+}
+
+APhysicsVolume* UTWBCharacterMovementComponent::GetPhysicsVolume() const
+{
+	APhysicsVolume* BaseVolume = Super::GetPhysicsVolume();
+	if ((BaseVolume && BaseVolume->bWaterVolume) || !CanEverSwim())
+	{
+		return BaseVolume; // a real water volume placed in the level still works as usual
+	}
+
+	// Hysteresis: need more water to start swimming than to keep swimming.
+	const float Immersion = GetWaterImmersion();
+	const float Needed = IsSwimming() ? SwimExitImmersion : SwimEnterImmersion;
+	if (Immersion > 0.f && Immersion >= Needed)
+	{
+		if (UTWBWaterSubsystem* Water = GetWaterSubsystem())
+		{
+			if (APhysicsVolume* WaterVolume = Water->GetWaterVolume(CachedWater.Type))
+			{
+				return WaterVolume;
+			}
+		}
+	}
+	return BaseVolume;
+}
+
+float UTWBCharacterMovementComponent::ImmersionDepth() const
+{
+	const APhysicsVolume* BaseVolume = Super::GetPhysicsVolume();
+	if (BaseVolume && BaseVolume->bWaterVolume)
+	{
+		return Super::ImmersionDepth();
+	}
+	return GetWaterImmersion();
+}
+
+FVector UTWBCharacterMovementComponent::ConstrainInputAcceleration(const FVector& InputAcceleration) const
+{
+	FVector Result = Super::ConstrainInputAcceleration(InputAcceleration);
+	if (!IsSwimming() || !CharacterOwner)
+	{
+		return Result;
+	}
+
+	if (bSwimFollowsCamera)
+	{
+		// Forward/back input follows the camera pitch, strafing stays level.
+		const FRotator View = CharacterOwner->GetControlRotation();
+		const FVector YawForward = FRotator(0.f, View.Yaw, 0.f).Vector();
+		const float Forward = FVector::DotProduct(FVector(Result.X, Result.Y, 0.f), YawForward);
+		const FVector Strafe = FVector(Result.X, Result.Y, 0.f) - YawForward * Forward;
+		Result = View.Vector() * Forward + Strafe + FVector(0.f, 0.f, Result.Z);
+	}
+
+	// Jump swims up, crouch swims down (both already travel with every saved move).
+	const float UpDown = (CharacterOwner->bPressedJump ? 1.f : 0.f) - (bWantsToCrouch ? 1.f : 0.f);
+	Result.Z += UpDown;
+
+	return Result.GetClampedToMaxSize(1.f);
+}
+
+bool UTWBCharacterMovementComponent::ShouldRemainVertical() const
+{
+	// Keep the capsule upright while swimming; the animation can tilt the body instead.
+	return Super::ShouldRemainVertical() || IsSwimming();
+}
+
+ETWBWaterType UTWBCharacterMovementComponent::GetWaterType() const
+{
+	GetWaterImmersion();
+	return CachedWater.Type;
+}
+
+void UTWBCharacterMovementComponent::UpdateUnderwaterView()
+{
+	if (!PawnOwner || !PawnOwner->IsLocallyControlled())
+	{
+		return;
+	}
+	const APlayerController* PC = Cast<APlayerController>(PawnOwner->GetController());
+	if (!PC || !PC->PlayerCameraManager)
+	{
+		return;
+	}
+	UMaterialParameterCollection* Collection = WaterParameters.LoadSynchronous();
+	UWorld* World = GetWorld();
+	UMaterialParameterCollectionInstance* Parameters = (Collection && World) ? World->GetParameterCollectionInstance(Collection) : nullptr;
+	UTWBWaterSubsystem* Water = GetWaterSubsystem();
+	if (!Parameters || !Water)
+	{
+		return;
+	}
+
+	// The look follows the camera, not the capsule, so dipping the camera under shows it.
+	const FVector CameraLocation = PC->PlayerCameraManager->GetCameraLocation();
+	const FTWBWaterQuery CameraWater = Water->FindWater(CameraLocation, 0.f, SeaMaxDepth, SewageMaxDepth);
+	const bool bUnder = CameraWater.IsValid() && CameraWater.Depth > 0.f;
+	Water->UpdateUndersides(CameraLocation, bUnder && CameraWater.Type == ETWBWaterType::Sewage);
+	const float Sea = (bUnder && CameraWater.Type == ETWBWaterType::Sea) ? 1.f : 0.f;
+	const float Sewage = (bUnder && CameraWater.Type == ETWBWaterType::Sewage) ? 1.f : 0.f;
+
+	if (Sea != LastSeaUnderwater)
+	{
+		Parameters->SetScalarParameterValue(TEXT("SeaUnderwater"), Sea);
+		LastSeaUnderwater = Sea;
+	}
+	if (Sewage != LastSewageUnderwater)
+	{
+		Parameters->SetScalarParameterValue(TEXT("SewageUnderwater"), Sewage);
+		LastSewageUnderwater = Sewage;
+	}
+	Parameters->SetScalarParameterValue(TEXT("UnderwaterDepth"), bUnder ? CameraWater.Depth : 0.f);
 }
 
 #pragma endregion

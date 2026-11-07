@@ -1,0 +1,23 @@
+collision node types: ['Collision|SetActorEnableCollision']
+nent")
+          (Rendering|SetVisibility _p (not InSewer) false))
+        (for _c (Actor|GetComponentsByClass _dn "/Script/Engine.VolumetricCloudComponent")
+          (Rendering|SetVisibility _c false false)))
+      (:CastFailed
+        (Rendering|SetActorHiddenInGame _s InSewer))))
+  (bind _sea (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sea"))
+  (for _w _sea
+    (Rendering|SetActorHiddenInGame _w InSewer)
+    (Collision|SetActorEnableCollision _w (not InSewer)))
+  (bind _walls (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Walls"))
+  (for _wl _walls
+    (Rendering|SetActorHiddenInGame _wl InSewer)
+    (Collision|SetActorEnableCollision _wl (not InSewer))))
+ApplySewerView: walls + sea collision toggles added
+compile entry: None
+tidied BP_WB_Sewer_Entry:ApplySewerView (26 nodes laid out, 0 getters split, 0 literals folded)
+collision calls in graph: 2; tags: ['RDL_Sewers', 'RDL_Sky', 'RDL_Sea', 'RDL_Walls']
+/Game/Sewers/Materials/MI_SewerWaterV2_Opaque -> base /Game/Sewers/Materials/M_SewerWaterFlowV2.M_SewerWaterFlowV2 two_sided=False shading=MSM_DEFAULT_LIT: 1> blend=BLEND_OPAQUE: 0>; base referenced by 3 packages
+   instance overrides two_sided: <Struct 'MaterialInstanceBasePropertyOverrides' (0x0000020C4CA2F560) {}>
+/Game/Level/Streets/Materials/M_Master_Water_Inst -> base /Game/Level/Streets/Materials/M_Master_Water.M_Master_Water two_sided=False shading=MSM_SINGLE_LAYER_WATER: 10> blend=BLEND_OPAQUE: 0>; base referenced by 1 packages
+   instance overrides two_sided: <Struct 'MaterialInstanceBasePropertyOverrides' (0x0000020C4D7F5560) {}>

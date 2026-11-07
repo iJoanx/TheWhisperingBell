@@ -52,7 +52,7 @@ NETWORK_FOLDER = "Sewers/Network"
 
 NODE_MATERIAL = "/Game/Sewers/Meshes/v2/sewer1_003"     # material for generated caps
 PASSAGE_UV_TOL = 0.6       # cm: cut faces within this of a passage profile edge get that face's UVs/material
-WATER_MATERIAL = "/Game/Sewers/Materials/MI_SewerWater_Opaque"  # or _Masked / _Translucent (M_SewerWater = old normal-map flow)
+WATER_MATERIAL = "/Game/Sewers/Materials/MI_SewerWaterV2_Opaque"  # top of the water (opaque, one-sided); sewer_water_underside.py adds the view from below
 
 # Node types. Radii/heights measured from your FBX (pivot at walkway/floor = Z 0).
 NODE_TYPES = {
@@ -1265,6 +1265,8 @@ def _crossing_levels(conns, hub):
     of a few cm along the edge of one of them. The slope then runs a little steeper to the same
     joint with the passage, so nothing else moves."""
     out = []
+    mitres = _crossing_mitres(conns)
+    outer = _outer_mitres(conns)
     for k, c in enumerate(conns):
         R = hub
         if abs(c["pitch"]) >= GEOM_LEVEL_EPS_DEG:
@@ -1284,7 +1286,18 @@ def _crossing_levels(conns, hub):
                     poly = _clip_poly(poly, h, -CROSSING_VOID_INSET)
                 if len(poly) >= 3:
                     R = max(R, max(q[0] * hk[0] + q[1] * hk[1] for q in poly) + LEVEL_PAST_SHARED)
-            R = min(R, hub + math.cos(math.radians(c["pitch"])) * c["lead"] * 0.7)   # keep a slope
+            # stay level until past the corners this arm shares with its neighbours (the mitre
+            # lines' wall and channel corners): a slope starting before them left the arm's floor
+            # a few cm under the crossing floor between the corners (a step along the seam)
+            for (a, b), (C, D, _ref) in mitres.items():
+                if k in (a, b):
+                    for P in (C, D):
+                        R = max(R, P[0] * hk[0] + P[1] * hk[1] + LEVEL_PAST_SHARED)
+            for (i, j, C, D, _si, _sj) in outer:
+                if k in (i, j):
+                    for P in (C, D):
+                        R = max(R, P[0] * hk[0] + P[1] * hk[1] + LEVEL_PAST_SHARED)
+            R = min(R, hub + math.cos(math.radians(c["pitch"])) * c["lead"] * 0.95)   # keep a slope
         out.append(R)
     return out
 
@@ -1784,7 +1797,165 @@ def _build_crossing_mesh(node, conns_world):
             mesh = _mitre_floors(mesh, conns, hub)
         except Exception as e:  # noqa
             unreal.log_warning("Sewer: %s floor mitres skipped (%s)" % (node.get_actor_label(), e))
+    if FLATTEN_HUB_FLOOR:
+        _flatten_hub_floor(mesh, min(levels) if levels else hub)
+    if FOLD_AT_CORNERS and not bend:
+        _fold_at_corners(mesh, conns, hub, levels)
     return mesh
+
+
+FLATTEN_HUB_FLOOR = True   # crossings: snap the walkway-level floor flat inside the level zone
+FLATTEN_TOL = 3.0          # cm: floor vertices this close to walkway height get snapped onto it
+
+
+def _flatten_hub_floor(mesh, radius):
+    """Inside a crossing every arm is level (slopes only start at `radius`), so the walkway floor
+    should be one flat plane at Z 0 - like the box collision. The booleans between the arms' cutters
+    left small steps (~1 cm) along the mitre seams; snap every vertex within FLATTEN_TOL of walkway
+    height onto it."""
+    r2 = (radius - 1.0) ** 2
+    moved = 0
+    for vid in range(gs("get_num_vertex_i_ds")(mesh)):
+        r = gs("get_vertex_position")(mesh, vid)
+        q = r[0] if isinstance(r, tuple) else r
+        if not isinstance(q, unreal.Vector):
+            continue
+        if q.x * q.x + q.y * q.y < r2 and 0.0 < abs(q.z) < FLATTEN_TOL:
+            gs("set_vertex_position")(mesh, vid, V(q.x, q.y, 0.0), True)
+            moved += 1
+    if moved:
+        _normals(mesh)
+    return moved
+
+
+FOLD_AT_CORNERS = True    # crossings: a sloping arm's floor starts to slope on the line between the two
+                           # corners where it meets its neighbours (not square across the arm)
+
+
+def _arm_seam_points(conns, k):
+    """All ends of the floor seams (mitre lines) arm k shares with its neighbours - the wall
+    corner C and the channel corner D of each - as (s, t) in the arm's frame."""
+    c = conns[k]
+    hk = (c["h"].x, c["h"].y)
+    nk = (-hk[1], hk[0])
+    pts = []
+    for (a, b), (C, D, _r) in _crossing_mitres(conns).items():
+        if k in (a, b):
+            pts += [C, D]
+    for (i, j, C, D, _si, _sj) in _outer_mitres(conns):
+        if k in (i, j):
+            pts += [C, D]
+    return [(P[0] * hk[0] + P[1] * hk[1], P[0] * nk[0] + P[1] * nk[1]) for P in pts]
+
+
+def _arm_corner_line(conns, k):
+    """The wall corners on the left (+) and right (-) side of arm k, as (s, t) in the arm's frame
+    (s along it, t across it). Either may be None (no neighbour on that side)."""
+    c = conns[k]
+    hk = (c["h"].x, c["h"].y)
+    nk = (-hk[1], hk[0])
+    left = right = None
+    pts = [C for (a, b), (C, D, _r) in _crossing_mitres(conns).items() if k in (a, b)]
+    pts += [C for (i, j, C, D, _si, _sj) in _outer_mitres(conns) if k in (i, j)]
+    for C in pts:
+        sC, tC = C[0] * hk[0] + C[1] * hk[1], C[0] * nk[0] + C[1] * nk[1]
+        if sC <= 0.0:
+            continue
+        if tC >= 0.0 and (left is None or sC > left[0]):
+            left = (sC, tC)
+        if tC < 0.0 and (right is None or sC > right[0]):
+            right = (sC, tC)
+    return left, right
+
+
+def _fold_at_corners(mesh, conns, hub, levels):
+    """A sloping arm is swept level up to a line square across it, then sloped. Where it meets its
+    neighbours at different angles that fold doesn't follow the crossing's edge, leaving a wedge
+    of sloped floor inside the crossing (or level floor sticking into the arm). Re-shape each
+    sloping arm in Z so its fold runs exactly along the line between its two wall corners and
+    the slope still reaches the passage at the same joint - floor, channel and walls together."""
+    moved = 0
+    for k, c in enumerate(conns):
+        if abs(c["pitch"]) < GEOM_LEVEL_EPS_DEG:
+            continue
+        left, right = _arm_corner_line(conns, k)
+        if left is None or right is None:
+            continue      # a neighbour on one side only (straight through): the square fold is right
+        # the fold runs at the angle of the corner-to-corner line, pushed out just far enough that
+        # every seam this arm shares (wall corner to channel corner) lies on the flat floor - both
+        # floors along a seam are then the same plane
+        seam = _arm_seam_points(conns, k)
+        slope_t = (right[0] - left[0]) / (right[1] - left[1]) if abs(right[1] - left[1]) > 1e-3 else 0.0
+        offset = max([left[0] - slope_t * left[1]] + [sP - slope_t * tP for (sP, tP) in seam if sP > 0.0])
+        left = (offset + slope_t * left[1], left[1])
+        right = (offset + slope_t * right[1], right[1])
+        p = math.radians(c["pitch"])
+        cp, sp = math.cos(p), math.sin(p)
+        J, Zj = hub + cp * c["lead"], sp * c["lead"]
+        R = max(hub, min(levels[k], hub + cp * c["lead"] - 1.0))     # where the sweep folds now
+        if J - R < 1.0:
+            continue
+        hk = (c["h"].x, c["h"].y)
+        nk = (-hk[1], hk[0])
+        band = _solid_half_width(c["ptype"]) + 5.0
+        dt = right[1] - left[1]
+        s_min = min(left[0], right[0], R) - 1.0
+
+        def fold_at(t):
+            s0 = left[0] + (t - left[1]) * (right[0] - left[0]) / dt if abs(dt) > 1e-3 else left[0]
+            return max(1.0, min(s0, J - 20.0))
+
+        for vid in range(gs("get_num_vertex_i_ds")(mesh)):
+            r = gs("get_vertex_position")(mesh, vid)
+            q = r[0] if isinstance(r, tuple) else r
+            if not isinstance(q, unreal.Vector):
+                continue
+            sv, tv = q.x * hk[0] + q.y * hk[1], q.x * nk[0] + q.y * nk[1]
+            if sv <= s_min or sv >= J or abs(tv) > band:
+                continue
+            old = 0.0 if sv <= R else Zj * (sv - R) / (J - R)
+            s0 = fold_at(tv)
+            new = 0.0 if sv <= s0 else Zj * (sv - s0) / (J - s0)
+            if abs(new - old) > 1e-3:
+                gs("set_vertex_position")(mesh, vid, V(q.x, q.y, q.z + new - old), True)
+                moved += 1
+    if moved:
+        _normals(mesh)
+    return moved
+
+
+def rebake_crossings(labels=None):
+    """Rebake only crossing node meshes (and their box collision) - the passages, water and the
+    underside copies are left alone. labels: optional list of node labels (default: all crossings)."""
+    use_definitive()
+    _UV_TABLES.clear()
+    _OUTER.clear()
+    nodes = [a for a in _actors() if _is_node(a)]
+    _, per_node = _gather(nodes, [])
+    todo = [n for n in nodes if _is_crossing(_node_type(n)) and (labels is None or n.get_actor_label() in labels)]
+    done, failed = [], []
+    with unreal.ScopedSlowTask(len(todo), "Rebaking sewer crossings...") as task:
+        task.make_dialog(True)
+        for n in todo:
+            if task.should_cancel():
+                break
+            task.enter_progress_frame(1, "Crossing " + n.get_actor_label())
+            try:
+                del _SLOTS[:]
+                mesh = _build_node_mesh(n, per_node.get(n.get_path_name(), []))
+                path = "%s/SM_SewerNode_%s" % (GENERATED_FOLDER, _safe(n.get_actor_label()))
+                sm = _bake(mesh, path, list(_SLOTS), simple=False)
+                comp = n.get_component_by_class(unreal.StaticMeshComponent)
+                comp.modify()
+                comp.set_static_mesh(sm)
+                done.append(n.get_path_name())
+            except Exception as e:  # keep going
+                failed.append("%s: %s" % (n.get_actor_label(), e))
+    if SIMPLE_COLLISION and done:
+        import sewer_boxcol
+        sewer_boxcol.apply_level_later(only=done)
+    unreal.log("Sewer: rebaked %d crossings, %d failed" % (len(done), len(failed)))
+    return len(done), failed
 
 
 def _build_node_mesh(node, conns_world):
@@ -1943,18 +2114,20 @@ def _add_hism(actor, name, static_mesh):
     return comp
 
 
-WATER_COLLISION_PROFILE = "OverlapAllDynamic"   # water never blocks; overlaps let gameplay detect it
+WATER_COLLISION_PROFILE = "NoCollision"   # water never blocks; swimming finds it by its component tag
+WATER_COMPONENT_TAG = "Water_Sewage"       # read by TWBCharacterMovementComponent (swimming + underwater look)
 
 
 def _water_collision(comp):
     try:
         comp.set_collision_profile_name(WATER_COLLISION_PROFILE)
-        comp.set_collision_response_to_all_channels(unreal.CollisionResponseType.ECR_OVERLAP)
-        # toggling makes instanced components rebuild their per-instance collision
         comp.set_collision_enabled(unreal.CollisionEnabled.NO_COLLISION)
-        comp.set_collision_enabled(unreal.CollisionEnabled.QUERY_ONLY)
+        tags = list(comp.component_tags)
+        if unreal.Name(WATER_COMPONENT_TAG) not in tags:
+            tags.append(unreal.Name(WATER_COMPONENT_TAG))
+            comp.component_tags = tags
     except Exception as e:  # noqa
-        unreal.log_warning("Sewer: water collision not set (%s)" % e)
+        unreal.log_warning("Sewer: water collision/tag not set (%s)" % e)
 
 
 class _NetGrid(object):

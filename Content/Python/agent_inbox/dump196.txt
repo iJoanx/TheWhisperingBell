@@ -1,0 +1,27 @@
+EDL_Sea members: ['Ship', 'WaterdeepWater', 'OutsideWaterdeeptest', 'P_SailShip', 'P_SailShip2']
+RDL_Sea added=True; in layer=5 tagged=5
+sea before: <CollisionEnabled.QUERY_AND_PHYSICS: 3> pawn=<CollisionResponseType.ECR_BLOCK: 2> vis=<CollisionResponseType.ECR_BLOCK: 2>
+sea after: <CollisionEnabled.NO_COLLISION: 0> pawn=<CollisionResponseType.ECR_BLOCK: 2> vis=<CollisionResponseType.ECR_BLOCK: 2> tags=[Name("Water_Sea")]
+sewage water comps tagged+NoCollision: 403 (instances 8437)
+collision before (distinct): ['<CollisionEnabled.QUERY_ONLY: 1> pawn=<CollisionResponseType.ECR_OVERLAP: 1> vis=<CollisionResponseType.ECR_OVERLAP: 1>']
+sample (pitch, roll) of instances: [(-8.9, -0.0), (-4.8, 0.0), (-4.3, 0.0), (-3.9, 0.0), (-3.8, -0.0), (-3.7, -0.0), (-3.5, 0.0), (-3.3, 0.0), (-3.0, 0.0), (-2.8, 0.0), (-2.7, 0.0), (-2.6, 0.0), (-2.5, 0.0), (-2.4, 0.0), (-2.3, 0.0), (-2.2, 0.0), (-2.1, 0.0), (-2.0, 0.0), (-1.9, -0.0), (-1.8, 0.0), (-1.7, 0.0), (-1.6, 0.0), (-1.5, 0.0), (-1.4, 0.0), (-1.3, -0.0), (-1.2, 0.0), (-1.1, 0.0), (-1.0, 0.0), (-0.9, 0.0), (-0.8, 0.0), (-0.7, 0.0), (-0.6, -0.0), (-0.5, -0.0), (-0.4, 0.0), (-0.3, 0.0), (-0.2, 0.0), (-0.1, -0.0), (0.0, -0.0), (0.1, -0.0), (0.2, 0.0)]
+ApplySewerView: sea loop added
+compile entry: None
+tidied BP_WB_Sewer_Entry:ApplySewerView (19 nodes laid out, 0 getters split, 0 literals folded)
+(fn ApplySewerView (InSewer)
+  (bind _outactors (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sewers"))
+  (for _array_element _outactors
+    (Rendering|SetActorHiddenInGame _array_element (not InSewer)))
+  (bind _outactors_1 (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sky"))
+  (for _array_element_1 _outactors_1
+    (bind _asbp_day_night_cycle (Utilities|Casting|CastToBP_DayNightCycle _array_element_1)
+      (:then
+        (for _array_element_2 (Actor|GetComponentsByClass _asbp_day_night_cycle "/Script/Engine.SceneComponent")
+          (Rendering|SetVisibility _array_element_2 (not InSewer)))
+        (for _array_element_3 (Actor|GetComponentsByClass _asbp_day_night_cycle "/Script/Engine.VolumetricCloudComponent")
+          (Rendering|SetVisibility _array_element_3)))
+      (:CastFailed
+        (Rendering|SetActorHiddenInGame _array_element_1 InSewer))))
+  (bind _outactors_2 (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sea"))
+  (for _array_element_2 _outactors_2
+    (Rendering|SetActorHiddenInGame _array_element_2 InSewer)))

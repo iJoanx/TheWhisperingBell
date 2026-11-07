@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "TWBWaterSubsystem.h"
 #include "TWBCharacterMovementComponent.generated.h"
+
+class UMaterialParameterCollection;
 
 UENUM(BlueprintType)
 enum ETWBCustomMovementMode : uint8
@@ -74,6 +77,27 @@ private:
 	UPROPERTY(EditDefaultsOnly) float BrakingDecelerationSliding = 1000.f;
 	UPROPERTY(EditDefaultsOnly) float SlideViewYawLimitDegrees = 80.f;
 
+	// Swimming tuning (water = static mesh components tagged Water_Sea / Water_Sewage)
+	// How much of the capsule must be under water to start swimming, and below which it stops again.
+	UPROPERTY(EditDefaultsOnly, Category = "Swimming") float SwimEnterImmersion = 0.6f;
+	UPROPERTY(EditDefaultsOnly, Category = "Swimming") float SwimExitImmersion = 0.35f;
+	// How far below a surface still counts as inside that water.
+	UPROPERTY(EditDefaultsOnly, Category = "Swimming") float SeaMaxDepth = 100000.f;
+	UPROPERTY(EditDefaultsOnly, Category = "Swimming") float SewageMaxDepth = 400.f;
+	// Sprint while swimming multiplies Max Swim Speed by this.
+	UPROPERTY(EditDefaultsOnly, Category = "Swimming") float SwimSprintMultiplier = 1.6f;
+	// Sewage is thicker: slower and with more drag.
+	UPROPERTY(EditDefaultsOnly, Category = "Swimming") float SewageSwimSpeedMultiplier = 0.75f;
+	// Water drag: higher = stops and turns faster, less gliding.
+	UPROPERTY(EditDefaultsOnly, Category = "Swimming") float SeaFluidFriction = 2.5f;
+	UPROPERTY(EditDefaultsOnly, Category = "Swimming") float SewageFluidFriction = 3.5f;
+	// Jump works while swimming when at most this much of the capsule is under water (i.e. at the surface).
+	UPROPERTY(EditDefaultsOnly, Category = "Swimming") float SurfaceJumpImmersion = 0.85f;
+	// Forward input swims where the camera looks (dive by looking down). Jump = up, crouch = down.
+	UPROPERTY(EditDefaultsOnly, Category = "Swimming") bool bSwimFollowsCamera = true;
+	// Collection the underwater post-process materials read (SeaUnderwater, SewageUnderwater, UnderwaterDepth).
+	UPROPERTY(EditDefaultsOnly, Category = "Swimming") TSoftObjectPtr<UMaterialParameterCollection> WaterParameters;
+
 #pragma endregion
 
 #pragma region RuntimeState
@@ -84,6 +108,16 @@ private:
 	bool bSavedOrientRotationToMovement = true;
 	bool bSavedUseControllerDesiredRotation = false;
 	bool bHasSavedRotationPolicy = false;
+
+	// Water under/around the capsule, cached per location (GetPhysicsVolume is asked many times per move).
+	mutable bool bHasCachedWater = false;
+	mutable FVector CachedWaterLocation = FVector::ZeroVector;
+	mutable FTWBWaterQuery CachedWater;
+	mutable float CachedImmersion = 0.f;
+
+	// Last values pushed to the water parameter collection (local player only).
+	float LastSeaUnderwater = -1.f;
+	float LastSewageUnderwater = -1.f;
 
 #pragma endregion
 
@@ -100,6 +134,12 @@ public:
 	virtual bool CanCrouchInCurrentState() const override;
 	virtual float GetMaxSpeed() const override;
 	virtual float GetMaxBrakingDeceleration() const override;
+	virtual APhysicsVolume* GetPhysicsVolume() const override;
+	virtual float ImmersionDepth() const override;
+	virtual FVector ConstrainInputAcceleration(const FVector& InputAcceleration) const override;
+	virtual bool ShouldRemainVertical() const override;
+	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 protected:
 	virtual void UpdateFromCompressedFlags(uint8 Flags) override;
@@ -123,6 +163,15 @@ private:
 
 #pragma endregion
 
+#pragma region SwimHelpers
+
+	// Swimming helpers
+	UTWBWaterSubsystem* GetWaterSubsystem() const;
+	float GetWaterImmersion() const;
+	void UpdateUnderwaterView();
+
+#pragma endregion
+
 #pragma region InputAPI
 
 	// Input/API surface
@@ -137,6 +186,11 @@ public:
 
 	UFUNCTION(BlueprintPure) bool IsCustomMovementMode(ETWBCustomMovementMode InCustomMovementMode) const;
 	UFUNCTION(BlueprintPure) bool IsMovementMode(EMovementMode InMovementMode) const;
+
+	// Which water the character is in (None when dry). For animation/effects.
+	UFUNCTION(BlueprintPure, Category = "Swimming") ETWBWaterType GetWaterType() const;
+	// 0..1, how much of the capsule is under water.
+	UFUNCTION(BlueprintPure, Category = "Swimming") float GetWaterImmersionAmount() const { return GetWaterImmersion(); }
 
 #pragma endregion
 };

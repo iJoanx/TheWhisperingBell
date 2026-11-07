@@ -1,0 +1,437 @@
+CMC.h: ENGINE_API virtual float ImmersionDepth() const;
+CMC.h: ENGINE_API FVector FindWaterLine(FVector Start, FVector End);
+CMC.h: ENGINE_API virtual void PhysSwimming(float deltaTime, int32 Iterations);
+CMC.h: ENGINE_API virtual bool IsSwimming() const override;
+CMC.h: ENGINE_API virtual void StartSwimming(FVector OldLocation, FVector OldVelocity, float timeTick, float remainingTime, int32 Iterations);
+CMC.h: ENGINE_API virtual void PhysSwimming(float deltaTime, int32 Iterations);
+CMC.h: ENGINE_API virtual void HandleSwimmingWallHit(const FHitResult& Hit, float DeltaTime);
+CMC.h: ENGINE_API virtual void StartSwimming(FVector OldLocation, FVector OldVelocity, float timeTick, float remainingTime, int32 Iterations);
+CMC.h: float Buoyancy;
+CMC.h: float MaxSwimSpeed;
+CMC.h: ENGINE_API virtual void UpdateCharacterStateAfterMovement(float DeltaSeconds);
+CMC.h: ENGINE_API virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+MC.h: ENGINE_API virtual APhysicsVolume* GetPhysicsVolume() const;
+MC.h: ENGINE_API virtual bool IsInWater() const;
+=== void UCharacterMovementComponent::PhysSwimming
+void UCharacterMovementComponent::PhysSwimming(float deltaTime, int32 Iterations)
+{
+	if (deltaTime < MIN_TICK_TIME)
+	{
+		return;
+	}
+
+	RestorePreAdditiveRootMotionVelocity();
+
+	float NetFluidFriction  = 0.f;
+	float Depth = ImmersionDepth();
+	float NetBuoyancy = Buoyancy * Depth;
+	float OriginalAccelZ = GetGravitySpaceZ(Acceleration);
+	bool bLimitedUpAccel = false;
+
+	if (!HasAnimRootMotion() && !CurrentRootMotion.HasOverrideVelocity() && (GetGravitySpaceZ(Velocity) > 0.33f * MaxSwimSpeed) && (NetBuoyancy != 0.f))
+	{
+		//damp positive Z out of water
+		SetGravitySpaceZ(Velocity, FMath::Max<FVector::FReal>(0.33f * MaxSwimSpeed, GetGravitySpaceZ(Velocity) * Depth*Depth));
+	}
+	else if (Depth < 0.65f)
+	{
+		bLimitedUpAccel = (OriginalAccelZ > 0.f);
+		SetGravitySpaceZ(Acceleration, FMath::Min<FVector::FReal>(0.1f, OriginalAccelZ));
+	}
+
+	Iterations++;
+	FVector OldLocation = UpdatedComponent->GetComponentLocation();
+	bJustTeleported = false;
+	if( !HasAnimRootMotion() && !CurrentRootMotion.HasOverrideVelocity() )
+	{
+		const float Friction = 0.5f * GetPhysicsVolume()->FluidFriction * Depth;
+		CalcVelocity(deltaTime, Friction, true, GetMaxBrakingDeceleration());
+		Velocity += (GetGravityZ() * deltaTime * (1.f - NetBuoyancy)) * -GetGravityDirection();
+	}
+
+	ApplyRootMotionToVelocity(deltaTime);
+
+	FVector Adjusted = Velocity * deltaTime;
+	FHitResult Hit(1.f);
+	const float remainingTime = deltaTime * Swim(Adjusted, Hit);
+
+	//may have left water - if so, script might have set new physics mode
+	if ( !IsSwimming() )
+	{
+		StartNewPhysics(remainingTime, Iterations);
+		return;
+	}
+
+	if ( Hit.Time < 1.f && CharacterOwner)
+	{
+		HandleSwimmingWallHit(Hit, deltaTime);
+		if (bLimitedUpAccel && (GetGravitySpaceZ(Velocity) >= 0.f))
+		{
+			// allow upward velocity at surface if against obstacle
+			Velocity += OriginalAccelZ * deltaTime * -GetGravityDirection();
+			Adjusted = Velocity * (1.f - Hit.Time)*deltaTime;
+			Swim(Adjusted, Hit);
+			if (!IsSwimming())
+			{
+				StartNewPhysics(remainingTime, Iterations);
+				return;
+			}
+		}
+
+		const FVector VelDir = Velocity.GetSafeNormal();
+		const float UpDown = VelDir | GetGravityDirection();
+
+		bool bSteppedUp = false;
+		if( (FMath::Abs(GetGravitySpaceZ(Hit.ImpactNormal)) < 0.2f) && (UpDown < 0.5f) && (UpDown > -0.2f) && CanStepUp(Hit))
+		{
+			const float StepZ = GetGravitySpaceZ(UpdatedComponent->GetComponentLocation());
+			const FVector RealVelocity = Velocity;
+			SetGravitySpaceZ(Velocity, 1.f);	// HACK: since will be moving up, in case pawn leaves the water
+			bSteppedUp = StepUp(GetGravityDirection(), Adjusted * (1.f - Hit.Time), Hit);
+		
+=== float UCharacterMovementComponent::Swim(
+float UCharacterMovementComponent::Swim(FVector Delta, FHitResult& Hit)
+{
+	FVector Start = UpdatedComponent->GetComponentLocation();
+	float airTime = 0.f;
+	SafeMoveUpdatedComponent(Delta, UpdatedComponent->GetComponentQuat(), true, Hit);
+
+	if ( !GetPhysicsVolume()->bWaterVolume ) //then left water
+	{
+		const FVector End = FindWaterLine(Start,UpdatedComponent->GetComponentLocation());
+		const float DesiredDist = Delta.Size();
+		if (End != UpdatedComponent->GetComponentLocation() && DesiredDist > UE_KINDA_SMALL_NUMBER)
+		{
+			airTime = (End - UpdatedComponent->GetComponentLocation()).Size() / DesiredDist;
+			if ( ((UpdatedComponent->GetComponentLocation() - Start) | (End - UpdatedComponent->GetComponentLocation())) > 0.f )
+			{
+				airTime = 0.f;
+			}
+			SafeMoveUpdatedComponent(End - UpdatedComponent->GetComponentLocation(), UpdatedComponent->GetComponentQuat(), true, Hit);
+		}
+	}
+	return airTime;
+}
+
+FVector UCharacterMovementComponent::FindWaterLine(FVector InWater, FVector OutofWater)
+{
+	FVector Result = OutofWater;
+
+	if (!IsValid(CharacterOwner))
+	{
+		return Result;
+	}
+
+	TArray<FHitResult> Hits;
+	GetWorld()->LineTraceMultiByChannel(Hits, OutofWater, InWater, UpdatedComponent->GetCollisionObjectType(), FCollisionQueryParams(SCENE_QUERY_STAT(FindWaterLine), true, CharacterOwner));
+
+	for (const FHitResult& Check : Hits)
+	{
+		const UPrimitiveComponent* HitComponent = Check.Component.Get();
+		if (!CharacterOwner->IsOwnedBy(Check.HitObjectHandle.FetchActor()) && HitComponent && !HitComponent->IsWorldGeometry())
+		{
+			APhysicsVolume *W = Check.HitObjectHandle.FetchActor<APhysicsVolume>();
+			if ( W && W->bWaterVolume )
+			{
+				FVector Dir = (InWater - OutofWater).GetSafeNormal();
+				Result = Check.Location;
+				if ( W == GetPhysicsVolume() )
+					Result += 0.1f * Dir;
+				else
+					Result -= 0.1f * Dir;
+				break;
+			}
+		}
+	}
+
+	return Result;
+}
+
+void UCharacterMovementComponent::NotifyJumpApex() 
+{
+	if( CharacterOwner )
+	{
+		CharacterOwner->NotifyJumpApex();
+	}
+}
+
+
+FVector UCharacterMovementComponent::GetFallingLateralAcceleration(float DeltaTime)
+{
+	// No acceleration in Z
+	FVector FallAcceleration = ProjectToGravityFloor(Acceleration);
+
+	// bound acceleration, falling object has minimal ability to impact acceleration
+	if (!HasAnimRootMotion() && FallAcceleration.SizeSquared() > 0.f)
+	{
+		FallAcceleration = GetAirControl(DeltaTime, AirControl, FallAcceleration);
+		FallAcceleration = FallAcceleration.GetClampedToMaxSize(GetMaxAcceleration());
+	}
+
+	return FallAcceleration;
+}
+
+
+bool UCharacterMovementComponent::ShouldLimitAirControl(float DeltaTime, const FV
+=== void UCharacterMovementComponent::StartSwimming
+void UCharacterMovementComponent::StartSwimming(FVector OldLocation, FVector OldVelocity, float timeTick, float remainingTime, int32 Iterations)
+{
+	if (remainingTime < MIN_TICK_TIME || timeTick < MIN_TICK_TIME)
+	{
+		return;
+	}
+
+	if( !HasAnimRootMotion() && !CurrentRootMotion.HasOverrideVelocity() && !bJustTeleported )
+	{
+		Velocity = (UpdatedComponent->GetComponentLocation() - OldLocation)/timeTick; //actual average velocity
+		Velocity = 2.f*Velocity - OldVelocity; //end velocity has 2* accel of avg
+		Velocity = Velocity.GetClampedToMaxSize(GetPhysicsVolume()->TerminalVelocity);
+	}
+	const FVector End = FindWaterLine(UpdatedComponent->GetComponentLocation(), OldLocation);
+	float waterTime = 0.f;
+	if (End != UpdatedComponent->GetComponentLocation())
+	{	
+		const float ActualDist = (UpdatedComponent->GetComponentLocation() - OldLocation).Size();
+		if (ActualDist > UE_KINDA_SMALL_NUMBER)
+		{
+			waterTime = timeTick * (End - UpdatedComponent->GetComponentLocation()).Size() / ActualDist;
+			remainingTime += waterTime;
+		}
+		MoveUpdatedComponent(End - UpdatedComponent->GetComponentLocation(), UpdatedComponent->GetComponentQuat(), true);
+	}
+	const FVector::FReal GravityRelativeVelocityZ = GetGravitySpaceZ(Velocity);
+	if ( !HasAnimRootMotion() && !CurrentRootMotion.HasOverrideVelocity() && (GravityRelativeVelocityZ > 2.f*CharacterMovementConstants::SWIMBOBSPEED) && (GravityRelativeVelocityZ < 0.f)) //allow for falling out of water
+	{
+		SetGravitySpaceZ(Velocity, CharacterMovementConstants::SWIMBOBSPEED - ProjectToGravityFloor(Velocity).Size() * 0.7f); //smooth bobbing
+	}
+	if ( (remainingTime >= MIN_TICK_TIME) && (Iterations < MaxSimulationIterations) )
+	{
+		PhysSwimming(remainingTime, Iterations);
+	}
+}
+
+float UCharacterMovementComponent::Swim(FVector Delta, FHitResult& Hit)
+{
+	FVector Start = UpdatedComponent->GetComponentLocation();
+	float airTime = 0.f;
+	SafeMoveUpdatedComponent(Delta, UpdatedComponent->GetComponentQuat(), true, Hit);
+
+	if ( !GetPhysicsVolume()->bWaterVolume ) //then left water
+	{
+		const FVector End = FindWaterLine(Start,UpdatedComponent->GetComponentLocation());
+		const float DesiredDist = Delta.Size();
+		if (End != UpdatedComponent->GetComponentLocation() && DesiredDist > UE_KINDA_SMALL_NUMBER)
+		{
+			airTime = (End - UpdatedComponent->GetComponentLocation()).Size() / DesiredDist;
+			if ( ((UpdatedComponent->GetComponentLocation() - Start) | (End - UpdatedComponent->GetComponentLocation())) > 0.f )
+			{
+				airTime = 0.f;
+			}
+			SafeMoveUpdatedComponent(End - UpdatedComponent->GetComponentLocation(), UpdatedComponent->GetComponentQuat(), tru
+=== FVector UCharacterMovementComponent::FindWaterLine
+FVector UCharacterMovementComponent::FindWaterLine(FVector InWater, FVector OutofWater)
+{
+	FVector Result = OutofWater;
+
+	if (!IsValid(CharacterOwner))
+	{
+		return Result;
+	}
+
+	TArray<FHitResult> Hits;
+	GetWorld()->LineTraceMultiByChannel(Hits, OutofWater, InWater, UpdatedComponent->GetCollisionObjectType(), FCollisionQueryParams(SCENE_QUERY_STAT(FindWaterLine), true, CharacterOwner));
+
+	for (const FHitResult& Check : Hits)
+	{
+		const UPrimitiveComponent* HitComponent = Check.Component.Get();
+		if (!CharacterOwner->IsOwnedBy(Check.HitObjectHandle.FetchActor()) && HitComponent && !HitComponent->IsWorldGeometry())
+		{
+			APhysicsVolume *W = Check.HitObjectHandle.FetchActor<APhysicsVolume>();
+			if ( W && W->bWaterVolume )
+			{
+				FVector Dir = (InWater - OutofWater).GetSafeNormal();
+				Result = Check.Location;
+				if ( W == GetPhysicsVolume() )
+					Result += 0.1f * Dir;
+				else
+					Result -= 0.1f * Dir;
+				break;
+			}
+		}
+	}
+
+	return Result;
+}
+
+void UCharacterMovementComponent::NotifyJumpApex() 
+{
+	if( CharacterOwner )
+	{
+		CharacterOwner->NotifyJumpApex();
+	}
+}
+
+
+FVector UCharacterMovementComponent::GetFallingLateralAcceleration(float DeltaTime)
+{
+	// No acceleration in Z
+	FVector FallAcceleration = ProjectToGravityFloor(Acceleration);
+
+	// bound acceleration, falling object has minimal ability to impact acceleration
+	if (!HasAnimRootMotion() && FallAcceleration.SizeSquared() > 0.f)
+	{
+		FallAcceleration = GetAirControl(DeltaTime, AirControl, FallAcceleration);
+		FallAcceleration = FallAcceleration.GetClampedToMaxSize(GetMaxAcceleration());
+	}
+
+	return FallAcceleration;
+}
+
+
+bool UCharacterMovementComponent::ShouldLimitAirControl(float DeltaTime, const FVector& FallAcceleration) const
+{
+	return (ProjectToGravityFloor(FallAcceleration).SizeSquared() > 0.f);
+}
+
+FVector UCharacterMovementComponent::GetAirControl(float DeltaTime, float TickAirControl, const FVector& FallAcceleration)
+{
+	// Boost
+	if (TickAirControl != 0.f)
+	{
+		TickAirControl = BoostAirControl(DeltaTime, TickAirControl, FallAcceleration);
+	}
+
+	return TickAirControl * FallAcceleration;
+}
+
+void UCharacterMovementComponent::SetGravityDirection(const FVector& InNewGravityDir)
+{
+	FVector NewGravityDir = InNewGravityDir.GetSafeNormal();
+	if (ensure(!NewGravityDir.IsNearlyZero()))
+	{
+		if (!GravityDirection.Equals(NewGravityDir))
+		{
+			UE_LOGF(LogCharacterMovement, Verbose, "SetGravityDirection: From(%ls) To(%ls)", *GravityDirection.ToCompactString(), *NewGravityDir.ToCompactString());
+			GravityDirection = NewGravityDir;
+			WorldToGravityTransform = FQuat::FindBetweenNormals(FVector::UpVector
+=== float UCharacterMovementComponent::ImmersionDepth
+float UCharacterMovementComponent::ImmersionDepth() const
+{
+	float depth = 0.f;
+
+	if ( CharacterOwner && GetPhysicsVolume()->bWaterVolume )
+	{
+		const float CollisionHalfHeight = CharacterOwner->GetSimpleCollisionHalfHeight();
+
+		if ( (CollisionHalfHeight == 0.f) || (Buoyancy == 0.f) )
+		{
+			depth = 1.f;
+		}
+		else
+		{
+			UBrushComponent* VolumeBrushComp = GetPhysicsVolume()->GetBrushComponent();
+			FHitResult Hit(1.f);
+			if ( VolumeBrushComp )
+			{
+				const FVector TraceStart = UpdatedComponent->GetComponentLocation() + CollisionHalfHeight * -GetGravityDirection();
+				const FVector TraceEnd = UpdatedComponent->GetComponentLocation() - CollisionHalfHeight * -GetGravityDirection();
+
+				FCollisionQueryParams NewTraceParams(SCENE_QUERY_STAT(ImmersionDepth), true);
+				VolumeBrushComp->LineTraceComponent( Hit, TraceStart, TraceEnd, NewTraceParams );
+			}
+
+			depth = (Hit.Time == 1.f) ? 1.f : (1.f - Hit.Time);
+		}
+	}
+	return depth;
+}
+
+bool UCharacterMovementComponent::IsFlying() const
+{
+	return (MovementMode == MOVE_Flying) && UpdatedComponent;
+}
+
+bool UCharacterMovementComponent::IsMovingOnGround() const
+{
+	return ((MovementMode == MOVE_Walking) || (MovementMode == MOVE_NavWalking)) && UpdatedComponent;
+}
+
+bool UCharacterMovementComponent::IsFalling() const
+{
+	return (MovementMode == MOVE_Falling) && UpdatedComponent;
+}
+
+bool UCharacterMovementComponent::IsSwimming() const
+{
+	return (MovementMode == MOVE_Swimming) && UpdatedComponent;
+}
+
+bool UCharacterMovementComponent::IsCrouching() const
+{
+	return CharacterOwner && CharacterOwner->IsCrouched();
+}
+
+void UCharacterMovementComponent::CalcVelocity(float DeltaTime, float Friction, bool bFluid, float BrakingDeceleration)
+{
+	// Do not update velocity when using root motion or when SimulatedProxy and not simulating root motion - SimulatedProxy are repped their Velocity
+	if (!HasValidData() || HasAnimRootMotion() || DeltaTime < MIN_TICK_TIME || (CharacterOwner && CharacterOwner->GetLocalRole() == ROLE_SimulatedProxy && !bWasSimulatingRootMotion))
+	{
+		return;
+	}
+
+	Friction = FMath::Max(0.f, Friction);
+	const float MaxAccel = GetMaxAcceleration();
+	float MaxSpeed = GetMaxSpeed();
+	
+	// Check if path following requested movement
+	bool bZeroRequestedAcceleration = true;
+	FVector RequestedAcceleration = FVector::ZeroVector;
+	float RequestedSpeed = 0.0f;
+	if (ApplyRequestedMove(DeltaTime, MaxAccel, MaxSpeed, Friction, BrakingDeceleration, RequestedAcceleration, RequestedSpeed))
+	{
+		bZeroRequestedAcceleration = false;
+	}
+
+	if (bForceMaxAccel)
+	{
+		// Force acceleration at full speed.
+		// In consideration order fo
+WATER CANDIDATES (38):
+StaticMeshActor_UAID_40C2BA88CCD6111203_1104999854 | label=WB_P_HorseWater | comp=StaticMeshComponent0 | mesh=WB_P_HorseWater | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-301, 573, 0), (-27, 627, 42)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['MI_WB_Floor_2S', 'MI_WB_Railing', 'MI_Water_Simple_05'] | layers=["<Object '/Game/Levels/DataLayers/EDL_TheWhisperingBell.EDL_TheWhisperingBell' (0x000001E0DFB25B80) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1105069908 | label=WB_P_Bath_Water | comp=StaticMeshComponent0 | mesh=WB_P_Bath_Water | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-286, 2181, 762), (-42, 2288, 762)) | coll=NoCollision/<CollisionEnabled.NO_COLLISION: 0> | mats=['MI_Water_Simple_01'] | layers=["<Object '/Game/Levels/DataLayers/EDL_TheWhisperingBell.EDL_TheWhisperingBell' (0x000001E0DFB25B80) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1658559653 | label=WaterdeepWater | comp=StaticMeshComponent0 | mesh=WaterdeepWater | loc=(181, 172800, 53) | rot=(-0.0, 0.0, 90.0) | scale=(100.0, 100.0, 1.0) | localbox=((-466846, -368607, -4037), (479938, 578177, -4037)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_Master_Water_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Sea.EDL_Sea' (0x000001E0DFB25E80) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1470158534 | label=Cloud | comp=StaticMeshComponent0 | mesh=Cloud | loc=(-47324, 89630, 0) | rot=(0.0, 0.0, -90.0) | scale=(20.0, 20.0, 20.0) | localbox=((-68113, -69758, 1448), (69142, 71026, 21675)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['MI_Clouds'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Sky.EDL_Sky' (0x000001E0DFB25D40) Class 'DataLayerAsset'>", "<Object '/Game/Levels/DataLayers/RDL_Sky.RDL_Sky' (0x000001E0DFB25740) Class 'DataLayerAsset'>"] | tags=['RDL_Sky']
+StaticMeshActor_UAID_40C2BA88CCD6111203_1658564655 | label=OutsideWaterdeeptest | comp=StaticMeshComponent0 | mesh=OutsideWaterdeeptest | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-182822, -89455, -9185), (81015, 285388, 0)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['waterdeep_map_Mat1'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Sea.EDL_Sea' (0x000001E0DFB25E80) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535231634 | label=Street_SeaWard_29 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_29 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-78233, -59203, -1407), (-65379, -49770, -1102)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535230633 | label=Street_SeaWard_28 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_28 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-88837, -56146, -1733), (-71457, -38639, -1240)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535232635 | label=Street_SeaWard_30 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_30 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-67406, -52585, -1157), (-50069, -36753, -860)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535207614 | label=Street_SeaWard_09 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_09 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-58090, -3516, -1121), (-31363, 7800, -400)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535219625 | label=Street_SeaWard_20 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_20 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-95162, -30834, -2228), (-78794, -6551, -1744)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535229632 | label=Street_SeaWard_27 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_27 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-92052, -41581, -1957), (-81577, -27951, -1567)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535196605 | label=Street_SeaWard_00 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_00 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-82966, -38875, -1677), (-68678, -29330, -1268)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535227631 | label=Street_SeaWard_26 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_26 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-84149, -31093, -1780), (-69223, -15429, -1318)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535233636 | label=Street_SeaWard_31 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_31 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-81398, -48123, -1560), (-71164, -36748, -1259)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535223628 | label=Street_SeaWard_23 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_23 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-80983, -16039, -1851), (-66113, -805, -1396)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535218624 | label=Street_SeaWard_19 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_19 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-87744, -2631, -2179), (-62713, 11022, -1283)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535200608 | label=Street_SeaWard_03 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_03 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-96537, -7329, -2521), (-86420, 11289, -2077)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535221626 | label=Street_SeaWard_21 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_21 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-88712, -8102, -2178), (-78043, -125, -1829)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535235637 | label=Street_SeaWard_32 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_32 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-72595, -50323, -1322), (-65642, -35762, -1135)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535224629 | label=Street_SeaWard_24 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_24 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-74267, -29477, -1605), (-57063, -15296, -1050)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535226630 | label=Street_SeaWard_25 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_25 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-69829, -37881, -1345), (-53792, -28191, -899)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535217623 | label=Street_SeaWard_18 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_18 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-61066, -29832, -1204), (-49460, -14735, -852)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535213620 | label=Street_SeaWard_15 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_15 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-57375, -41834, -985), (-44704, -29259, -712)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535222627 | label=Street_SeaWard_22 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_22 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-69128, -19814, -1487), (-59108, 1096, -1131)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535216622 | label=Street_SeaWard_17 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_17 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-62713, -15535, -1283), (-51829, 3320, -881)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535210617 | label=Street_SeaWard_12 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_12 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-51950, -15115, -890), (-31264, -2924, -392)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535209616 | label=Street_SeaWard_11 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_11 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-31598, -34473, -385), (-18414, -28220, 0)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535211618 | label=Street_SeaWard_13 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_13 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-49275, -39727, -844), (-29477, -24788, -316)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535212619 | label=Street_SeaWard_14 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_14 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-49896, -29380, -874), (-31370, -14668, -385)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535207615 | label=Street_SeaWard_10 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_10 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-31598, -28747, -400), (-18840, -3468, 0)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535197606 | label=Street_SeaWard_01 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_01 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-106271, 23544, -3019), (-83372, 39493, -2028)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535205613 | label=Street_SeaWard_08 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_08 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-62886, 5264, -1311), (-31264, 23050, -408)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535214621 | label=Street_SeaWard_16 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_16 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-86420, 1096, -2157), (-57420, 19040, -1095)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535204612 | label=Street_SeaWard_07 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_07 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-61115, 22330, -1269), (-31507, 38201, -484)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535203611 | label=Street_SeaWard_06 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_06 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-84397, 17030, -2086), (-64614, 30436, -1373)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst1', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535198607 | label=Street_SeaWard_02 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_02 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-99355, 10302, -2618), (-82586, 28673, -1972)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535201609 | label=Street_SeaWard_04 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_04 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-84469, 30126, -2116), (-64798, 38567, -1424)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]
+StaticMeshActor_UAID_40C2BA88CCD6111203_1535202610 | label=Street_SeaWard_05 | comp=StaticMeshComponent0 | mesh=Street_SeaWard_05 | loc=(0, 0, 0) | rot=(-0.0, 0.0, 0.0) | scale=(1.0, 1.0, 1.0) | localbox=((-64866, 18654, -1472), (-54832, 38708, -1135)) | coll=BlockAll/<CollisionEnabled.QUERY_AND_PHYSICS: 3> | mats=['M_MasterMaskRead_Inst', 'M_MasterMaskRead_Inst'] | layers=["<Object '/Game/Levels/DataLayers/EDL_Streets.EDL_Streets' (0x000001E0DFB25C40) Class 'DataLayerAsset'>"] | tags=[]

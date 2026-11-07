@@ -1,0 +1,159 @@
+arm 0 pitch -1.00 corners (s,t) left/right: ((208.1918034662835, 120.00000000000003), None)
+arm 1 pitch 0.97 corners (s,t) left/right: (None, (69.16756912037471, -120.00000000000001))
+arm 2 pitch -1.91 corners (s,t) left/right: ((69.16756912037471, 120.00000000000003), (208.19180346628352, -120.0))
+channel floor z range -206.8 .. -42.2
+CHANNEL floor map: digit = cm above the lowest channel point (a=10-19,b=20-29,c=30+ up to -40), '.'=walkway level band, ' '=none
+ +460                                           c49bccccc                                          
+ +450                                         .4444accccc                                          
+ +440                                      ....4444abccccc                                         
+ +430                                    ......44445bccccc                                         
+ +420                                  cc.......4445abccccc                                        
+ +410                                ccccc......44558bccccc                                        
+ +400                             cccccccc.......5555accccc                                        
+ +390                           ccccccccccc......5555abccccc                                       
+ +380                        .ccccccccccccc......55555accccc                                       
+ +370                      ...ccccccccccccc.......5555abccccc                                      
+ +360                   .......ccccccccccccc......55667bccccc                                      
+ +350                 c44......ccccccccccccc.......6666acccccc                                     
+ +340              .a4444.......ccccccccccccc......6666abccccc                                     
+ +330            ccca44444......ccccccccccccc.......6666accccc                                     
+ +320          cccccba4444......cccccccccccccc......6666abccccc                                    
+ +310           ccccca4444.......ccccccccccccc......66677bccccc                                    
+ +300           cccccb84444......ccccccccccccc.......6777acccccc                                   
+ +290           cccccba4445.......ccccccccccccc......77779bccccc                                   
+ +280            cccccb65555......ccccccccccccc.......7777acccccc                                  
+ +270      .ccc  cccccba5555.......ccccccccccccc......7777abccccc                                  
+ +260      cccccccccccca5555.......ccccccccccccc.......7777bccccc                                  
+ +250      ccccccccccccba5555......ccccccccccccc.......7777abccccc                                 
+ +240      ccccccccccccca5555.......ccccccccccccc......77778bccccc                                 
+ +230      cccccccccccccb85555......ccccccccccccc.......7777acccccc                                
+ +220      aaabbbbccccccba5555.......ccccccccccccc......7777abccccc                                
+ +210      01358aaaacccccb65666......ccccccccccccc.......7777acccccc                               
+ +200     .001112222cccccba6666.......ccccccccccccc......7777abccccccc                             
+ +190     c0011122223ccccca6666.......ccccccccccccc.......7777bcccccccccccccc                      
+ +180     c0011112223cccccba6667......ccccccccccccc.......7777abccccccccccccc                      
+ +170     ....1112223cccccca6667.......ccccccccccccc......77778bccccccccccccc                      
+ +160     ............cccccb86667......ccccccccccccc.......7777accccccccccccc                      
+ +150     ....................667.......ccccccccccccc......7777abcccccbbccccc                      
+ +140     ..............................ccccccccccccc.......7777accccccaaaab                       
+ +130     ..............................cccccccccccccc......7777abccccc66666                       
+ +120    ................................ccccccccccccc......77777bccccc66666                       
+ +110     ccc............................ccccccccccccc.......7777acccccc6666                       
+ +100     ccccccccccc.....................ccccccccccccc......77779bccccc6666                       
+  +90    cccccccccccccccccccc.............ccccccccccccc.......7777acccccc666                       
+  +80    cccccccccccccccccccccccccccc......ccccccccccccc......7777abccccc666                       
+  +70    ccccccccccccccccccccccccccccccccccccccccccccccc.......7777bccccc666                       
+  +60    ccccccccccccccccccccccccccccccccccccccccccccccc.......7777abccccc6                        
+  +50    cccccccccccccccccccccccccccccccccccccccccccccccc......77777bccccc6                        
+  +40    cccccccccccccccccccccccccccccccccccccccccccccccc.......7777acccccc                        
+  +30    ccccccccccccccccccccccccccccccccccccccccccccccccc......7777abccccc                        
+  +20    ccccccccccccccccccccccccccccccccccccccccccccccccc.......7777acccccc                       
+  +10   ccccccccccccccccccccccccccccccccccccccccccccccccccc......7777abccccc                       
+   +0   ccccccccccccccccccccccccccccccccccccccccccccccccccc.......7777bccccc                       
+  -10   ....ccccccccccccccccccccccccccccccccccccccccccccccc.......7777abccccc                      
+  -20   ............cccccccccccccccccccccccccccccccccccccccc......77778bccccc                      
+  -30   ....................cccccccccccccccccccccccccccccccc.......7777acccccc                     
+  -40  .............................ccccccccccccccccccccccccc......7777abccccc                     
+  -50  .....................................ccccccccccccccccc.......7777acccccc                    
+  -60  ..........................................ccccccccccccc......7777abccccc                    
+  -70  c0001.....................................ccccccccccccc.......7777bccccc                    
+  -80  c000111111222.............................ccccccccccccc.......7777abccccc                   
+  -90  600011111122222233333......................ccccccccccccc......77779bccccc                   
+ -100  00001111112222223333334444ccc..............ccccccccccccc.......7777acccccc                  
+ -110 .aa864311112222223333334444cccccba666........ccccccccccccc......7777abccccc                  
+ -120 .bbbbbaaaaa97642233333344444cccccb66666......ccccccccccccc.......7777accccc                  
+ -130 cccccccccbbbbbbaaaaa87544444cccccba6667......cccccccccccccc......7777abccccc                 
+ -140 ccccccccccccccccccbbbbbaaaaacccccca6667.......ccccccccccccc......77777bccccc                 
+ -150 ccccccccccccccccccccccccccbbbcccccba6677......ccccccccccccc.......7766abccccc                
+ -160 ccccccccccccccccccccccccccccccccccca6677.......ccccccccccccc......66668bccccc                
+ -170      ccccccccccccccccccccccccccccccb86777......ccccccccccccc.......6666acccccc               
+ -180              ccccccccccccccccccccccba6777.......ccccccccccccc......6666abccccc               
+ -190                      cccccccccccccccb6777.......ccccccccccccc.......6677accccc               
+ -200                              cccccccba7777......ccccccccccccc.......7777abccccc              
+ -210                                cccccca7777.......ccccccccccccc......77777bccccc              
+ -220                                 cccccb97777......ccccccccccccc.......7777acccccc             
+ -230                                 cccccca7777.......ccccccccccccc......7777abccccc             
+ -240                                  cccccb77777......ccccccccccccc.......7778acccccc            
+ -250                                  cccccba7777.......ccccccccccccc......7888abccccc            
+ -260                                   cccccb7666.......ccccccccccccc.......8888bccccc            
+ -270                                   cccccba6666......ccccccccccccc.......8888accccc            
+ -280                                   cccccca6666.......ccccccccccccc......88889bcc              
+ -290                                    cccccb86666......ccccccccccccc.......888.                 
+ -300                                    cccccba6677.......ccccccccccccc......8c                   
+ -310                                     cccccb77777......ccccccccccccc.....c                     
+ -320                                     cccccba7777......cccccccccccccc..                        
+ -330                                      ccccca7777.......ccccccccccccc                          
+ -340                                      cccccba7777......cccccccccca                            
+ -350                                      cccccca7778.......ccccccc                               
+ -360                                       cccccb98888......ccccc                                 
+ -370                                       cccccca8888.......c                                    
+ -380                                        cccccb88888....c                                      
+ -390                                        cccccba8888..c                                        
+ -400                                        cccccca888.                                           
+ -410                                         cccccbac                                             
+ -420                                         ccccc                                                
+ -430                                          c.                                                  
+ -440                                                                                              
+ -450                                                                                              
+ -460                                                                                              
+steps found: 2240
+step 24.30 cm at (-410,220) across x  z -167.8 / -192.0
+step 18.97 cm at (-160,-190) across x  z -121.4 / -102.5
+step 18.86 cm at (160,190) across x  z -100.9 / -119.7
+step 15.05 cm at (-460,-110) across y  z 14.1 / 29.2
+step 15.05 cm at (-450,-70) across y  z -133.4 / -118.4
+step 15.04 cm at (-450,-80) across y  z -171.0 / -156.0
+step 15.04 cm at (-410,250) across y  z -122.1 / -107.0
+step 15.04 cm at (-410,240) across y  z -159.7 / -144.6
+step 15.04 cm at (-420,190) across y  z -49.7 / -34.7
+step 15.04 cm at (-420,180) across y  z -87.3 / -72.3
+step 15.04 cm at (-460,-140) across y  z -98.6 / -83.6
+step 15.04 cm at (-460,-120) across y  z -23.5 / -8.4
+step 15.04 cm at (-460,-130) across y  z -61.0 / -46.0
+step 15.04 cm at (-420,200) across y  z -12.1 / 2.9
+step 15.04 cm at (-410,260) across y  z -84.5 / -69.4
+step 15.04 cm at (-410,270) across y  z -46.9 / -31.8
+step 13.27 cm at (-450,-90) across y  z -206.9 / -193.6
+step 12.82 cm at (-350,260) across x  z -115.7 / -102.9
+step 11.35 cm at (-320,340) across x  z -186.6 / -198.0
+step 7.38 cm at (-460,-160) across x  z -106.7 / -114.1
+step 6.41 cm at (-360,250) across y  z -136.8 / -130.3
+step 6.41 cm at (-350,250) across y  z -134.4 / -128.0
+step 6.39 cm at (-380,260) across y  z -125.5 / -119.1
+step 6.38 cm at (-370,260) across y  z -123.1 / -116.7
+step 6.37 cm at (-350,260) across y  z -118.4 / -112.0
+step 6.37 cm at (-360,260) across y  z -120.8 / -114.4
+step 6.36 cm at (-400,270) across y  z -114.3 / -107.9
+step 6.36 cm at (-310,-180) across y  z -106.7 / -113.0
+step 6.36 cm at (-320,-180) across y  z -104.8 / -111.2
+step 6.36 cm at (-330,-170) across y  z -118.8 / -125.2
+step 6.36 cm at (-340,-170) across y  z -117.0 / -123.3
+step 6.36 cm at (-350,-160) across y  z -131.0 / -137.4
+step 6.36 cm at (-350,-170) across y  z -115.1 / -121.5
+step 6.36 cm at (-360,-160) across y  z -129.2 / -135.5
+step 6.36 cm at (-360,-170) across y  z -113.3 / -119.6
+step 6.36 cm at (-370,-150) across y  z -143.2 / -149.6
+step 6.36 cm at (-370,-160) across y  z -127.3 / -133.7
+step 6.36 cm at (-370,-170) across y  z -111.4 / -117.8
+step 6.36 cm at (-380,-150) across y  z -141.3 / -147.7
+step 6.36 cm at (-380,-160) across y  z -125.4 / -131.8
+step 6.36 cm at (-380,-170) across y  z -109.5 / -115.9
+step 6.36 cm at (-390,-150) across y  z -139.5 / -145.8
+step 6.36 cm at (-390,-160) across y  z -123.6 / -129.9
+step 6.36 cm at (-400,-150) across y  z -137.6 / -144.0
+step 6.36 cm at (-400,-160) across y  z -121.7 / -128.1
+step 6.36 cm at (-410,-130) across y  z -167.5 / -173.9
+step 6.36 cm at (-410,-140) across y  z -151.6 / -158.0
+step 6.36 cm at (-410,-150) across y  z -135.7 / -142.1
+step 6.36 cm at (-410,-160) across y  z -119.8 / -126.2
+step 6.36 cm at (-420,-130) across y  z -165.7 / -172.0
+step 6.36 cm at (-420,-140) across y  z -149.8 / -156.1
+step 6.36 cm at (-420,-150) across y  z -133.9 / -140.2
+step 6.36 cm at (-420,-160) across y  z -118.0 / -124.3
+step 6.36 cm at (-430,-130) across y  z -163.8 / -170.2
+step 6.36 cm at (-430,-140) across y  z -147.9 / -154.3
+step 6.36 cm at (-430,-150) across y  z -132.0 / -138.4
+step 6.36 cm at (-430,-160) across y  z -116.1 / -122.5
+step 6.36 cm at (-440,-130) across y  z -162.0 / -168.3
+step 6.36 cm at (-440,-140) across y  z -146.1 / -152.4
+step 6.36 cm at (-440,-150) across y  z -130.2 / -136.5

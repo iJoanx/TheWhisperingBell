@@ -1,0 +1,6 @@
+['* defined to be perpendicular to and jump "up" from that wall). If ShouldRemainVertical() is true the character\'s capsule', 'ENGINE_API virtual bool ShouldRemainVertical() const;']
+['ENGINE_API virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;']
+['ENGINE_API virtual void UpdateCharacterStateBeforeMovement(float DeltaSeconds);']
+bCanSwim in NavigationTypes: ['uint8 bCanSwim:1;', ', bCanSwim(false)']
+MPCI header: C:\Program Files\Epic Games\UE_5.8\Engine\Source\Runtime\Engine\Public\Materials\MaterialParameterCollectionInstance.h
+NavMovement C:\Program Files\Epic Games\UE_5.8\Engine\Source\Runtime\Engine\Classes\GameFramework\NavMovementComponent.h CanEverSwim: []

@@ -1,0 +1,2 @@
+built /Game/Water/M_SewerWaterFlow_SLW (73 expressions, shading=<MaterialShadingModel.MSM_SINGLE_LAYER_WATER: 10>)
+MI parent: /Game/Water/M_SewerWaterFlow_SLW.M_SewerWaterFlow_SLW  WaterColor=<Struct 'LinearColor' (0x000002609D072520) {r: 0.050000, g: 0.055000, b: 0.015000, a: 1.000000}> RippleColor=<Struct 'LinearColor' (0x000002609D072520) {r: 0.120000, g: 0.130000, b: 0.050000, a: 1.000000}> two-sided=True

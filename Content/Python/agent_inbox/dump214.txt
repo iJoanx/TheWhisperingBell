@@ -1,0 +1,4 @@
+top MI parent on load: /Game/Sewers/Materials/M_SewerWaterFlowV2.M_SewerWaterFlowV2
+built /Game/Water/M_SewerWaterFlow_SLW (73 expressions, shading=<MaterialShadingModel.MSM_SINGLE_LAYER_WATER: 10>)
+top MI parent=M_SewerWaterFlowV2 two_sided_override=False WaterColor=<Struct 'LinearColor' (0x0000014EFB877BE0) {r: 0.020000, g: 0.035000, b: 0.025000, a: 1.000000}>
+underside MI parent=M_SewerWaterFlow_SLW, copied 13 scalar + 1 texture settings: {'Roughness': 1.0, 'CrossingSwirlSecondsY': 31.0, 'StretchBalance': 0.8999999761581421, 'TileSize': 200.0, 'CrossingSwirlRadius': 40.0, 'Metallic': 0.0, 'SegLen': 400.0, 'FlowRefSpeed': 60.0, 'CrossingDriftSpeed': 0.0, 'CrossingSwirlSecondsX': 23.0, 'RippleStrength': 1.0, 'Specular': 0.0, 'WaterOpacity': 0.6000000238418579}

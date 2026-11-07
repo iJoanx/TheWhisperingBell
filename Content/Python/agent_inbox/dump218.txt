@@ -1,0 +1,11 @@
+distinct water meshes: 180
+SM_SewerHubWaterV2_SL_385_Crossing.SM_SewerHubWaterV2_SL_385_Crossing instances=1 zrange=1.2 (-46.0..-44.8) comp=HISM_HubWater_SL_385_Crossing
+SM_SewerHubWaterV2_SL_387_Crossing.SM_SewerHubWaterV2_SL_387_Crossing instances=1 zrange=2.0 (-47.0..-45.0) comp=HISM_HubWater_SL_387_Crossing
+SM_SewerHubWaterV2_SL_181_Crossing.SM_SewerHubWaterV2_SL_181_Crossing instances=1 zrange=6.5 (-48.1..-41.6) comp=HISM_HubWater_SL_181_Crossing
+SM_SewerHubWaterV2_SL_183_Crossing.SM_SewerHubWaterV2_SL_183_Crossing instances=1 zrange=3.8 (-48.1..-44.3) comp=HISM_HubWater_SL_183_Crossing
+SM_SewerHubWaterV2_SL_350_Crossing.SM_SewerHubWaterV2_SL_350_Crossing instances=1 zrange=7.4 (-52.4..-45.0) comp=HISM_HubWater_SL_350_Crossing
+SM_SewerHubWaterV2_SL_351_Crossing.SM_SewerHubWaterV2_SL_351_Crossing instances=1 zrange=3.6 (-45.0..-41.4) comp=HISM_HubWater_SL_351_Crossing
+SM_SewerHubWaterV2_SL_130_Crossing.SM_SewerHubWaterV2_SL_130_Crossing instances=1 zrange=6.3 (-48.9..-42.6) comp=HISM_HubWater_SL_130_Crossing
+SM_SewerHubWaterV2_SL_231_Crossing.SM_SewerHubWaterV2_SL_231_Crossing instances=1 zrange=10.8 (-52.0..-41.2) comp=HISM_HubWater_SL_231_Crossing
+SM_SewerHubWaterV2_SL_303_Crossing.SM_SewerHubWaterV2_SL_303_Crossing instances=1 zrange=8.1 (-51.1..-42.9) comp=HISM_HubWater_SL_303_Crossing
+flat meshes: 10, not flat: 170

@@ -1,0 +1,9 @@
+crossing nodes: 178
+Traceback (most recent call last):
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\190349_job225_risers.py", line 39, in <module>
+    rs = risers(mesh_tris(sm))
+                ^^^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\190349_job225_risers.py", line 11, in mesh_tris
+    for t in ids.get_editor_property('list') if hasattr(ids, 'get_editor_property') else ids:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Exception: DynamicMesh: Failed to find property 'list' for attribute 'list' on 'DynamicMesh'

@@ -1,0 +1,30 @@
+crossing nodes: 178
+SL_303 mesh SM_SewerNode_SL_303_Crossing: 9 small risers, area 313 cm2
+    riser 0.9 cm high at (+138,-18,+0.3) area 97
+    riser 1.5 cm high at (+69,-10,-0.8) area 78
+    riser 0.9 cm high at (+116,-120,-0.3) area 72
+    riser 0.9 cm high at (+83,-41,-0.3) area 47
+    riser 0.9 cm high at (+165,-82,+0.4) area 19
+    riser 0.9 cm high at (+111,+45,+0.3) area 0
+    riser 1.5 cm high at (+56,+22,-0.5) area 0
+    riser 0.9 cm high at (-192,+146,+0.3) area 0
+    riser 0.3 cm high at (-153,-203,+0.2) area 0
+measured in 9s
+measured 178 crossings
+crossings with small steps (0.3-3 cm): 173 of 178
+steps per crossing: {'11+': 68, '4-10': 79, '1-3': 26, '0': 5}
+  SL_028_Crossing      steps= 46 area=  530 cm2 tallest=3.0 cm
+  SL_031_Crossing      steps= 44 area=   32 cm2 tallest=2.8 cm
+  SL_365_Crossing      steps= 43 area=   58 cm2 tallest=2.3 cm
+  SL_369_Crossing      steps= 34 area=  167 cm2 tallest=2.8 cm
+  SL_141_Crossing      steps= 33 area=  479 cm2 tallest=2.7 cm
+  SL_313_Crossing      steps= 33 area=  322 cm2 tallest=1.9 cm
+  SL_159_Crossing      steps= 33 area=  223 cm2 tallest=2.8 cm
+  SL_364_Crossing      steps= 33 area=  110 cm2 tallest=2.6 cm
+  SL_049_Crossing      steps= 32 area=   44 cm2 tallest=3.0 cm
+  SL_257_Crossing      steps= 32 area=   16 cm2 tallest=2.6 cm
+  SL_218_Crossing      steps= 27 area=  239 cm2 tallest=3.0 cm
+  SL_329_Crossing      steps= 27 area=   62 cm2 tallest=2.8 cm
+  SL_251_Crossing      steps= 26 area=  670 cm2 tallest=2.0 cm
+  SL_075_Crossing      steps= 26 area=   41 cm2 tallest=1.9 cm
+  SL_315_Crossing      steps= 25 area=  545 cm2 tallest=2.7 cm

@@ -1,0 +1,2 @@
+M_SewerWaterFlowV2  MSM_DEFAULT_LIT: 1>  BASE_COLOR=LinearInterpolate  EMISSIVE_COLOR=-  OPACITY=LinearInterpolate  ROUGHNESS=ScalarParameter  NORMAL=-  METALLIC=ScalarParameter  SPECULAR=ScalarParameter
+M_SewerWaterFlow_SLW  MSM_SINGLE_LAYER_WATER: 10>  BASE_COLOR=LinearInterpolate  EMISSIVE_COLOR=-  OPACITY=LinearInterpolate  ROUGHNESS=ScalarParameter  NORMAL=-  METALLIC=ScalarParameter  SPECULAR=ScalarParameter

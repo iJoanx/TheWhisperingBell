@@ -1,0 +1,103 @@
+CharacterMovementComponent.h :: ['ENGINE_API virtual FVector ConstrainInputAcceleration(const FVector& InputAcceleration) const;']
+CharacterMovementComponent.h :: []
+CharacterMovementComponent.h :: ['ENGINE_API virtual void BeginPlay() override;']
+CharacterMovementComponent.h :: []
+CharacterMovementComponent.h :: ['ENGINE_API virtual float GetMaxSpeed() const override;', '/** Client saved moves will not combine if the result of GetMaxSpeed() differs by this much between moves. */']
+CharacterMovementComponent.h :: []
+PawnMovementComponent.h :: []
+NavMovementComponent.h :: []
+InstancedStaticMeshComponent.h :: ['ENGINE_API virtual TArray<int32> GetInstancesOverlappingSphere(const FVector& Center, float Radius, bool bSphereInWorldSpace=true) const;', 'ENGINE_API virtual TArray<int32> GetInstancesOverlappingBox(const FBox& Box, bool bBoxInWorldSpace=true) const;']
+InstancedStaticMeshComponent.h :: ['ENGINE_API bool GetInstanceTransform(int32 InstanceIndex, FTransform& OutInstanceTransform, bool bWorldSpace = false) const;']
+InstancedStaticMeshComponent.h :: ['ENGINE_API int32 GetInstanceCount() const;']
+MISSING C:\Program Files\Epic Games\UE_5.8\Engine\Source\Runtime\Engine\Classes\Materials\MaterialParameterCollectionInstance.h
+MISSING C:\Program Files\Epic Games\UE_5.8\Engine\Source\Runtime\Engine\Classes\Materials\MaterialParameterCollection.h
+WorldSubsystem.h :: ['* FWorldSubsystemCollection handles calling PostInitialize and OnWorldBeginPlay for already initialized worlds', 'ENGINE_API virtual void OnWorldBeginPlay(UWorld& InWorld);', '/** Returns true once the subsystem has executed OnWorldBeginPlay **/']
+WorldSubsystem.h :: ['/** Calls DoesSupportWorldType to check if this subsystem should be created */', 'ENGINE_API virtual bool DoesSupportWorldType(const EWorldType::Type WorldType) const;']
+WorldSubsystem.h :: ['ENGINE_API virtual bool ShouldCreateSubsystem(UObject* Outer) const override;']
+WorldSubsystem.h :: ['ENGINE_API virtual void Initialize(FSubsystemCollectionBase& Collection) override;']
+WorldSubsystem.h :: ['ENGINE_API virtual void Deinitialize() override;']
+PhysicsVolume.h :: ['uint32 bWaterVolume:1;']
+PhysicsVolume.h :: ['float FluidFriction;']
+PhysicsVolume.h :: ['float TerminalVelocity;']
+PhysicsVolume.h :: ['int32 Priority;']
+World.h :: ['static UE_API FOnLevelChanged\t\t\tLevelAddedToWorld;']
+World.h :: ['static UE_API FOnLevelChanged\t\t\tPreLevelRemovedFromWorld;', 'static UE_API FOnLevelChanged\t\t\tLevelRemovedFromWorld;']
+World.h :: ['UE_API UMaterialParameterCollectionInstance* GetParameterCollectionInstance(const UMaterialParameterCollection* Collection) const;']
+=== FVector UCharacterMovementComponent::ConstrainInputAcceleration
+FVector UCharacterMovementComponent::ConstrainInputAcceleration(const FVector& InputAcceleration) const
+{
+	// walking or falling pawns ignore up/down sliding
+	const double InputAccelerationDotGravityNormal = FVector::DotProduct(InputAcceleration, -GetGravityDirection());
+	if (!FMath::IsNearlyZero(InputAccelerationDotGravityNormal) && (IsMovingOnGround() || IsFalling()))
+	{
+		return FVector::VectorPlaneProject(InputAcceleration, -GetGravityDirection());
+	}
+
+	return InputAcceleration;
+}
+
+
+FVector UCharacterMovementComponent::ScaleInputAcceleration(const FVector& InputAcceleration) const
+{
+	return GetMaxAcceleration() * InputAcceleration.GetClampedToMaxSize(1.0f);
+}
+
+
+FVector UCharacterMovementComponent::RoundAcceleration(FVector InAccel) const
+{
+	// Match FVector_NetQuantize10
+	return UE::Net::QuantizeVector(10, InAccel);
+}
+
+float UCharacterMovementComponent::ComputeAnalogInputModifier() c
+=== void UCharacterMovementComponent::SetDefaultMovementMode
+void UCharacterMovementComponent::SetDefaultMovementMode()
+{
+	// check for water volume
+	if (CanEverSwim() && IsInWater())
+	{
+		SetMovementMode(DefaultWaterMovementMode);
+	}
+	else if ( !CharacterOwner || MovementMode != DefaultLandMovementMode )
+	{
+		const float SavedVelocityZ = GetGravitySpaceZ(Velocity);
+		SetMovementMode(DefaultLandMovementMode);
+
+		// Avoid 1-frame delay if trying to walk but walking fails at this location.
+		const FMovementBaseInterfaceData* MovementBaseData = GetMovementBaseInterfaceData();
+		if (MovementMode == MOVE_Walking && !(MovementBaseData && MovementBaseData->IsValid()))
+		{
+			SetGravitySpaceZ(Velocity, SavedVelocityZ); // Prevent temporary walking state from zeroing Z velocity.
+			SetMovementMode(MOVE_Falling);
+		}
+	}
+}
+
+void UCharacterMovementComponent::SetGroundMovementMode(EMovementMode NewGroundMovementMode)
+{
+	// Enforce restriction that it's either 
+=== Buoyancy = 
+Buoyancy = 1.0f;
+	LastUpdateRotation = FQuat::Identity;
+	LastUpdateVelocity = FVector::ZeroVector;
+	PendingImpulseToApply = FVector::ZeroVector;
+	PendingLaunchVelocity = FVector::ZeroVector;
+	DefaultWaterMovementMode = MOVE_Swimming;
+	DefaultLandMovementMode = MOVE_Walking;
+	GroundMovementMode = MOVE_Walking;
+	bForceNextFloorCheck = true;
+	bShrinkProxyCapsule = true;
+	bCanWalkOffLedges = true;
+	bCanWalkOffLedgesWhenCrouching = false;
+	bNetworkSmoothingComplete = true; // Initially true until we get a net update, so we don't try to smooth to an uninitialized value.
+	bWantsToLeaveNavWalking = false;
+	bIsNavWalkingOnServer = false;
+	bSweepWhileNavWalking = true;
+	bNeedsSweepWhileWalkingUpdate = false;
+
+	bEnablePhysicsInteraction = true;
+	StandingDownwardForceScale = 1.0f;
+	InitialPushForceFactor = 500.0f;
+	PushForceFactor = 750000.0f;
+	PushForcePointZOffsetFactor = -0.75f;
+	bPushForceUsingZ

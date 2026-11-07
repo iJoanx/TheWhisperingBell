@@ -1,0 +1,1 @@
+asset /Game/Sewers/Generated/SM_SewerNode_SL_303_Crossing.SM_SewerNode_SL_303_Crossing collision primitives: 0

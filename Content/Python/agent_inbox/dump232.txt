@@ -1,0 +1,3 @@
+rebaked 1 in 4s, failed: []
+SL_303 floor vertices still off the walkway plane inside the crossing: 0
+collision primitives: 0

@@ -1,0 +1,9 @@
+crossing nodes: 178
+Traceback (most recent call last):
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\190602_job226_risers.py", line 42, in <module>
+    rs = risers(mesh_tris(sm))
+                ^^^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\190602_job226_risers.py", line 12, in mesh_tris
+    ids = unreal.GeometryScript_ListUtils.convert_index_list_to_array(ids)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'unreal' has no attribute 'GeometryScript_ListUtils'

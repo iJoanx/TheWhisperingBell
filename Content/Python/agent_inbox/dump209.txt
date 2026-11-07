@@ -1,0 +1,23 @@
+/Game/Water/M_SewageWater_SLW                 exists=False
+/Game/Water/M_SewerWaterFlow_SLW              exists=True
+/Game/Water/MPC_Water                         exists=True
+/Game/Water/M_PP_Underwater_Sea               exists=True
+/Game/Water/M_PP_Underwater_Sewage            exists=True
+/Game/Levels/DataLayers/RDL_Sea               exists=True
+/Game/Levels/DataLayers/RDL_Walls             exists=True
+sewage MI parent: /Game/Water/M_SewerWaterFlow_SLW.M_SewerWaterFlow_SLW
+sewage MI two-sided override: (True, True)
+sewage MI WaterColor: <Struct 'LinearColor' (0x0000026121EA0920) {r: 0.050000, g: 0.055000, b: 0.015000, a: 1.000000}>
+parent shading: <MaterialShadingModel.MSM_SINGLE_LAYER_WATER: 10>
+sea MI two-sided override: True
+actors tagged RDL_Sea: 5
+actors tagged RDL_Walls: 31
+actors tagged RDL_Sewers: 600
+actors tagged RDL_Sky: 3
+sewage water comps tagged: 403, no-collision: 403
+PPV_Underwater_Sewage present, blendables=1
+PPV_Underwater_Sea present, blendables=1
+sea plane tags=['Water_Sea'] coll=<CollisionEnabled.NO_COLLISION: 0>
+ApplySewerView: tags ['RDL_Sewers', 'RDL_Sky', 'RDL_Sea', 'RDL_Walls'], collision toggles 2
+UseEntry locally-controlled teleport: True
+C++ built (TWBWaterSubsystem class present): True

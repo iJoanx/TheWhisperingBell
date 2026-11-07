@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\185420_job221_refit.py", line 8, in <module>
+    fixed, inst = swu.refit()
+                  ^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\sewer_water_underside.py", line 139, in refit
+    dst.set_static_mesh(flipped_mesh(src.get_editor_property("static_mesh")))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\sewer_water_underside.py", line 46, in flipped_mesh
+    asset, outcome = unreal.GeometryScript_AssetUtils.create_new_static_mesh_asset_from_mesh(dyn, path, opts)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'GeometryScript_AssetUtils' has no attribute 'create_new_static_mesh_asset_from_mesh'

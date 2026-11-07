@@ -1,0 +1,5 @@
+arms: [(-1.0, 182, -0.39, 0.92), (0.97, 120, 0.39, -0.92), (-1.91, 182, -0.99, 0.13)]
+levels now: [260, 260, 260]
+rebaked 1 in 3s, failed: []
+SL_303 floor vertices still off the walkway plane inside the crossing: 0
+collision primitives: 0

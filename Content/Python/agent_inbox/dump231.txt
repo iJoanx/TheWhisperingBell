@@ -1,0 +1,16 @@
+SL_303 real floor steps (floor height differs on the two sides):
+measured 178 crossings in 10s
+real small floor steps (0.3-3 cm) per crossing: {'0': 175, '1-3': 2, '4-10': 1}
+crossings with real 3-15 cm floor steps: 0
+  SL_148_Crossing      small=  4 bigger=  0 tallest small=0.3
+  SL_365_Crossing      small=  2 bigger=  0 tallest small=0.3
+  SL_271_Crossing      small=  1 bigger=  0 tallest small=0.3
+  SL_431_Crossing      small=  0 bigger=  0 tallest small=0.0
+  SL_430_Crossing      small=  0 bigger=  0 tallest small=0.0
+  SL_424_Crossing      small=  0 bigger=  0 tallest small=0.0
+  SL_419_Crossing      small=  0 bigger=  0 tallest small=0.0
+  SL_416_Crossing      small=  0 bigger=  0 tallest small=0.0
+  SL_413_Crossing      small=  0 bigger=  0 tallest small=0.0
+  SL_409_Crossing      small=  0 bigger=  0 tallest small=0.0
+  SL_407_Crossing      small=  0 bigger=  0 tallest small=0.0
+  SL_406_Crossing      small=  0 bigger=  0 tallest small=0.0

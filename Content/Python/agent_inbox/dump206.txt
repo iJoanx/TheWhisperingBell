@@ -1,0 +1,8 @@
+MI parent: /Game/Sewers/Materials/M_SewerWaterFlowV2.M_SewerWaterFlowV2
+textures used by old master: ['/Game/Sewers/Textures/T_SewerRipples.T_SewerRipples']
+scalar params: ['Roughness', 'CrossingSwirlSecondsY', 'StretchBalance', 'TileSize', 'CrossingSwirlRadius', 'Metallic', 'SegLen', 'FlowRefSpeed', 'CrossingDriftSpeed', 'CrossingSwirlSecondsX', 'RippleStrength', 'Specular', 'WaterOpacity']
+vector params: ['RippleColor', 'WaterColor']
+texture params: ['Ripples']
+chosen normal: None
+built /Game/Water/M_SewageWater_SLW with 8 expressions
+MI parent now: /Game/Water/M_SewageWater_SLW.M_SewageWater_SLW; two-sided override kept: True

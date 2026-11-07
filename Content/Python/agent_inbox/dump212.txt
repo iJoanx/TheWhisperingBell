@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\184106_job212_mats.py", line 12, in <module>
+    pref = slw.get_path_name()
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'get_path_name'

@@ -1,0 +1,56 @@
+crossing nodes: 178
+SL_303 mesh SM_SewerNode_SL_303_Crossing: 16 small risers, area 4096 cm2
+    riser 12.2 cm high at (-38,+398,+2.0) area 1112
+    riser 14.1 cm high at (-4,-146,-4.7) area 1095
+    riser 11.9 cm high at (-363,+167,-0.1) area 1086
+    riser 14.1 cm high at (-33,-77,-4.7) area 485
+    riser 0.9 cm high at (+138,-18,+0.3) area 97
+    riser 1.5 cm high at (+69,-10,-0.8) area 78
+    riser 0.9 cm high at (+116,-120,-0.3) area 72
+    riser 0.9 cm high at (+83,-41,-0.3) area 47
+    riser 0.9 cm high at (+165,-82,+0.4) area 19
+    riser 14.1 cm high at (-24,-98,-4.7) area 4
+    riser 14.1 cm high at (-42,-55,-4.7) area 1
+    riser 14.0 cm high at (-42,-55,-9.4) area 1
+measured in 11s
+crossings with small risers: 178 of 178
+  SL_406_Crossing              risers= 63 area= 11144 cm2 tallest=14.5 cm  ['SM_SewerNode_SL_406_Crossing']
+  SL_315_Crossing              risers=106 area= 11011 cm2 tallest=14.8 cm  ['SM_SewerNode_SL_315_Crossing']
+  SL_338_Crossing              risers= 62 area= 10567 cm2 tallest=14.8 cm  ['SM_SewerNode_SL_338_Crossing']
+  SL_323_Crossing              risers= 71 area=  9921 cm2 tallest=14.7 cm  ['SM_SewerNode_SL_323_Crossing']
+  SL_240_Crossing              risers= 57 area=  9013 cm2 tallest=13.4 cm  ['SM_SewerNode_SL_240_Crossing']
+  SL_165_Crossing              risers= 47 area=  8659 cm2 tallest=13.8 cm  ['SM_SewerNode_SL_165_Crossing']
+  SL_218_Crossing              risers= 86 area=  8470 cm2 tallest=14.5 cm  ['SM_SewerNode_SL_218_Crossing']
+  SL_169_Crossing              risers= 43 area=  8183 cm2 tallest=14.9 cm  ['SM_SewerNode_SL_169_Crossing']
+  SL_050_Crossing              risers= 33 area=  8043 cm2 tallest=14.5 cm  ['SM_SewerNode_SL_050_Crossing']
+  SL_333_Crossing              risers= 42 area=  7588 cm2 tallest=14.2 cm  ['SM_SewerNode_SL_333_Crossing']
+  SL_409_Crossing              risers= 33 area=  7536 cm2 tallest=14.2 cm  ['SM_SewerNode_SL_409_Crossing']
+  SL_205_Crossing              risers= 47 area=  7504 cm2 tallest=13.8 cm  ['SM_SewerNode_SL_205_Crossing']
+  SL_213_Crossing              risers= 31 area=  7486 cm2 tallest=13.1 cm  ['SM_SewerNode_SL_213_Crossing']
+  SL_155_Crossing              risers= 48 area=  7474 cm2 tallest=14.9 cm  ['SM_SewerNode_SL_155_Crossing']
+  SL_141_Crossing              risers= 82 area=  7332 cm2 tallest=14.5 cm  ['SM_SewerNode_SL_141_Crossing']
+  SL_354_Crossing              risers= 63 area=  7325 cm2 tallest=14.3 cm  ['SM_SewerNode_SL_354_Crossing']
+  SL_363_Crossing              risers= 40 area=  7202 cm2 tallest=14.4 cm  ['SM_SewerNode_SL_363_Crossing']
+  SL_373_Crossing              risers= 69 area=  7157 cm2 tallest=14.0 cm  ['SM_SewerNode_SL_373_Crossing']
+  SL_104_Crossing              risers= 63 area=  7097 cm2 tallest=14.3 cm  ['SM_SewerNode_SL_104_Crossing']
+  SL_183_Crossing              risers= 28 area=  6981 cm2 tallest=15.0 cm  ['SM_SewerNode_SL_183_Crossing']
+  SL_211_Crossing              risers= 67 area=  6979 cm2 tallest=14.1 cm  ['SM_SewerNode_SL_211_Crossing']
+  SL_255_Crossing              risers= 62 area=  6959 cm2 tallest=14.2 cm  ['SM_SewerNode_SL_255_Crossing']
+  SL_112_Crossing              risers= 40 area=  6806 cm2 tallest=14.6 cm  ['SM_SewerNode_SL_112_Crossing']
+  SL_078_Crossing              risers= 71 area=  6664 cm2 tallest=13.9 cm  ['SM_SewerNode_SL_078_Crossing']
+  SL_226_Crossing              risers= 27 area=  6602 cm2 tallest=14.0 cm  ['SM_SewerNode_SL_226_Crossing']
+  SL_265_Crossing              risers= 38 area=  6269 cm2 tallest=14.4 cm  ['SM_SewerNode_SL_265_Crossing']
+  SL_103_Crossing              risers= 81 area=  6182 cm2 tallest=14.8 cm  ['SM_SewerNode_SL_103_Crossing']
+  SL_380_Crossing              risers= 41 area=  6148 cm2 tallest=14.4 cm  ['SM_SewerNode_SL_380_Crossing']
+  SL_206_Crossing              risers= 27 area=  5938 cm2 tallest=14.4 cm  ['SM_SewerNode_SL_206_Crossing']
+  SL_234_Crossing              risers= 27 area=  5802 cm2 tallest=12.5 cm  ['SM_SewerNode_SL_234_Crossing']
+  SL_424_Crossing              risers= 27 area=  5714 cm2 tallest=15.0 cm  ['SM_SewerNode_SL_424_Crossing']
+  SL_107_Crossing              risers= 40 area=  5522 cm2 tallest=13.7 cm  ['SM_SewerNode_SL_107_Crossing']
+  SL_013_Crossing              risers= 41 area=  5474 cm2 tallest=14.4 cm  ['SM_SewerNode_SL_013_Crossing']
+  SL_267_Crossing              risers= 22 area=  5462 cm2 tallest=13.6 cm  ['SM_SewerNode_SL_267_Crossing']
+  SL_246_Crossing              risers= 24 area=  5386 cm2 tallest=15.0 cm  ['SM_SewerNode_SL_246_Crossing']
+  SL_394_Crossing              risers= 28 area=  5334 cm2 tallest=14.4 cm  ['SM_SewerNode_SL_394_Crossing']
+  SL_159_Crossing              risers= 66 area=  5214 cm2 tallest=14.7 cm  ['SM_SewerNode_SL_159_Crossing']
+  SL_199_Crossing              risers= 16 area=  5081 cm2 tallest=15.0 cm  ['SM_SewerNode_SL_199_Crossing']
+  SL_140_Crossing              risers= 42 area=  5034 cm2 tallest=15.0 cm  ['SM_SewerNode_SL_140_Crossing']
+  SL_001_Crossing              risers= 30 area=  5014 cm2 tallest=14.9 cm  ['SM_SewerNode_SL_001_Crossing']

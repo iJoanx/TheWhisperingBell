@@ -1,0 +1,5 @@
+GeometryScript_List: ['clear_index_list', 'convert_array_to_index_list', 'convert_index_list_to_array', 'duplicate_index_list', 'get_index_list_item', 'get_index_list_last_index', 'get_index_list_length', 'set_index_list_item']
+GeometryScript_MeshQueries: ['get_all_triangle_i_ds', 'get_has_triangle_id_gaps', 'get_num_triangle_i_ds', 'get_triangle_positions', 'is_valid_triangle_id']
+GeometryScript_MeshSelection: ['convert_index_list_to_mesh_selection', 'convert_mesh_selection_to_index_list']
+GeometryScript_MeshSimplification: ['apply_editor_simplify_to_triangle_count', 'apply_simplify_to_triangle_count']
+GeometryScript_PointSetSampling: ['get_points_from_index_list']
