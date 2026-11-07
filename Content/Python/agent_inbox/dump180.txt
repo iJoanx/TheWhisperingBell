@@ -1,0 +1,27 @@
+tidied BP_DayNightCycle:SetNetTime (5 nodes laid out, 0 getters split, 0 literals folded)
+tidied BP_DayNightCycle:ResyncTime (7 nodes laid out, 0 getters split, 0 literals folded)
+ERR BP_DayNightCycle:OnRep_NetTime The node could not be created / |GetNetTime does not exist
+tidied BP_DayNightCycle:UpdateShadowCaster (10 nodes laid out, 0 getters split, 1 literals folded)
+tidied BP_Master_PC:ServerApplyTime (4 nodes laid out, 0 getters split, 0 literals folded)
+tidied CBP_PC_Hope:DoTeleport (10 nodes laid out, 0 getters split, 0 literals folded)
+tidied CBP_Familiar_Bolita:FlyVertical (10 nodes laid out, 0 getters split, 0 literals folded)
+ERR ABP_Unarmed3:CalcFlySpeed The node could not be created / |GetVelocity does not exist
+tidied BP_WB_Sewer_Entry:ApplySewerView (9 nodes laid out, 0 getters split, 0 literals folded)
+tidied WB_SetTime:EventGraph (30 nodes laid out, 0 getters split, 0 literals folded)
+nudged WB_SetTime:DayOfYear (3 nodes)
+nudged WB_SetTime:DayToMonth (3 nodes)
+nudged BP_DayNightCycle:UpdateDayOfYear (3 nodes)
+nudged BP_DayNightCycle:SetDate (3 nodes)
+nudged BP_DayNightCycle:MoonIndex (3 nodes)
+nudged BP_DayNightCycle:UpdateDate (4 nodes)
+nudged BP_DayNightCycle:UpdateSun (1 nodes)
+nudged BP_DayNightCycle:IsDST (3 nodes)
+SetHolidays types: ['Game|ConstructObjectfromClass', 'Math|Boolean|ANDBoolean', 'Math|Integer|%(Integer)', 'Math|Integer|Equal(Integer)', 'Math|Integer|int-int', 'Utilities|Array|Get(aref)', 'Utilities|FlowControl|Branch', 'Widget|AddChildToHorizontalBox', 'Widget|Panel|ClearChildren', 'Widget|SetText(Text)', '|BindEventtoOnClicked', '|GetHHolidayBox', '|GetHShieldmeetBox', '|GetHolidayName', '|GetHolidaySupertypeText', '|GetHolidayText', '|GetMonth', '|GetMonthDays', '|GetShieldmeetSupertypeText', '|GetShieldmeetText', '|GetYear', '|HolidayTexts_2', '|RerouteNode', '|SetButtonNumber', '|SetHolidays']
+nudged WB_SetTime:SetHolidays (3 nodes)
+compile BP_DayNightCycle: None
+compile WB_SetTime: None
+compile BP_Master_PC: None
+compile CBP_PC_Hope: None
+compile CBP_Familiar_Bolita: None
+compile ABP_Unarmed3: None
+compile BP_WB_Sewer_Entry: None

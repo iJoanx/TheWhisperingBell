@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\114915_job159_probe.py", line 9, in <module>
+    out.append("===== %s %s\n%s" % (n, inspect.signature(f) if f else None, (f.__doc__ or "").strip()[:2000]))
+                                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\Python3\Win64\Lib\inspect.py", line 3280, in signature
+    return Signature.from_callable(obj, follow_wrapped=follow_wrapped,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\Python3\Win64\Lib\inspect.py", line 3028, in from_callable
+    return _signature_from_callable(obj, sigcls=cls,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\Python3\Win64\Lib\inspect.py", line 2521, in _signature_from_callable
+    return _signature_from_builtin(sigcls, obj,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\Python3\Win64\Lib\inspect.py", line 2328, in _signature_from_builtin
+    raise ValueError("no signature found for builtin {!r}".format(func))
+ValueError: no signature found for builtin <built-in method add_variable of type object at 0x0000020DA1F34210>
+
+[failed after 0.0 s]

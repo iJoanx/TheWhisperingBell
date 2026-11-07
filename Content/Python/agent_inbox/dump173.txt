@@ -1,0 +1,93 @@
+dir: ['Callable', 'EdgeKey', 'GraphFormatter', 'Node', 'NodeId', '_BBox', '_ColumnLayout', '_NodeAdjacencyMap', '_NodeDepthMap', '_VirtualGraph', 'collections', 'dataclass', 'field', 'unreal']
+SRC:
+# Copyright Epic Games, Inc. All Rights Reserved.
+
+import collections
+from dataclasses import dataclass, field
+from typing import Callable
+
+import unreal
+
+Node = unreal.EdGraphNode
+NodeId = int
+EdgeKey = tuple[NodeId, NodeId]
+
+
+@dataclass
+class _NodeAdjacencyMap:
+    """Edges of the graph derived from walking every node's output pins.
+
+    downstream: for each node, the set of nodes it directly feeds into.
+    incoming: for each node, how many unique nodes feed directly into it.
+    pin_frac: for each connected pair, the normalised position of the source pin
+              (0.0 = topmost pin, 1.0 = bottommost) used to preserve pin order
+              when sorting nodes vertically.
+    """
+    downstream: dict[NodeId, set[NodeId]]
+    incoming: dict[NodeId, int]
+    pin_frac: dict[EdgeKey, float]
+
+
+@dataclass
+class _NodeDepthMap:
+    """Column index and immediate parents for every node.
+
+    depth: the column each node belongs in, where 0 is the leftmost column.
+           Determined by the longest path from any source node so that a node
+           always sits to the right of everything that feeds into it.
+    upstream: for each node, the set of nodes that feed directly into it.
+    """
+    depth: dict[NodeId, int]
+    upstream: dict[NodeId, set[NodeId]]
+
+
+@dataclass
+class _VirtualGraph:
+    """The graph after long edges are broken up with placeholder dummy nodes.
+
+    Any edge that skips one or more columns is replaced by a chain of dummy
+    nodes, one per intermediate column. This lets the crossing minimiser reason
+    about wire routing at every column, not just at the endpoints of long edges.
+    Dummy nodes are assigned negative ids so they never collide with real node
+    ids, which are memory addresses and always positive.
+
+    downstream: for each node, the set of nodes it directly feeds (real and dummy).
+    upstream: for each node, the set of nodes that feed directly into it (real and dummy).
+    depth: column index for every node including dummies.
+    pin_frac: pin fraction for every edge, carried along dummy chains unchanged.
+    """
+    downstream: dict[NodeId, set[NodeId]]
+    upstream: dict[NodeId, set[NodeId]]
+    depth: dict[NodeId, int]
+    pin_frac: dict[EdgeKey, float]
+
+
+@dataclass
+class _ColumnLayout:
+    """The ordered contents of each column after crossing minimisation.
+
+    col_list: column indices in left-to-right order.
+    col_order: for each column, the nodes it contains listed top-to-bottom
+               (includes both real nodes and dummies).
+    """
+    col_list: list[int]
+    col_order: dict[int, list[NodeId]]
+
+
+@dataclass
+class _BBox:
+    """Axis-aligned bounding box, inclusive of node sizes and padding."""
+    x1: int
+    y1: int
+    x2: int
+    y2: int
+
+
+class GraphFormatter:
+    """Arranges graph nodes into a readable left-to-right layered layout.
+
+    All graph operations are injected as callables so the formatter works with
+    any graph representation, including lightweight fakes in unit tests.
+    """
+
+  

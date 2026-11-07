@@ -1,0 +1,191 @@
+class GraphFormatter:
+    """Arranges graph nodes into a readable left-to-right layered layout.
+
+    All graph operations are injected as callables so the formatter works with
+    any graph representation, including lightweight fakes in unit tests.
+    """
+
+    COL_PADDING = 100
+    ROW_PADDING = 100
+
+    def __init__(
+        self,
+        get_out_pins: Callable,
+        get_connected_pins: Callable,
+        get_pin_owner: Callable,
+        get_node_pos: Callable,
+        set_node_pos: Callable,
+        get_node_size: Callable | None = None,
+    ):
+        """
+        Args:
+            get_out_pins: (node) -> list[pin] — output pins in index order.
+            get_connected_pins: (pin) -> list[pin] — input pins connected to this output pin.
+            get_pin_owner: (pin) -> node — node that owns this pin.
+            get_node_pos: (node) -> (int, int) — current (x, y) position of the node.
+            set_node_pos: (node, int, int) -> None — move the node to (x, y).
+            get_node_size: (node) -> (int, int) — (width, height) of the node. When provided,
+                           column widths and row spacing adapt to actual node dimensions plus
+                           COL_PADDING / ROW_PADDING. When omitted, COL_PADDING and ROW_PADDING
+                           are used as the full spacing values.
+        """
+        self._get_out_pins = get_out_pins
+        self._get_connected_pins = get_connected_pins
+        self._get_pin_owner = get_pin_owner
+        self._ge
+def __init__(
+        self,
+        get_out_pins: Callable,
+        get_connected_pins: Callable,
+        get_pin_owner: Callable,
+        get_node_pos: Callable,
+        set_node_pos: Callable,
+        get_node_size: Callable | None = None,
+    )
+        """
+        Args:
+            get_out_pins: (node) -> list[pin] — output pins in index order.
+            get_connected_pins: (pin) -> list[pin] — input pins connected to this output pin.
+            get_pin_owner: (pin) -> node — node that owns this pin.
+            get_node_pos: (node) -> (int, int) — current (x, y) position of the node.
+            set_node_pos: (node, int, int) -> None — move the node to (x, y).
+            get_node_size: (node) -> (int, int) — (width, height) of the node. When provided,
+                           column widths and row spacing adapt to actual node 
+def arrange(self, all_nodes: list[Node], to_arrange: set[Node])
+        """Lays out to_arrange nodes within the context of all_nodes.
+
+        Two-phase algorithm:
+
+        Phase 1 — layout nodes in subgraph.  Each connected component is arranged
+        independently using Sugiyama.  Nodes not in to_arrange act as immovable
+        anchors; arranged nodes align to them.  For fully-selected components
+        (no anchors) the result is translated back to the component's original
+        bounding box.
+
+        Phase 2 — layout subgraphs in graph.  Fully-selected components are then
+        moved as rigid units so their bounding boxes do not overlap each oth
+def _compute_col_widths(
+        self,
+        node_ids: dict[NodeId, object],
+        depth: dict[NodeId, int],
+        col_list: list[int],
+        node_sizes: dict[NodeId, tuple[int, int]],
+    )
+        """Returns the width of each column — max node width in that column plus COL_PADDING."""
+def _compute_col_x_offsets(col_list: list[int], col_widths: dict[int, int])
+        """Returns the left-edge X position of each column based on cumulative widths."""
+def _find_components(all_nids: set[NodeId], adj: _NodeAdjacencyMap)
+        """Returns the weakly-connected components of the graph.
+
+        Treats the directed graph as undirected so a node is in the same component
+        as everything it either feeds into or receives from.
+        """
+def _subset_adj(pass_nids: set[NodeId], adj: _NodeAdjacencyMap)
+        """Restricts a global adjacency map to a subset of nodes."""
+def _run_sugiyama(
+        self,
+        pass_nids: set[NodeId],
+        arrange_ids: set[NodeId],
+        node_ids: dict[NodeId, object],
+        node_sizes: dict[NodeId, tuple[int, int]],
+        adj: _NodeAdjacencyMap,
+    )
+        """Runs the full Sugiyama pipeline on a subset of nodes and moves them.
+
+        When anchor nodes are present in the pass (partial-component case) the
+        arranged nodes are translated so that their column grid aligns with the
+        anchors' actual X positions. When there are no anchors (full-component
+        case) a bounding-box translation restores the subgraph to its original
+        canvas area.
+        """
+def _translate_to_canvas(
+        self,
+        arrange_ids: set[NodeId],
+        anchor_ids: set[NodeId],
+        col_x: dict[int, int],
+        layers: _NodeDepthMap,
+        positions: dict[NodeId, int],
+        node_ids: dict[NodeId, object],
+    )
+        """Writes computed positions back to the canvas with an origin correction.
+
+        With anchors: shifts the grid so its columns align with the anchors' actual X
+        positions (Y stays as computed). Without anchors: translates the entire result
+        so the bounding-box top-left matches the original canvas position, preserving
+        the subgraph's location for Phase 2 to handle.
+        """
+def _separate_overlapping(
+        self,
+        arrange_ids: set[NodeId],
+        node_ids: dict[NodeId, object],
+        node_sizes: dict[NodeId, tuple[int, int]],
+    )
+        """Pushes arranged nodes apart so no two nodes visually overlap after layout.
+
+        Processes nodes in ascending (x, y) order — earlier nodes stay put, later ones
+        are nudged down. The occupied set is seeded with all non-arranged (anchor) nodes
+        so that arranged nodes also avoid landing on top of unmoved neighbours.
+        """
+def _nodes_bbox(
+        self,
+        nids: set[NodeId],
+        node_ids: dict[NodeId, object],
+        node_sizes: dict[NodeId, tuple[int, int]],
+    )
+        """Returns the bounding box for a set of nodes, including padding."""
+def _layout_subgraphs_in_graph(
+        self,
+        full_comp_nids: list[set[NodeId]],
+        obstacle_bboxes: list[_BBox],
+        node_ids: dict[NodeId, object],
+        node_sizes: dict[NodeId, tuple[int, int]],
+    )
+        """Phase 2: align fully-selected subgraphs with their nearest neighbour.
+
+        For each component, finds the nearest already-placed bbox and snaps to
+        whichever axis requires less movement:
+          - X-column alignment: left edge snapped to neighbour's left edge → clean vertical stacks.
+          - Y-row alignment: X kept as-is → neighbour is beside us, not above/below.
+        After any X snap, a floor-Y push ensures no vertical overlap.
+        """
+def _build_adjacency(self, all_nodes: list[Node], all_nids: set[NodeId])
+        """Walks every node's output pins and builds the downstream graph.
+
+        Returns:
+            _NodeAdjacencyMap with downstream, incoming, and pin_frac populated.
+        """
+def _assign_layers(all_nids: set[NodeId], adj: _NodeAdjacencyMap)
+        """Assigns each node a column depth via longest-path topological sort.
+
+        Pure source nodes are pulled one column left of their earliest consumer
+        so variable getters don't sit unnecessarily far from the nodes they feed.
+        """
+def _insert_dummy_nodes(all_nids: set[NodeId], adj: _NodeAdjacencyMap, layers: _NodeDepthMap)
+        """Replaces edges that span multiple layers with chains of virtual dummy nodes.
+
+        Dummy nodes are negative integers that never exist in the real graph.
+        They allow the crossing minimiser to see and resolve tangles at every
+        intermediate layer, not just at the endpoints of long edges.
+        """
+def _assign_coordinates(
+        self,
+        node_ids: dict[NodeId, object],
+        arrange_ids: set[NodeId],
+        layers: _NodeDepthMap,
+        layout: _ColumnLayout,
+        node_sizes: dict[NodeId, tuple[int, int]],
+    )
+        """Assigns a Y coordinate to each real node.
+
+        Each node tries to align with the average Y of its upstream neighbours.
+        Fixed (anchor) nodes lock their current Y first; arranged nodes only push
+        down to avoid collisions with them. Row spacing is based on each node's
+        own height plus ROW_PADDING.
+        """
+blueprint: from editor_toolset.toolsets.blueprint_layout import GraphFormatter
+blueprint: def arrange_nodes(nodes: list[unreal.EdGraphNode]) -> None:
+blueprint: GraphFormatter(
+blueprint_dsl: def _format_form(form) -> str:
+blueprint_dsl: def _format_literal(val: bool | int | float | str) -> str:
+blueprint_dsl: def _format_pin_default(value: str, type_id: str) -> str:
+blueprint_dsl: def _format_pin_name(name: str) -> str:

@@ -1,0 +1,19 @@
+use_controller_rotation_pitch False
+use_controller_rotation_yaw True
+use_controller_rotation_roll False
+max_fly_speed 600.0
+braking_deceleration_flying 2000.0
+max_acceleration 1500.0
+orient_rotation_to_movement False
+use_controller_desired_rotation False
+rotation_rate <Struct 'Rotator' (0x0000020F793CB710) {pitch: 0.000000, yaw: 500.000000, roll: 0.000000}>
+interpolation_param [{}, {}, {}]
+target_weight_interpolation_speed_per_sec 0.0
+axis_to_scale_animation <BlendSpaceAxis.BSA_NONE: 0>
+sample AS_Flight_Idle <Struct 'Vector' (0x0000020FDC029B48) {x: 0.000000, y: 0.000000, z: 0.000000}>
+sample AS_Flight <Struct 'Vector' (0x0000020FDC02D208) {x: 0.000000, y: 600.000000, z: 0.000000}>
+sample AS_Flight_Idle <Struct 'Vector' (0x0000020FDC026848) {x: -180.000000, y: 600.000000, z: 0.000000}>
+sample AS_Flight_Idle <Struct 'Vector' (0x0000020FDC028E08) {x: 180.000000, y: 600.000000, z: 0.000000}>
+params [('Direction', -180.0, 180.0), ('Speed', 0.0, 600.0), ('None', 0.0, 100.0)]
+
+[ok in 0.0 s]

@@ -1,0 +1,26 @@
+SUB=Utilities|Operators|Subtract GETV=Variables|Date|GetDaysinMonths
+DaysInMonth nodes: 1
+get out pin Output:Integer (by ref)
+removed dangling UpdateDate.K2Node_VariableGet_7
+rewired ok
+compile: None
+(fn UpdateDate ()
+  (bind _month (Variables|Date|GetMonth))
+  (bind _returnvalue (+ _month 1))
+  (bind _day (Variables|Date|GetDay))
+  (bind _returnvalue_1 (+ _day 1))
+  (if (> _returnvalue_1 (Utilities|Array|Get(aref) (Variables|Date|GetDaysinMonths) (- (Variables|Date|GetMonth) 1)))
+    (Variables|Date|SetDay 1)
+    (if (> _returnvalue 12)
+      (Variables|Date|SetMonth 1)
+      (Variables|Date|SetYear (+ (Variables|Date|GetYear) 1))
+      (CallFunction|UpdateDayOfYear)
+      (CallFunction|MoonIndex)
+      (else
+        (Variables|Date|SetMonth _returnvalue)
+        (CallFunction|UpdateDayOfYear)
+        (CallFunction|MoonIndex)))
+    (else
+      (Variables|Date|SetDay _returnvalue_1)
+      (CallFunction|UpdateDayOfYear)
+      (CallFunction|MoonIndex))))

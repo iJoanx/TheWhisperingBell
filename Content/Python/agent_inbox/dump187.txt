@@ -1,0 +1,27 @@
+BEFORE:
+(fn ApplySewerView (InSewer)
+  (bind _outactors (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sewers"))
+  (for _array_element _outactors
+    (Rendering|SetActorHiddenInGame _array_element (not InSewer)))
+  (bind _outactors_1 (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sky"))
+  (for _array_element_1 _outactors_1
+    (Rendering|SetActorHiddenInGame _array_element_1 InSewer)))
+
+write ok
+compile: None
+tidied BP_WB_Sewer_Entry:ApplySewerView (16 nodes laid out, 0 getters split, 0 literals folded)
+AFTER:
+(fn ApplySewerView (InSewer)
+  (bind _outactors (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sewers"))
+  (for _array_element _outactors
+    (Rendering|SetActorHiddenInGame _array_element (not InSewer)))
+  (bind _outactors_1 (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sky"))
+  (for _array_element_1 _outactors_1
+    (bind _asbp_day_night_cycle (Utilities|Casting|CastToBP_DayNightCycle _array_element_1)
+      (:then
+        (for _array_element_2 (Actor|GetComponentsByClass _asbp_day_night_cycle "/Script/Engine.SceneComponent")
+          (Rendering|SetVisibility _array_element_2 (not InSewer)))
+        (for _array_element_3 (Actor|GetComponentsByClass _asbp_day_night_cycle "/Script/Engine.VolumetricCloudComponent")
+          (Rendering|SetVisibility _array_element_3)))
+      (:CastFailed
+        (Rendering|SetActorHiddenInGame _array_element_1 InSewer)))))

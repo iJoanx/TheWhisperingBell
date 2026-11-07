@@ -1,0 +1,10 @@
+(fn CalcFlySpeed ()
+  (bind _output_get (Variables|Default|SetFlySpeed (Math|Vector|VectorLength (Variables|Default|GetVelocity))))
+  (if (Variables|Default|GetIsFlying)
+    (Variables|Default|SetGroundSpeed _output_get)
+    (if (< (Math|Vector|VectorLengthXY (Variables|Default|GetVelocity)) 50.0)
+      (Variables|Default|SetDirection 0.0))))
+
+compile OK
+
+[ok in 5.7 s]

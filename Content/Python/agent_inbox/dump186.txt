@@ -1,0 +1,23 @@
+BEFORE:
+(fn ApplySewerView (InSewer)
+  (bind _outactors (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sewers"))
+  (for _array_element _outactors
+    (Rendering|SetActorHiddenInGame _array_element (not InSewer)))
+  (bind _outactors_1 (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sky"))
+  (for _array_element_1 _outactors_1
+    (Rendering|SetActorHiddenInGame _array_element_1 InSewer)))
+
+WRITE ERR Variables|Transformation|GetRootComponent received 1 positional arg(s) but has 0 data input pin(s). Available: []
+  in: (Rendering|SetVisibility (Variables|Transformation|GetRootComponent _dn) (not...
+  in: (fn ApplySewerView)
+restored original
+compile: None
+tidied BP_WB_Sewer_Entry:ApplySewerView (8 nodes laid out, 0 getters split, 0 literals folded)
+AFTER:
+(fn ApplySewerView (InSewer)
+  (bind _outactors (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sewers"))
+  (for _array_element _outactors
+    (Rendering|SetActorHiddenInGame _array_element (not InSewer)))
+  (bind _outactors_1 (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sky"))
+  (for _array_element_1 _outactors_1
+    (Rendering|SetActorHiddenInGame _array_element_1 InSewer)))

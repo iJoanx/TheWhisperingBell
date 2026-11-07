@@ -1,0 +1,9 @@
+VB order now: ['Button_Resume', 'HorizontalBox_2', 'YearNameText', 'MonthText', 'MonthSupertypeText', 'HorizontalBox', 'HolidaysHBox']
+add YearNames: None
+add ShownYear: None
+compile: None
+YearNameText -> []
+ShownYear ERR 'str' object has no attribute 'get'
+YearNames ERR 'str' object has no attribute 'get'
+WidgetFromName -> []
+GetWidget ERR 'str' object has no attribute 'get'

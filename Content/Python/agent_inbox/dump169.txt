@@ -1,0 +1,18 @@
+param: {'direction': 'EGPD_Input', 'index_id': 1, 'node': {'refPath': '/Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:GetSunYear.K2Node_FunctionResult_0'}}
+write: None
+pure err GetObjectProperties on '/Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:GetSunYear.K2Node_FunctionEntry_0' (K2Node_FunctionEntry): the following properties could not be read: ExtraFlags
+compile: None
+READBACK:
+(fn GetSunYear ()
+  (bind _year (Variables|Date|GetYear))
+  (if (and (and (>= _year 1) (<= _year 9999)) (not (and (and (== (Variables|Date|GetMonth) 2) (== (Variables|Date|GetDay) 29)) (not (Math|DateTime|IsLeapYear _year)))))
+    (return _year)
+    (else
+      (return (+ 2000 (Math|Integer|%(Integer) (+ (Math|Integer|%(Integer) _year 100) 100) 100))))))
+
+/Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:UpdateSun types: ['CallFunction|GetSunYear']
+  UpdateSun.K2Node_CallFunction_7 Year <- [{'direction': 'EGPD_Output', 'index_id': 0, 'node': {'refPath': '/Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:UpdateSun.K2Node_VariableGet_5'}}]
+/Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:IsDST types: ['CallFunction|GetSunYear']
+  IsDST.K2Node_CallFunction_25 Year <- [{'direction': 'EGPD_Output', 'index_id': 0, 'node': {'refPath': '/Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:IsDST.K2Node_VariableGet_22'}}]
+  IsDST.K2Node_CallFunction_28 Year <- [{'direction': 'EGPD_Output', 'index_id': 0, 'node': {'refPath': '/Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:IsDST.K2Node_VariableGet_23'}}]
+  IsDST.K2Node_CallFunction_24 Year <- [{'direction': 'EGPD_Output', 'index_id': 0, 'node': {'refPath': '/Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:IsDST.K2Node_Knot_8'}}]

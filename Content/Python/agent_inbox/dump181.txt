@@ -1,0 +1,4 @@
+tidied BP_DayNightCycle:OnRep_NetTime (10 nodes laid out, 2 getters split, 0 literals folded)
+tidied ABP_Unarmed3:CalcFlySpeed (19 nodes laid out, 1 getters split, 2 literals folded)
+compile BP_DayNightCycle: None
+compile ABP_Unarmed3: None

@@ -1,0 +1,37 @@
+Traceback (most recent call last):
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\135057_job189_trusttp.py", line 183, in <module>
+    call('write_graph_dsl', {'graph': {'refPath': G}, 'code': DSL}); out.append("UseEntry write ok")
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_lib\h.py", line 7, in call
+    if inspect.iscoroutine(r): r = asyncio.new_event_loop().run_until_complete(r)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\Python3\Win64\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Program Files/Epic Games/UE_5.8/Engine/Plugins/Experimental/ToolsetRegistry/Content/Python\toolset_registry\_registry_interface.py", line 195, in execute_tool
+    raise ToolsetToolInvocationError(error)
+toolset_registry._registry_interface.ToolsetToolInvocationError: AssertionError: The node could not be created / |SetbGoingDown does not exist
+  in: (|SetbGoingDown (< (Math|Vector|Distance(Vector) (Transformation|GetActorLoca...
+  in: (fn UseEntry)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\135057_job189_trusttp.py", line 188, in <module>
+    call('write_graph_dsl', {'graph': {'refPath': G}, 'code': before}); out.append("UseEntry restored original")
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_lib\h.py", line 7, in call
+    if inspect.iscoroutine(r): r = asyncio.new_event_loop().run_until_complete(r)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\Python3\Win64\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Program Files/Epic Games/UE_5.8/Engine/Plugins/Experimental/ToolsetRegistry/Content/Python\toolset_registry\_registry_interface.py", line 195, in execute_tool
+    raise ToolsetToolInvocationError(error)
+toolset_registry._registry_interface.ToolsetToolInvocationError: AssertionError: The node could not be created / |SetbGoingDown does not exist
+  in: (|SetbGoingDown (< (Math|Vector|Distance(Vector) (Transformation|GetActorLoca...
+  in: (fn UseEntry)
+
+[failed after 12.3 s]

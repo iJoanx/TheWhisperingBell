@@ -1,0 +1,14 @@
+GoingDown types: ['Variables|Default|GetGoingDown', 'Variables|Default|SetGoingDown']
+UseEntry WRITE ERR RuntimeError: Could not connect pin bGoingDown to self. The pins may be incompatible types.
+  in: (CallFunction|ApplySewerView (Variables|Default|GetGoingDown))
+  in: (fn UseEntry)
+compile entry: None
+tidied BP_WB_Sewer_Entry:UseEntry (1 nodes laid out, 0 getters split, 0 literals folded)
+UseEntry AFTER:
+(fn UseEntry (Player))
+
+S_TeleportCompleted event nodes: ['EventGraph.K2Node_CustomEvent_7', 'EventGraph.K2Node_CallFunction_2']
+Hope AFTER:
+(event Custom|S_TeleportCompleted (TrueDestination)
+  (if (not (Pawn|IsLocallyControlled))
+    (CallFunction|DoTeleport TrueDestination)))

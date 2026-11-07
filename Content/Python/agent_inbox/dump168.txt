@@ -1,0 +1,231 @@
+=== GRAPH UserConstructionScript
+(fn ConstructionScript ()
+  (Components|Timeline|SetPlaybackPosition (Variables|BP_DayNightCycle|GetDayNightCycleTimeline) (Variables|Time|GetSolarTime)))
+
+=== GRAPH UpdateSun
+(fn UpdateSun ()
+  (bind _compassmesh (Variables|Default|GetCompassMesh))
+  (Utilities|IsValid (Variables|Default|GetDirectionalLight)
+    (:"Is Valid"
+      (bind _sunpositiondata (SunPosition|GetSunPosition (Variables|Location|GetLatitude) (Variables|Location|GetLongitude) (Variables|Location|GetTimeZone) (Class|SunSky|IsDST (Variables|Date|GetUseDaylightSavingTime) (Variables|Date|GetDSTStartMonth) (Variables|Date|GetDSTStartDay) (Variables|Date|GetDSTEndMonth) (Variables|Date|GetDSTEndDay) (Variables|Date|GetDSTSwitchHour)) (Variables|Date|GetYear) (Variables|Date|GetMonth) (Variables|Date|GetDay) (Math|Timespan|FromHours (Variables|Time|GetSolarTime)) (Math|Timespan|FromHours (Variables|Time|GetSolarTime)) (Math|Timespan|FromHours (Variables|Time|GetSolarTime))))
+      (Variables|Location|SetElevation (Utilities|Struct|BreakSunPositionData _sunpositiondata))
+      (Variables|Elevation|SetLocalElevationAlpha (|LocalElevationCalculation_2))
+      (bind _output_get (Variables|Location|SetCorrectedElevation (Utilities|Struct|BreakSunPositionData _sunpositiondata)))
+      (bind _output_get_1 (Variables|Location|SetAzimuth (Utilities|Struct|BreakSunPositionData _sunpositiondata)))
+      (Transformation|SetWorldRotation (Variables|Default|GetDirectionalLight) (Math|Rotator|MakeRotator 0.0 _output_get (+ _output_get_1 (Variables|Location|GetNorthOffset))))
+      (CallFunction|UpdateShadowCaster)
+      (Utilities|IsValid _compassmesh
+        (:"Is Valid"
+          (Transformation|SetWorldRotation _compassmesh 0.0 0.0 (+ (Variables|Location|GetNorthOffset) 90.000000)))))))
+
+=== GRAPH UpdateSun.K2Node_Composite_1.LocalElevationCalculation_2
+
+=== GRAPH GetHMSFromSolarTime
+(fn GetHMSFromSolarTime (SolarTime)
+  (return (Math|Integer|%(Integer) (Math|Float|Truncate SolarTime) 24) (Math|Integer|%(Integer) (Math|Float|Truncate (Math|Float|int*float 60 (- SolarTime (Math|Conversions|ToFloat(Integer) (Math|Integer|%(Integer) (Math|Float|Truncate SolarTime) 24))))) 60) (Math|Integer|%(Integer) (Math|Float|Truncate (+ (Math|Float|int*float 3600 (- (- SolarTime (Math|Conversions|ToFloat(Integer) (Math|Integer|%(Integer) (Math|Float|Truncate SolarTime) 24))) (/ (Math|Conversions|ToFloat(Integer) (Math|Integer|%(Integer) (Math|Float|Truncate (Math|Float|int*float 60 (- SolarTime (Math|Conversions|ToFloat(Integer) (Math|Integer|%(Integer) (Math|Float|Truncate SolarTime) 24))))) 60)) 60.000000))) 0.500000)) 60)))
+
+=== GRAPH IsDST
+(fn IsDST (DSTEnable DSTStartMonth DSTStartDay DSTEndMonth DSTEndDay DSTSwitchHour)
+  (bind (_hour _minute _second) (Class|SunSky|GetHMSFromSolarTime (Variables|Time|GetSolarTime)))
+  (return (and DSTEnable (and (Math|DateTime|DateTime>=DateTime (Math|DateTime|MakeDateTime (Variables|Date|GetYear) (Variables|Date|GetMonth) (Variables|Date|GetDay) _hour _minute _second) (Math|DateTime|MakeDateTime (Variables|Date|GetYear) DSTStartMonth DSTStartDay DSTSwitchHour)) (Math|DateTime|DateTime<=DateTime (Math|DateTime|MakeDateTime (Variables|Date|GetYear) (Variables|Date|GetMonth) (Variables|Date|GetDay) _hour _minute _second) (Math|DateTime|MakeDateTime (Variables|Date|GetYear) DSTEndMonth DSTEndDay DSTSwitchHour))))))
+
+=== GRAPH UpdateDate
+(fn UpdateDate ()
+  (bind _month (Variables|Date|GetMonth))
+  (bind _returnvalue (+ _month 1))
+  (bind _day (Variables|Date|GetDay))
+  (bind _returnvalue_1 (+ _day 1))
+  (if (> _returnvalue_1 (Math|DateTime|DaysInMonth (Variables|Date|GetYear) (Variables|Date|GetMonth)))
+    (Variables|Date|SetDay 1)
+    (if (> _returnvalue 12)
+      (Variables|Date|SetMonth 1)
+      (Variables|Date|SetYear (+ (Variables|Date|GetYear) 1))
+      (CallFunction|UpdateDayOfYear)
+      (CallFunction|MoonIndex)
+      (else
+        (Variables|Date|SetMonth _returnvalue)
+        (CallFunction|UpdateDayOfYear)
+        (CallFunction|MoonIndex)))
+    (else
+      (Variables|Date|SetDay _returnvalue_1)
+      (CallFunction|UpdateDayOfYear)
+      (CallFunction|MoonIndex))))
+
+=== GRAPH UpdateDayNight
+(fn UpdateDayNight ()
+  (if (and (> (Variables|Location|GetElevation) 170.000000) (< (Variables|Location|GetElevation) 190.000000))
+    (Rendering|Components|SkyLight|SetLightColor (Variables|Default|GetSkyLight) (Math|Color|Lerp(LinearColor) (Variables|Elevation|GetNightColor) (Variables|Elevation|GetDayColor) (Variables|Elevation|GetLocalElevationAlpha)))
+    (elif (> (Variables|Location|GetElevation) 190.000000)
+      (Rendering|Components|SkyLight|SetLightColor (Variables|Default|GetSkyLight) (Variables|Elevation|GetDayColor))
+      (else
+        (Rendering|Components|SkyLight|SetLightColor (Variables|Default|GetSkyLight) (Variables|Elevation|GetNightColor))))))
+
+=== GRAPH UpdateDayOfYear
+(fn UpdateDayOfYear ()
+  (bind _daysinmonths (Variables|Date|GetDaysinMonths))
+  (Variables|Date|SetTotalDays 0)
+  (if (== (Math|Integer|%(Integer) (Variables|Date|GetYear) 4) 0)
+    (Utilities|Array|SetArrayElem _daysinmonths 1 29)
+    (else
+      (Utilities|Array|SetArrayElem _daysinmonths 1 28)))
+  (for _index (range (+ (- (Variables|Date|GetMonth) 2) 1))
+    (bind _output_get (Variables|Date|SetTotalDays (+ (Utilities|Array|Get(aref) (Variables|Date|GetDaysinMonths) _index) (Variables|Date|GetTotalDays)))))
+  (Variables|Date|SetDaysOfYear (+ (Variables|Date|SetTotalDays (+ (Utilities|Array|Get(aref) (Variables|Date|GetDaysinMonths) _index) (Variables|Date|GetTotalDays))) (Variables|Date|GetDay))))
+
+=== GRAPH SetDate
+(fn SetDate (DaysOfYear)
+  (bind _daysinmonths (Variables|Date|GetDaysinMonths))
+  (bind _output (Utilities|Array|Get(aref) _daysinmonths (Utilities|FlowControl|ForLoopwithBreak 0 11)))
+  (bind _remainingdays (Variables|Date|GetRemainingDays))
+  (bind _daysinmonths_1 (Variables|Date|GetDaysinMonths))
+  (Variables|Date|SetDaysOfYear DaysOfYear)
+  (Variables|Date|SetMonth 1)
+  (Variables|Date|SetRemainingDays (Variables|GetDaysOfYear))
+  (if (== (Math|Integer|%(Integer) (Variables|Date|GetYear) 4) 0)
+    (Utilities|Array|SetArrayElem _daysinmonths_1 1 29)
+    (else
+      (Utilities|Array|SetArrayElem _daysinmonths_1 1 28)))
+  (bind _index (Utilities|FlowControl|ForLoopwithBreak 0 11)
+    (:LoopBody
+      (if (> _remainingdays _output)
+        _
+        (else
+          _))
+      (Variables|Date|SetRemainingDays (- _remainingdays _output))
+      (Variables|Date|SetMonth (+ (Variables|Date|GetMonth) 1)))
+    (:Completed
+      (Variables|Date|SetDay (Variables|Date|GetRemainingDays)))))
+
+=== GRAPH MoonIndex
+(fn MoonIndex ()
+  (bind _mooncycledays (Variables|Date|GetMoonCycleDays))
+  (bind _output (Utilities|Array|Get(aref) _mooncycledays (Utilities|FlowControl|ForLoopwithBreak 0 11)))
+  (bind _moonday (Variables|Date|GetMoonDay))
+  (bind _mooncycledays_1 (Variables|Date|GetMoonCycleDays))
+  (bind _adjustedmoonday (Variables|Date|GetAdjustedMoonDay))
+  (bind _adjustedmoonday_1 (Variables|Date|GetAdjustedMoonDay))
+  (bind _adjustedmoonday_2 (Variables|Date|GetAdjustedMoonDay))
+  (Variables|Date|SetMoonDay (Variables|Date|GetDaysOfYear))
+  (Variables|Date|SetMoonMonth 1)
+  (if (== (Math|Integer|%(Integer) (Variables|Date|GetYear) 4) 0)
+    (Utilities|Array|SetArrayElem _mooncycledays_1 7 32)
+    (else
+      (Utilities|Array|SetArrayElem _mooncycledays_1 7 31)))
+  (bind _index (Utilities|FlowControl|ForLoopwithBreak 0 11)
+    (:LoopBody
+      (if (> _moonday _output)
+        _
+        (else
+          _))
+      (Variables|Date|SetMoonDay (- _moonday _output))
+      (Variables|Date|SetMoonMonth (+ (Variables|Date|GetMoonMonth) 1)))
+    (:Completed
+      (if (== (Utilities|Array|Get(aref) (Variables|Date|GetMoonCycleDays) (- (Variables|Date|GetMoonMonth) 1)) 31)
+        (if (> (Variables|Date|GetMoonDay) 1)
+          (bind _output_get (Variables|Date|SetAdjustedMoonDay (- (Variables|Date|GetMoonDay) 1)))
+          (if (<= _output_get 15)
+            (Variables|Date|SetHalfIndex _adjustedmoonday)
+            (Variables|Date|SetHalfFlag 0)
+            (else
+              (Variables|Date|SetHalfIndex (- _adjustedmoonday 15))
+              (Variables|Date|SetHalfFlag 1)))
+          (else
+            (Variables|Date|SetHalfIndex 1)
+            (Variables|Date|SetHalfFlag 0)))
+        (elif (== (Utilities|Array|Get(aref) (Variables|Date|GetMoonCycleDays) (- (Variables|Date|GetMoonMonth) 1)) 32)
+          (if (> (Variables|Date|GetMoonDay) 2)
+            (bind _output_get (Variables|Date|SetAdjustedMoonDay (- (Variables|Date|GetMoonDay) 1)))
+            (if (<= _output_get 15)
+              (Variables|Date|SetHalfIndex _adjustedmoonday_2)
+              (Variables|Date|SetHalfFlag 0)
+              (else
+                (Variables|Date|SetHalfIndex (- _adjustedmoonday_2 15))
+                (Variables|Date|SetHalfFlag 1)))
+            (else
+              (Variables|Date|SetHalfIndex 1)
+              (Variables|Date|SetHalfFlag 0)))
+          (else
+            (bind _output_get (Variables|Date|SetAdjustedMoonDay (Variables|Date|GetMoonDay)))
+            (if (<= _output_get 15)
+              (Variables|Date|SetHalfIndex _adjustedmoonday_1)
+              (Variables|Date|SetHalfFlag 0)
+              (else
+                (Variables|Date|SetHalfIndex (- _adjustedmoonday_1 15))
+                (Variables|Date|SetHalfFlag 1)))))))))
+
+=== GRAPH UpdateShadowCaster
+(fn UpdateShadowCaster ()
+  (bind _directionallight (Variables|Default|GetDirectionalLight))
+  (bind _returnvalue (Transformation|GetForwardVector _directionallight))
+  (bind _z (.z _returnvalue))
+  (bind _returnvalue_1 0.0)
+  (bind _returnvalue_2 (< _z _returnvalue_1))
+  (Rendering|Components|Light|SetCastShadows (Variables|Default|GetDirectionalLight) _returnvalue_2)
+  (Rendering|Components|Light|SetCastShadows (Variables|Default|GetMoon) (not _returnvalue_2)))
+
+=== GRAPH OnRep_NetTime
+(fn OnRep_NetTime ()
+  (Class|MediaTimeStampInfo|GetTime (.x (Variables|Default|GetNetTime)) (Math|Float|Truncate (.y (Variables|Default|GetNetTime))) (Math|Float|Truncate (.z (Variables|Default|GetNetTime)))))
+
+=== GRAPH SetNetTime
+(fn SetNetTime (Hour Day Year)
+  (|SetwithNotifyNetTime (Math|Vector|MakeVector Hour (Math|Conversions|ToFloat(Integer) Day) (Math|Conversions|ToFloat(Integer) Year))))
+
+=== GRAPH ResyncTime
+(fn ResyncTime ()
+  (if (Networking|HasAuthority)
+    (Variables|Default|SetNetTime (Variables|Time|GetSolarTime) (Variables|Date|GetDaysOfYear) (Variables|Date|GetYear))))
+
+=== GRAPH EventGraph
+(event EventOnActivate)
+
+(event EventBeginPlay
+  (Input|EnableInput (Game|GetPlayerController 0))
+  (Components|Timeline|SetPlayRate (Variables|BP_DayNightCycle|GetDayNightCycleTimeline) (* (/ 1.000000 (* (Variables|Time|GetTotalDayTime) 60.000000)) 24.000000))
+  (CallFunction|UpdateDayOfYear)
+  (CallFunction|MoonIndex)
+  (Utilities|Time|SetTimerbyFunctionName 0 "ResyncTime" 30.0 true)
+  (CallFunction|ResyncTime)
+  (bind (_time _starstime) (|DayNightCycleTimeline (Variables|Time|GetSolarTime))
+    (:Update
+      (Variables|Time|SetSolarTime _time)
+      (switch Utilities|FlowControl|Switch|SwitchonEComponentMobility (Class|SceneComponent|GetMobility (Variables|Default|GetDirectionalLight))
+        (:Movable
+          (Class|SunSky|UpdateSun)
+          (Transformation|SetRelativeLocationAndRotation (Variables|Default|GetCone) "0, 0, 0" 0.0 0.0 _starstime)
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "HalfIndex" (Math|Conversions|ToFloat(Integer) (Variables|Date|GetHalfIndex)))
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "HalfFlag" (Math|Conversions|ToFloat(Integer) (Variables|Date|GetHalfFlag)))
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "Time" (Variables|Time|GetSolarTime))
+          (CallFunction|UpdateDayNight)
+          (Variables|Elevation|SetElevationAlpha (|ElevationCalculation))
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "Elevation" (Variables|Elevation|GetElevationAlpha)))))
+    (:DayEnded
+      (CallFunction|UpdateDate))))
+
+(event EventGetTime (Hour Day Year)
+  (Variables|Date|SetYear Year)
+  (CallFunction|SetDate Day)
+  (CallFunction|MoonIndex)
+  (Variables|Time|SetSolarTime Hour)
+  (bind (_time _starstime) (|DayNightCycleTimeline (Variables|Time|GetSolarTime))
+    (:Update
+      (Variables|Time|SetSolarTime _time)
+      (switch Utilities|FlowControl|Switch|SwitchonEComponentMobility (Class|SceneComponent|GetMobility (Variables|Default|GetDirectionalLight))
+        (:Movable
+          (Class|SunSky|UpdateSun)
+          (Transformation|SetRelativeLocationAndRotation (Variables|Default|GetCone) "0, 0, 0" 0.0 0.0 _starstime)
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "HalfIndex" (Math|Conversions|ToFloat(Integer) (Variables|Date|GetHalfIndex)))
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "HalfFlag" (Math|Conversions|ToFloat(Integer) (Variables|Date|GetHalfFlag)))
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "Time" (Variables|Time|GetSolarTime))
+          (CallFunction|UpdateDayNight)
+          (Variables|Elevation|SetElevationAlpha (|ElevationCalculation))
+          (Rendering|Material|SetScalarParameterValue "/Game/NightSky/MPC_Date.MPC_Date" "Elevation" (Variables|Elevation|GetElevationAlpha)))))
+    (:DayEnded
+      (CallFunction|UpdateDate))))
+
+=== GRAPH EventGraph.K2Node_Composite_0.ElevationCalculation
+
+=== GRAPH Date
+(fn Date (Day Hour Year))
+
+parent err Blueprint: Failed to find property 'parent_class' for attribute 'parent_class' on 'Blueprint'

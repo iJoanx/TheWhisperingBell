@@ -1,0 +1,60 @@
+FOUND in editor_toolset.toolsets.blueprint file C:\Program Files/Epic Games/UE_5.8/Engine/Plugins/Experimental/Toolsets/EditorToolset/Content/Python\editor_toolset\toolsets\blueprint.py
+e: Node to be moved
+            pos: New x, y position of the node in the graph
+        """
+        node.set_node_pos(pos)
+        if node.get_node_pos() != pos:
+            raise RuntimeError(f'Failed to set position of node {node} to {pos}.')
+
+    @toolset_registry.tool_call
+    @staticmethod
+    def arrange_nodes(nodes: list[unreal.EdGraphNode]) -> None:
+        """Arranges a list of nodes in a readable left-to-right layout.
+
+        Organizes nodes into columns based on data/execution flow, with producer nodes to
+        the left of the nodes they feed into. Call this after building a graph
+        to avoid nodes overlapping. Connections to nodes outside the list are used as anchors
+        so the arranged nodes integrate cleanly with the rest of the graph.
+
+        Args:
+            nodes: The nodes to arrange.
+        """
+        if len(nodes) <= 1:
+            return
+        all_nodes = BlueprintTools.find_nodes(nodes[0].get_outer())
+        input_set = set(nodes)
+        to_arrange = {n for n in all_nodes if n in input_set}
+        GraphFormatter(
+            get_out_pins=lambda n: BlueprintTools._list_pins(
+                n, unreal.EdGraphPinDirection.EGPD_OUTPUT),
+            get_connected_pins=lambda pin: pin.list_connected_pins(),
+            get_pin_owner=lambda pin: pin.get_owning_node(),
+            get_node_pos=lambda n: (n.get_node_pos().x, n.get_node_pos().y),
+            set_node_pos=lambda n, x, y: n.set_node_pos(unreal.IntPoint(x, y)),
+            get_node_size=lambda n: (int(n.get_node_size().x), int(n.get_node_size().y)),
+        ).arrange(all_nodes, to_arrange)
+
+    @toolset_registry.tool_call
+    @staticmethod
+    def connect_pins(output_pin: PinID, input_pin: PinID) -> None:
+        """Makes a connection between source (output) and dest (input) pins.
+
+            Args:
+                output_pin: The PinID of the output pin to connect from.
+                input_pin: The PinID of the input pin to connect to.
+        """
+        out = BlueprintTools._resolve_pin(output_pin)
+        inp = BlueprintTools._resolve_pin(input_pin)
+        if not out.try_create_connection(inp):
+            raise RuntimeError(
+                f'Could not connect pin {out.get_pin_name()} to {inp.get_pin_name()}. '
+                f'The pins may be incompatible types.')
+
+    @toolset_registry.tool_call
+    @staticmethod
+    def break_pins(output_pin: PinID, input_pin: PinID) -> None:
+        """Breaks the connection between two pins.
+
+            Args:
+   
+editor_toolset.toolsets.blueprint: def arrange_nodes(nodes: list[unreal.EdGraphNode]) -> None:

@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\114609_job157_wbinfo.py", line 28, in <module>
+    out.append("YearTextBox %s=%s" % (k, yt.get_editor_property(k)))
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^
+Exception: EditableTextBox: Failed to find property 'is_variable' for attribute 'is_variable' on 'EditableTextBox'
+
+[failed after 36.7 s]

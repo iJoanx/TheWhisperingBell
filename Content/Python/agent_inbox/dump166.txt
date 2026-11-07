@@ -1,0 +1,28 @@
+Equal candidates: ['TypedElementFramework|Handle|NotEqual(TypedElementHandle)', 'TypedElementFramework|Handle|Equal(TypedElementHandle)', 'Settings|SetViewDistanceQuality', 'Settings|SetTextureQuality', 'Settings|SetLandscapeQuality', 'Settings|SetFoliageQuality', 'Settings|GetViewDistanceQuality', 'Settings|GetTextureQuality', 'Settings|GetLandscapeQuality', 'Settings|GetFoliageQuality', 'Class|PrimitiveComponent|GetIndirectLightingCacheQuality', 'Utilities|Operators|NotEqual(!=)', 'Utilities|Operators|Equal(==)', 'Utilities|Operators|LessEqual(<=)', 'Utilities|Operators|GreaterEqual(>=)', 'Utilities|Struct|BreakEquals', 'Utilities|Struct|BreakNotEquals', 'Utilities|Struct|BreakEquals', 'Utilities|Struct|BreakNotEquals', 'Utilities|Struct|BreakGreaterEqual', 'Utilities|Struct|BreakLessEqual', 'Utilities|Struct|BreakIsNearlyEqual', 'Utilities|Struct|BreakEquals', 'Utilities|Struct|BreakNotEquals', 'Utilities|Struct|BreakGreaterEqual', 'Utilities|Struct|BreakLessEqual', 'Utilities|Struct|BreakIsNearlyEqual', 'Utilities|Struct|BreakEquals', 'Utilities|Struct|BreakNotEquals', 'Utilities|Struct|BreakGreaterEqual']
+removed orphan /Game/Menus/WB_SetTime.WB_SetTime:DayOfYear.K2Node_CallFunction_2
+removed orphan /Game/Menus/WB_SetTime.WB_SetTime:DayToMonth.K2Node_CallFunction_7
+removed orphan /Game/Menus/WB_SetTime.WB_SetTime:SetHolidays.K2Node_CallFunction_22
+removed orphan /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:UpdateDayOfYear.K2Node_CallFunction_0
+removed orphan /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:SetDate.K2Node_CallFunction_0
+removed orphan /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:MoonIndex.K2Node_CallFunction_0
+EQ type: Asserts|AssertEqual(Integer)
+FAIL /Game/Menus/WB_SetTime.WB_SetTime:DayOfYear.K2Node_CallFunction_74: Could not connect pin ReturnValue to execute. The pins may be incompatible types.
+FAIL /Game/Menus/WB_SetTime.WB_SetTime:DayToMonth.K2Node_CallFunction_5: Could not connect pin ReturnValue to execute. The pins may be incompatible types.
+FAIL /Game/Menus/WB_SetTime.WB_SetTime:SetHolidays.K2Node_CallFunction_8: Could not connect pin ReturnValue to execute. The pins may be incompatible types.
+compile /Game/Menus/WB_SetTime.WB_SetTime: None
+FAIL /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:UpdateDayOfYear.K2Node_CallFunction_5: Could not connect pin ReturnValue to execute. The pins may be incompatible types.
+FAIL /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:SetDate.K2Node_CallFunction_5: Could not connect pin ReturnValue to execute. The pins may be incompatible types.
+FAIL /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:MoonIndex.K2Node_CallFunction_5: Could not connect pin ReturnValue to execute. The pins may be incompatible types.
+compile /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle: None
+--- DayOfYear
+  (if (Math|DateTime|IsLeapYear (Variables|Default|GetYear))
+--- DayToMonth
+  (if (Math|DateTime|IsLeapYear (Variables|Default|GetYear))
+--- SetHolidays
+      (if (and (Math|DateTime|IsLeapYear (Variables|Default|GetYear)) (== (Utilities|Array|Get(aref) (Variables|Default|GetMonthDays) (- (Variables|Default|GetMonth) 1)) 32))
+--- UpdateDayOfYear
+  (if (Math|DateTime|IsLeapYear (Variables|Date|GetYear))
+--- SetDate
+  (if (Math|DateTime|IsLeapYear (Variables|Date|GetYear))
+--- MoonIndex
+  (if (Math|DateTime|IsLeapYear (Variables|Date|GetYear))

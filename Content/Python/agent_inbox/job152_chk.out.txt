@@ -1,0 +1,8 @@
+|CalcFlySpeed [('then', ['|SetFlySpeed'])]
+|SetFlySpeed [('then', ['Utilities|FlowControl|Branch'])]
+Utilities|FlowControl|Branch [('then', ['|SetGroundSpeed']), ('else', [])]
+|SetGroundSpeed [('then', ['Utilities|FlowControl|Branch'])]
+Utilities|FlowControl|Branch [('then', ['|SetDirection']), ('else', [])]
+|SetDirection [('then', [])]
+
+[ok in 0.0 s]

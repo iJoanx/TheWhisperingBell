@@ -1,0 +1,35 @@
+GetParent -> ['TypedElementInterfaces|Hierarchy|GetParentElement', 'TypedElementInterfaces|Hierarchy|GetParentElement(Message)', 'Interchange|Node|GetParentUid', 'Actor|GetParentComponent', 'Actor|GetParentActor', 'Widget|GetParent', 'Components|GetParentComponents', 'Class|TickableTransformConstraint|GetParentTRSHandle', 'Sequencer|Section|GetParentSequenceFrame', 'Sequencer|Sequence|GetParent', 'Components|SkinnedMesh|GetParentBone', 'Class|MaterialInstance|GetParent', 'Class|MaterialFunctionInstance|GetParent', 'Class|CompositeCurveTable|GetParentTables', 'Class|CompositeDataTable|GetParentTables']
+GetChildAt -> ['Widget|Panel|GetChildAt']
+GetChildIndex -> ['Widget|Panel|GetChildIndex']
+GetShownYear -> ['Variables|Default|GetShownYear']
+GetYearNames -> ['Variables|Default|GetYearNames']
+EventTick -> ['AddEvent|UserInterface|EventTick']
+write: None
+compile: None
+CDO YearNames len 2301, [2192]=Year of Three Ships Sailing, ShownYear=-99999
+TICK DSL:
+Interface|EventTick (MyGeometry InDeltaTime)
+  (bind _returnvalue 700)
+  (bind _year (Variables|Default|GetYear))
+  (bind _returnvalue_1 (+ _year _returnvalue))
+  (if (not (== (Variables|Default|GetYear) (Variables|Default|GetShownYear)))
+    (Variables|Default|SetShownYear (Variables|Default|GetYear))
+    (bind _astext (Utilities|Casting|CastToTextBlock (Widget|Panel|GetChildAt (Widget|GetParent (Variables|WB_SetTime|GetMonthText)) (- (Widget|Panel|GetChildIndex (Widget|GetParent (Variables|WB_SetTime|GetMonthText)) (Variables|WB_SetTime|GetMonthText)) 1))))
+    (if (Utilities|Array|IsValidIndex (Variables|Default|GetYearNames) _returnvalue_1)
+      (Widget|SetText(Text) _astext (Utilities|Text|ToText(String) (Utilities|Array|Get(aref) (Variables|Default|GetYearNames) _returnvalue_1)))
+      (else
+        (Widget|SetText(Text) _astext (Utilities|Text|ToText(String) ""))))))
+
+(event OnClicked(Button_Resume)
+  (bind _returnvalue (Game|GetPlayerController 0))
+  (Widget|RemoveFromParent)
+  (Game|SetGamePaused false)
+  (|SetbShowMouseCursor false _returnvalue)
+  (Input|SetInputMode_GameOnly _returnvalue false))
+
+(event UserInterface|EventPreConstruct (IsDesignTime)
+  (bind _uniformdaygrid (Variables|WB_SetTime|GetUniformDayGrid))
+  (Widget|Panel|ClearChildren _uniformdaygrid)
+  (for _ (Variables|Default|GetDayArray)
+    (bind _returnvalue (Game|ConstructObjectfromClass "/Game/Menus/DayButton.DayButton_C"))
+    (Input|MouseInput|BindEventtoOnClicked _returnvalue (AddEvent|Custom|OnClicked))

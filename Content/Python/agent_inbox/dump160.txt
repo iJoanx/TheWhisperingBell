@@ -1,0 +1,23 @@
+===== add_variable 
+Adds a member or local variable to a Blueprint.
+
+        Supported type names:
+          Primitives: 'bool', 'int', 'float', 'byte', 'string', 'name', 'text'
+          Structs:    'Vector', 'Rotator', 'Transform', 'Vector2D', 'LinearColor'
+
+        Args:
+            blueprint: The Blueprint to add the variable to.
+            name: The variable name.
+            type_name: The variable type as a string (see above).
+            graph: If provided, adds a local variable to this function graph instead of a
+                member variable.
+            container_type: Container type for the variable. MAP uses string as the key type.
+EventTick -> ['AddEvent|UserInterface|EventTick']
+GetWidgetfromName -> []
+CastToTextBlock -> ['Utilities|Casting|CastToTextBlock', 'Utilities|Casting|CastToTextBlockClass']
+IsValidIndex -> ['TypedElementFramework|List|IsValidIndex', 'Utilities|Array|IsValidIndex', 'TransformProviders|AnimRuntime|IsValidIndex', 'URigHierarchy|IsValidIndex']
+ToText(String) -> ['Utilities|Text|ToText(String)']
+SetText(Text) -> ['Widget|SetText(Text)']
+Array|Get -> ['Utilities|Array|Get(aref)', 'Utilities|Array|Get(acopy)', 'Class|TextureRenderTarget2DArray|GetSizeX', 'Class|TextureRenderTarget2DArray|GetSizeY', 'Class|TextureRenderTarget2DArray|GetSlices', 'Class|TextureRenderTarget2DArray|GetHDR', 'Class|TextureRenderTarget2DArray|GetSupportsUAV', 'Class|NiagaraDataInterfaceArray|GetGpuSyncMode', 'Class|NiagaraDataInterfaceArray|GetMaxElements', 'Class|FloatArray|GetFloatData', 'Class|Vector2DArray|GetFloatData', 'Class|VectorArray|GetFloatData']
+Array|Length -> ['Utilities|Array|Length']
+getprops err GetObjectProperties on '/Game/Menus/WB_SetTime.WB_SetTime:WidgetTree.MonthText' (TextBlock): the following properties could not be read: bIsVariable

@@ -1,0 +1,38 @@
+BP /Game/Level/WhisperingBell/Blueprints/BP_WB_Sewer_Entry.BP_WB_Sewer_Entry
+=== UserConstructionScript
+(fn ConstructionScript ())
+
+=== ApplySewerView
+(fn ApplySewerView (InSewer)
+  (bind _outactors (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sewers"))
+  (for _array_element _outactors
+    (Rendering|SetActorHiddenInGame _array_element (not InSewer)))
+  (bind _outactors_1 (Actor|GetAllActorsOfClassWithTag "/Script/Engine.Actor" "RDL_Sky"))
+  (for _array_element_1 _outactors_1
+    (Rendering|SetActorHiddenInGame _array_element_1 InSewer)))
+
+=== UseEntry
+(fn UseEntry (Player)
+  (|SetbGoingDown (< (Math|Vector|Distance(Vector) (Transformation|GetActorLocation Player) (Transformation|GetWorldLocation (Variables|Default|GetBox))) (Math|Vector|Distance(Vector) (Transformation|GetActorLocation Player) (Transformation|GetWorldLocation (Variables|Default|GetSewerBox)))))
+  (Transformation|SetActorLocation Player (select (|GetbGoingDown) (Transformation|GetWorldLocation (Variables|Default|GetCapsule)) (Transformation|GetWorldLocation (Variables|Default|GetReturnPoint))) false true)
+  (bind _aspawn (Utilities|Casting|CastToPawn Player))
+  (if (Pawn|IsLocallyControlled _aspawn)
+    (CallFunction|ApplySewerView (|GetbGoingDown))))
+
+=== EventGraph
+(event EventBeginPlay
+  (CallFunction|ApplySewerView false))
+
+(event Collision|EventActorBeginOverlap (OtherActor))
+
+(event EventTick (DeltaSeconds))
+
+(event EventOnInteract (Player)
+  (CallFunction|UseEntry Player))
+
+replicates=True
+always_relevant=False
+net_load_on_client=True
+net_update_frequency=100.0
+DL asset RDL_Sky type=<DataLayerType.RUNTIME: 0>
+DL asset RDL_Sewers type=<DataLayerType.RUNTIME: 0>

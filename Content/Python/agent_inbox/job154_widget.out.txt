@@ -1,0 +1,8 @@
+toolsets: ['acquire_editor_element_handle', 'call_method', 'cast', 'execute_tool', 'get_all_toolset_json_schemas', 'get_class', 'get_default_object', 'get_editor_property', 'get_fname', 'get_full_name', 'get_name', 'get_outer', 'get_outermost', 'get_package', 'get_path_name', 'get_toolset_json_schema', 'get_typed_outer', 'get_world', 'is_available', 'is_editor_property_overridden', 'is_package_external', 'is_toolset_class_registered', 'is_toolset_registered', 'modify', 'register_toolset_class', 'rename', 'reset_editor_property', 'set_editor_properties', 'set_editor_property', 'static_class']
+list err type object 'ToolsetRegistry' has no attribute 'list_toolsets'
+toolset modules: ['actor', 'asset', 'blueprint', 'blueprint_dsl', 'blueprint_layout', 'blueprint_node', 'curve_table', 'data_asset', 'data_table', 'material', 'material_instance', 'object', 'primitive', 'programmatic', 'scene', 'skeletal_mesh', 'static_mesh', 'string_table', 'texture']
+widget bp: <Object '/Game/Menus/WB_SetTime.WB_SetTime' (0x0000020F599BC400) Class 'WidgetBlueprint'> WidgetBlueprint
+no widget_tree prop: WidgetBlueprint: Failed to find property 'widget_tree' for attribute 'widget_tree' on 'WidgetBluepri
+vars: ['HourText', 'DayText', 'YearText', 'DayArray', 'MonthName', 'MonthSupertype', 'MonthDays', 'Month', 'Year', 'Hour', 'TotalDays', 'Day', 'DaysOfYear', 'BP_DN', 'RemainingDays', 'IsUserAdjusting', 'NewVar', 'HolidayName']
+
+[ok in 0.1 s]

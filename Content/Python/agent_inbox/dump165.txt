@@ -1,0 +1,21 @@
+EQ type: Math|Integer|Equal(Integer)
+FAIL /Game/Menus/WB_SetTime.WB_SetTime:DayOfYear.K2Node_CallFunction_74: The node could not be created / Math|Integer|Equal(Integer) does not exist
+FAIL /Game/Menus/WB_SetTime.WB_SetTime:DayToMonth.K2Node_CallFunction_5: The node could not be created / Math|Integer|Equal(Integer) does not exist
+FAIL /Game/Menus/WB_SetTime.WB_SetTime:SetHolidays.K2Node_CallFunction_8: The node could not be created / Math|Integer|Equal(Integer) does not exist
+compile /Game/Menus/WB_SetTime.WB_SetTime: None
+FAIL /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:UpdateDayOfYear.K2Node_CallFunction_5: The node could not be created / Math|Integer|Equal(Integer) does not exist
+FAIL /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:SetDate.K2Node_CallFunction_5: The node could not be created / Math|Integer|Equal(Integer) does not exist
+FAIL /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:MoonIndex.K2Node_CallFunction_5: The node could not be created / Math|Integer|Equal(Integer) does not exist
+compile /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle: None
+--- DayOfYear
+  (if (Math|DateTime|IsLeapYear (Variables|Default|GetYear))
+--- DayToMonth
+  (if (Math|DateTime|IsLeapYear (Variables|Default|GetYear))
+--- SetHolidays
+      (if (and (Math|DateTime|IsLeapYear (Variables|Default|GetYear)) (== (Utilities|Array|Get(aref) (Variables|Default|GetMonthDays) (- (Variables|Default|GetMonth) 1)) 32))
+--- UpdateDayOfYear
+  (if (Math|DateTime|IsLeapYear (Variables|Date|GetYear))
+--- SetDate
+  (if (Math|DateTime|IsLeapYear (Variables|Date|GetYear))
+--- MoonIndex
+  (if (Math|DateTime|IsLeapYear (Variables|Date|GetYear))

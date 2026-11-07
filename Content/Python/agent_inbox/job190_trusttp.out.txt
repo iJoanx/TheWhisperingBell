@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 33, in _run
+    code = compile(open(target, encoding="utf-8").read(), target, "exec")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\135210_job190_trusttp.py", line 176
+    DSL = ("""(fn UseEntry (Player)
+          ^
+SyntaxError: '(' was never closed
+
+[failed after 0.0 s]

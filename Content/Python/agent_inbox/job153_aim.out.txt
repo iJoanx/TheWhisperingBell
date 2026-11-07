@@ -1,0 +1,22 @@
+ids: ['Pawn|GetBaseAimRotation'] ['Math|Trig|Atan2(Degrees)'] ['Math|Vector|GetForwardVector'] ['Math|Vector|GetRightVector']
+(fn CalcFlySpeed ()
+  (bind _character (Variables|Default|GetCharacter))
+  (bind _returnvalue (Pawn|GetBaseAimRotation _character))
+  (bind _returnvalue_1 (Math|Vector|GetForwardVector _returnvalue))
+  (bind _velocity (Variables|Default|GetVelocity))
+  (bind _returnvalue_2 (Math|Vector|DotProduct _velocity _returnvalue_1))
+  (bind _returnvalue_3 (Math|Vector|GetRightVector _returnvalue))
+  (bind _returnvalue_4 (Math|Vector|DotProduct _velocity _returnvalue_3))
+  (bind _output_get (Variables|Default|SetFlySpeed (Math|Vector|VectorLength (Math|Vector|MakeVector _returnvalue_2 _returnvalue_4))))
+  (if (Variables|Default|GetIsFlying)
+    (Variables|Default|SetGroundSpeed _output_get)
+    (Variables|Default|SetDirection (select (< _output_get 10.0) 0.0 (Math|Trig|Atan2(Degrees) _returnvalue_4 _returnvalue_2)))))
+
+compile OK
+flow |CalcFlySpeed [('then', ['|SetFlySpeed'])]
+flow |SetFlySpeed [('then', ['Utilities|FlowControl|Branch'])]
+flow Utilities|FlowControl|Branch [('then', ['|SetGroundSpeed']), ('else', [])]
+flow |SetGroundSpeed [('then', ['|SetDirection'])]
+flow |SetDirection [('then', [])]
+
+[ok in 4.6 s]

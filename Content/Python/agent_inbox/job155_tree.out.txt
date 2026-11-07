@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\114253_job155_tree.py", line 22, in <module>
+    line = "%-30s %-18s %s" % (w.get_name(), w.get_class().get_name(), slotinfo(w))
+                                                                       ^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\114253_job155_tree.py", line 10, in slotinfo
+    par = s.get_editor_property('parent')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Exception: CanvasPanelSlot: Property 'Parent' for attribute 'parent' on 'CanvasPanelSlot' is protected and cannot be read
+
+[failed after 0.0 s]

@@ -1,0 +1,25 @@
+SetVisibility -> ['Rendering|SetVisibility', 'Widget|SetVisibility', 'Class|Widget|SetVisibility', 'Sequencer|Section|SetVisibility', 'Class|SkinnedMeshComponent|SetVisibilityBasedAnimTickOption']
+GetRootComponent -> ['Variables|Transformation|GetRootComponent']
+GetIsReplicated -> []
+SetHiddenInGame -> ['Development|SetHiddeninGame']
+GetComponentsByClass -> ['Actor|GetComponentsByClass']
+IsVisible -> ['Rendering|IsVisible', 'Widget|IsVisible', 'DataLayer|Editor|IsVisible']
+ACTOR PostProcessVolume_UAID_40C2BA88CCD6111203_1470164536 (PostProcessVolume)
+   BrushComponent0                BrushComponent               visible=True hiddenInGame=True
+ACTOR BP_DayNightCycle_C_UAID_40C2BA88CCD6111203_1470161535 (BP_DayNightCycle_C)
+   Scene                          SceneComponent               visible=True hiddenInGame=False
+   CompassMesh                    StaticMeshComponent          visible=True hiddenInGame=True
+   SkyLight                       SkyLightComponent            visible=True hiddenInGame=False
+   BillboardComponent_3           BillboardComponent           visible=True hiddenInGame=True
+   DirectionalLight               DirectionalLightComponent    visible=True hiddenInGame=False
+   BillboardComponent_4           BillboardComponent           visible=True hiddenInGame=True
+   Moon                           DirectionalLightComponent    visible=True hiddenInGame=False
+   BillboardComponent_5           BillboardComponent           visible=True hiddenInGame=True
+   SkyAtmosphere                  SkyAtmosphereComponent       visible=True hiddenInGame=False
+   VolumetricCloud                VolumetricCloudComponent     visible=False hiddenInGame=False
+   ExponentialHeightFog           ExponentialHeightFogComponent visible=True hiddenInGame=False
+   Cone1                          StaticMeshComponent          visible=True hiddenInGame=True
+   Cone                           StaticMeshComponent          visible=True hiddenInGame=True
+   SM_Skysphere                   StaticMeshComponent          visible=True hiddenInGame=False
+ACTOR StaticMeshActor_UAID_40C2BA88CCD6111203_1470158534 (StaticMeshActor)
+   StaticMeshComponent0           StaticMeshComponent          visible=True hiddenInGame=False

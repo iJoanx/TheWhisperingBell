@@ -1,0 +1,33 @@
+removed assert /Game/Menus/WB_SetTime.WB_SetTime:DayOfYear.K2Node_CallFunction_5
+removed orphan /Game/Menus/WB_SetTime.WB_SetTime:DayOfYear.K2Node_CallFunction_4
+removed assert /Game/Menus/WB_SetTime.WB_SetTime:DayToMonth.K2Node_CallFunction_12
+removed orphan /Game/Menus/WB_SetTime.WB_SetTime:DayToMonth.K2Node_CallFunction_11
+removed assert /Game/Menus/WB_SetTime.WB_SetTime:SetHolidays.K2Node_CallFunction_28
+removed orphan /Game/Menus/WB_SetTime.WB_SetTime:SetHolidays.K2Node_CallFunction_27
+removed assert /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:UpdateDayOfYear.K2Node_CallFunction_3
+removed orphan /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:UpdateDayOfYear.K2Node_CallFunction_2
+removed assert /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:SetDate.K2Node_CallFunction_3
+removed orphan /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:SetDate.K2Node_CallFunction_2
+removed assert /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:MoonIndex.K2Node_CallFunction_3
+removed orphan /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:MoonIndex.K2Node_CallFunction_2
+EQ type: Utilities|Operators|Equal(==)
+fixed /Game/Menus/WB_SetTime.WB_SetTime:DayOfYear.K2Node_CallFunction_74 (mod pins ['A', 'B'], eq pins ['A:Integer', 'B:Integer'])
+fixed /Game/Menus/WB_SetTime.WB_SetTime:DayToMonth.K2Node_CallFunction_5 (mod pins ['A', 'B'], eq pins ['A:Integer', 'B:Integer'])
+fixed /Game/Menus/WB_SetTime.WB_SetTime:SetHolidays.K2Node_CallFunction_8 (mod pins ['A', 'B'], eq pins ['A:Integer', 'B:Integer'])
+compile /Game/Menus/WB_SetTime.WB_SetTime: None
+fixed /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:UpdateDayOfYear.K2Node_CallFunction_5 (mod pins ['A', 'B'], eq pins ['A:Integer', 'B:Integer'])
+fixed /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:SetDate.K2Node_CallFunction_5 (mod pins ['A', 'B'], eq pins ['A:Integer', 'B:Integer'])
+fixed /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle:MoonIndex.K2Node_CallFunction_5 (mod pins ['A', 'B'], eq pins ['A:Integer', 'B:Integer'])
+compile /Game/NightSky/BP_DayNightCycle.BP_DayNightCycle: None
+--- DayOfYear
+  (if (== (Math|Integer|%(Integer) (Variables|Default|GetYear) 4) 0)
+--- DayToMonth
+  (if (== (Math|Integer|%(Integer) (Variables|Default|GetYear) 4) 0)
+--- SetHolidays
+      (if (and (== (Math|Integer|%(Integer) (Variables|Default|GetYear) 4) 0) (== (Utilities|Array|Get(aref) (Variables|Default|GetMonthDays) (- (Variables|Default|GetMonth) 1)) 32))
+--- UpdateDayOfYear
+  (if (== (Math|Integer|%(Integer) (Variables|Date|GetYear) 4) 0)
+--- SetDate
+  (if (== (Math|Integer|%(Integer) (Variables|Date|GetYear) 4) 0)
+--- MoonIndex
+  (if (== (Math|Integer|%(Integer) (Variables|Date|GetYear) 4) 0)

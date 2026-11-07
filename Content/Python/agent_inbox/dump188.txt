@@ -1,0 +1,44 @@
+BP_Master_PC CMC {'ignore_client_movement_error_checks_and_correction': True, 'server_accept_client_authoritative_position': True, 'network_always_replicate_transform_update_timestamp': False}
+CBP_PC_Hope CMC {'ignore_client_movement_error_checks_and_correction': True, 'server_accept_client_authoritative_position': True, 'network_always_replicate_transform_update_timestamp': False}
+CBP_PC_GolKosh CMC {'ignore_client_movement_error_checks_and_correction': True, 'server_accept_client_authoritative_position': True, 'network_always_replicate_transform_update_timestamp': False}
+--- Hope Get Teleport Destination
+(fn GetTeleportDestination ()
+  (bind _impactpoint (Collision|BreakHitResult (Collision|SphereTraceByChannel (Math|Vector|vector+vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Components|Capsule|GetUnscaledCapsuleRadius (Variables|Character|GetCapsuleComponent)) 1.200000))) (Math|Vector|vector+vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Components|Capsule|GetUnscaledCapsuleRadius (Variables|Character|GetCapsuleComponent)) 1.200000))) 46.900000)))
+  (bind _normal (Collision|BreakHitResult (Collision|SphereTraceByChannel (Math|Vector|vector+vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Collision|BreakHitResult (Collision|SphereTraceByChannel 
+--- Hope Get Display Destination
+(fn GetDisplayDestination ()
+  (bind (_outhit _returnvalue) (Collision|LineTraceByChannel (Variables|Teleport|GetTeleportDestination) (Math|Vector|vector-vector (Variables|Teleport|GetTeleportDestination) 0.0 0.0 (* (Components|Capsule|GetScaledCapsuleHalfHeight (Variables|Character|GetCapsuleComponent)) 2.000000))))
+  (if _returnvalue
+    (Variables|Teleport|SetTeleportDisplay (Collision|BreakHitResult _outhit))
+    (else
+      (Variables|Teleport|SetTeleportDisplay (Collision|BreakHitResult _outhit)))))
+
+--- Hope DoTeleport
+(fn DoTeleport (Dest)
+  (Transformation|SetActorLocation Dest false true)
+  (if (AI|Components|NavMovement|IsFalling (Variables|Character|GetCharacterMovement))
+    (Character|LaunchCharacter (Math|Vector|MakeVector (.x (Transformation|GetVelocity)) (.y (Transformation|GetVelocity))) true true)))
+
+--- Hope EventGraph
+(event Custom|C_PlayMontage
+  (Animation|Montage|PlayMontage (Variables|Character|GetMesh) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")
+  (Animation|Montage|PlayMontage (Variables|Default|GetMeshOwnerSee) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")
+  (|S_PlayMontage))
+--- Hope EventGraph
+(event EnhancedInputActionIA_Aim (ActionValue ElapsedSeconds TriggeredSeconds InputAction)
+  (bind _capsulecomponent (Variables|Character|GetCapsuleComponent))
+  (bind _returnvalue (Components|Capsule|GetUnscaledCapsuleHalfHeight _capsulecomponent))
+  (bind _teleportdisplay (Variables|Teleport|GetTeleportDisplay))
+  (bind _returnvalue_1 (Math|Vector|vector+vector _teleportdisplay 0.0 0.0 _returnvalue))
+  (bind _cancast (Variables|Cast|GetCanCast)))
+--- Hope EventGraph
+(event Custom|S_TeleportCompleted (TrueDestination)
+  (if (not (Pawn|IsLocallyControlled))
+    (CallFunction|DoTeleport TrueDestination)))
+--- Hope EventGraph
+(event Custom|MC_PlayMontage
+  (if (not (Pawn|IsLocallyControlled))
+    (Animation|Montage|PlayMontage (Variables|Character|GetMesh) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")
+    (Animation|Montage|PlayMontage (Variables|Default|GetMeshOwnerSee) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")))
+GameMode override: <Object '/Game/ThirdPerson/Blueprints/BP_ThirdPersonGameMode.BP_ThirdPersonGameMode_C' (0x000002B9B102B600) Class 'BlueprintGeneratedClass'>
+default pawn: <Object '/Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope_C' (0x000002B9B1021C00) Class 'BlueprintGeneratedClass'>

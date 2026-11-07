@@ -1,0 +1,19 @@
+--- Interact
+(fn Interact ()
+  (bind (_outhit _returnvalue) (Collision|LineTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) 300.000000)) "TraceTypeQuery2"))
+  (if _returnvalue
+    (return (Collision|BreakHitResult _outhit))))
+
+--- EventGraph
+(event EnhancedInputActionIA_Interact (ActionValue ElapsedSeconds TriggeredSeconds InputAction))
+--- EventGraph
+(event Custom|MC_Interact (Hit Actor)
+  (Class|BPWBWindowGK|OnInteract Hit Actor self))
+--- EventGraph
+(event Custom|S_Interact (Hit Actor)
+  (bind _output_get (Variables|Default|SetHitActor Hit Actor))
+  (|MC_Interact _output_get))
+RDL_Sky: 3 actors; replicated: ['BP_DayNightCycle_C_UAID_40C2BA88CCD6111203_1470161535']
+  classes: ['BP_DayNightCycle_C', 'PostProcessVolume', 'StaticMeshActor']
+RDL_Sewers: 600 actors; replicated: []
+  classes: ['BP_SewerNode_C', 'StaticMeshActor']
