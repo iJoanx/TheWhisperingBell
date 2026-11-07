@@ -1798,9 +1798,151 @@ def _build_crossing_mesh(node, conns_world):
         except Exception as e:  # noqa
             unreal.log_warning("Sewer: %s floor mitres skipped (%s)" % (node.get_actor_label(), e))
     if FLATTEN_HUB_FLOOR:
-        _flatten_hub_floor(mesh, min(levels) if levels else hub)
+        _unjitter_hub_walls(mesh, conns, min(levels) if levels else hub)
+        _flatten_hub_floor(mesh, min(levels) if levels else hub, _channel_floor_depths(conns))
     if FOLD_AT_CORNERS and not bend:
         _fold_at_corners(mesh, conns, hub, levels)
+    if MITRE_CHANNELS and not bend and len(conns) > 2:
+        try:
+            _mitre_channel_floors(mesh, conns, hub)
+        except Exception as e:  # noqa
+            unreal.log_warning("Sewer: %s channel mitres skipped (%s)" % (node.get_actor_label(), e))
+    if SNAP_UVS_TO_TEXELS:
+        _snap_uvs_to_texels(mesh)
+    return mesh
+
+
+SNAP_UVS_TO_TEXELS = False  # every texture edge lands on a whole pixel (no half-pixel slivers at seams)
+TEXELS_PER_UV = 64.0        # Atlas_Sewers is 128 px and MF_FloorSpace maps one UV0 unit onto half of it
+
+
+def _snap_uvs_to_texels(mesh, texels=None):
+    """Round every UV0 corner onto the texture's pixel grid. Wherever a face's texture ends (mitres,
+    seams, the crossing's cut edges) it then ends on a pixel line, so no half pixel shows; inside a
+    surface nothing visibly moves (each corner shifts by at most half a pixel)."""
+    n = float(texels or TEXELS_PER_UV)
+    changed = 0
+    for t in range(gs("get_num_triangle_i_ds")(mesh)):
+        r = gs("get_triangle_u_vs")(mesh, 0, t)
+        uvs = [u for u in r if isinstance(u, unreal.Vector2D)] if isinstance(r, tuple) else []
+        if len(uvs) != 3:
+            continue
+        snapped = [(round(u.x * n) / n, round(u.y * n) / n) for u in uvs]
+        if any(abs(a[0] - u.x) > 1e-6 or abs(a[1] - u.y) > 1e-6 for a, u in zip(snapped, uvs)):
+            _set_uv_triangle(mesh, 0, t, snapped)
+            changed += 1
+    SNAP_STATS["changed"] = SNAP_STATS.get("changed", 0) + changed
+    return changed
+
+
+SNAP_STATS = {}
+
+
+CHANNEL_STATS = {}
+MITRE_CHANNELS = True     # crossings: an arm's channel-floor tiles stop on the line across its mouth
+                          # (between the two corners where its channel walls end)
+
+
+def _channel_mouths(conns):
+    """For each arm with a neighbour on both sides: the two channel corners (D) where its
+    channel walls end against its neighbours' channels -> {k: (D1, D2)}."""
+    per = {}
+    for (a, b), (C, D, _r) in _crossing_mitres(conns).items():
+        per.setdefault(a, []).append(D)
+        per.setdefault(b, []).append(D)
+    return {k: (ds[0], ds[1]) for k, ds in per.items() if len(ds) == 2}
+
+
+def _mitre_channel_floors(mesh, conns, hub):
+    """Channel floors meet like the walkways: each side arm's channel floor is cut along its mouth
+    (straight across, wall corner to wall corner) and textured as that arm up to the line; the
+    floor inside the crossing is textured as the channel that runs straight through it."""
+    depths = _channel_floor_depths(conns)
+    mouths = _channel_mouths(conns)
+    CHANNEL_STATS.clear()
+    CHANNEL_STATS.update(depths=depths, mouths=len(mouths), faces=0, painted=0, no_edge=0)
+    if not depths or not mouths:
+        return mesh
+    so = unreal.GeometryScriptMeshPlaneSliceOptions()
+    so.set_editor_property("fill_holes", False)
+    try:
+        so.set_editor_property("gap_width", 0.0)
+    except Exception:
+        pass
+    sides = {}
+    for k, (D1, D2) in mouths.items():
+        dx, dy = D2[0] - D1[0], D2[1] - D1[1]
+        ln = math.hypot(dx, dy)
+        if ln < 1e-3:
+            continue
+        gs("apply_mesh_plane_slice")(mesh, unreal.Transform(location=V(D1[0], D1[1], 0.0),
+                                     rotation=unreal.MathLibrary.make_rot_from_z(V(-dy / ln, dx / ln, 0.0))), so)
+        far = (conns[k]["h"].x * 2000.0, conns[k]["h"].y * 2000.0)
+        sides[k] = (D1, dx, dy, dx * (far[1] - D1[1]) - dy * (far[0] - D1[0]))
+    through = [k for k, c in enumerate(conns)
+               if any(j != k and _angle_between(c, o) >= OPPOSITE_DEG for j, o in enumerate(conns))]
+
+    def owner(px, py):
+        for k, (D1, dx, dy, sref) in sides.items():
+            c = conns[k]
+            hx, hy = c["h"].x, c["h"].y
+            q = PASSAGE_TYPES[c["ptype"]].get("water_half_width", 0.0)
+            if px * hx + py * hy > 0.0 and abs(-px * hy + py * hx) <= q * 1.05 + 2.0:
+                if (dx * (py - D1[1]) - dy * (px - D1[0])) * sref > 0.0:
+                    return k
+        pool = through or list(range(len(conns)))
+        ang = math.degrees(math.atan2(py, px))
+        return min(pool, key=lambda k: abs((ang - math.degrees(math.atan2(conns[k]["h"].y, conns[k]["h"].x)) + 180.0) % 360.0 - 180.0))
+
+    _ensure_uv_sets(mesh)
+    for t in range(gs("get_num_triangle_i_ds")(mesh)):
+        vs = _tri_positions(mesh, t)
+        if not vs:
+            continue
+        d = None
+        for dd in depths:
+            # level or sloping (the arms fall/rise a little past the fold): anything upward-facing
+            # within reach of the channel bottom, well clear of the walkway and the block's base
+            if max(abs(v.z - dd) for v in vs) < min(30.0, abs(dd) * 0.4):
+                d = dd
+                break
+        if d is None:
+            continue
+        nrm = (vs[1] - vs[0]).cross(vs[2] - vs[0])
+        # (Unreal's triangle winding makes this cross product point down on an upward face, so
+        # go by the size of Z only - the same test the walkway mitres use)
+        if nrm.length() < 1e-6 or abs(nrm.normal().z) < 0.9:
+            continue
+        CHANNEL_STATS["faces"] += 1
+        cx = sum(v.x for v in vs) / 3.0
+        cy = sum(v.y for v in vs) / 3.0
+        k = owner(cx, cy)
+        c = conns[k]
+        table = _uv_table(c["ptype"])
+        floors = [e for e in (table or []) if abs(e[0][1] - d) < 0.5 and abs(e[1][1] - d) < 0.5]
+        if not floors:
+            CHANNEL_STATS["no_edge"] += 1
+            CHANNEL_STATS["edges_z"] = sorted(set(round(z_, 1) for e_ in (table or []) for z_ in (e_[0][1], e_[1][1])))
+            continue
+        CHANNEL_STATS["painted"] += 1
+        hx, hy = c["h"].x, c["h"].y
+        mirror = bool(c.get("mirror"))
+        seg = PASSAGE_TYPES[c["ptype"]]["segment_length"]
+        s_start = hub + c["lead"]
+        loc = []
+        for v in vs:
+            along = v.x * hx + v.y * hy
+            y = (-v.x * hy + v.y * hx) / (1.0 + PROFILE_JITTER * k)
+            y = -y if mirror else y
+            x = (s_start - along) if mirror else (along - s_start)
+            loc.append((x * 400.0 / seg, y))
+        ty = sum(y for _, y in loc) / 3.0
+        e = min(floors, key=lambda ed: min(abs(ty - ed[0][0]), abs(ty - ed[1][0])))
+        span = (e[1][0] - e[0][0]) or 1.0
+        _set_uv_triangle(mesh, 0, t, [_uv_on_edge(e, (y - e[0][0]) / span, x) for (x, y) in loc])
+        cell = _edge_cell(e)
+        if cell is not None:
+            _set_uv_triangle(mesh, 1, t, [cell, cell, cell])
     return mesh
 
 
@@ -1808,7 +1950,52 @@ FLATTEN_HUB_FLOOR = True   # crossings: snap the walkway-level floor flat inside
 FLATTEN_TOL = 3.0          # cm: floor vertices this close to walkway height get snapped onto it
 
 
-def _flatten_hub_floor(mesh, radius):
+def _channel_floor_depths(conns):
+    """The channel floor height (lowest point of the void profile) of each passage type here,
+    without the per-arm jitter."""
+    out = set()
+    for c in conns:
+        prof = PASSAGE_TYPES[c["ptype"]].get("void_profile") or []
+        zs = [z for (_y, z) in prof]
+        if zs and min(zs) < -FLATTEN_TOL:
+            out.add(min(zs))
+    return sorted(out)
+
+
+def _unjitter_hub_walls(mesh, conns, radius):
+    """Each arm's cutter is a hair wider than the one before (anti-flicker jitter), so where two
+    straight-through arms meet in the middle their walls were 1-3 mm apart - a thin vertical
+    ledge. Inside the level zone, put every wall vertex back on its arm's true profile line."""
+    r2 = (radius - 1.0) ** 2
+    lines = []
+    for k, c in enumerate(conns):
+        ys = sorted(set(abs(y) for (y, _z) in PASSAGE_TYPES[c["ptype"]].get("void_profile", []) if abs(y) > 1.0))
+        lines.append((c["h"].x, c["h"].y, ys))
+    tol = PROFILE_JITTER * (len(conns) + 2)
+    moved = 0
+    for vid in range(gs("get_num_vertex_i_ds")(mesh)):
+        r = gs("get_vertex_position")(mesh, vid)
+        q = r[0] if isinstance(r, tuple) else r
+        if not isinstance(q, unreal.Vector) or q.x * q.x + q.y * q.y >= r2:
+            continue
+        for (hx, hy, ys) in lines:
+            side = -q.x * hy + q.y * hx
+            a = abs(side)
+            hit = None
+            for y in ys:
+                if 1e-4 < abs(a - y) <= y * tol + 0.02:
+                    hit = y
+                    break
+            if hit is None:
+                continue
+            dy = (hit if side > 0 else -hit) - side
+            gs("set_vertex_position")(mesh, vid, V(q.x - hy * dy, q.y + hx * dy, q.z), True)
+            moved += 1
+            break
+    return moved
+
+
+def _flatten_hub_floor(mesh, radius, channel_depths=()):
     """Inside a crossing every arm is level (slopes only start at `radius`), so the walkway floor
     should be one flat plane at Z 0 - like the box collision. The booleans between the arms' cutters
     left small steps (~1 cm) along the mitre seams; snap every vertex within FLATTEN_TOL of walkway
@@ -1820,9 +2007,19 @@ def _flatten_hub_floor(mesh, radius):
         q = r[0] if isinstance(r, tuple) else r
         if not isinstance(q, unreal.Vector):
             continue
-        if q.x * q.x + q.y * q.y < r2 and 0.0 < abs(q.z) < FLATTEN_TOL:
+        if q.x * q.x + q.y * q.y >= r2:
+            continue
+        if 0.0 < abs(q.z) < FLATTEN_TOL:
             gs("set_vertex_position")(mesh, vid, V(q.x, q.y, 0.0), True)
             moved += 1
+            continue
+        # channel floor: each arm's channel is a hair deeper (anti-flicker jitter), which left
+        # 2-4 mm lips at the seams - snap them all onto the passage's real channel depth
+        for d in channel_depths:
+            if 0.0 < abs(q.z - d) <= abs(d) * PROFILE_JITTER * (len(channel_depths) + 8) + 0.05:
+                gs("set_vertex_position")(mesh, vid, V(q.x, q.y, d), True)
+                moved += 1
+                break
     if moved:
         _normals(mesh)
     return moved
@@ -1900,6 +2097,25 @@ def _fold_at_corners(mesh, conns, hub, levels):
         band = _solid_half_width(c["ptype"]) + 5.0
         dt = right[1] - left[1]
         s_min = min(left[0], right[0], R) - 1.0
+
+        # cut the faces along the fold line, so long floor triangles (the channel's) bend there
+        # instead of tilting all the way back to the crossing's centre
+        try:
+            so = unreal.GeometryScriptMeshPlaneSliceOptions()
+            so.set_editor_property("fill_holes", False)
+            try:
+                so.set_editor_property("gap_width", 0.0)
+            except Exception:
+                pass
+            ax, ay = hk[0] * left[0] + nk[0] * left[1], hk[1] * left[0] + nk[1] * left[1]
+            bx, by = hk[0] * right[0] + nk[0] * right[1], hk[1] * right[0] + nk[1] * right[1]
+            ln = math.hypot(bx - ax, by - ay)
+            if ln > 1e-3:
+                normal = V(-(by - ay) / ln, (bx - ax) / ln, 0.0)
+                gs("apply_mesh_plane_slice")(mesh, unreal.Transform(location=V(ax, ay, 0.0),
+                                             rotation=unreal.MathLibrary.make_rot_from_z(normal)), so)
+        except Exception as e:  # noqa
+            unreal.log_warning("Sewer: fold split skipped (%s)" % e)
 
         def fold_at(t):
             s0 = left[0] + (t - left[1]) * (right[0] - left[0]) / dt if abs(dt) > 1e-3 else left[0]

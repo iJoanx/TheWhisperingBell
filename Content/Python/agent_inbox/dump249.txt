@@ -1,0 +1,2 @@
+rebaked 1 failed []
+channel stats {'depths': [-100], 'mouths': 1, 'faces': 12, 'painted': 12, 'no_edge': 0}

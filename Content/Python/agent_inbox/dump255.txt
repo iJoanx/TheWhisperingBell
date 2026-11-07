@@ -1,0 +1,932 @@
+ptype P12 seg 400.0
+   edge (-120, 0) -> (-60, 0)  uv@0 ((-0.0, 0.7812), (-0.0, -0.0))  uv@400 ((1.5, 0.7813), (1.5, -0.0))  cell (0.5, 0.5)
+   edge (-60, 0) -> (-60, -100)  uv@0 ((1.5, -0.0), (1.5, 1.0))  uv@400 ((0.0, -0.0), (-0.0, 1.0))  cell (0.9397130012512207, 0.43800002336502075)
+   edge (-60, -100) -> (60, -100)  uv@0 ((-0.0, 0.75), (0.0, 0.25))  uv@400 ((1.5, 0.75), (1.5, 0.25))  cell (0.30410799384117126, 0.5)
+   edge (60, -100) -> (60, 0)  uv@0 ((1.5, 1.0), (1.5, -0.0))  uv@400 ((-0.0, 1.0), (0.0, -0.0))  cell (0.9397130012512207, 0.43800002336502075)
+   edge (60, 0) -> (120, 0)  uv@0 ((-0.0, -0.0), (-0.0, 0.7812))  uv@400 ((1.5, -0.0), (1.5, 0.7813))  cell (0.5, 0.5)
+   edge (120, 0) -> (120, 250)  uv@0 ((1.0, 1.0), (1.0, 0.5781))  uv@400 ((0.0, 1.0), (0.0, 0.5781))  cell (0.125, 0.5)
+   edge (120, 250) -> (104, 310)  uv@0 ((1.25, 0.5391), (1.25, 0.4219))  uv@400 ((0.25, 0.5391), (0.25, 0.4219))  cell (0.125, 0.5)
+   edge (104, 310) -> (60, 354)  uv@0 ((1.0, 0.6564), (1.0, 0.5311))  uv@400 ((0.0, 0.6564), (0.0, 0.5311))  cell (0.125, 0.5)
+   edge (60, 354) -> (0, 370)  uv@0 ((1.0, 0.1406), (1.0, 0.0))  uv@400 ((0.0, 0.1406), (-0.0, 0.0))  cell (0.125, 0.5)
+   edge (0, 370) -> (-60, 354)  uv@0 ((1.0, -0.0), (1.0, 0.1406))  uv@400 ((0.0, -0.0), (-0.0, 0.1406))  cell (0.125, 0.5)
+   edge (-60, 354) -> (-104, 310)  uv@0 ((1.0, 0.5311), (1.0, 0.6564))  uv@400 ((-0.0, 0.5311), (-0.0, 0.6564))  cell (0.125, 0.5)
+   edge (-104, 310) -> (-120, 250)  uv@0 ((1.25, 0.4219), (1.25, 0.5391))  uv@400 ((0.25, 0.4219), (0.25, 0.5391))  cell (0.125, 0.5)
+   edge (-120, 250) -> (-120, 0)  uv@0 ((1.0, 0.5781), (1.0, 1.0))  uv@400 ((-0.0, 0.5781), (-0.0, 1.0))  cell (0.125, 0.5)
+ptype P20 seg 400.0
+   edge (-200, 0) -> (-100, 0)  uv@0 ((0.0, 0.7813), (0.0, -0.0))  uv@400 ((2.0, 0.7812), (2.0, -0.0))  cell (0.5, 0.5)
+   edge (-100, 0) -> (-100, -100)  uv@0 ((0.0, -0.0), (0.0, 1.0))  uv@400 ((1.5, 0.0), (1.5, 1.0))  cell (0.9397130012512207, 0.75)
+   edge (-100, -100) -> (100, -100)  uv@0 ((0.0, 1.0), (0.0, -0.0))  uv@400 ((1.5, 1.0), (1.5, -0.0))  cell (0.30410799384117126, 0.5)
+   edge (100, -100) -> (100, 0)  uv@0 ((0.0, 1.0), (0.0, 0.0))  uv@400 ((1.5, 1.0), (1.5, 0.0))  cell (0.9397130012512207, 0.75)
+   edge (100, 0) -> (200, 0)  uv@0 ((2.0, -0.0), (2.0, 0.7813))  uv@400 ((-0.0, 0.0), (0.0, 0.7813))  cell (0.5, 0.5)
+   edge (200, 0) -> (200, 350)  uv@0 ((1.0, 1.0), (1.0, 0.4063))  uv@400 ((0.0, 1.0), (0.0, 0.4063))  cell (0.125, 0.625)
+   edge (200, 350) -> (173, 450)  uv@0 ((1.0, 0.4063), (1.0, 0.2343))  uv@400 ((0.0, 0.4063), (0.0, 0.2343))  cell (0.125, 0.625)
+   edge (173, 450) -> (100, 523)  uv@0 ((1.0, 0.2344), (1.0, 0.125))  uv@400 ((0.0, 0.2344), (0.0, 0.125))  cell (0.125, 0.625)
+   edge (100, 523) -> (0, 550)  uv@0 ((1.0, 0.1251), (1.0, -0.0))  uv@400 ((-0.0, 0.1251), (-0.0, 0.0))  cell (0.125, 0.625)
+   edge (0, 550) -> (-100, 523)  uv@0 ((1.0, -0.0), (1.0, 0.1251))  uv@400 ((-0.0, -0.0), (-0.0, 0.1251))  cell (0.125, 0.625)
+   edge (-100, 523) -> (-173, 450)  uv@0 ((1.0, 0.125), (1.0, 0.2344))  uv@400 ((-0.0, 0.125), (-0.0, 0.2344))  cell (0.125, 0.625)
+   edge (-173, 450) -> (-200, 350)  uv@0 ((1.0, 0.2343), (1.0, 0.4063))  uv@400 ((-0.0, 0.2343), (-0.0, 0.4063))  cell (0.125, 0.625)
+   edge (-200, 350) -> (-200, 0)  uv@0 ((1.0, 0.4063), (1.0, 1.0))  uv@400 ((-0.0, 0.4063), (-0.0, 1.0))  cell (0.125, 0.625)
+func /Game/Level/NorthWard/MF_Atlas.MF_Atlas
+    MaterialExpressionFunctionOutput
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=1.0
+    MaterialExpressionAbs
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=2.0
+    MaterialExpressionAbs
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=0.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFloor
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=4.0
+    MaterialExpressionAbs
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=5.0
+    MaterialExpressionAbs
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=3.0
+    MaterialExpressionAbs
+    MaterialExpressionFunctionInput input_name=TexCoord
+    MaterialExpressionSaturate
+    MaterialExpressionSaturate
+    MaterialExpressionSaturate
+    MaterialExpressionSaturate
+    MaterialExpressionSaturate
+    MaterialExpressionSaturate
+    MaterialExpressionFunctionInput input_name=Material_1
+    MaterialExpressionFunctionInput input_name=Number of Segments
+    MaterialExpressionFunctionInput input_name=Material_2
+    MaterialExpressionFunctionInput input_name=Material_3
+    MaterialExpressionFunctionInput input_name=Material_4
+    MaterialExpressionFunctionInput input_name=Material_5
+    MaterialExpressionFunctionInput input_name=Material_6
+    MaterialExpressionFunctionInput input_name=Material_7
+    MaterialExpressionFunctionInput input_name=Material_8
+    MaterialExpressionFunctionInput input_name=Material_9
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=7.0
+    MaterialExpressionAbs
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=8.0
+    MaterialExpressionAbs
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=6.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionSaturate
+    MaterialExpressionSaturate
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Material_10
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=9.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Material_11
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=10.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Material_12
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=11.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Material_13
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=12.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Material_14
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=13.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Material_15
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=14.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Material_16
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=15.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionStaticSwitchParameter
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionAbs
+func /Game/Level/NorthWard/MF_FloorSpace.MF_FloorSpace
+    MaterialExpressionFunctionOutput
+    MaterialExpressionFunctionInput input_name=TexCoord
+    MaterialExpressionFunctionInput input_name=Number of Floors
+    MaterialExpressionFrac
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionAppendVector
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFloor
+    MaterialExpressionComponentMask r=False
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=0.0
+    MaterialExpressionSaturate
+    MaterialExpressionAbs
+    MaterialExpressionAdd const_a=0.0 const_b=-1.0
+    MaterialExpressionLinearInterpolate const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Multiply Position
+    MaterialExpressionFunctionInput input_name=Offset Position 1
+    MaterialExpressionFunctionInput input_name=Offset Position 2
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=1.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Offset Position 3
+    MaterialExpressionLinearInterpolate const_a=0.0 const_b=0.0
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=1.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=3.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=5.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=-5.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=-3.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionObjectPositionWS
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=12.5
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=32.869998931884766
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=2.7890000343322754
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=12.539999961853027
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=1.0
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=0.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+func /Game/Level/NorthWard/MF_FloorSpace.MF_FloorSpace
+    MaterialExpressionFunctionOutput
+    MaterialExpressionFunctionInput input_name=TexCoord
+    MaterialExpressionFunctionInput input_name=Number of Floors
+    MaterialExpressionFrac
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionAppendVector
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFloor
+    MaterialExpressionComponentMask r=False
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=0.0
+    MaterialExpressionSaturate
+    MaterialExpressionAbs
+    MaterialExpressionAdd const_a=0.0 const_b=-1.0
+    MaterialExpressionLinearInterpolate const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Multiply Position
+    MaterialExpressionFunctionInput input_name=Offset Position 1
+    MaterialExpressionFunctionInput input_name=Offset Position 2
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=1.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Offset Position 3
+    MaterialExpressionLinearInterpolate const_a=0.0 const_b=0.0
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=1.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=3.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=5.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=-5.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=-3.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionObjectPositionWS
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=12.5
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=32.869998931884766
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=2.7890000343322754
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=12.539999961853027
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=1.0
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=0.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+func /Game/Level/NorthWard/MF_FloorSpace.MF_FloorSpace
+    MaterialExpressionFunctionOutput
+    MaterialExpressionFunctionInput input_name=TexCoord
+    MaterialExpressionFunctionInput input_name=Number of Floors
+    MaterialExpressionFrac
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionAppendVector
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFloor
+    MaterialExpressionComponentMask r=False
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=0.0
+    MaterialExpressionSaturate
+    MaterialExpressionAbs
+    MaterialExpressionAdd const_a=0.0 const_b=-1.0
+    MaterialExpressionLinearInterpolate const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Multiply Position
+    MaterialExpressionFunctionInput input_name=Offset Position 1
+    MaterialExpressionFunctionInput input_name=Offset Position 2
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=1.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Offset Position 3
+    MaterialExpressionLinearInterpolate const_a=0.0 const_b=0.0
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=1.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=3.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=5.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=-5.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=-3.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionObjectPositionWS
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=12.5
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=32.869998931884766
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=2.7890000343322754
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=12.539999961853027
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=1.0
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=0.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+func /Game/Level/NorthWard/MF_FloorSpace.MF_FloorSpace
+    MaterialExpressionFunctionOutput
+    MaterialExpressionFunctionInput input_name=TexCoord
+    MaterialExpressionFunctionInput input_name=Number of Floors
+    MaterialExpressionFrac
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionAppendVector
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFloor
+    MaterialExpressionComponentMask r=False
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=0.0
+    MaterialExpressionSaturate
+    MaterialExpressionAbs
+    MaterialExpressionAdd const_a=0.0 const_b=-1.0
+    MaterialExpressionLinearInterpolate const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Multiply Position
+    MaterialExpressionFunctionInput input_name=Offset Position 1
+    MaterialExpressionFunctionInput input_name=Offset Position 2
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=1.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Offset Position 3
+    MaterialExpressionLinearInterpolate const_a=0.0 const_b=0.0
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=1.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=3.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=5.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=-5.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=-3.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionObjectPositionWS
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=12.5
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=32.869998931884766
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=2.7890000343322754
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=12.539999961853027
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=1.0
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=0.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+func /Game/Level/NorthWard/MF_FloorSpace.MF_FloorSpace
+    MaterialExpressionFunctionOutput
+    MaterialExpressionFunctionInput input_name=TexCoord
+    MaterialExpressionFunctionInput input_name=Number of Floors
+    MaterialExpressionFrac
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionAppendVector
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFloor
+    MaterialExpressionComponentMask r=False
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=0.0
+    MaterialExpressionSaturate
+    MaterialExpressionAbs
+    MaterialExpressionAdd const_a=0.0 const_b=-1.0
+    MaterialExpressionLinearInterpolate const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Multiply Position
+    MaterialExpressionFunctionInput input_name=Offset Position 1
+    MaterialExpressionFunctionInput input_name=Offset Position 2
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=1.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Offset Position 3
+    MaterialExpressionLinearInterpolate const_a=0.0 const_b=0.0
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=1.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=3.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=5.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=-5.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=-3.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionObjectPositionWS
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=12.5
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=32.869998931884766
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=2.7890000343322754
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=12.539999961853027
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=1.0
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=0.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+func /Game/Level/NorthWard/MF_FloorSpace.MF_FloorSpace
+    MaterialExpressionFunctionOutput
+    MaterialExpressionFunctionInput input_name=TexCoord
+    MaterialExpressionFunctionInput input_name=Number of Floors
+    MaterialExpressionFrac
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionAppendVector
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFloor
+    MaterialExpressionComponentMask r=False
+    MaterialExpressionOneMinus
+    MaterialExpressionSubtract const_a=1.0 const_b=0.0
+    MaterialExpressionSaturate
+    MaterialExpressionAbs
+    MaterialExpressionAdd const_a=0.0 const_b=-1.0
+    MaterialExpressionLinearInterpolate const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Multiply Position
+    MaterialExpressionFunctionInput input_name=Offset Position 1
+    MaterialExpressionFunctionInput input_name=Offset Position 2
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=1.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionFunctionInput input_name=Offset Position 3
+    MaterialExpressionLinearInterpolate const_a=0.0 const_b=0.0
+    MaterialExpressionAdd const_a=0.0 const_b=0.5
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=1.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=3.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=5.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=-5.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionFloor
+    MaterialExpressionSubtract const_a=1.0 const_b=-3.0
+    MaterialExpressionAbs
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionObjectPositionWS
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=12.5
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=32.869998931884766
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=2.7890000343322754
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=0.8999999761581421
+    MaterialExpressionComponentMask r=True
+    MaterialExpressionDotProduct
+    MaterialExpressionConstant2Vector r=12.539999961853027
+    MaterialExpressionSine
+    MaterialExpressionMultiply const_a=0.0 const_b=2.0
+    MaterialExpressionFrac
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionIf const_b=1.0
+    MaterialExpressionConstant r=0.0
+    MaterialExpressionConstant r=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=1.0
+    MaterialExpressionSaturate
+    MaterialExpressionOneMinus
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0
+    MaterialExpressionAdd const_a=0.0 const_b=0.0
+    MaterialExpressionMultiply const_a=0.0 const_b=1.0

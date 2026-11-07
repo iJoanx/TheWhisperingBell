@@ -1,0 +1,71 @@
+slot 0 M_Master_Sewers_Inst -> /Game/Level/Sewers/M_Master_Sewers_Inst.M_Master_Sewers_Inst
+   base /Game/Level/Sewers/M_Master_Sewers.M_Master_Sewers
+   tex param Texture = /Game/Level/Sewers/Atlas_Sewers.Atlas_Sewers (128, 128)
+   scalar err type object 'MaterialEditingLibrary' has no attribute 'get_material_instance_scalar_value'
+   used tex /Game/Level/Sewers/Atlas_Sewers.Atlas_Sewers 128x128 filter <TextureFilter.TF_NEAREST: 0>
+     expr MaterialExpressionMaterialFunctionCall
+     expr MaterialExpressionMultiply const_a=0.0 const_b=1.0
+     expr MaterialExpressionTextureCoordinate coordinate_index=1 u_tiling=1.0 v_tiling=1.0
+     expr MaterialExpressionConstant r=5.0
+     expr MaterialExpressionTextureObjectParameter parameter_name=Texture texture=/Game/Level/Sewers/Atlas_Sewers.Atlas_Sewers
+     expr MaterialExpressionTextureSample texture=None
+     expr MaterialExpressionConstant2Vector r=0.5
+     expr MaterialExpressionConstant2Vector r=0.0
+     expr MaterialExpressionConstant2Vector r=0.0
+     expr MaterialExpressionMaterialFunctionCall
+     expr MaterialExpressionTextureCoordinate coordinate_index=0 u_tiling=1.0 v_tiling=1.0
+     expr MaterialExpressionTextureObjectParameter parameter_name=Texture texture=/Game/Level/Sewers/Atlas_Sewers.Atlas_Sewers
+     expr MaterialExpressionConstant2Vector r=0.5
+     expr MaterialExpressionConstant2Vector r=0.0
+     expr MaterialExpressionConstant2Vector r=0.5
+     expr MaterialExpressionMaterialFunctionCall
+     expr MaterialExpressionTextureCoordinate coordinate_index=0 u_tiling=1.0 v_tiling=1.0
+     expr MaterialExpressionTextureSample texture=None
+     expr MaterialExpressionTextureObjectParameter parameter_name=Texture texture=/Game/Level/Sewers/Atlas_Sewers.Atlas_Sewers
+     expr MaterialExpressionConstant2Vector r=0.5
+     expr MaterialExpressionConstant2Vector r=0.0
+     expr MaterialExpressionConstant2Vector r=0.5
+     expr MaterialExpressionMaterialFunctionCall
+     expr MaterialExpressionTextureCoordinate coordinate_index=0 u_tiling=1.0 v_tiling=1.0
+     expr MaterialExpressionTextureSample texture=None
+     expr MaterialExpressionTextureObjectParameter parameter_name=Texture texture=/Game/Level/Sewers/Atlas_Sewers.Atlas_Sewers
+     expr MaterialExpressionTextureCoordinate coordinate_index=0 u_tiling=1.0 v_tiling=1.0
+     expr MaterialExpressionConstant2Vector r=0.5
+     expr MaterialExpressionConstant2Vector r=0.0
+     expr MaterialExpressionConstant2Vector r=0.5
+     expr MaterialExpressionMaterialFunctionCall
+     expr MaterialExpressionTextureSample texture=None
+     expr MaterialExpressionConstant r=1.0
+     expr MaterialExpressionConstant r=1.0
+     expr MaterialExpressionTextureObjectParameter parameter_name=Texture texture=/Game/Level/Sewers/Atlas_Sewers.Atlas_Sewers
+     expr MaterialExpressionTextureCoordinate coordinate_index=0 u_tiling=1.0 v_tiling=1.0
+     expr MaterialExpressionConstant2Vector r=0.5
+     expr MaterialExpressionConstant2Vector r=0.0
+     expr MaterialExpressionConstant2Vector r=0.5
+     expr MaterialExpressionMaterialFunctionCall
+     expr MaterialExpressionTextureSample texture=None
+     expr MaterialExpressionConstant r=1.0
+     expr MaterialExpressionReroute
+     expr MaterialExpressionReroute
+     expr MaterialExpressionReroute
+     expr MaterialExpressionConstant2Vector r=0.0
+     expr MaterialExpressionConstant r=0.0
+     expr MaterialExpressionMultiply const_a=0.0 const_b=4.0
+     expr MaterialExpressionFloor
+     expr MaterialExpressionComponentMask r=False
+     expr MaterialExpressionOneMinus
+     expr MaterialExpressionSubtract const_a=1.0 const_b=0.0
+     expr MaterialExpressionSaturate
+     expr MaterialExpressionAbs
+     expr MaterialExpressionAdd const_a=4.0 const_b=-4.0
+     expr MaterialExpressionMaterialFunctionCall
+     expr MaterialExpressionTextureCoordinate coordinate_index=0 u_tiling=1.0 v_tiling=1.0
+     expr MaterialExpressionConstant2Vector r=0.5
+     expr MaterialExpressionConstant2Vector r=0.0
+     expr MaterialExpressionConstant2Vector r=0.0
+     expr MaterialExpressionConstant r=1.0
+     expr MaterialExpressionLinearInterpolate const_a=0.0 const_b=1.0
+     expr MaterialExpressionTextureSample texture=None
+     expr MaterialExpressionScalarParameter parameter_name=Emission default_value=0.10000000149011612
+     expr MaterialExpressionConstant r=1.0
+     expr MaterialExpressionConstant r=1.0
