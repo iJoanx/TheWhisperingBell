@@ -1,0 +1,8 @@
+margin pin 2.0,2.0,2.0 -> 2.0,2.0,2.0
+no comment node made
+no comment node made
+no comment node made
+no comment node made
+compile OK
+SetSpot (Math|Vector|vector+vector (Math|Vector|vector+vector (Variables|Default|GetAimPoint) (Math|Vector|vector*vector (Variables|Default|GetAimNormal) (Math|Vector|vector+vector (Variables|Default|GetCapsuleRadius) "2.0,2.0,2.0"))) (Math|Vector|MakeVector 0.0 0.0 (* (Variables|Default|GetSurfaceUp) (- (Variables|Default|GetCapsuleHalfHeight) (Variables|Default|GetCapsuleRadius))))))
+  (bind (_o

@@ -1,0 +1,5 @@
+section 1 (EdGraphNode_Comment_0): needs x 280..6170 y -100..688 (5890x788) | comment {'contained': 22, 'part_nodes': 25, 'part_nodes_inside': 22, 'other_nodes_inside': 0, 'missing': ['K2Node_VariableSet_12', 'K2Node_CallFunction_48', 'K2Node_VariableGet_25']}
+section 2 (EdGraphNode_Comment_1): needs x 6200..8030 y -100..634 (1830x734) | comment {'contained': 16, 'part_nodes': 14, 'part_nodes_inside': 13, 'other_nodes_inside': 3, 'missing': ['K2Node_VariableSet_13']}
+section 3 (EdGraphNode_Comment_2): needs x 8060..10580 y -100..978 (2520x1078) | comment {'contained': 14, 'part_nodes': 14, 'part_nodes_inside': 13, 'other_nodes_inside': 1, 'missing': ['K2Node_CallFunction_53']}
+section 4 (EdGraphNode_Comment_3): needs x 10610..13360 y -100..1050 (2750x1150) | comment {'contained': 16, 'part_nodes': 15, 'part_nodes_inside': 15, 'other_nodes_inside': 1, 'missing': []}
+comments now: ['EdGraphNode_Comment_0', 'EdGraphNode_Comment_1', 'EdGraphNode_Comment_2', 'EdGraphNode_Comment_3', 'EdGraphNode_Comment_4', 'EdGraphNode_Comment_5', 'EdGraphNode_Comment_6', 'EdGraphNode_Comment_7', 'EdGraphNode_Comment_8', 'EdGraphNode_Comment_9']

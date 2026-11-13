@@ -1,0 +1,52 @@
+graphs: UserConstructionScript, Get Teleport Trace, Get Display Destination, Set Display Rotation, DoTeleport, Teleport Player, EventGraph
+=== Get Teleport Trace
+(fn GetTeleportTrace ()
+  (bind _impactpoint (Collision|BreakHitResult (Collision|SphereTraceByChannel (Math|Vector|vector+vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Variables|Default|GetCapsuleRadius) 1.200000))) (Math|Vector|vector+vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Variables|Default|GetCapsuleRadius) 1.200000))) 46.900000)))
+  (bind _normal (Collision|BreakHitResult (Collision|SphereTraceByChannel (Math|Vector|vector+vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Variables|Default|GetCapsuleRadius) 1.200000))) (Math|Vector|vector+vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Variables|Default|GetCapsuleRadius) 1.200000))) 46.900000)))
+  (bind _location (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)))
+  (bind _normal_1 (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)))
+  (bind _capsule_radius (Variables|Default|GetCapsuleRadius))
+  (bind _returnvalue (Math|Vector|vector*vector _capsule_radius 1.200000))
+  (bind _returnvalue_1 (Math|Vector|vector*vector _normal_1 _returnvalue))
+  (bind _returnvalue_2 (Math|Vector|vector+vector _location _returnvalue_1))
+  (bind _returnvalue_3 (Math|Vector|vector*vector _normal 46.900000))
+  (bind _returnvalue_4 (Math|Vector|vector+vector _impactpoint _returnvalue_3))
+  (bind (_outhit _returnvalue_5) (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000))
+  (if _returnvalue_5
+    (bind (_outhit_1 _returnvalue_6) (Collision|SphereTraceByChannel _returnvalue_2 _returnvalue_2 46.900000))
+    (if _returnvalue_6
+      (bind (_outhit_2 _returnvalue_7) (Collision|SphereTraceByChannel _returnvalue_4 _returnvalue_4 46.800000))
+      (if _returnvalue_7
+        (Variables|Teleport|SetTeleportTrace (Math|Vector|vector+vector (Collision|BreakHitResult _outhit_2) (Math|Vector|vector*vector (Collision|BreakHitResult _outhit_2) 46.900000)))
+        (else
+          (Variables|Teleport|SetTeleportTrace _returnvalue_4)))
+      (else
+        (Variables|Teleport|SetTeleportTrace _returnvalue_2)))
+    (else
+      (Variables|Teleport|SetTeleportTrace (Collision|BreakHitResult _outhit)))))
+
+=== DoTeleport
+(fn DoTeleport (Dest)
+  (Transformation|SetActorLocation Dest false true)
+  (if (AI|Components|NavMovement|IsFalling (Variables|Character|GetCharacterMovement))
+    (Character|LaunchCharacter (Math|Vector|MakeVector (.x (Transformation|GetVelocity)) (.y (Transformation|GetVelocity))) true true)))
+
+=== Teleport Player
+(fn TeleportPlayer (Elapsed Time)
+  (Pawn|Components|CharacterMovement|SetMovementMode (Variables|Movement|GetTWBCharacterMovementComponent) "MOVE_Flying")
+  (bind _output_get (Variables|Default|SetElapsedTime Elapsed Time))
+  (Variables|Default|SetLerpAlpha (Math|Float|Clamp(Float) _output_get))
+  (Variables|Default|SetLocation (Math|Vector|Lerp(Vector) (Variables|Default|GetTeleportStartLocation) (Variables|Default|GetTeleportDestination) (Variables|Default|GetLerpAlpha)))
+  (Transformation|SetActorLocation (Variables|Default|GetLocation) false true))
+
+=== EventGraph (teleport-related sections)
+(event Custom|MC_PlayMontage
+  (Animation|Montage|PlayMontage (Variables|Character|GetMesh) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash")
+  (Animation|Montage|PlayMontage (Variables|Default|GetMeshOwnerSee) "/Game/Characters/Hope/Animations/Teleport/AM_TP_Dash.AM_TP_Dash"))
+
+(event Custom|S_TeleportCompleted
+  (|MC_PlayMontage))
+
+(event EnhancedInputActionIA_Aim (ActionValue ElapsedSeconds TriggeredSeconds InputAction)
+  (bind _teleportdisplay (Variables|Teleport|GetTeleportDisplay))
+  (bind _cancast (Variables|Cast|GetCanCast)))

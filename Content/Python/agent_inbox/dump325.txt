@@ -1,0 +1,2 @@
+added DoorRotations (not saved)
+reloaded + watcher restarted

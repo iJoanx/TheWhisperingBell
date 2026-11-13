@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\001102_job332.py", line 257, in <module>
+    str(getprops(c, ['NodeWidth', 'NodeHeight', 'NodePosX', 'NodePosY']))[:200]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_lib\h.py", line 20, in getprops
+    def getprops(ref, names): return call('get_properties', {'instance': {'refPath': ref}, 'properties': names}, OBT)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_lib\h.py", line 7, in call
+    if inspect.iscoroutine(r): r = asyncio.new_event_loop().run_until_complete(r)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\Python3\Win64\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Program Files/Epic Games/UE_5.8/Engine/Plugins/Experimental/ToolsetRegistry/Content/Python\toolset_registry\_registry_interface.py", line 195, in execute_tool
+    raise ToolsetToolInvocationError(error)
+toolset_registry._registry_interface.ToolsetToolInvocationError: GetObjectProperties on '/Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope:GetTeleportTraceCapsule.EdGraphNode_Comment_9' (EdGraphNode_Comment): the following properties could not be read: NodeWidth, NodeHeight, NodePosX, NodePosY
+
+[failed after 0.3 s]

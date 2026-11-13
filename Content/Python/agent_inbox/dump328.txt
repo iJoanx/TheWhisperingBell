@@ -1,0 +1,13 @@
+local CamLoc
+local AimEnd
+local AimHit
+local AimPoint
+local AimNormal
+local SurfaceUp
+local Spot
+TYPES CamLoc: ['Variables|Default|GetCamLoc', 'Variables|Default|SetCamLoc']
+TYPES Spot: ['Utilities|Casting|CastToSpotLight', 'Utilities|Casting|CastToSpotLightClass', 'Utilities|Casting|CastToSpotLightComponent', 'Utilities|Casting|CastToSpotLightComponentClass', 'Utilities|Casting|CastToInterchangeSpotLightNode', 'Utilities|Casting|CastToInterchangeSpotLightNodeClass', 'Utilities|Casting|CastToInterchangeSpotLightFactoryNode', 'Utilities|Casting|CastToInterchangeSpotLightFactoryNodeClass', 'Class|SpotLight|GetSpotLightComponent', 'Class|SpotLightComponent|GetInnerConeAngle', 'Class|SpotLightComponent|GetOuterConeAngle', 'Interchange|Node|SpotLight|SetCustomOuterConeAngle', 'Interchange|Node|SpotLight|SetCustomInnerConeAngle', 'Interchange|Node|SpotLight|GetCustomOuterConeAngle', 'Interchange|Node|SpotLight|GetCustomInnerConeAngle', 'Interchange|Node|SpotLightFactory|SetCustomOuterConeAngle', 'Interchange|Node|SpotLightFactory|SetCustomInnerConeAngle', 'Interchange|Node|SpotLightFactory|GetCustomOuterConeAngle', 'Interchange|Node|SpotLightFactory|GetCustomInnerConeAngle', 'Class|DatasmithAreaLightActor|GetSpotlightInnerAngle', 'Class|DatasmithAreaLightActor|SetSpotlightInnerAngle', 'Class|DatasmithAreaLightActor|GetSpotlightOuterAngle', 'Class|DatasmithAreaLightActor|SetSpotlightOuterAngle', 'Variables|Default|GetSpot', 'Variables|Default|SetSpot', 'AddComponent|Lights|AddSpotLightComponent']
+TYPES omment: ['Utilities|Casting|CastToMaterialExpressionComment', 'Utilities|Casting|CastToMaterialExpressionCommentClass', 'Utilities|Casting|CastToRigVMCommentNode', 'Utilities|Casting|CastToRigVMCommentNodeClass', '||AddComment...', 'CurveData|SetCurveComment', 'CurveData|SetCurveComment(Message)', 'OptimusNodeGraph|AddCommentNode']
+find_node_categories err Function "find_node_categories", input param "category_filter" is required by the function input schema Json, but is missing from the incoming function input params Json.
+Function schema Json -
+{"type":"object","properties":{"graph":{"type":"object","title":"/Script/Engine.EdGraph","description":"Represents a reference to a UObject or UClass.","properties":{"refPath":{"type":"string","description"

@@ -1,0 +1,23 @@
+existing comments: 10
+EdGraphNode_Comment_0: text, color, pos err 'EdGraphNode_Comment' as 'Node' (ObjectProperty)
+    TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node'), size err EdGraphNode_Comment: Property 'NodeWidth' for attribute 'NodeWidth' on 'EdGraphNode_Comment' is protected and cannot be set
+EdGraphNode_Comment_1: text, color, pos err 'EdGraphNode_Comment' as 'Node' (ObjectProperty)
+    TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node'), size err EdGraphNode_Comment: Property 'NodeWidth' for attribute 'NodeWidth' on 'EdGraphNode_Comment' is protected and cannot be set
+EdGraphNode_Comment_2: text, color, pos err 'EdGraphNode_Comment' as 'Node' (ObjectProperty)
+    TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node'), size err EdGraphNode_Comment: Property 'NodeWidth' for attribute 'NodeWidth' on 'EdGraphNode_Comment' is protected and cannot be set
+EdGraphNode_Comment_3: text, color, pos err 'EdGraphNode_Comment' as 'Node' (ObjectProperty)
+    TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node'), size err EdGraphNode_Comment: Property 'NodeWidth' for attribute 'NodeWidth' on 'EdGraphNode_Comment' is protected and cannot be set
+EdGraphNode_Comment_4: text, color, pos err 'EdGraphNode_Comment' as 'Node' (ObjectProperty)
+    TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node'), size err EdGraphNode_Comment: Property 'NodeWidth' for attribute 'NodeWidth' on 'EdGraphNode_Comment' is protected and cannot be set
+EdGraphNode_Comment_5: text, color, pos err 'EdGraphNode_Comment' as 'Node' (ObjectProperty)
+    TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node'), size err EdGraphNode_Comment: Property 'NodeWidth' for attribute 'NodeWidth' on 'EdGraphNode_Comment' is protected and cannot be set
+EdGraphNode_Comment_6: text, color, pos err 'EdGraphNode_Comment' as 'Node' (ObjectProperty)
+    TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node'), size err EdGraphNode_Comment: Property 'NodeWidth' for attribute 'NodeWidth' on 'EdGraphNode_Comment' is protected and cannot be set
+EdGraphNode_Comment_7: text, color, pos err 'EdGraphNode_Comment' as 'Node' (ObjectProperty)
+    TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node'), size err EdGraphNode_Comment: Property 'NodeWidth' for attribute 'NodeWidth' on 'EdGraphNode_Comment' is protected and cannot be set
+EdGraphNode_Comment_8: text, color, pos err 'EdGraphNode_Comment' as 'Node' (ObjectProperty)
+    TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node'), size err EdGraphNode_Comment: Property 'NodeWidth' for attribute 'NodeWidth' on 'EdGraphNode_Comment' is protected and cannot be set
+EdGraphNode_Comment_9: text, color, pos err 'EdGraphNode_Comment' as 'Node' (ObjectProperty)
+    TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node'), size err EdGraphNode_Comment: Property 'NodeWidth' for attribute 'NodeWidth' on 'EdGraphNode_Comment' is protected and cannot be set
+compile OK
+comments now: ['EdGraphNode_Comment_0', 'EdGraphNode_Comment_1', 'EdGraphNode_Comment_2', 'EdGraphNode_Comment_3', 'EdGraphNode_Comment_4', 'EdGraphNode_Comment_5', 'EdGraphNode_Comment_6', 'EdGraphNode_Comment_7', 'EdGraphNode_Comment_8', 'EdGraphNode_Comment_9']

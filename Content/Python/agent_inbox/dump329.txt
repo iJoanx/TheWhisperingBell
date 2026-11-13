@@ -1,0 +1,55 @@
+compile OK
+tidied CBP_PC_Hope:GetTeleportTraceCapsule (69 nodes laid out, 0 getters split, 2 literals folded)
+comment err               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\Python3\Win64\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Program Files/Epic Games/UE_5.8/Engine/Plugins/Experimental/ToolsetRegistry/Content/Python\toolset_registry\_registry_interface.py", line 195, in execute_tool
+    raise ToolsetToolInvocationError(error)
+toolset_registry._registry_interface.ToolsetToolInvocationError: 'EdGraphNode_Comment' object has no attribute 'set_node_pos'
+
+comment err               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\Python3\Win64\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Program Files/Epic Games/UE_5.8/Engine/Plugins/Experimental/ToolsetRegistry/Content/Python\toolset_registry\_registry_interface.py", line 195, in execute_tool
+    raise ToolsetToolInvocationError(error)
+toolset_registry._registry_interface.ToolsetToolInvocationError: 'EdGraphNode_Comment' object has no attribute 'set_node_pos'
+
+comment err               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\Python3\Win64\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Program Files/Epic Games/UE_5.8/Engine/Plugins/Experimental/ToolsetRegistry/Content/Python\toolset_registry\_registry_interface.py", line 195, in execute_tool
+    raise ToolsetToolInvocationError(error)
+toolset_registry._registry_interface.ToolsetToolInvocationError: 'EdGraphNode_Comment' object has no attribute 'set_node_pos'
+
+comment err               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\Python3\Win64\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Program Files/Epic Games/UE_5.8/Engine/Plugins/Experimental/ToolsetRegistry/Content/Python\toolset_registry\_registry_interface.py", line 195, in execute_tool
+    raise ToolsetToolInvocationError(error)
+toolset_registry._registry_interface.ToolsetToolInvocationError: 'EdGraphNode_Comment' object has no attribute 'set_node_pos'
+
+compile OK (2)
+(fn GetTeleportTraceCapsule ()
+  (bind _returnvalue (Game|GetPlayerCameraManager 0))
+  (Variables|Default|SetCamLoc (Transformation|GetActorLocation _returnvalue))
+  (Variables|Default|SetAimEnd (Math|Vector|vector+vector (Variables|Default|GetCamLoc) (Math|Vector|vector*vector (Transformation|GetActorForwardVector _returnvalue) (Variables|Teleport|GetTeleportRange))))
+  (bind (_outhit _returnvalue_1) (Collision|SphereTraceByChannel (Variables|Default|GetCamLoc) (Variables|Default|GetAimEnd) 5.0))
+  (Variables|Default|SetAimHit _returnvalue_1)
+  (Variables|Default|SetAimPoint (select (Variables|Default|GetAimHit) (Collision|BreakHitResult _outhit) (Variables|Default|GetAimEnd)))
+  (Variables|Default|SetAimNormal (select (Variables|Default|GetAimHit) (Collision|BreakHitResult _outhit) (Math|Vector|MakeVector 0.0)))
+  (Variables|Default|SetSurfaceUp (.z (Variables|Default|GetAimNormal)))
+  (Variables|Default|SetSpot (Math|Vector|vector+vector (Math|Vector|vector+vector (Variables|Default|GetAimPoint) (Math|Vector|vector*vector (Variables|Default|GetAimNormal) (Math|Vector|vector+vector (Variables|Default|GetCapsuleRadius) 0))) (Math|Vector|MakeVector 0.0 0.0 (* (Variables|Default|GetSurfaceUp) (- (Variables|Default|GetCapsuleHalfHeight) (Variables|Default|GetCapsuleRadius))))))
+  (bind (_outhit_1 _returnvalue_2) (Collision|CapsuleTraceByChannel (Math|Vector|vector+vector (Variables|Default|GetSpot) (Math|Vector|MakeVector 0.0 0.0 (* (Variables|Default|GetCapsuleHalfHeight) (- 1.0 (Math|Float|Max(Float) (Variables|Default|GetSurfaceUp) (- (Variables|Default|GetSurfaceUp))))))) (Variables|Default|GetSpot) (Variables|Default|GetCapsuleRadius) (Variables|Default|GetCapsuleHalfHeight)))
+  (if _returnvalue_2
+    (if (Collision|BreakHitResult _outhit_1)
+      (bind _returnvalue_3 (Collision|CapsuleTraceByChannel (Variables|Default|GetSpot) (Variables|Default|GetSpot) (Variables|Default|GetCapsuleRadius) (Variables|Default|GetCapsuleHalfHeight)))
+      (if (not _returnvalue_3)
+        (Variables|Teleport|SetTeleportTrace (Variables|Default|GetSpot)))
+      (else
+        (Variables|Teleport|SetTeleportTrace (Collision|BreakHitResult _outhit_1))))
+    (else
+      (Variables|Teleport|SetTeleportTrace (Variables|Default|GetSpot)))))

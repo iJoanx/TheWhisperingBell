@@ -1,0 +1,71 @@
+sig err no signature found for builtin <built-in method add_variable of type object at 0x000001C42F0E8F00>
+old trace settings: {'TraceChannel': 'TraceTypeQuery1', 'bTraceComplex': 'false', 'bIgnoreSelf': 'true'}
+graph /Game/ThirdPerson/Blueprints/CBP_PC_Hope.CBP_PC_Hope:GetTeleportTraceCapsule
+arrange err Function "arrange_nodes", input param "nodes" is required by the function input schema Json, but is missing from the incoming function input params Json.
+Function schema Json -
+{"type":"object","prope
+compile OK
+=== new fn
+(fn GetTeleportTraceCapsule ()
+  (bind _returnvalue (Game|GetPlayerCameraManager 0))
+  (bind _returnvalue_1 (Transformation|GetActorLocation _returnvalue))
+  (bind _returnvalue_2 (Transformation|GetActorForwardVector _returnvalue))
+  (bind _location (Collision|BreakHitResult (Collision|SphereTraceByChannel _returnvalue_1 (Math|Vector|vector+vector _returnvalue_1 (Math|Vector|vector*vector _returnvalue_2 (Variables|Teleport|GetTeleportRange))) 5.0)))
+  (bind _normal (Collision|BreakHitResult (Collision|SphereTraceByChannel _returnvalue_1 (Math|Vector|vector+vector _returnvalue_1 (Math|Vector|vector*vector _returnvalue_2 (Variables|Teleport|GetTeleportRange))) 5.0)))
+  (bind _z (.z _normal))
+  (bind _returnvalue_3 2.0)
+  (bind _capsule_radius (Variables|Default|GetCapsuleRadius))
+  (bind _capsule_half_height (Variables|Default|GetCapsuleHalfHeight))
+  (bind _returnvalue_4 (- _capsule_half_height _capsule_radius))
+  (bind _returnvalue_5 (Math|Float|Max(Float) _z))
+  (bind _returnvalue_6 (* _returnvalue_5 _returnvalue_4))
+  (bind _returnvalue_7 (Math|Vector|MakeVector 0.0 0.0 _returnvalue_6))
+  (bind _teleportrange (Variables|Teleport|GetTeleportRange))
+  (bind _returnvalue_8 (Math|Vector|vector*vector _returnvalue_2 _teleportrange))
+  (bind _returnvalue_9 (Math|Vector|vector+vector _returnvalue_1 _returnvalue_8))
+  (bind _returnvalue_10 (Math|Vector|vector+vector _capsule_radius _returnvalue_3))
+  (bind _returnvalue_11 (Math|Vector|vector*vector _normal _returnvalue_10))
+  (bind _returnvalue_12 (Math|Vector|vector+vector _location _returnvalue_11))
+  (bind _returnvalue_13 (Math|Vector|vector+vector _returnvalue_12 _returnvalue_7))
+  (bind _returnvalue_14 (select (Collision|SphereTraceByChannel _returnvalue_1 _returnvalue_9 5.0) _returnvalue_13 _returnvalue_9))
+  (bind (_outhit _returnvalue_15) (Collision|SphereTraceByChannel _returnvalue_1 _returnvalue_9 5.0))
+  (bind (_outhit_1 _returnvalue_16) (Collision|CapsuleTraceByChannel _returnvalue_1 _returnvalue_14 _capsule_radius _capsule_half_height))
+  (if (Collision|BreakHitResult _outhit_1)
+    (bind (_outhit_2 _returnvalue_17) (Collision|CapsuleTraceByChannel (Transformation|GetActorLocation) _returnvalue_14 _capsule_radius _capsule_half_height))
+    (Variables|Teleport|SetTeleportTrace (select _returnvalue_17 (Collision|BreakHitResult _outhit_2) _returnvalue_14))
+    (else
+      (Variables|Teleport|SetTeleportTrace (select _returnvalue_16 (Collision|BreakHitResult _outhit_1) _returnvalue_14)))))
+
+=== nodes
+  GetTeleportTraceCapsule.K2Node_FunctionEntry_0 [|GetTeleportTraceCapsule] then->K2Node_CallFunction_3
+  GetTeleportTraceCapsule.K2Node_CallFunction_0 [Game|GetPlayerCameraManager] PlayerIndex ; ReturnValue->K2Node_CallFunction_1,K2Node_CallFunction_2
+  GetTeleportTraceCapsule.K2Node_CallFunction_1 [Transformation|GetActorLocation] self->K2Node_CallFunction_0 ; ReturnValue->K2Node_PromotableOperator_1,K2Node_CallFunction_3,K2Node_CallFunction_8
+  GetTeleportTraceCapsule.K2Node_CallFunction_2 [Transformation|GetActorForwardVector] self->K2Node_CallFunction_0 ; ReturnValue->K2Node_PromotableOperator_0
+  GetTeleportTraceCapsule.K2Node_VariableGet_0 [|GetTeleportRange] TeleportRange->K2Node_PromotableOperator_0
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_0 [Math|Vector|vector*vector] A->K2Node_CallFunction_2 ; B->K2Node_VariableGet_0 ; ReturnValue->K2Node_PromotableOperator_1
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_1 [Math|Vector|vector+vector] A->K2Node_CallFunction_1 ; B->K2Node_PromotableOperator_0 ; ReturnValue->K2Node_CallFunction_3,K2Node_Select_0
+  GetTeleportTraceCapsule.K2Node_VariableGet_1 [|GetCapsuleRadius] Capsule Radius->K2Node_PromotableOperator_2,K2Node_PromotableOperator_5,K2Node_CallFunction_8,K2Node_CallFunction_11
+  GetTeleportTraceCapsule.K2Node_VariableGet_2 [|GetCapsuleHalfHeight] Capsule Half Height->K2Node_PromotableOperator_5,K2Node_CallFunction_8,K2Node_CallFunction_11
+  GetTeleportTraceCapsule.K2Node_CallFunction_3 [Collision|SphereTraceByChannel] execute->K2Node_FunctionEntry_0 ; Start->K2Node_CallFunction_1 ; End->K2Node_PromotableOperator_1 ; Radius ; TraceChannel ; bTraceComplex ; ActorsToIgnore ; DrawDebugType ; bIgnoreSelf ; TraceColor ; TraceHitColor ; DrawTime ; then->K2Node_CallFunction_8 ; OutHit->K2Node_CallFunction_4 ; ReturnValue->K2Node_Select_0
+  GetTeleportTraceCapsule.K2Node_CallFunction_4 [Collision|BreakHitResult] Hit->K2Node_CallFunction_3 ; bBlockingHit ; bInitialOverlap ; Time ; Distance ; Location->K2Node_PromotableOperator_4 ; ImpactPoint ; Normal->K2Node_CallFunction_5,K2Node_PromotableOperator_3 ; ImpactNormal ; PhysMat ; HitActor ; HitComponent ; HitBoneName ; BoneName ; HitItem ; ElementIndex ; FaceIndex ; TraceStart ; TraceEnd
+  GetTeleportTraceCapsule.K2Node_CallFunction_5 [Math|Vector|BreakVector] InVec->K2Node_CallFunction_4 ; X ; Y ; Z->K2Node_CommutativeAssociativeBinaryOperator_0
+  GetTeleportTraceCapsule.K2Node_CommutativeAssociativeBinaryOperator_0 [Math|Float|Max(Float)] A->K2Node_CallFunction_5 ; B ; ReturnValue->K2Node_PromotableOperator_6
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_2 [Math|Vector|vector+vector] A->K2Node_VariableGet_1 ; B->K2Node_CallFunction_6 ; ReturnValue->K2Node_PromotableOperator_3
+  GetTeleportTraceCapsule.K2Node_CallFunction_6 [Math|Float|MakeLiteralFloat] Value ; ReturnValue->K2Node_PromotableOperator_2
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_3 [Math|Vector|vector*vector] A->K2Node_CallFunction_4 ; B->K2Node_PromotableOperator_2 ; ReturnValue->K2Node_PromotableOperator_4
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_4 [Math|Vector|vector+vector] A->K2Node_CallFunction_4 ; B->K2Node_PromotableOperator_3 ; ReturnValue->K2Node_PromotableOperator_7
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_5 [Math|Float|float-float] A->K2Node_VariableGet_2 ; B->K2Node_VariableGet_1 ; ReturnValue->K2Node_PromotableOperator_6
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_6 [Math|Float|float*float] A->K2Node_CommutativeAssociativeBinaryOperator_0 ; B->K2Node_PromotableOperator_5 ; ReturnValue->K2Node_CallFunction_7
+  GetTeleportTraceCapsule.K2Node_CallFunction_7 [Math|Vector|MakeVector] X ; Y ; Z->K2Node_PromotableOperator_6 ; ReturnValue->K2Node_PromotableOperator_7
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_7 [Math|Vector|vector+vector] A->K2Node_PromotableOperator_4 ; B->K2Node_CallFunction_7 ; ReturnValue->K2Node_Select_0
+  GetTeleportTraceCapsule.K2Node_Select_0 [Utilities|Select] Option 0->K2Node_PromotableOperator_1 ; Option 1->K2Node_PromotableOperator_7 ; Index->K2Node_CallFunction_3 ; ReturnValue->K2Node_CallFunction_8,K2Node_CallFunction_11,K2Node_Select_1,K2Node_Select_2
+  GetTeleportTraceCapsule.K2Node_CallFunction_8 [Collision|CapsuleTraceByChannel] execute->K2Node_CallFunction_3 ; Start->K2Node_CallFunction_1 ; End->K2Node_Select_0 ; Radius->K2Node_VariableGet_1 ; HalfHeight->K2Node_VariableGet_2 ; TraceChannel ; bTraceComplex ; ActorsToIgnore ; DrawDebugType ; bIgnoreSelf ; TraceColor ; TraceHitColor ; DrawTime ; then->K2Node_IfThenElse_0 ; OutHit->K2Node_CallFunction_9 ; ReturnValue->K2Node_Select_2
+  GetTeleportTraceCapsule.K2Node_CallFunction_9 [Collision|BreakHitResult] Hit->K2Node_CallFunction_8 ; bBlockingHit ; bInitialOverlap->K2Node_IfThenElse_0 ; Time ; Distance ; Location->K2Node_Select_2 ; ImpactPoint ; Normal ; ImpactNormal ; PhysMat ; HitActor ; HitComponent ; HitBoneName ; BoneName ; HitItem ; ElementIndex ; FaceIndex ; TraceStart ; TraceEnd
+  GetTeleportTraceCapsule.K2Node_IfThenElse_0 [Utilities|FlowControl|Branch] execute->K2Node_CallFunction_8 ; Condition->K2Node_CallFunction_9 ; then->K2Node_CallFunction_11 ; else->K2Node_VariableSet_1
+  GetTeleportTraceCapsule.K2Node_CallFunction_10 [Transformation|GetActorLocation] self ; ReturnValue->K2Node_CallFunction_11
+  GetTeleportTraceCapsule.K2Node_CallFunction_11 [Collision|CapsuleTraceByChannel] execute->K2Node_IfThenElse_0 ; Start->K2Node_CallFunction_10 ; End->K2Node_Select_0 ; Radius->K2Node_VariableGet_1 ; HalfHeight->K2Node_VariableGet_2 ; TraceChannel ; bTraceComplex ; ActorsToIgnore ; DrawDebugType ; bIgnoreSelf ; TraceColor ; TraceHitColor ; DrawTime ; then->K2Node_VariableSet_0 ; OutHit->K2Node_CallFunction_12 ; ReturnValue->K2Node_Select_1
+  GetTeleportTraceCapsule.K2Node_CallFunction_12 [Collision|BreakHitResult] Hit->K2Node_CallFunction_11 ; bBlockingHit ; bInitialOverlap ; Time ; Distance ; Location->K2Node_Select_1 ; ImpactPoint ; Normal ; ImpactNormal ; PhysMat ; HitActor ; HitComponent ; HitBoneName ; BoneName ; HitItem ; ElementIndex ; FaceIndex ; TraceStart ; TraceEnd
+  GetTeleportTraceCapsule.K2Node_Select_1 [Utilities|Select] Option 0->K2Node_Select_0 ; Option 1->K2Node_CallFunction_12 ; Index->K2Node_CallFunction_11 ; ReturnValue->K2Node_VariableSet_0
+  GetTeleportTraceCapsule.K2Node_VariableSet_0 [|SetTeleportTrace] execute->K2Node_CallFunction_11 ; Teleport Trace->K2Node_Select_1 ; then ; Output_Get
+  GetTeleportTraceCapsule.K2Node_Select_2 [Utilities|Select] Option 0->K2Node_Select_0 ; Option 1->K2Node_CallFunction_9 ; Index->K2Node_CallFunction_8 ; ReturnValue->K2Node_VariableSet_1
+  GetTeleportTraceCapsule.K2Node_VariableSet_1 [|SetTeleportTrace] execute->K2Node_IfThenElse_0 ; Teleport Trace->K2Node_Select_2 ; then ; Output_Get

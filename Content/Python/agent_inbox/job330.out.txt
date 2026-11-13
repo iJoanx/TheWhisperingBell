@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "C:\Users/Admin/Documents/Unreal Projects/TheWhisperingBell/Content/Python\agent_bridge.py", line 34, in _run
+    exec(code, {"__name__": "__agent__", "__file__": target})
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\000915_job330.py", line 231, in <module>
+    c = node(G, '||AddComment...', int(x0), int(y0))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_lib\h.py", line 18, in node
+    def node(graph, t, x, y): return call('create_node', {'graph': {'refPath': graph}, 'type_id': t, 'pos': {'x': x, 'y': y}})['refPath']
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_lib\h.py", line 7, in call
+    if inspect.iscoroutine(r): r = asyncio.new_event_loop().run_until_complete(r)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\Python3\Win64\Lib\asyncio\base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Program Files/Epic Games/UE_5.8/Engine/Plugins/Experimental/ToolsetRegistry/Content/Python\toolset_registry\_registry_interface.py", line 195, in execute_tool
+    raise ToolsetToolInvocationError(error)
+toolset_registry._registry_interface.ToolsetToolInvocationError: 'EdGraphNode_Comment' object has no attribute 'set_node_pos'
+
+[failed after 0.3 s]

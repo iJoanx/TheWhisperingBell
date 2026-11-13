@@ -1,0 +1,19 @@
+add_variable ok with ['blueprint', 'name', 'type_name']
+default set: True
+getter types ['Variables|Teleport|GetUseCapsuleTeleportTrace', 'Variables|Teleport|SetUseCapsuleTeleportTrace']
+compile OK
+=== old fn head
+(fn GetTeleportTrace ()
+  (bind _impactpoint (Collision|BreakHitResult (Collision|SphereTraceByChannel (Math|Vector|vector+vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector+vector (Transformation|GetActorLocation (Game|GetPlayerCameraManager 0)) (Math|Vector|vector*vector (Transformation|GetActorForwardVector (Game|GetPlayerCameraManager 0)) (Variables|Teleport|GetTeleportRange))) 5.000000)) (Math|Vector|vector*vector (Collision|BreakHitResult (Collision|SphereTraceByChannel (Transformation|Get
+...
+n|SphereTraceByChannel _returnvalue_2 _returnvalue_2 46.900000))
+        (if _returnvalue_6
+          (bind (_outhit_2 _returnvalue_7) (Collision|SphereTraceByChannel _returnvalue_4 _returnvalue_4 46.800000))
+          (if _returnvalue_7
+            (Variables|Teleport|SetTeleportTrace (Math|Vector|vector+vector (Collision|BreakHitResult _outhit_2) (Math|Vector|vector*vector (Collision|BreakHitResult _outhit_2) 46.900000)))
+            (else
+              (Variables|Teleport|SetTeleportTrace _returnvalue_4)))
+          (else
+            (Variables|Teleport|SetTeleportTrace _returnvalue_2)))
+        (else
+          (Variables|Teleport|SetTeleportTrace (Collision|BreakHitResult _outhit)))))))

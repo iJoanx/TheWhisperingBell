@@ -1,0 +1,21 @@
+delete EdGraphNode_Comment_0: y: Cannot nativize 'EdGraphNode_Comment' as 'TransientPythonProperty' (ObjectProperty)
+      TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node') | 'EdGraph' object has no attribute 'remove_node'
+delete EdGraphNode_Comment_1: y: Cannot nativize 'EdGraphNode_Comment' as 'TransientPythonProperty' (ObjectProperty)
+      TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node') | 'EdGraph' object has no attribute 'remove_node'
+delete EdGraphNode_Comment_2: y: Cannot nativize 'EdGraphNode_Comment' as 'TransientPythonProperty' (ObjectProperty)
+      TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node') | 'EdGraph' object has no attribute 'remove_node'
+delete EdGraphNode_Comment_3: y: Cannot nativize 'EdGraphNode_Comment' as 'TransientPythonProperty' (ObjectProperty)
+      TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node') | 'EdGraph' object has no attribute 'remove_node'
+delete EdGraphNode_Comment_4: y: Cannot nativize 'EdGraphNode_Comment' as 'TransientPythonProperty' (ObjectProperty)
+      TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node') | 'EdGraph' object has no attribute 'remove_node'
+delete EdGraphNode_Comment_5: y: Cannot nativize 'EdGraphNode_Comment' as 'TransientPythonProperty' (ObjectProperty)
+      TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node') | 'EdGraph' object has no attribute 'remove_node'
+delete EdGraphNode_Comment_6: y: Cannot nativize 'EdGraphNode_Comment' as 'TransientPythonProperty' (ObjectProperty)
+      TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node') | 'EdGraph' object has no attribute 'remove_node'
+delete EdGraphNode_Comment_7: y: Cannot nativize 'EdGraphNode_Comment' as 'TransientPythonProperty' (ObjectProperty)
+      TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node') | 'EdGraph' object has no attribute 'remove_node'
+delete EdGraphNode_Comment_8: y: Cannot nativize 'EdGraphNode_Comment' as 'TransientPythonProperty' (ObjectProperty)
+      TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node') | 'EdGraph' object has no attribute 'remove_node'
+delete EdGraphNode_Comment_9: y: Cannot nativize 'EdGraphNode_Comment' as 'TransientPythonProperty' (ObjectProperty)
+      TypeError: NativizeObject: Cannot nativize 'EdGraphNode_Comment' as 'Object' (allowed Class type: 'K2Node') | 'EdGraph' object has no attribute 'remove_node'
+comments left after delete: ['EdGraphNode_Comment_0', 'EdGraphNode_Comment_1', 'EdGraphNode_Comment_2', 'EdGraphNode_Comment_3', 'EdGraphNode_Comment_4', 'EdGraphNode_Comment_5', 'EdGraphNode_Comment_6', 'EdGraphNode_Comment_7', 'EdGraphNode_Comment_8', 'EdGraphNode_Comment_9']

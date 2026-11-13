@@ -16,6 +16,9 @@ TowerDoor) that line traces hit on its exact shape. Look at a door and interact 
 the same tower's other wall door - through the tower to the next stretch of wall. The Blueprint does
 the teleport (UseDoor(Player); in The Whispering Bell, BPI_Interactable's OnInteract calls it), using
 the lists DoorBoxes (the door meshes) / DoorTargets this script fills in.
+    Door Rotations  : optional, one entry per door (index N = TowerDoors_N): turns that door's
+                      picture around its own centre (yaw / pitch / roll, degrees) to adjust how it
+                      is projected onto the tower; only the doors are redone while you drag
 
 Setup (once):   py import importlib, walls_spline; importlib.reload(walls_spline); walls_spline.make_blueprint()
 Live updates:   started by init_unreal.py at editor start  (or walls_spline.start())
@@ -83,7 +86,8 @@ def make_blueprint():
                     ("TowerRotations", BEL.get_array_type(_real_type(BEL))),
                     ("NoWall", BEL.get_array_type(BEL.get_basic_type_by_name("bool"))),
                     ("DoorBoxes", BEL.get_array_type(BEL.get_object_reference_type(unreal.PrimitiveComponent))),
-                    ("DoorTargets", BEL.get_array_type(_struct_type(BEL, unreal.Transform)))):
+                    ("DoorTargets", BEL.get_array_type(_struct_type(BEL, unreal.Transform))),
+                    ("DoorRotations", BEL.get_array_type(_struct_type(BEL, unreal.Rotator)))):
         try:
             cdo.get_editor_property(name)
             continue                                 # already there (avoid Name_0 duplicates)
@@ -976,6 +980,67 @@ def _door_patch(path, dl, c0, z0):
     return polys, (front or 0.0)
 
 
+def _rot(v, k, deg):
+    """v turned deg degrees around the unit axis k (Rodrigues)."""
+    a = math.radians(deg)
+    c, s = math.cos(a), math.sin(a)
+    d = v[0] * k[0] + v[1] * k[1] + v[2] * k[2]
+    x = (k[1] * v[2] - k[2] * v[1], k[2] * v[0] - k[0] * v[2], k[0] * v[1] - k[1] * v[0])
+    return tuple(v[i] * c + x[i] * s + k[i] * d * (1.0 - c) for i in range(3))
+
+
+def _door_patch_rot(path, dl, c0, z0, front, rot):
+    """Like _door_patch, but the door frame is turned around the door's own centre (on the tower
+    face): yaw around its up axis, pitch around its side axis, roll around its facing axis."""
+    dot = lambda a, b: a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
+    F, R, U = (dl[0], dl[1], 0.0), (-dl[1], dl[0], 0.0), (0.0, 0.0, 1.0)
+    P = (c0[0] + dl[0] * front, c0[1] + dl[1] * front, z0 + DOOR_H * 0.5)
+    F, R = _rot(F, U, rot[0]), _rot(R, U, rot[0])
+    F, U = _rot(F, R, rot[1]), _rot(U, R, rot[1])
+    R, U = _rot(R, F, rot[2]), _rot(U, F, rot[2])
+    fp, rp, up = dot(F, P), dot(R, P), dot(U, P)
+    planes = ((F, fp - front), (R, rp - DOOR_W * 0.5), (tuple(-x for x in R), -rp - DOOR_W * 0.5),
+              (U, up - DOOR_H * 0.5), (tuple(-x for x in U), -up - DOOR_H * 0.5))
+    polys = []
+    for a, b, c in _tower_tris(path):
+        u = [b[j] - a[j] for j in range(3)]
+        v = [c[j] - a[j] for j in range(3)]
+        nrm = (u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0])
+        ln = math.sqrt(dot(nrm, nrm))
+        if ln < 1e-6 or abs(dot(nrm, F)) / ln < 0.25:
+            continue
+        poly = [a, b, c]
+        for n, dd in planes:
+            poly = _clip3(poly, n, dd)
+            if len(poly) < 3:
+                break
+        if len(poly) < 3:
+            continue
+        lifted = [tuple(q[j] + F[j] * DOOR_LIFT for j in range(3)) for q in poly]
+        uvs = [(dot((q[0] - P[0], q[1] - P[1], q[2] - P[2]), R) / DOOR_W + 0.5,
+                1.0 - (dot((q[0] - P[0], q[1] - P[1], q[2] - P[2]), U) + DOOR_H * 0.5) / DOOR_H) for q in poly]
+        polys.append((lifted, uvs))
+    return polys
+
+
+def _live_doors(frames):
+    """Frame indices that become doors, in TowerDoors_N order (same rule as _door_meshes)."""
+    count = {}
+    for f in frames:
+        count[f["tower"]] = count.get(f["tower"], 0) + 1
+    return [k for k, f in enumerate(frames) if count[f["tower"]] > 1]
+
+
+def _door_rotations(actor):
+    out = []
+    for r in (_prop(actor, "DoorRotations", []) or []):
+        try:
+            out.append((float(r.yaw), float(r.pitch), float(r.roll)))
+        except Exception:
+            out.append((0.0, 0.0, 0.0))
+    return tuple(out)
+
+
 _WALK = {}
 
 
@@ -1007,6 +1072,7 @@ def _place_doors(actor, doors):
     """doors: [(tower path, tower transform (actor space), tower yaw, wall point (actor space),
     direction the wall leaves in (actor space, unit), tower index, wall slope)] - one per wall
     meeting a tower. Cuts each door picture out of its tower; _door_meshes makes them."""
+    _STATE.setdefault("doors", {})[actor.get_path_name()] = doors    # for door-only refreshes
     walk = _walk_height()
     frames = []
     for path, xf, yaw_deg, pt, d, tower, slope in doors:
@@ -1029,7 +1095,18 @@ def _place_doors(actor, doors):
         world = [([(loc.x + q[0] * cy - q[1] * sy, loc.y + q[0] * sy + q[1] * cy, loc.z + q[2]) for q in poly], uvs)
                  for poly, uvs in polys]
         base = (pt[0] + d[0] * front, pt[1] + d[1] * front, pt[2] + walk + rise)   # door sill, middle
-        frames.append({"base": base, "dir": d, "tower": tower, "slope": slope, "polys": world})
+        frames.append({"base": base, "dir": d, "tower": tower, "slope": slope, "polys": world,
+                       "cut": (path, dl, c0, pt[2] - loc.z + walk + rise, front, loc, cy, sy)})
+    # Door Rotations: turn a door's picture around its own centre (the exit stays where it was)
+    rots = _door_rotations(actor)
+    for n, k in enumerate(_live_doors(frames)):
+        if n >= len(rots) or not any(abs(x) > 1e-3 for x in rots[n]):
+            continue
+        path, dl, c0, z0, front, loc, cy, sy = frames[k]["cut"]
+        polys = _door_patch_rot(path, dl, c0, z0, front, rots[n])
+        if polys:
+            frames[k]["polys"] = [([(loc.x + q[0] * cy - q[1] * sy, loc.y + q[0] * sy + q[1] * cy, loc.z + q[2]) for q in poly], uvs)
+                                  for poly, uvs in polys]
     _door_meshes(actor, frames)
 
 
@@ -1212,6 +1289,16 @@ def _tick(dt):
         for a in actors:
             key = a.get_path_name()
             sig = _signature(a)
+            dsig = _door_rotations(a)
+            if sig is not None and _STATE["sig"].get(key) == sig and _STATE.setdefault("dsig", {}).get(key) != dsig:
+                _STATE["dsig"][key] = dsig
+                if key in _STATE.get("doors", {}):
+                    _place_doors(a, _STATE["doors"][key])     # only the door pictures changed
+                else:
+                    rebuild(a)
+                    _STATE["sig"][key] = _signature(a)
+                continue
+            _STATE.setdefault("dsig", {})[key] = dsig
             if sig is not None and _STATE["sig"].get(key) != sig:
                 before = list(_STATE.get("joins", {}).get(key, []))
                 rebuild(a)

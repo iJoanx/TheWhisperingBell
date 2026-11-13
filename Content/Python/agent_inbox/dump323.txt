@@ -1,0 +1,53 @@
+== add_variable Adds a member or local variable to a Blueprint.
+
+        Supported type names:
+          Primitives: 'bool', 'int', 'float', 'byte', 'string', 'name', 'text'
+          Structs:    'Vector', 'Rotator', 'Transform', 'Vector2D', 'LinearColor'
+
+        Args:
+            blueprint: The Blueprint to add the variable to.
+            name: The variable name.
+            type_name: The variable type as a string (see above).
+            graph: If provided, adds a local variable to this function graph instead of a
+                member variable.
+            container_type: Container type for the variable. MAP uses string as the key type.
+        
+== set_variable_category Sets the user-defined category on a Blueprint member variable.
+
+        Categories group variables in the My Blueprint panel. Pass an empty string
+        to reset to the default (the Blueprint's name).
+
+        Args:
+            blueprint: The Blueprint containing the variable.
+            variable_name: The name of the member variable to modify.
+            category: The new category text.
+        
+== set_variable_instance_editable Sets whether a member variable is editable per-instance on actors placed in the level.
+
+        Args:
+            blueprint: The Blueprint containing the variable.
+            variable_name: The name of the member variable to modify.
+            instance_editable: True to make the variable editable on instances, False to hide it.
+        
+== arrange_nodes Arranges a list of nodes in a readable left-to-right layout.
+
+        Organizes nodes into columns based on data/execution flow, with producer nodes to
+        the left of the nodes they feed into. Call this after building a graph
+        to avoid nodes overlapping. Connections to nodes outside the list are used as anchors
+        so the arranged nodes integrate cleanly with the rest of the graph.
+
+        Args:
+            nodes: The nodes to arrange.
+        
+add_variable try ['blueprint', 'name', 'var_type']: Function "add_variable", input param "type_name" is required by the function input schema Json, but is missing from the incoming function input params Json.
+Function schema Json -
+{"type":"object","properties":{"blueprint":{"type":"object","title":"/Script/Engine.Blueprint","description":"Represents
+add_variable try ['blueprint', 'name', 'type']: Function "add_variable", input param "type_name" is required by the function input schema Json, but is missing from the incoming function input params Json.
+Function schema Json -
+{"type":"object","properties":{"blueprint":{"type":"object","title":"/Script/Engine.Blueprint","description":"Represents
+add_variable try ['blueprint', 'name', 'variable_type']: Function "add_variable", input param "type_name" is required by the function input schema Json, but is missing from the incoming function input params Json.
+Function schema Json -
+{"type":"object","properties":{"blueprint":{"type":"object","title":"/Script/Engine.Blueprint","description":"Represents
+add_variable try ['blueprint', 'name', 'param_type']: Function "add_variable", input param "type_name" is required by the function input schema Json, but is missing from the incoming function input params Json.
+Function schema Json -
+{"type":"object","properties":{"blueprint":{"type":"object","title":"/Script/Engine.Blueprint","description":"Represents

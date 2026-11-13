@@ -1,0 +1,76 @@
+compile OK
+(fn GetTeleportTraceCapsule ()
+  (bind _returnvalue (Game|GetPlayerCameraManager 0))
+  (bind _returnvalue_1 (Transformation|GetActorLocation _returnvalue))
+  (bind _returnvalue_2 (Transformation|GetActorForwardVector _returnvalue))
+  (bind _location (Collision|BreakHitResult (Collision|SphereTraceByChannel _returnvalue_1 (Math|Vector|vector+vector _returnvalue_1 (Math|Vector|vector*vector _returnvalue_2 (Variables|Teleport|GetTeleportRange))) 5.0)))
+  (bind _normal (Collision|BreakHitResult (Collision|SphereTraceByChannel _returnvalue_1 (Math|Vector|vector+vector _returnvalue_1 (Math|Vector|vector*vector _returnvalue_2 (Variables|Teleport|GetTeleportRange))) 5.0)))
+  (bind _z (.z _normal))
+  (bind _returnvalue_3 0.0)
+  (bind _returnvalue_4 2.0)
+  (bind _capsule_radius (Variables|Default|GetCapsuleRadius))
+  (bind _capsule_half_height (Variables|Default|GetCapsuleHalfHeight))
+  (bind _returnvalue_5 (- _capsule_half_height _capsule_radius))
+  (bind _returnvalue_6 (select (Collision|SphereTraceByChannel _returnvalue_1 (Math|Vector|vector+vector _returnvalue_1 (Math|Vector|vector*vector _returnvalue_2 (Variables|Teleport|GetTeleportRange))) 5.0) _z _returnvalue_3))
+  (bind _returnvalue_7 (* _returnvalue_6 _returnvalue_5))
+  (bind _returnvalue_8 (Math|Vector|MakeVector 0.0 0.0 _returnvalue_7))
+  (bind _returnvalue_9 (Math|Vector|vector+vector _capsule_radius _returnvalue_4))
+  (bind _returnvalue_10 (Math|Vector|vector*vector _normal _returnvalue_9))
+  (bind _returnvalue_11 (Math|Vector|vector+vector _location _returnvalue_10))
+  (bind _returnvalue_12 (Math|Vector|vector+vector _returnvalue_11 _returnvalue_8))
+  (bind _teleportrange (Variables|Teleport|GetTeleportRange))
+  (bind _returnvalue_13 (Math|Vector|vector*vector _returnvalue_2 _teleportrange))
+  (bind _returnvalue_14 (Math|Vector|vector+vector _returnvalue_1 _returnvalue_13))
+  (bind _returnvalue_15 (select (Collision|SphereTraceByChannel _returnvalue_1 _returnvalue_14 5.0) _returnvalue_12 _returnvalue_14))
+  (bind (_outhit _returnvalue_16) (Collision|SphereTraceByChannel _returnvalue_1 _returnvalue_14 5.0))
+  (bind (_outhit_1 _returnvalue_17) (Collision|CapsuleTraceByChannel (Math|Vector|vector+vector _returnvalue_15 (Math|Vector|MakeVector 0.0 0.0 (* _capsule_half_height (- 1.0 (Math|Float|Max(Float) _returnvalue_6 (- _returnvalue_6)))))) _returnvalue_15 _capsule_radius _capsule_half_height))
+  (if _returnvalue_17
+    (if (Collision|BreakHitResult _outhit_1)
+      (bind _returnvalue_18 (Collision|CapsuleTraceByChannel _returnvalue_15 _returnvalue_15 _capsule_radius _capsule_half_height))
+      (if (not _returnvalue_18)
+        (Variables|Teleport|SetTeleportTrace _returnvalue_15))
+      (else
+        (Variables|Teleport|SetTeleportTrace (Collision|BreakHitResult _outhit_1))))
+    (else
+      (Variables|Teleport|SetTeleportTrace _returnvalue_15))))
+
+  GetTeleportTraceCapsule.K2Node_FunctionEntry_0 [|GetTeleportTraceCapsule] then->K2Node_CallFunction_16
+  GetTeleportTraceCapsule.K2Node_CallFunction_13 [Game|GetPlayerCameraManager] PlayerIndex ; ReturnValue->K2Node_CallFunction_14,K2Node_CallFunction_15
+  GetTeleportTraceCapsule.K2Node_CallFunction_14 [Transformation|GetActorLocation] self->K2Node_CallFunction_13 ; ReturnValue->K2Node_PromotableOperator_9,K2Node_CallFunction_16
+  GetTeleportTraceCapsule.K2Node_CallFunction_15 [Transformation|GetActorForwardVector] self->K2Node_CallFunction_13 ; ReturnValue->K2Node_PromotableOperator_8
+  GetTeleportTraceCapsule.K2Node_VariableGet_3 [|GetTeleportRange] TeleportRange->K2Node_PromotableOperator_8
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_8 [Math|Vector|vector*vector] A->K2Node_CallFunction_15 ; B->K2Node_VariableGet_3 ; ReturnValue->K2Node_PromotableOperator_9
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_9 [Math|Vector|vector+vector] A->K2Node_CallFunction_14 ; B->K2Node_PromotableOperator_8 ; ReturnValue->K2Node_CallFunction_16,K2Node_Select_4
+  GetTeleportTraceCapsule.K2Node_VariableGet_4 [|GetCapsuleRadius] Capsule Radius->K2Node_PromotableOperator_10,K2Node_PromotableOperator_13,K2Node_CallFunction_24,K2Node_CallFunction_26
+  GetTeleportTraceCapsule.K2Node_VariableGet_5 [|GetCapsuleHalfHeight] Capsule Half Height->K2Node_PromotableOperator_13,K2Node_PromotableOperator_18,K2Node_CallFunction_24,K2Node_CallFunction_26
+  GetTeleportTraceCapsule.K2Node_CallFunction_16 [Collision|SphereTraceByChannel] execute->K2Node_FunctionEntry_0 ; Start->K2Node_CallFunction_14 ; End->K2Node_PromotableOperator_9 ; Radius ; TraceChannel ; bTraceComplex ; ActorsToIgnore ; DrawDebugType ; bIgnoreSelf ; TraceColor ; TraceHitColor ; DrawTime ; then->K2Node_CallFunction_24 ; OutHit->K2Node_CallFunction_17 ; ReturnValue->K2Node_Select_3,K2Node_Select_4
+  GetTeleportTraceCapsule.K2Node_CallFunction_17 [Collision|BreakHitResult] Hit->K2Node_CallFunction_16 ; bBlockingHit ; bInitialOverlap ; Time ; Distance ; Location->K2Node_PromotableOperator_12 ; ImpactPoint ; Normal->K2Node_CallFunction_18,K2Node_PromotableOperator_11 ; ImpactNormal ; PhysMat ; HitActor ; HitComponent ; HitBoneName ; BoneName ; HitItem ; ElementIndex ; FaceIndex ; TraceStart ; TraceEnd
+  GetTeleportTraceCapsule.K2Node_CallFunction_18 [Math|Vector|BreakVector] InVec->K2Node_CallFunction_17 ; X ; Y ; Z->K2Node_Select_3
+  GetTeleportTraceCapsule.K2Node_Select_3 [Utilities|Select] Option 0->K2Node_CallFunction_19 ; Option 1->K2Node_CallFunction_18 ; Index->K2Node_CallFunction_16 ; ReturnValue->K2Node_PromotableOperator_14,K2Node_PromotableOperator_16,K2Node_CommutativeAssociativeBinaryOperator_1
+  GetTeleportTraceCapsule.K2Node_CallFunction_19 [Math|Float|MakeLiteralFloat] Value ; ReturnValue->K2Node_Select_3
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_10 [Math|Vector|vector+vector] A->K2Node_VariableGet_4 ; B->K2Node_CallFunction_20 ; ReturnValue->K2Node_PromotableOperator_11
+  GetTeleportTraceCapsule.K2Node_CallFunction_20 [Math|Float|MakeLiteralFloat] Value ; ReturnValue->K2Node_PromotableOperator_10
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_11 [Math|Vector|vector*vector] A->K2Node_CallFunction_17 ; B->K2Node_PromotableOperator_10 ; ReturnValue->K2Node_PromotableOperator_12
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_12 [Math|Vector|vector+vector] A->K2Node_CallFunction_17 ; B->K2Node_PromotableOperator_11 ; ReturnValue->K2Node_PromotableOperator_15
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_13 [Math|Float|float-float] A->K2Node_VariableGet_5 ; B->K2Node_VariableGet_4 ; ReturnValue->K2Node_PromotableOperator_14
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_14 [Math|Float|float*float] A->K2Node_Select_3 ; B->K2Node_PromotableOperator_13 ; ReturnValue->K2Node_CallFunction_21
+  GetTeleportTraceCapsule.K2Node_CallFunction_21 [Math|Vector|MakeVector] X ; Y ; Z->K2Node_PromotableOperator_14 ; ReturnValue->K2Node_PromotableOperator_15
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_15 [Math|Vector|vector+vector] A->K2Node_PromotableOperator_12 ; B->K2Node_CallFunction_21 ; ReturnValue->K2Node_Select_4
+  GetTeleportTraceCapsule.K2Node_Select_4 [Utilities|Select] Option 0->K2Node_PromotableOperator_9 ; Option 1->K2Node_PromotableOperator_15 ; Index->K2Node_CallFunction_16 ; ReturnValue->K2Node_PromotableOperator_19,K2Node_CallFunction_24,K2Node_CallFunction_26,K2Node_CallFunction_26,K2Node_VariableSet_2,K2Node_VariableSet_4
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_16 [Math|Float|float-float] A ; B->K2Node_Select_3 ; ReturnValue->K2Node_CommutativeAssociativeBinaryOperator_1
+  GetTeleportTraceCapsule.K2Node_CommutativeAssociativeBinaryOperator_1 [Math|Float|Max(Float)] A->K2Node_Select_3 ; B->K2Node_PromotableOperator_16 ; ReturnValue->K2Node_PromotableOperator_17
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_17 [Math|Float|float-float] A->K2Node_CallFunction_22 ; B->K2Node_CommutativeAssociativeBinaryOperator_1 ; ReturnValue->K2Node_PromotableOperator_18
+  GetTeleportTraceCapsule.K2Node_CallFunction_22 [Math|Float|MakeLiteralFloat] Value ; ReturnValue->K2Node_PromotableOperator_17
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_18 [Math|Float|float*float] A->K2Node_VariableGet_5 ; B->K2Node_PromotableOperator_17 ; ReturnValue->K2Node_CallFunction_23
+  GetTeleportTraceCapsule.K2Node_CallFunction_23 [Math|Vector|MakeVector] X ; Y ; Z->K2Node_PromotableOperator_18 ; ReturnValue->K2Node_PromotableOperator_19
+  GetTeleportTraceCapsule.K2Node_PromotableOperator_19 [Math|Vector|vector+vector] A->K2Node_Select_4 ; B->K2Node_CallFunction_23 ; ReturnValue->K2Node_CallFunction_24
+  GetTeleportTraceCapsule.K2Node_CallFunction_24 [Collision|CapsuleTraceByChannel] execute->K2Node_CallFunction_16 ; Start->K2Node_PromotableOperator_19 ; End->K2Node_Select_4 ; Radius->K2Node_VariableGet_4 ; HalfHeight->K2Node_VariableGet_5 ; TraceChannel ; bTraceComplex ; ActorsToIgnore ; DrawDebugType ; bIgnoreSelf ; TraceColor ; TraceHitColor ; DrawTime ; then->K2Node_IfThenElse_1 ; OutHit->K2Node_CallFunction_25 ; ReturnValue->K2Node_IfThenElse_1
+  GetTeleportTraceCapsule.K2Node_CallFunction_25 [Collision|BreakHitResult] Hit->K2Node_CallFunction_24 ; bBlockingHit ; bInitialOverlap->K2Node_IfThenElse_2 ; Time ; Distance ; Location->K2Node_VariableSet_3 ; ImpactPoint ; Normal ; ImpactNormal ; PhysMat ; HitActor ; HitComponent ; HitBoneName ; BoneName ; HitItem ; ElementIndex ; FaceIndex ; TraceStart ; TraceEnd
+  GetTeleportTraceCapsule.K2Node_IfThenElse_1 [Utilities|FlowControl|Branch] execute->K2Node_CallFunction_24 ; Condition->K2Node_CallFunction_24 ; then->K2Node_IfThenElse_2 ; else->K2Node_VariableSet_4
+  GetTeleportTraceCapsule.K2Node_IfThenElse_2 [Utilities|FlowControl|Branch] execute->K2Node_IfThenElse_1 ; Condition->K2Node_CallFunction_25 ; then->K2Node_CallFunction_26 ; else->K2Node_VariableSet_3
+  GetTeleportTraceCapsule.K2Node_CallFunction_26 [Collision|CapsuleTraceByChannel] execute->K2Node_IfThenElse_2 ; Start->K2Node_Select_4 ; End->K2Node_Select_4 ; Radius->K2Node_VariableGet_4 ; HalfHeight->K2Node_VariableGet_5 ; TraceChannel ; bTraceComplex ; ActorsToIgnore ; DrawDebugType ; bIgnoreSelf ; TraceColor ; TraceHitColor ; DrawTime ; then->K2Node_IfThenElse_3 ; OutHit ; ReturnValue->K2Node_CallFunction_27
+  GetTeleportTraceCapsule.K2Node_CallFunction_27 [Math|Boolean|NOTBoolean] A->K2Node_CallFunction_26 ; ReturnValue->K2Node_IfThenElse_3
+  GetTeleportTraceCapsule.K2Node_IfThenElse_3 [Utilities|FlowControl|Branch] execute->K2Node_CallFunction_26 ; Condition->K2Node_CallFunction_27 ; then->K2Node_VariableSet_2 ; else
+  GetTeleportTraceCapsule.K2Node_VariableSet_2 [|SetTeleportTrace] execute->K2Node_IfThenElse_3 ; Teleport Trace->K2Node_Select_4 ; then ; Output_Get
+  GetTeleportTraceCapsule.K2Node_VariableSet_3 [|SetTeleportTrace] execute->K2Node_IfThenElse_2 ; Teleport Trace->K2Node_CallFunction_25 ; then ; Output_Get
+  GetTeleportTraceCapsule.K2Node_VariableSet_4 [|SetTeleportTrace] execute->K2Node_IfThenElse_1 ; Teleport Trace->K2Node_Select_4 ; then ; Output_Get
