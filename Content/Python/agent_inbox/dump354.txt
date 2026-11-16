@@ -1,0 +1,6 @@
+slice 316 = /Game/Houses/Source/T_BottomFloorEmpty.T_BottomFloorEmpty
+  export True
+slice 319 = /Game/Houses/Source/T_TopFloorEmpty.T_TopFloorEmpty
+  export True
+slice 320 = /Game/Houses/Source/T_TopFloorNarrowEmpty.T_TopFloorNarrowEmpty
+  export True

@@ -1,0 +1,41 @@
+material inputs: [('<MaterialProperty.MP_BASE_COLOR: 5>', 'MaterialExpressionComponentMask'), ('<MaterialProperty.MP_EMISSIVE_COLOR: 0>', 'MaterialExpressionMultiply')]
+  expr MaterialExpressionComponentMask
+  expr MaterialExpressionCustom
+  expr MaterialExpressionOneMinus
+  expr MaterialExpressionSmoothStep
+  expr MaterialExpressionCollectionParameter parameter_name=Elevation
+  expr MaterialExpressionScalarParameter parameter_name=NightElevationEnd
+  expr MaterialExpressionScalarParameter parameter_name=NightElevationStart
+  expr MaterialExpressionScalarParameter parameter_name=DebugView
+  expr MaterialExpressionScalarParameter parameter_name=RedAcrossSeam
+  expr MaterialExpressionScalarParameter parameter_name=WindowPairing
+  expr MaterialExpressionScalarParameter parameter_name=GreenChance
+  expr MaterialExpressionScalarParameter parameter_name=RedChance
+  expr MaterialExpressionScalarParameter parameter_name=HideWindows
+  expr MaterialExpressionScalarParameter parameter_name=EdgeInset
+  expr MaterialExpressionScalarParameter parameter_name=TintStrength
+  expr MaterialExpressionScalarParameter parameter_name=MaskStride
+  expr MaterialExpressionScalarParameter parameter_name=ColourStride
+  expr MaterialExpressionScalarParameter parameter_name=NumWards
+  expr MaterialExpressionScalarParameter parameter_name=SetsPerWard
+  expr MaterialExpressionTextureObjectParameter parameter_name=WardPalette texture=<Object '/Game/Houses/T_WardPalette.T_WardPalette' (0x000001C3282DA800) Class 'Texture2D'>
+  expr MaterialExpressionTextureObjectParameter parameter_name=MaskArray texture=<Object '/Game/Houses/MaskArray.MaskArray' (0x000001C32AAF6000) Class 'Texture2DArray'>
+  expr MaterialExpressionTextureObjectParameter parameter_name=HouseArray texture=<Object '/Game/Houses/HouseArray.HouseArray' (0x000001C32AAF1800) Class 'Texture2DArray'>
+  expr MaterialExpressionTextureCoordinate coordinate_index=5
+  expr MaterialExpressionTextureCoordinate coordinate_index=4
+  expr MaterialExpressionTextureCoordinate coordinate_index=3
+  expr MaterialExpressionTextureCoordinate coordinate_index=2
+  expr MaterialExpressionTextureCoordinate coordinate_index=1
+  expr MaterialExpressionTextureCoordinate coordinate_index=0
+tower meshes: 142
+Traceback (most recent call last):
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\125933_job338.py", line 40, in <module>
+    rows = [info(n) for n in names]
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\125933_job338.py", line 40, in <listcomp>
+    rows = [info(n) for n in names]
+            ^^^^^^^
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\125933_job338.py", line 34, in info
+    uv = sm.get_num_uv_channels(0)
+         ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'StaticMesh' object has no attribute 'get_num_uv_channels'

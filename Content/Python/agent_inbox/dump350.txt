@@ -1,0 +1,150 @@
+NumWards = 7.0
+SetsPerWard = 4.0
+ColourStride = 15.0
+MaskStride = 11.0
+TintStrength = 1.0
+EdgeInset = 1.0
+HouseArray slices 420
+MaskArray slices 308
+SM_Towers_Towers_00 code 19 ward 2 set 1 foundation-special {0: 14, 1: 32}
+SM_Towers_Towers_01 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_02 code 3 ward 2 set 0 foundation-special {0: 46}
+SM_Towers_Towers_03 code 49 ward 0 set 3 foundation-special {0: 46}
+SM_Towers_Towers_04 code 49 ward 0 set 3 foundation-special {0: 46}
+SM_Towers_Towers_05 code 51 ward 2 set 3 foundation-special {0: 46}
+SM_Towers_Towers_06 code 1 ward 0 set 0 foundation-special {0: 6, 2: 16}
+SM_Towers_Towers_07 code 33 ward 0 set 2 foundation-special {0: 6, 2: 16}
+SM_Towers_Towers_08 code 33 ward 0 set 2 foundation-special {0: 34}
+SM_Towers_Towers_09 code 17 ward 0 set 1 foundation-special {0: 46}
+SM_Towers_Towers_10 code 3 ward 2 set 0 foundation-special {0: 34}
+SM_Towers_Towers_100 code 1 ward 0 set 0 foundation-special {0: 46}
+SM_Towers_Towers_101 code 3 ward 2 set 0 foundation-special {0: 34}
+SM_Towers_Towers_102 code 3 ward 2 set 0 foundation-special {0: 34}
+SM_Towers_Towers_103 code 3 ward 2 set 0 foundation-special {0: 46}
+SM_Towers_Towers_104 code 19 ward 2 set 1 foundation-special {0: 40}
+SM_Towers_Towers_105 code 4 ward 3 set 0 foundation-special {0: 34}
+SM_Towers_Towers_106 code 34 ward 1 set 2 foundation-special {0: 10, 7: 24}
+SM_Towers_Towers_107 code 50 ward 1 set 3 foundation-special {0: 34}
+SM_Towers_Towers_108 code 34 ward 1 set 2 foundation-special {0: 46}
+SM_Towers_Towers_109 code 33 ward 0 set 2 foundation-special {0: 46}
+SM_Towers_Towers_11 code 3 ward 2 set 0 foundation-special {0: 12, 7: 28}
+SM_Towers_Towers_110 code 2 ward 1 set 0 foundation-special {0: 6, 4: 16}
+SM_Towers_Towers_111 code 50 ward 1 set 3 foundation-special {0: 46}
+SM_Towers_Towers_112 code 4 ward 3 set 0 foundation-special {0: 46}
+SM_Towers_Towers_113 code 4 ward 3 set 0 foundation-special {0: 46}
+SM_Towers_Towers_114 code 22 ward 5 set 1 foundation-special {0: 6, 4: 16}
+SM_Towers_Towers_115 code 4 ward 3 set 0 foundation-special {0: 40}
+SM_Towers_Towers_116 code 2 ward 1 set 0 foundation-special {0: 40}
+SM_Towers_Towers_117 code 4 ward 3 set 0 foundation-special {0: 40}
+SM_Towers_Towers_118 code 2 ward 1 set 0 foundation-special {0: 40}
+SM_Towers_Towers_119 code 4 ward 3 set 0 foundation-special {0: 40}
+SM_Towers_Towers_12 code 3 ward 2 set 0 foundation-special {0: 34}
+SM_Towers_Towers_120 code 34 ward 1 set 2 foundation-special {0: 46}
+SM_Towers_Towers_121 code 50 ward 1 set 3 foundation-special {0: 40}
+SM_Towers_Towers_122 code 18 ward 1 set 1 foundation-special {0: 40}
+SM_Towers_Towers_123 code 2 ward 1 set 0 foundation-special {0: 46}
+SM_Towers_Towers_124 code 39 ward 6 set 2 foundation-special {0: 46}
+SM_Towers_Towers_125 code 39 ward 6 set 2 foundation-special {0: 14, 2: 32}
+SM_Towers_Towers_126 code 39 ward 6 set 2 foundation-special {0: 46}
+SM_Towers_Towers_127 code 39 ward 6 set 2 foundation-special {0: 46}
+SM_Towers_Towers_128 code 18 ward 1 set 1 foundation-special {0: 46}
+SM_Towers_Towers_129 code 23 ward 6 set 1 foundation-special {0: 28}
+SM_Towers_Towers_13 code 49 ward 0 set 3 foundation-special {0: 46}
+SM_Towers_Towers_130 code 2 ward 1 set 0 foundation-special {0: 28}
+SM_Towers_Towers_131 code 2 ward 1 set 0 foundation-special {0: 28}
+SM_Towers_Towers_132 code 2 ward 1 set 0 foundation-special {0: 46}
+SM_Towers_Towers_133 code 23 ward 6 set 1 foundation-special {0: 28}
+SM_Towers_Towers_134 code 7 ward 6 set 0 foundation-special {0: 28}
+SM_Towers_Towers_135 code 18 ward 1 set 1 foundation-special {0: 46}
+SM_Towers_Towers_136 code 7 ward 6 set 0 foundation-special {0: 28}
+SM_Towers_Towers_137 code 39 ward 6 set 2 foundation-special {0: 46}
+SM_Towers_Towers_138 code 7 ward 6 set 0 foundation-special {0: 34}
+SM_Towers_Towers_139 code 7 ward 6 set 0 foundation-special {0: 34}
+SM_Towers_Towers_14 code 3 ward 2 set 0 foundation-special {0: 12, 7: 28}
+SM_Towers_Towers_140 code 50 ward 1 set 3 foundation-special {0: 46}
+SM_Towers_Towers_141 code 50 ward 1 set 3 foundation-special {0: 46}
+SM_Towers_Towers_15 code 33 ward 0 set 2 foundation-special {0: 12, 7: 28}
+SM_Towers_Towers_16 code 3 ward 2 set 0 foundation-special {0: 34}
+SM_Towers_Towers_17 code 3 ward 2 set 0 foundation-special {0: 34}
+SM_Towers_Towers_18 code 19 ward 2 set 1 foundation-special {0: 14, 17: 32}
+SM_Towers_Towers_19 code 1 ward 0 set 0 foundation-special {0: 6, 5: 16}
+SM_Towers_Towers_20 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_21 code 3 ward 2 set 0 foundation-special {0: 40}
+SM_Towers_Towers_22 code 19 ward 2 set 1 foundation-special {0: 12, 7: 28}
+SM_Towers_Towers_23 code 1 ward 0 set 0 foundation-special {0: 6, 5: 16}
+SM_Towers_Towers_24 code 35 ward 2 set 2 foundation-special {0: 40}
+SM_Towers_Towers_25 code 51 ward 2 set 3 foundation-special {0: 12, 7: 28}
+SM_Towers_Towers_26 code 17 ward 0 set 1 foundation-special {0: 14, 5: 32}
+SM_Towers_Towers_27 code 1 ward 0 set 0 foundation-special {0: 12, 7: 28}
+SM_Towers_Towers_28 code 3 ward 2 set 0 foundation-special {0: 12, 7: 28}
+SM_Towers_Towers_29 code 51 ward 2 set 3 foundation-special {0: 34}
+SM_Towers_Towers_30 code 51 ward 2 set 3 foundation-special {0: 34}
+SM_Towers_Towers_31 code 33 ward 0 set 2 foundation-special {0: 14, 7: 32}
+SM_Towers_Towers_32 code 51 ward 2 set 3 foundation-special {0: 34}
+SM_Towers_Towers_33 code 33 ward 0 set 2 foundation-special {0: 46}
+SM_Towers_Towers_34 code 19 ward 2 set 1 foundation-special {0: 14, 12: 32}
+SM_Towers_Towers_35 code 3 ward 2 set 0 foundation-special {0: 22}
+SM_Towers_Towers_36 code 19 ward 2 set 1 foundation-special {0: 46}
+SM_Towers_Towers_37 code 49 ward 0 set 3 foundation-special {0: 40}
+SM_Towers_Towers_38 code 49 ward 0 set 3 foundation-special {0: 40}
+SM_Towers_Towers_39 code 19 ward 2 set 1 foundation-special {0: 8, 1: 20}
+SM_Towers_Towers_40 code 51 ward 2 set 3 foundation-special {0: 22}
+SM_Towers_Towers_41 code 19 ward 2 set 1 foundation-special {0: 22}
+SM_Towers_Towers_42 code 51 ward 2 set 3 foundation-special {0: 14, 3: 32}
+SM_Towers_Towers_43 code 3 ward 2 set 0 foundation-special {0: 8, 1: 20}
+SM_Towers_Towers_44 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_45 code 3 ward 2 set 0 foundation-special {0: 8, 1: 20}
+SM_Towers_Towers_46 code 51 ward 2 set 3 foundation-special {0: 22}
+SM_Towers_Towers_47 code 3 ward 2 set 0 foundation-special {0: 22}
+SM_Towers_Towers_48 code 51 ward 2 set 3 foundation-special {0: 40}
+SM_Towers_Towers_49 code 19 ward 2 set 1 foundation-special {0: 14, 6: 32}
+SM_Towers_Towers_50 code 51 ward 2 set 3 foundation-special {0: 8, 1: 20}
+SM_Towers_Towers_51 code 17 ward 0 set 1 foundation-special {0: 46}
+SM_Towers_Towers_52 code 19 ward 2 set 1 foundation-special {0: 22}
+SM_Towers_Towers_53 code 51 ward 2 set 3 foundation-special {0: 22}
+SM_Towers_Towers_54 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_55 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_56 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_57 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_58 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_59 code 1 ward 0 set 0 foundation-special {0: 34}
+SM_Towers_Towers_60 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_61 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_62 code 49 ward 0 set 3 foundation-special {0: 6, 1: 16}
+SM_Towers_Towers_63 code 17 ward 0 set 1 foundation-special {0: 14, 6: 32}
+SM_Towers_Towers_64 code 17 ward 0 set 1 foundation-special {0: 34}
+SM_Towers_Towers_65 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_66 code 49 ward 0 set 3 foundation-special {0: 34}
+SM_Towers_Towers_67 code 1 ward 0 set 0 foundation-special {0: 6, 1: 16}
+SM_Towers_Towers_68 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_69 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_70 code 51 ward 2 set 3 foundation-special {0: 34}
+SM_Towers_Towers_71 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_72 code 35 ward 2 set 2 foundation-special {0: 46}
+SM_Towers_Towers_73 code 3 ward 2 set 0 foundation-special {0: 46}
+SM_Towers_Towers_74 code 17 ward 0 set 1 foundation-special {0: 14, 7: 32}
+SM_Towers_Towers_75 code 1 ward 0 set 0 foundation-special {0: 34}
+SM_Towers_Towers_76 code 35 ward 2 set 2 foundation-special {0: 14, 22: 32}
+SM_Towers_Towers_77 code 1 ward 0 set 0 foundation-special {0: 40}
+SM_Towers_Towers_78 code 1 ward 0 set 0 foundation-special {0: 46}
+SM_Towers_Towers_79 code 19 ward 2 set 1 foundation-special {0: 46}
+SM_Towers_Towers_80 code 33 ward 0 set 2 foundation-special {0: 46}
+SM_Towers_Towers_81 code 19 ward 2 set 1 foundation-special {0: 40}
+SM_Towers_Towers_82 code 49 ward 0 set 3 foundation-special {0: 34}
+SM_Towers_Towers_83 code 1 ward 0 set 0 foundation-special {0: 40}
+SM_Towers_Towers_84 code 17 ward 0 set 1 foundation-special {0: 40}
+SM_Towers_Towers_85 code 17 ward 0 set 1 foundation-special {0: 46}
+SM_Towers_Towers_86 code 22 ward 5 set 1 foundation-special {0: 34}
+SM_Towers_Towers_87 code 17 ward 0 set 1 foundation-special {0: 46}
+SM_Towers_Towers_88 code 35 ward 2 set 2 foundation-special {0: 40}
+SM_Towers_Towers_89 code 19 ward 2 set 1 foundation-special {0: 40}
+SM_Towers_Towers_90 code 33 ward 0 set 2 foundation-special {0: 34}
+SM_Towers_Towers_91 code 3 ward 2 set 0 foundation-special {0: 40}
+SM_Towers_Towers_92 code 49 ward 0 set 3 foundation-special {0: 22}
+SM_Towers_Towers_93 code 49 ward 0 set 3 foundation-special {0: 6, 1: 16}
+SM_Towers_Towers_94 code 19 ward 2 set 1 foundation-special {0: 46}
+SM_Towers_Towers_95 code 19 ward 2 set 1 foundation-special {0: 40}
+SM_Towers_Towers_96 code 51 ward 2 set 3 foundation-special {0: 28}
+SM_Towers_Towers_97 code 19 ward 2 set 1 foundation-special {0: 46}
+SM_Towers_Towers_98 code 51 ward 2 set 3 foundation-special {0: 46}
+SM_Towers_Towers_99 code 3 ward 2 set 0 foundation-special {0: 34}

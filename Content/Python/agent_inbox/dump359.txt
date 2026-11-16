@@ -1,0 +1,4 @@
+connected GreenStripWidth: True
+custom inputs now: ['UV0', 'UV1', 'UV2', 'UV3', 'UV4', 'UV5', 'Arr', 'MaskArr', 'Pal', 'SetsPerWard', 'NumWards', 'ColourStride', 'MaskStride', 'TintStrength', 'EdgeInset', 'HideWindows', 'RedChance', 'GreenChance', 'WindowPairing', 'RedAcrossSeam', 'DebugView', 'Night', 'GreenStripWidth']
+rounding line in: True; strip block in: True
+recompiled (not saved)

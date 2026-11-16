@@ -1,0 +1,10 @@
+slice 315 = /Game/Houses/Source/T_BottomFloor.T_BottomFloor
+  export True
+slice 317 = /Game/Houses/Source/T_TopFloor.T_TopFloor
+  export True
+slice 326 = /Game/Houses/Source/T_Foundation.T_Foundation
+  export True
+slice 327 = /Game/Houses/Source/T_FoundationStairs.T_FoundationStairs
+  export True
+slice 328 = /Game/Houses/Source/T_Tiles.T_Tiles
+  export True

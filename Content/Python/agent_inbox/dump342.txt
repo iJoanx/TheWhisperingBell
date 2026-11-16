@@ -1,0 +1,172 @@
+placed towers 142, houses 10662
+SM_Towers_Towers_01: set 2 -> ward 2 (7/7 neighbours agree, nearest house 9744 cm)
+SM_Towers_Towers_05: set 2 -> ward 2 (7/7 neighbours agree, nearest house 1690 cm)
+SM_Towers_Towers_06: set 0 -> ward 0 (7/7 neighbours agree, nearest house 1004 cm)
+SM_Towers_Towers_07: set 2 -> ward 0 (7/7 neighbours agree, nearest house 1513 cm)
+SM_Towers_Towers_08: set 0 -> ward 0 (7/7 neighbours agree, nearest house 695 cm)
+SM_Towers_Towers_09: set 2 -> ward 0 (7/7 neighbours agree, nearest house 932 cm)
+SM_Towers_Towers_10: set 1 -> ward 2 (7/7 neighbours agree, nearest house 1201 cm)
+SM_Towers_Towers_100: set 0 -> ward 0 (7/7 neighbours agree, nearest house 744 cm)
+SM_Towers_Towers_101: set 1 -> ward 2 (7/7 neighbours agree, nearest house 1159 cm)
+SM_Towers_Towers_103: set 3 -> ward 2 (5/7 neighbours agree, nearest house 1220 cm)
+SM_Towers_Towers_104: set 0 -> ward 2 (5/7 neighbours agree, nearest house 1403 cm)
+SM_Towers_Towers_105: set 0 -> ward 3 (4/7 neighbours agree, nearest house 1148 cm)
+SM_Towers_Towers_106: set 2 -> ward 1 (4/7 neighbours agree, nearest house 1667 cm)
+SM_Towers_Towers_107: set 2 -> ward 1 (7/7 neighbours agree, nearest house 1138 cm)
+SM_Towers_Towers_108: set 1 -> ward 1 (7/7 neighbours agree, nearest house 1113 cm)
+SM_Towers_Towers_11: set 0 -> ward 2 (4/7 neighbours agree, nearest house 3057 cm)
+SM_Towers_Towers_110: set 0 -> ward 1 (7/7 neighbours agree, nearest house 1301 cm)
+SM_Towers_Towers_111: set 2 -> ward 1 (4/7 neighbours agree, nearest house 1410 cm)
+SM_Towers_Towers_114: set 3 -> ward 5 (7/7 neighbours agree, nearest house 676 cm)
+SM_Towers_Towers_116: set 2 -> ward 1 (7/7 neighbours agree, nearest house 1139 cm)
+SM_Towers_Towers_12: set 2 -> ward 2 (7/7 neighbours agree, nearest house 1008 cm)
+SM_Towers_Towers_123: set 1 -> ward 1 (7/7 neighbours agree, nearest house 692 cm)
+SM_Towers_Towers_125: set 2 -> ward 6 (6/7 neighbours agree, nearest house 1774 cm)
+SM_Towers_Towers_128: set 0 -> ward 1 (7/7 neighbours agree, nearest house 1239 cm)
+SM_Towers_Towers_130: set 0 -> ward 1 (7/7 neighbours agree, nearest house 696 cm)
+SM_Towers_Towers_131: set 3 -> ward 1 (7/7 neighbours agree, nearest house 1279 cm)
+SM_Towers_Towers_133: set 3 -> ward 6 (7/7 neighbours agree, nearest house 1298 cm)
+SM_Towers_Towers_134: set 3 -> ward 6 (7/7 neighbours agree, nearest house 1246 cm)
+SM_Towers_Towers_135: set 0 -> ward 1 (7/7 neighbours agree, nearest house 1779 cm)
+SM_Towers_Towers_137: set 2 -> ward 6 (7/7 neighbours agree, nearest house 1108 cm)
+SM_Towers_Towers_138: set 2 -> ward 6 (7/7 neighbours agree, nearest house 1714 cm)
+SM_Towers_Towers_139: set 1 -> ward 6 (7/7 neighbours agree, nearest house 1730 cm)
+SM_Towers_Towers_14: set 0 -> ward 2 (6/7 neighbours agree, nearest house 2637 cm)
+SM_Towers_Towers_140: set 0 -> ward 1 (7/7 neighbours agree, nearest house 1655 cm)
+SM_Towers_Towers_15: set 2 -> ward 0 (4/7 neighbours agree, nearest house 3444 cm)
+SM_Towers_Towers_16: set 1 -> ward 2 (7/7 neighbours agree, nearest house 1266 cm)
+SM_Towers_Towers_17: set 1 -> ward 2 (7/7 neighbours agree, nearest house 1344 cm)
+SM_Towers_Towers_18: set 1 -> ward 2 (5/7 neighbours agree, nearest house 3646 cm)
+SM_Towers_Towers_19: set 0 -> ward 0 (5/7 neighbours agree, nearest house 3187 cm)
+SM_Towers_Towers_20: set 2 -> ward 2 (5/7 neighbours agree, nearest house 3646 cm)
+SM_Towers_Towers_21: set 0 -> ward 2 (7/7 neighbours agree, nearest house 811 cm)
+SM_Towers_Towers_22: set 1 -> ward 2 (7/7 neighbours agree, nearest house 3043 cm)
+SM_Towers_Towers_23: set 0 -> ward 0 (5/7 neighbours agree, nearest house 3559 cm)
+SM_Towers_Towers_24: set 3 -> ward 2 (7/7 neighbours agree, nearest house 591 cm)
+SM_Towers_Towers_25: set 3 -> ward 2 (5/7 neighbours agree, nearest house 3201 cm)
+SM_Towers_Towers_27: set 0 -> ward 0 (5/7 neighbours agree, nearest house 2736 cm)
+SM_Towers_Towers_28: set 0 -> ward 2 (7/7 neighbours agree, nearest house 2738 cm)
+SM_Towers_Towers_29: set 1 -> ward 2 (7/7 neighbours agree, nearest house 1212 cm)
+SM_Towers_Towers_31: set 0 -> ward 0 (7/7 neighbours agree, nearest house 1995 cm)
+SM_Towers_Towers_33: set 2 -> ward 0 (7/7 neighbours agree, nearest house 1995 cm)
+SM_Towers_Towers_34: set 2 -> ward 2 (7/7 neighbours agree, nearest house 1844 cm)
+SM_Towers_Towers_35: set 2 -> ward 2 (7/7 neighbours agree, nearest house 748 cm)
+SM_Towers_Towers_36: set 1 -> ward 2 (7/7 neighbours agree, nearest house 1844 cm)
+SM_Towers_Towers_38: set 1 -> ward 0 (7/7 neighbours agree, nearest house 973 cm)
+SM_Towers_Towers_39: set 1 -> ward 2 (7/7 neighbours agree, nearest house 1729 cm)
+SM_Towers_Towers_42: set 2 -> ward 2 (7/7 neighbours agree, nearest house 1850 cm)
+SM_Towers_Towers_43: set 0 -> ward 2 (7/7 neighbours agree, nearest house 1462 cm)
+SM_Towers_Towers_44: set 2 -> ward 2 (7/7 neighbours agree, nearest house 1850 cm)
+SM_Towers_Towers_45: set 1 -> ward 2 (7/7 neighbours agree, nearest house 1167 cm)
+SM_Towers_Towers_49: set 1 -> ward 2 (7/7 neighbours agree, nearest house 3184 cm)
+SM_Towers_Towers_50: set 0 -> ward 2 (7/7 neighbours agree, nearest house 1055 cm)
+SM_Towers_Towers_51: set 2 -> ward 0 (7/7 neighbours agree, nearest house 1496 cm)
+SM_Towers_Towers_59: set 3 -> ward 0 (7/7 neighbours agree, nearest house 1030 cm)
+SM_Towers_Towers_62: set 3 -> ward 0 (7/7 neighbours agree, nearest house 1308 cm)
+SM_Towers_Towers_63: set 1 -> ward 0 (7/7 neighbours agree, nearest house 1794 cm)
+SM_Towers_Towers_67: set 0 -> ward 0 (7/7 neighbours agree, nearest house 1258 cm)
+SM_Towers_Towers_70: set 0 -> ward 2 (7/7 neighbours agree, nearest house 1072 cm)
+SM_Towers_Towers_72: set 2 -> ward 2 (7/7 neighbours agree, nearest house 4668 cm)
+SM_Towers_Towers_73: set 0 -> ward 2 (7/7 neighbours agree, nearest house 4668 cm)
+SM_Towers_Towers_74: set 3 -> ward 0 (7/7 neighbours agree, nearest house 1446 cm)
+SM_Towers_Towers_75: set 3 -> ward 0 (7/7 neighbours agree, nearest house 1466 cm)
+SM_Towers_Towers_76: set 2 -> ward 2 (7/7 neighbours agree, nearest house 3618 cm)
+SM_Towers_Towers_77: set 0 -> ward 0 (7/7 neighbours agree, nearest house 1131 cm)
+SM_Towers_Towers_78: set 3 -> ward 0 (7/7 neighbours agree, nearest house 1774 cm)
+SM_Towers_Towers_79: set 1 -> ward 2 (7/7 neighbours agree, nearest house 3618 cm)
+SM_Towers_Towers_81: set 0 -> ward 2 (7/7 neighbours agree, nearest house 1018 cm)
+SM_Towers_Towers_82: set 1 -> ward 0 (7/7 neighbours agree, nearest house 873 cm)
+SM_Towers_Towers_84: set 2 -> ward 0 (7/7 neighbours agree, nearest house 625 cm)
+SM_Towers_Towers_85: set 3 -> ward 0 (7/7 neighbours agree, nearest house 1003 cm)
+SM_Towers_Towers_86: set 0 -> ward 5 (5/7 neighbours agree, nearest house 414 cm)
+SM_Towers_Towers_87: set 0 -> ward 0 (7/7 neighbours agree, nearest house 787 cm)
+SM_Towers_Towers_88: set 2 -> ward 2 (7/7 neighbours agree, nearest house 822 cm)
+SM_Towers_Towers_93: set 3 -> ward 0 (7/7 neighbours agree, nearest house 1378 cm)
+SM_Towers_Towers_94: set 2 -> ward 2 (7/7 neighbours agree, nearest house 1390 cm)
+SM_Towers_Towers_99: set 2 -> ward 2 (7/7 neighbours agree, nearest house 1153 cm)
+towers to patch: 85
+WROTE SM_Towers_Towers_01: 158 tris, uv5 code now 35, uv channels 6, uv0 tri0 before [(0.962, 0.691), (0.5, 0.0), (1.0, 0.5)] after [(0.962, 0.691), (0.5, 0.0), (1.0, 0.5)]
+WROTE SM_Towers_Towers_05: 158 tris, uv5 code now 35, uv channels 6, uv0 tri0 before [(1.0, 0.5), (0.309, 0.962), (0.309, 0.038)] after [(1.0, 0.5), (0.309, 0.962), (0.309, 0.038)]
+WROTE SM_Towers_Towers_06: 78 tris, uv5 code now 1, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.854, 0.854), (0.146, 0.854)] after [(0.0, 0.5), (0.854, 0.854), (0.146, 0.854)]
+WROTE SM_Towers_Towers_07: 78 tris, uv5 code now 33, uv channels 6, uv0 tri0 before [(0.146, 0.146), (0.854, 0.854), (0.146, 0.854)] after [(0.146, 0.146), (0.854, 0.854), (0.146, 0.854)]
+WROTE SM_Towers_Towers_08: 118 tris, uv5 code now 1, uv channels 6, uv0 tri0 before [(1.0, 0.5), (0.25, 0.933), (0.25, 0.067)] after [(1.0, 0.5), (0.25, 0.933), (0.25, 0.067)]
+WROTE SM_Towers_Towers_09: 158 tris, uv5 code now 33, uv channels 6, uv0 tri0 before [(0.854, 0.854), (0.854, 0.146), (1.0, 0.5)] after [(0.854, 0.854), (0.854, 0.146), (1.0, 0.5)]
+WROTE SM_Towers_Towers_10: 118 tris, uv5 code now 19, uv channels 6, uv0 tri0 before [(0.067, 0.75), (0.067, 0.25), (0.933, 0.25)] after [(0.067, 0.75), (0.067, 0.25), (0.933, 0.25)]
+WROTE SM_Towers_Towers_100: 158 tris, uv5 code now 1, uv channels 6, uv0 tri0 before [(0.038, 0.691), (0.962, 0.691), (0.309, 0.962)] after [(0.038, 0.691), (0.962, 0.691), (0.309, 0.962)]
+WROTE SM_Towers_Towers_101: 118 tris, uv5 code now 19, uv channels 6, uv0 tri0 before [(0.75, 0.067), (0.5, 1.0), (0.25, 0.067)] after [(0.75, 0.067), (0.5, 1.0), (0.25, 0.067)]
+WROTE SM_Towers_Towers_103: 158 tris, uv5 code now 51, uv channels 6, uv0 tri0 before [(0.854, 0.146), (0.5, 1.0), (0.146, 0.146)] after [(0.854, 0.146), (0.5, 1.0), (0.146, 0.146)]
+WROTE SM_Towers_Towers_104: 138 tris, uv5 code now 3, uv channels 6, uv0 tri0 before [(0.188, 0.109), (0.611, 0.987), (0.389, 0.987)] after [(0.188, 0.109), (0.611, 0.987), (0.389, 0.987)]
+WROTE SM_Towers_Towers_105: 118 tris, uv5 code now 4, uv channels 6, uv0 tri0 before [(0.25, 0.933), (0.067, 0.25), (0.933, 0.25)] after [(0.25, 0.933), (0.067, 0.25), (0.933, 0.25)]
+WROTE SM_Towers_Towers_106: 118 tris, uv5 code now 34, uv channels 6, uv0 tri0 before [(0.067, 0.75), (0.067, 0.25), (0.933, 0.25)] after [(0.067, 0.75), (0.067, 0.25), (0.933, 0.25)]
+WROTE SM_Towers_Towers_107: 118 tris, uv5 code now 34, uv channels 6, uv0 tri0 before [(0.75, 0.067), (0.5, 1.0), (0.25, 0.067)] after [(0.75, 0.067), (0.5, 1.0), (0.25, 0.067)]
+WROTE SM_Towers_Towers_108: 158 tris, uv5 code now 18, uv channels 6, uv0 tri0 before [(0.854, 0.854), (0.962, 0.309), (1.0, 0.5)] after [(0.854, 0.854), (0.962, 0.309), (1.0, 0.5)]
+WROTE SM_Towers_Towers_11: 138 tris, uv5 code now 3, uv channels 6, uv0 tri0 before [(0.95, 0.283), (0.611, 0.987), (0.05, 0.283)] after [(0.95, 0.283), (0.611, 0.987), (0.05, 0.283)]
+WROTE SM_Towers_Towers_110: 78 tris, uv5 code now 2, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.854, 0.854), (0.146, 0.854)] after [(0.0, 0.5), (0.854, 0.854), (0.146, 0.854)]
+WROTE SM_Towers_Towers_111: 158 tris, uv5 code now 34, uv channels 6, uv0 tri0 before [(0.309, 0.038), (0.5, 1.0), (0.146, 0.854)] after [(0.309, 0.038), (0.5, 1.0), (0.146, 0.854)]
+WROTE SM_Towers_Towers_114: 78 tris, uv5 code now 54, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.5, 1.0), (0.146, 0.854)] after [(0.0, 0.5), (0.5, 1.0), (0.146, 0.854)]
+WROTE SM_Towers_Towers_116: 138 tris, uv5 code now 34, uv channels 6, uv0 tri0 before [(0.188, 0.109), (0.812, 0.891), (0.188, 0.891)] after [(0.188, 0.109), (0.812, 0.891), (0.188, 0.891)]
+WROTE SM_Towers_Towers_12: 118 tris, uv5 code now 35, uv channels 6, uv0 tri0 before [(0.5, 1.0), (1.0, 0.5), (0.75, 0.933)] after [(0.5, 1.0), (1.0, 0.5), (0.75, 0.933)]
+WROTE SM_Towers_Towers_123: 158 tris, uv5 code now 18, uv channels 6, uv0 tri0 before [(0.5, 1.0), (0.962, 0.309), (1.0, 0.5)] after [(0.5, 1.0), (0.962, 0.309), (1.0, 0.5)]
+WROTE SM_Towers_Towers_125: 158 tris, uv5 code now 39, uv channels 6, uv0 tri0 before [(0.146, 0.146), (0.854, 0.146), (0.854, 0.854)] after [(0.146, 0.146), (0.854, 0.146), (0.854, 0.854)]
+WROTE SM_Towers_Towers_128: 158 tris, uv5 code now 2, uv channels 6, uv0 tri0 before [(0.854, 0.854), (0.0, 0.5), (1.0, 0.5)] after [(0.854, 0.854), (0.0, 0.5), (1.0, 0.5)]
+WROTE SM_Towers_Towers_130: 98 tris, uv5 code now 2, uv channels 6, uv0 tri0 before [(0.095, 0.206), (0.095, 0.794), (0.0, 0.5)] after [(0.095, 0.206), (0.095, 0.794), (0.0, 0.5)]
+WROTE SM_Towers_Towers_131: 98 tris, uv5 code now 50, uv channels 6, uv0 tri0 before [(0.095, 0.206), (0.095, 0.794), (0.0, 0.5)] after [(0.095, 0.206), (0.095, 0.794), (0.0, 0.5)]
+WROTE SM_Towers_Towers_133: 98 tris, uv5 code now 55, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.345, 0.976), (0.095, 0.794)] after [(0.0, 0.5), (0.345, 0.976), (0.095, 0.794)]
+WROTE SM_Towers_Towers_134: 98 tris, uv5 code now 55, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.345, 0.976), (0.095, 0.794)] after [(0.0, 0.5), (0.345, 0.976), (0.095, 0.794)]
+WROTE SM_Towers_Towers_135: 158 tris, uv5 code now 2, uv channels 6, uv0 tri0 before [(0.038, 0.691), (0.5, 1.0), (0.309, 0.962)] after [(0.038, 0.691), (0.5, 1.0), (0.309, 0.962)]
+WROTE SM_Towers_Towers_137: 158 tris, uv5 code now 39, uv channels 6, uv0 tri0 before [(0.5, 0.0), (0.146, 0.854), (0.146, 0.146)] after [(0.5, 0.0), (0.146, 0.854), (0.146, 0.146)]
+WROTE SM_Towers_Towers_138: 118 tris, uv5 code now 39, uv channels 6, uv0 tri0 before [(0.933, 0.75), (0.0, 0.5), (0.933, 0.25)] after [(0.933, 0.75), (0.0, 0.5), (0.933, 0.25)]
+WROTE SM_Towers_Towers_139: 118 tris, uv5 code now 23, uv channels 6, uv0 tri0 before [(0.5, 1.0), (0.067, 0.25), (0.933, 0.25)] after [(0.5, 1.0), (0.067, 0.25), (0.933, 0.25)]
+WROTE SM_Towers_Towers_14: 138 tris, uv5 code now 3, uv channels 6, uv0 tri0 before [(0.611, 0.987), (1.0, 0.5), (0.95, 0.717)] after [(0.611, 0.987), (1.0, 0.5), (0.95, 0.717)]
+WROTE SM_Towers_Towers_140: 158 tris, uv5 code now 2, uv channels 6, uv0 tri0 before [(0.038, 0.691), (0.691, 0.962), (0.309, 0.962)] after [(0.038, 0.691), (0.691, 0.962), (0.309, 0.962)]
+WROTE SM_Towers_Towers_15: 138 tris, uv5 code now 33, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.611, 0.987), (0.389, 0.987)] after [(0.0, 0.5), (0.611, 0.987), (0.389, 0.987)]
+WROTE SM_Towers_Towers_16: 118 tris, uv5 code now 19, uv channels 6, uv0 tri0 before [(0.5, 0.0), (1.0, 0.5), (0.5, 1.0)] after [(0.5, 0.0), (1.0, 0.5), (0.5, 1.0)]
+WROTE SM_Towers_Towers_17: 118 tris, uv5 code now 19, uv channels 6, uv0 tri0 before [(0.5, 0.0), (1.0, 0.5), (0.5, 1.0)] after [(0.5, 0.0), (1.0, 0.5), (0.5, 1.0)]
+WROTE SM_Towers_Towers_18: 158 tris, uv5 code now 19, uv channels 6, uv0 tri0 before [(0.854, 0.854), (0.962, 0.309), (0.962, 0.691)] after [(0.854, 0.854), (0.962, 0.309), (0.962, 0.691)]
+WROTE SM_Towers_Towers_19: 78 tris, uv5 code now 1, uv channels 6, uv0 tri0 before [(1.0, 0.5), (0.5, 1.0), (0.146, 0.854)] after [(1.0, 0.5), (0.5, 1.0), (0.146, 0.854)]
+WROTE SM_Towers_Towers_20: 158 tris, uv5 code now 35, uv channels 6, uv0 tri0 before [(0.962, 0.691), (0.962, 0.309), (1.0, 0.5)] after [(0.962, 0.691), (0.962, 0.309), (1.0, 0.5)]
+WROTE SM_Towers_Towers_21: 138 tris, uv5 code now 3, uv channels 6, uv0 tri0 before [(0.812, 0.891), (1.0, 0.5), (0.95, 0.717)] after [(0.812, 0.891), (1.0, 0.5), (0.95, 0.717)]
+WROTE SM_Towers_Towers_22: 138 tris, uv5 code now 19, uv channels 6, uv0 tri0 before [(0.95, 0.283), (0.812, 0.891), (0.188, 0.891)] after [(0.95, 0.283), (0.812, 0.891), (0.188, 0.891)]
+WROTE SM_Towers_Towers_23: 78 tris, uv5 code now 1, uv channels 6, uv0 tri0 before [(0.146, 0.146), (1.0, 0.5), (0.146, 0.854)] after [(0.146, 0.146), (1.0, 0.5), (0.146, 0.854)]
+WROTE SM_Towers_Towers_24: 138 tris, uv5 code now 51, uv channels 6, uv0 tri0 before [(0.812, 0.109), (0.05, 0.283), (0.188, 0.109)] after [(0.812, 0.109), (0.05, 0.283), (0.188, 0.109)]
+WROTE SM_Towers_Towers_25: 138 tris, uv5 code now 51, uv channels 6, uv0 tri0 before [(0.0, 0.5), (1.0, 0.5), (0.812, 0.891)] after [(0.0, 0.5), (1.0, 0.5), (0.812, 0.891)]
+WROTE SM_Towers_Towers_27: 138 tris, uv5 code now 1, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.611, 0.987), (0.389, 0.987)] after [(0.0, 0.5), (0.611, 0.987), (0.389, 0.987)]
+WROTE SM_Towers_Towers_28: 138 tris, uv5 code now 3, uv channels 6, uv0 tri0 before [(0.05, 0.283), (0.95, 0.283), (0.95, 0.717)] after [(0.05, 0.283), (0.95, 0.283), (0.95, 0.717)]
+WROTE SM_Towers_Towers_29: 118 tris, uv5 code now 19, uv channels 6, uv0 tri0 before [(0.5, 1.0), (0.5, 0.0), (0.75, 0.933)] after [(0.5, 1.0), (0.5, 0.0), (0.75, 0.933)]
+WROTE SM_Towers_Towers_31: 158 tris, uv5 code now 1, uv channels 6, uv0 tri0 before [(0.962, 0.691), (0.962, 0.309), (1.0, 0.5)] after [(0.962, 0.691), (0.962, 0.309), (1.0, 0.5)]
+WROTE SM_Towers_Towers_33: 158 tris, uv5 code now 33, uv channels 6, uv0 tri0 before [(0.038, 0.691), (0.962, 0.691), (0.309, 0.962)] after [(0.038, 0.691), (0.962, 0.691), (0.309, 0.962)]
+WROTE SM_Towers_Towers_34: 158 tris, uv5 code now 35, uv channels 6, uv0 tri0 before [(0.146, 0.146), (0.854, 0.146), (0.5, 1.0)] after [(0.146, 0.146), (0.854, 0.146), (0.5, 1.0)]
+WROTE SM_Towers_Towers_35: 78 tris, uv5 code now 35, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.5, 1.0), (0.146, 0.854)] after [(0.0, 0.5), (0.5, 1.0), (0.146, 0.854)]
+WROTE SM_Towers_Towers_36: 158 tris, uv5 code now 19, uv channels 6, uv0 tri0 before [(1.0, 0.5), (0.5, 1.0), (0.309, 0.038)] after [(1.0, 0.5), (0.5, 1.0), (0.309, 0.038)]
+WROTE SM_Towers_Towers_38: 138 tris, uv5 code now 17, uv channels 6, uv0 tri0 before [(0.188, 0.109), (0.812, 0.891), (0.188, 0.891)] after [(0.188, 0.109), (0.812, 0.891), (0.188, 0.891)]
+WROTE SM_Towers_Towers_39: 98 tris, uv5 code now 19, uv channels 6, uv0 tri0 before [(0.095, 0.794), (1.0, 0.5), (0.345, 0.976)] after [(0.095, 0.794), (1.0, 0.5), (0.345, 0.976)]
+WROTE SM_Towers_Towers_42: 158 tris, uv5 code now 35, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.854, 0.146), (0.5, 1.0)] after [(0.0, 0.5), (0.854, 0.146), (0.5, 1.0)]
+WROTE SM_Towers_Towers_43: 98 tris, uv5 code now 3, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.905, 0.794), (0.095, 0.794)] after [(0.0, 0.5), (0.905, 0.794), (0.095, 0.794)]
+WROTE SM_Towers_Towers_44: 158 tris, uv5 code now 35, uv channels 6, uv0 tri0 before [(0.038, 0.691), (0.691, 0.962), (0.309, 0.962)] after [(0.038, 0.691), (0.691, 0.962), (0.309, 0.962)]
+WROTE SM_Towers_Towers_45: 98 tris, uv5 code now 19, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.345, 0.976), (0.095, 0.794)] after [(0.0, 0.5), (0.345, 0.976), (0.095, 0.794)]
+WROTE SM_Towers_Towers_49: 158 tris, uv5 code now 19, uv channels 6, uv0 tri0 before [(0.309, 0.962), (0.0, 0.5), (0.5, 1.0)] after [(0.309, 0.962), (0.0, 0.5), (0.5, 1.0)]
+WROTE SM_Towers_Towers_50: 98 tris, uv5 code now 3, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.345, 0.976), (0.095, 0.794)] after [(0.0, 0.5), (0.345, 0.976), (0.095, 0.794)]
+WROTE SM_Towers_Towers_51: 158 tris, uv5 code now 33, uv channels 6, uv0 tri0 before [(1.0, 0.5), (0.038, 0.309), (0.309, 0.038)] after [(1.0, 0.5), (0.038, 0.309), (0.309, 0.038)]
+WROTE SM_Towers_Towers_59: 118 tris, uv5 code now 49, uv channels 6, uv0 tri0 before [(0.5, 0.0), (0.067, 0.25), (0.25, 0.067)] after [(0.5, 0.0), (0.067, 0.25), (0.25, 0.067)]
+WROTE SM_Towers_Towers_62: 78 tris, uv5 code now 49, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.5, 1.0), (0.146, 0.854)] after [(0.0, 0.5), (0.5, 1.0), (0.146, 0.854)]
+WROTE SM_Towers_Towers_63: 158 tris, uv5 code now 17, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.962, 0.309), (0.962, 0.691)] after [(0.0, 0.5), (0.962, 0.309), (0.962, 0.691)]
+WROTE SM_Towers_Towers_67: 78 tris, uv5 code now 1, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.5, 1.0), (0.146, 0.854)] after [(0.0, 0.5), (0.5, 1.0), (0.146, 0.854)]
+WROTE SM_Towers_Towers_70: 118 tris, uv5 code now 3, uv channels 6, uv0 tri0 before [(0.5, 0.0), (1.0, 0.5), (0.5, 1.0)] after [(0.5, 0.0), (1.0, 0.5), (0.5, 1.0)]
+WROTE SM_Towers_Towers_72: 158 tris, uv5 code now 35, uv channels 6, uv0 tri0 before [(0.146, 0.854), (0.5, 0.0), (0.5, 1.0)] after [(0.146, 0.854), (0.5, 0.0), (0.5, 1.0)]
+WROTE SM_Towers_Towers_73: 158 tris, uv5 code now 3, uv channels 6, uv0 tri0 before [(0.5, 0.0), (0.5, 1.0), (0.146, 0.146)] after [(0.5, 0.0), (0.5, 1.0), (0.146, 0.146)]
+WROTE SM_Towers_Towers_74: 158 tris, uv5 code now 49, uv channels 6, uv0 tri0 before [(0.038, 0.691), (0.962, 0.691), (0.309, 0.962)] after [(0.038, 0.691), (0.962, 0.691), (0.309, 0.962)]
+WROTE SM_Towers_Towers_75: 118 tris, uv5 code now 49, uv channels 6, uv0 tri0 before [(1.0, 0.5), (0.25, 0.933), (0.25, 0.067)] after [(1.0, 0.5), (0.25, 0.933), (0.25, 0.067)]
+WROTE SM_Towers_Towers_76: 158 tris, uv5 code now 35, uv channels 6, uv0 tri0 before [(1.0, 0.5), (0.854, 0.854), (0.146, 0.854)] after [(1.0, 0.5), (0.854, 0.854), (0.146, 0.854)]
+WROTE SM_Towers_Towers_77: 138 tris, uv5 code now 1, uv channels 6, uv0 tri0 before [(1.0, 0.5), (0.389, 0.987), (0.188, 0.891)] after [(1.0, 0.5), (0.389, 0.987), (0.188, 0.891)]
+WROTE SM_Towers_Towers_78: 158 tris, uv5 code now 49, uv channels 6, uv0 tri0 before [(0.038, 0.309), (0.691, 0.038), (1.0, 0.5)] after [(0.038, 0.309), (0.691, 0.038), (1.0, 0.5)]
+WROTE SM_Towers_Towers_79: 158 tris, uv5 code now 19, uv channels 6, uv0 tri0 before [(0.962, 0.691), (0.962, 0.309), (1.0, 0.5)] after [(0.962, 0.691), (0.962, 0.309), (1.0, 0.5)]
+WROTE SM_Towers_Towers_81: 138 tris, uv5 code now 3, uv channels 6, uv0 tri0 before [(0.389, 0.987), (0.95, 0.283), (0.611, 0.987)] after [(0.389, 0.987), (0.95, 0.283), (0.611, 0.987)]
+WROTE SM_Towers_Towers_82: 118 tris, uv5 code now 17, uv channels 6, uv0 tri0 before [(0.5, 0.0), (0.067, 0.25), (0.25, 0.067)] after [(0.5, 0.0), (0.067, 0.25), (0.25, 0.067)]
+WROTE SM_Towers_Towers_84: 138 tris, uv5 code now 33, uv channels 6, uv0 tri0 before [(0.05, 0.717), (1.0, 0.5), (0.611, 0.987)] after [(0.05, 0.717), (1.0, 0.5), (0.611, 0.987)]
+WROTE SM_Towers_Towers_85: 158 tris, uv5 code now 49, uv channels 6, uv0 tri0 before [(0.038, 0.691), (0.691, 0.962), (0.5, 1.0)] after [(0.038, 0.691), (0.691, 0.962), (0.5, 1.0)]
+WROTE SM_Towers_Towers_86: 118 tris, uv5 code now 6, uv channels 6, uv0 tri0 before [(0.5, 1.0), (0.75, 0.067), (0.933, 0.25)] after [(0.5, 1.0), (0.75, 0.067), (0.933, 0.25)]
+WROTE SM_Towers_Towers_87: 158 tris, uv5 code now 1, uv channels 6, uv0 tri0 before [(0.854, 0.854), (0.962, 0.309), (0.962, 0.691)] after [(0.854, 0.854), (0.962, 0.309), (0.962, 0.691)]
+WROTE SM_Towers_Towers_88: 138 tris, uv5 code now 35, uv channels 6, uv0 tri0 before [(0.389, 0.987), (0.188, 0.109), (0.611, 0.987)] after [(0.389, 0.987), (0.188, 0.109), (0.611, 0.987)]
+WROTE SM_Towers_Towers_93: 78 tris, uv5 code now 49, uv channels 6, uv0 tri0 before [(0.0, 0.5), (0.854, 0.854), (0.146, 0.854)] after [(0.0, 0.5), (0.854, 0.854), (0.146, 0.854)]
+WROTE SM_Towers_Towers_94: 158 tris, uv5 code now 35, uv channels 6, uv0 tri0 before [(0.5, 1.0), (0.0, 0.5), (1.0, 0.5)] after [(0.5, 1.0), (0.0, 0.5), (1.0, 0.5)]
+WROTE SM_Towers_Towers_99: 118 tris, uv5 code now 35, uv channels 6, uv0 tri0 before [(0.75, 0.067), (0.5, 1.0), (0.25, 0.067)] after [(0.75, 0.067), (0.5, 1.0), (0.25, 0.067)]

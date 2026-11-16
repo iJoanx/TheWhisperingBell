@@ -1,0 +1,5 @@
+size 64 x 14
+export True
+NumWards = 7.0
+SetsPerWard = 4.0
+TintStrength = 1.0

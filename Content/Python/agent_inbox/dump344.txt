@@ -1,0 +1,13 @@
+camera <Struct 'Vector' (0x000001C3A351D2D0) {x: -687.229921, y: 1456.350480, z: 1917.537487}>
+971 cm  BP_DayNightCycle [BP_DayNightCycle_C] comp SM_Skysphere (StaticMeshComponent) mesh SM_SkySphere1 mats ['M_SkySphere_Inst'] code {0: 31} nanite False
+2405 cm  SM_Houses_6187 [StaticMeshActor] comp StaticMeshComponent0 (StaticMeshComponent) mesh SM_Houses_6187 mats ['M_Houses_Master'] code {34: 56} nanite False
+2577 cm  SM_Houses_6337 [StaticMeshActor] comp StaticMeshComponent0 (StaticMeshComponent) mesh SM_Houses_6337 mats ['M_Houses_Master'] code {34: 44} nanite False
+2656 cm  SM_Houses_5913 [StaticMeshActor] comp StaticMeshComponent0 (StaticMeshComponent) mesh SM_Houses_5913 mats ['M_Houses_Master'] code {2: 44} nanite False
+3052 cm  SM_Houses_5826 [StaticMeshActor] comp StaticMeshComponent0 (StaticMeshComponent) mesh SM_Houses_5826 mats ['M_Houses_Master'] code {50: 44} nanite False
+3440 cm  SM_Houses_6202 [StaticMeshActor] comp StaticMeshComponent0 (StaticMeshComponent) mesh SM_Houses_6202 mats ['M_Houses_Master'] code {2: 44} nanite False
+3516 cm  SM_Houses_6473 [StaticMeshActor] comp StaticMeshComponent0 (StaticMeshComponent) mesh SM_Houses_6473 mats ['M_Houses_Master'] code {34: 44} nanite False
+3517 cm  SM_Houses_5914 [StaticMeshActor] comp StaticMeshComponent0 (StaticMeshComponent) mesh SM_Houses_5914 mats ['M_Houses_Master'] code {34: 44} nanite False
+3645 cm  SM_Houses_5740 [StaticMeshActor] comp StaticMeshComponent0 (StaticMeshComponent) mesh SM_Houses_5740 mats ['M_Houses_Master'] code {2: 44} nanite False
+3716 cm  TheBentNail [StaticMeshActor] comp StaticMeshComponent0 (StaticMeshComponent) mesh TheBentNail mats ['House1', 'House2', 'House3', 'BaseRoof_01', 'BentNail'] code {0: 38} nanite False
+3717 cm  Cube_050 [StaticMeshActor] comp StaticMeshComponent0 (StaticMeshComponent) mesh House10 mats ['M_Master_House', 'MI_Wall_Side_01', 'M_Wall_Top_01', 'BaseRoof_01'] code {0: 34} nanite False
+4193 cm  SM_Houses_5648 [StaticMeshActor] comp StaticMeshComponent0 (StaticMeshComponent) mesh SM_Houses_5648 mats ['M_Houses_Master'] code {18: 44} nanite False

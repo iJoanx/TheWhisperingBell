@@ -1,0 +1,6 @@
+house 6187: 56 tris, classes {4: 8, 5: 16, 0: 16, 2: 8, 1: 8}
+  chimney piece: 12 tris, centre (-241, -851), z 840..1099, roof under its base [1000, 953, 957, 1000, 957, 1001], gap -160.9
+  chimney piece: 12 tris, centre (-1, 1), z 843..1184, roof under its base [], gap None
+floating chimneys: 1
+libs ['GeometryScript_MeshEdits']
+deleted it: 56 -> 44 tris

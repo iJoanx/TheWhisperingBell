@@ -1,0 +1,3 @@
+SM_Towers_Towers_114: 16 wall tris, tiles on wall 4, cover per 1/18 of the wall (floors hidden): [0, 0, 0, 0, 0, 0, 0, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0]
+SM_Towers_Towers_03: 32 wall tris, tiles on wall 28, cover per 1/18 of the wall (floors hidden): [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 4, 4, 4, 4, 4]
+SM_Towers_Towers_135: 32 wall tris, tiles on wall 12, cover per 1/18 of the wall (floors hidden): [0, 0, 0, 0, 0, 0, 0, 5, 6, 5, 5, 0, 0, 0, 0, 0, 0, 0]

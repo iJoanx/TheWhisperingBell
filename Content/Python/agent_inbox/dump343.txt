@@ -1,0 +1,6 @@
+camera <Struct 'Vector' (0x000001C3A323C420) {x: -8333.051387, y: 2113.760580, z: 3656.305311}>
+Traceback (most recent call last):
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\131112_job343.py", line 23, in <module>
+    o, e = c.bounds.origin, c.bounds.box_extent
+           ^^^^^^^^
+AttributeError: 'BillboardComponent' object has no attribute 'bounds'

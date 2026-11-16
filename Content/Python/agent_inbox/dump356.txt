@@ -1,0 +1,11 @@
+towers full-precision UVs before: {True: 142}; switched on for 0
+(a house, for comparison: full precision = True)
+house 6187: 56 tris, classes {4: 8, 5: 16, 0: 16, 2: 8, 1: 8}
+  chimney piece: 12 tris, centre (-241, -851), z 840..1099, roof under its base [1000, 953, 957, 1000, 957, 1001], gap -160.9
+  chimney piece: 12 tris, centre (-1, 1), z 843..1184, roof under its base [], gap None
+floating chimneys: 1
+Traceback (most recent call last):
+  File "C:\Users\Admin\Documents\Unreal Projects\TheWhisperingBell\Content\Python\agent_inbox\done\132633_job356.py", line 85, in <module>
+    unreal.GeometryScript_MeshBasicEdits.delete_triangles_from_mesh(dm, il, True)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'unreal' has no attribute 'GeometryScript_MeshBasicEdits'
